@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pustakawan Digital | Edisi Awan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Warna Tema */
+            --bg-body: #ECE9D8; --surface: #FFFFFF;
+            --primary: #0053E1; --primary-light: #D3E5FF;
+            --success: #4BA52E; --danger: #E53935;
+            --text-main: #000000; --text-muted: #444444; --border: #8BA1C5;
+            --radius-card: 8px; --radius-btn: 4px;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #202020; --surface: #2c2c2c;
+            --primary: #60CDFF; --primary-light: rgba(96, 205, 255, 0.15);
+            --success: #6CCB5F; --danger: #FF99A4;
+            --text-main: #FFFFFF; --text-muted: #D0D0D0; --border: #454545;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-body); color: var(--text-main); margin: 0; padding: 20px; transition: 0.3s; }
+        
+        /* Login */
+        #loginView { display: flex; height: 90vh; justify-content: center; align-items: center; }
+        .card { background: var(--surface); padding: 30px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow); width: 100%; max-width: 350px; text-align: center; }
+        .input-box { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--bg-body); color: var(--text-main); box-sizing: border-box; }
+        
+        /* Dashboard */
+        #dashboardView { display: none; max-width: 1200px; margin: 0 auto; }
+        header { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; }
+        .btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: var(--radius-btn); cursor: pointer; background: var(--primary); color: white; font-weight: 600; }
+        .btn-outline { background: var(--surface); color: var(--text-main); }
+        .btn-danger { background: var(--danger); color: white; border-color: var(--danger); }
+
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); text-align: center; cursor: pointer; }
+        .stat-num { font-size: 2rem; font-weight: bold; }
+
+        /* Table */
+        .table-container { overflow-x: auto; background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { background: var(--bg-body); text-align: left; padding: 12px; color: var(--text-muted); font-size: 0.9rem; }
+        td { padding: 12px; border-bottom: 1px solid var(--border); }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .modal { background: var(--surface); padding: 25px; border-radius: var(--radius-card); width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); }
+        .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .col-full { grid-column: span 2; }
+        
+        /* Loading & Error */
+        #loadingBar { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--success)); z-index: 9999; display: none; }
+        #error-box { background: #fee2e2; color: #b91c1c; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; border: 1px solid #ef4444; text-align: left; }
+    </style>
+</head>
+<body>
+
+<div id="loadingBar"></div>
+
+<!-- DIAGNOSTIK ERROR -->
+<div id="error-box">
+    <strong>⚠️ Status Sistem:</strong>
+    <ul id="error-list" style="margin: 5px 0 0 20px; padding: 0;"></ul>
+</div>
+
+<!-- 1. LOGIN -->
+<div id="loginView">
+    <div class="card">
+        <h2 style="color: var(--primary); margin-top: 0;">PUSTAKA CLOUD</h2>
+        <p>Log Masuk Sistem</p>
+        <input type="text" id="username" class="input-box" placeholder="ID (admin)">
+        <input type="password" id="password" class="input-box" placeholder="Kata Laluan (1234)">
+        <button class="btn" style="width: 100%;" onclick="attemptLogin()">Log Masuk</button>
+        <div style="margin-top:15px; font-size:0.8rem; color:var(--text-muted)">Versi: 4.1 (Stable)</div>
+    </div>
+</div>
+
+<!-- 2. DASHBOARD -->
+<div id="dashboardView">
+    <header>
+        <div>
+            <h2 style="margin:0;">Dashboard Pustakawan</h2>
+            <small id="connectionStatus" style="color:orange;">Menyambung ke Firebase...</small>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <button class="btn btn-outline" onclick="toggleTheme()">🌙</button>
+            <button class="btn" onclick="openModal()">+ Rekod</button>
+            <button class="btn btn-danger" onclick="location.reload()">Keluar</button>
+        </div>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card" onclick="filterData('all')">
+            <div class="stat-num" id="stat-total">0</div>
+            <div>Jumlah Pinjaman</div>
+        </div>
+        <div class="stat-card" onclick="filterData('active')">
+            <div class="stat-num" id="stat-active" style="color:var(--primary)">0</div>
+            <div>Sedang Dipinjam</div>
+        </div>
+        <div class="stat-card" onclick="filterData('late')">
+            <div class="stat-num" id="stat-late" style="color:var(--danger)">0</div>
+            <div>Lewat (>14 Hari)</div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div style="padding:15px; background:var(--bg-body); display:flex; gap:10px;">
+            <input type="text" id="searchInput" class="input-box" style="margin:0; flex:1;" placeholder="Cari nama peminjam..." onkeyup="renderTable()">
+            <button class="btn btn-outline" onclick="document.getElementById('searchInput').value=''; renderTable();">Padam Carian</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Maklumat Peminjam</th>
+                    <th>Bahan</th>
+                    <th>Status & Tempoh</th>
+                    <th style="text-align:right;">Tindakan</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td colspan="4" style="text-align:center;">Memuatkan data...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 3. MODAL -->
+<div class="modal-overlay" id="mainModal">
+    <div class="modal">
+        <h3 style="margin-top:0;">Urus Rekod</h3>
+        <input type="hidden" id="docId">
+        
+        <div class="grid-form">
+            <div class="col-full"><label>Nama Peminjam</label><input type="text" id="f_nama" class="input-box"></div>
+            <div><label>No. Ahli</label><input type="text" id="f_noPekerja" class="input-box"></div>
+            <div><label>No. Telefon</label><input type="text" id="f_phone" class="input-box"></div>
+            
+            <div class="col-full"><label>Tajuk Bahan</label><input type="text" id="f_tajuk" class="input-box"></div>
+            <div><label>Kategori</label><select id="f_jenis" class="input-box"><option>Buku</option><option>Fail</option></select></div>
+            <div><label>Tarikh Pinjam</label><input type="date" id="f_tPinjam" class="input-box" onchange="liveCalc()"></div>
+            
+            <div class="col-full" style="background:var(--bg-body); padding:10px; border-radius:5px;">
+                <label>Status Pemulangan:</label><br>
+                <label style="margin-right:15px;"><input type="radio" name="status" value="Dipinjam" checked onclick="toggleReturn(false)"> Belum Pulang</label>
+                <label><input type="radio" name="status" value="Selesai" onclick="toggleReturn(true)"> Sudah Pulang</label>
+                
+                <div style="margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div>
+                        <label>Tarikh Pemulangan Asal:</label>
+                        <input type="date" id="f_tPulang" class="input-box" onchange="liveCalc()">
+                    </div>
+                    <div id="div_return_date" style="display:none;">
+                        <label>Tarikh Pemulangan Sebenar:</label>
+                        <input type="date" id="f_tDipulangkan" class="input-box" onchange="liveCalc()">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-full" id="live-info" style="text-align:center; font-weight:bold; color:var(--primary); padding:10px;"></div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
+            <button type="button" id="btnDelete" class="btn btn-danger" style="display:none;" onclick="deleteRecord()">Padam</button>
+            <button type="button" class="btn" style="flex:1;" onclick="window.saveData()">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT GLOBAL (UI) -->
+<script>
+    window.dbData = [];
+    window.currentFilter = 'all';
+
+    function attemptLogin() {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        if(u === 'admin' && p === '1234') {
+            document.getElementById('loginView').style.display = 'none';
+            document.getElementById('dashboardView').style.display = 'block';
+            if(window.initFirebase) window.initFirebase();
+        } else {
+            alert("ID atau Kata Laluan salah.");
+        }
+    }
+
+    window.renderTable = function() {
+        const tbody = document.getElementById('tableBody');
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        tbody.innerHTML = '';
+
+        const dataToRender = window.dbData.filter(item => {
+            const text = (item.nama + item.tajuk).toLowerCase();
+            if(search && !text.includes(search)) return false;
+
+            const dur = calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
+            if(window.currentFilter === 'active' && item.status === 'Selesai') return false;
+            if(window.currentFilter === 'late' && dur <= 14) return false;
+            return true;
+        });
+
+        if(dataToRender.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">Tiada rekod.</td></tr>';
+            return;
+        }
+
+        dataToRender.forEach(item => {
+            const dur = calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
+            const isLate = dur > 14;
+            const statusColor = item.status === 'Selesai' ? 'green' : (isLate ? 'red' : 'blue');
+            const statusText = item.status === 'Selesai' ? 'Selesai' : (isLate ? 'Lewat' : 'Aktif');
+
+            const row = `
+                <tr>
+                    <td><strong>${item.nama}</strong><br><small>${item.noPekerja}</small></td>
+                    <td>${item.tajuk}<br><small>${item.jenis}</small></td>
+                    <td>
+                        <small>Pinjam: ${formatDate(item.tPinjam)}</small><br>
+                        <strong style="color:${isLate ? 'var(--danger)' : 'var(--success)'}">⏳ ${dur} Hari</strong>
+                    </td>
+                    <td>
+                        <span style="padding:4px 8px; border-radius:10px; font-size:0.8rem; background:${statusColor==='red'?'#FEE2E2':statusColor==='green'?'#D1FAE5':'#DBEAFE'}; color:${statusColor==='red'?'#991B1B':statusColor==='green'?'#065F46':'#1E40AF'}">${statusText}</span>
+                    </td>
+                    <td style="text-align:right;">
+                        <button class="btn btn-outline" onclick="prepareEdit('${item.id}')">✏️</button>
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+
+        document.getElementById('stat-total').innerText = window.dbData.length;
+        document.getElementById('stat-active').innerText = window.dbData.filter(i => i.status !== 'Selesai').length;
+        document.getElementById('stat-late').innerText = window.dbData.filter(i => i.status !== 'Selesai' && calculateDuration(i.tPinjam, null) > 14).length;
+    }
+
+    window.filterData = function(type) {
+        window.currentFilter = type;
+        renderTable();
+    }
+
+    window.openModal = function() {
+        document.getElementById('docId').value = '';
+        document.querySelectorAll('.modal input').forEach(i => i.value = '');
+        document.getElementById('f_tPinjam').value = new Date().toISOString().split('T')[0];
+        
+        // Default Return Date +14
+        const due = new Date(); due.setDate(due.getDate() + 14);
+        document.getElementById('f_tPulang').value = due.toISOString().split('T')[0];
+        
+        document.querySelector('input[value="Dipinjam"]').checked = true;
+        toggleReturn(false);
+        document.getElementById('btnDelete').style.display = 'none';
+        document.getElementById('mainModal').style.display = 'flex';
+        liveCalc();
+    }
+
+    window.closeModal = function() {
+        document.getElementById('mainModal').style.display = 'none';
+    }
+
+    window.prepareEdit = function(id) {
+        const item = window.dbData.find(x => x.id === id);
+        if(!item) return;
+
+        document.getElementById('docId').value = id;
+        document.getElementById('f_nama').value = item.nama;
+        document.getElementById('f_noPekerja').value = item.noPekerja;
+        document.getElementById('f_phone').value = item.whatsapp;
+        document.getElementById('f_jenis').value = item.jenis;
+        document.getElementById('f_tajuk').value = item.tajuk;
+        document.getElementById('f_tPinjam').value = item.tPinjam;
+        document.getElementById('f_tPulang').value = item.tPulang; // Asal
+        
+        const isSelesai = item.status === 'Selesai';
+        document.querySelector(`input[value="${isSelesai ? 'Selesai' : 'Dipinjam'}"]`).checked = true;
+        document.getElementById('f_tDipulangkan').value = item.tDipulangkan || '';
+        
+        toggleReturn(isSelesai);
+        document.getElementById('btnDelete').style.display = 'inline-block';
+        document.getElementById('mainModal').style.display = 'flex';
+        liveCalc();
+    }
+
+    window.toggleReturn = function(show) {
+        const div = document.getElementById('div_return_date');
+        div.style.display = show ? 'block' : 'none';
+        if(show && !document.getElementById('f_tDipulangkan').value) {
+            document.getElementById('f_tDipulangkan').value = new Date().toISOString().split('T')[0];
+        }
+        liveCalc();
+    }
+
+    function calculateDuration(start, end) {
+        if(!start) return 0;
+        const d1 = new Date(start);
+        const d2 = end ? new Date(end) : new Date();
+        d1.setHours(0,0,0,0); d2.setHours(0,0,0,0);
+        return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+    }
+
+    function formatDate(d) {
+        if(!d) return '-';
+        return d.split('-').reverse().join('/');
+    }
+
+    window.liveCalc = function() {
+        const start = document.getElementById('f_tPinjam').value;
+        const isSelesai = document.querySelector('input[name="status"]:checked').value === 'Selesai';
+        const end = isSelesai ? document.getElementById('f_tDipulangkan').value : null;
+        
+        const days = calculateDuration(start, end);
+        const late = days - 14;
+        const fine = late > 0 ? (late * 0.20).toFixed(2) : '0.00';
+        
+        const info = document.getElementById('live-info');
+        if(late > 0) {
+            info.innerHTML = `⚠️ Tempoh: ${days} Hari (Denda: RM ${fine})`;
+            info.style.color = 'var(--danger)';
+        } else {
+            info.innerHTML = `✅ Tempoh: ${days} Hari (Dalam Had)`;
+            info.style.color = 'var(--success)';
+        }
+    }
+
+    window.toggleTheme = function() {
+        const html = document.documentElement;
+        html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }
+
+    window.showError = function(msg) {
+        const box = document.getElementById('error-box');
+        const list = document.getElementById('error-list');
+        box.style.display = 'block';
+        const li = document.createElement('li');
+        li.textContent = msg;
+        list.appendChild(li);
+    }
+</script>
+
+<!-- FIREBASE MODULE -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } 
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // --- RUANG KONFIGURASI FIREBASE ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfEJBFMTX1HOo5SMpfDf4Cx61HhbtiAWE",
+      authDomain: "pustakawan-digital.firebaseapp.com",
+      projectId: "pustakawan-digital",
+      storageBucket: "pustakawan-digital.firebasestorage.app",
+      messagingSenderId: "811520945210",
+      appId: "1:811520945210:web:667f2d12138c7db4dc1903",
+      measurementId: "G-FX9CH5QG92"
+    };
+    // ----------------------------------
+
+    let db;
+
+    window.initFirebase = function() {
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            const status = document.getElementById('connectionStatus');
+            status.innerText = "✅ Bersambung ke Awan";
+            status.style.color = "var(--success)";
+            
+            startListening();
+        } catch (e) {
+            window.showError("Ralat menyambung ke Firebase: " + e.message);
+        }
+    }
+
+    function startListening() {
+        onSnapshot(collection(db, "pinjaman"), (snapshot) => {
+            window.dbData = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            window.dbData.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
+            window.renderTable();
+        }, (error) => {
+            window.showError("Gagal mengambil data: " + error.message);
+        });
+    }
+
+    window.saveData = async function() {
+        if(!db) return alert("Tiada sambungan database.");
+        
+        const docId = document.getElementById('docId').value;
+        const isSelesai = document.querySelector('input[name="status"]:checked').value === 'Selesai';
+        
+        // Kira Denda Akhir
+        const tPinjam = document.getElementById('f_tPinjam').value;
+        const tDipulangkan = document.getElementById('f_tDipulangkan').value;
+        
+        let endDate = (isSelesai && tDipulangkan) ? new Date(tDipulangkan) : new Date();
+        endDate.setHours(0,0,0,0);
+        const startDate = new Date(tPinjam);
+        startDate.setHours(0,0,0,0);
+        
+        const days = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+        const overdue = days - 14;
+        const dendaVal = overdue > 0 ? (overdue * 0.20).toFixed(2) : "0.00";
+
+        const data = {
+            nama: document.getElementById('f_nama').value,
+            noPekerja: document.getElementById('f_noPekerja').value,
+            whatsapp: document.getElementById('f_phone').value,
+            jenis: document.getElementById('f_jenis').value,
+            tajuk: document.getElementById('f_tajuk').value,
+            tPinjam: tPinjam,
+            tPulang: document.getElementById('f_tPulang').value, // Due Date (Jadual)
+            tDipulangkan: isSelesai ? tDipulangkan : null, // Sebenar
+            status: isSelesai ? 'Selesai' : 'Dipinjam',
+            denda: dendaVal
+        };
+
+        if(!data.nama || !data.tajuk) return alert("Sila isi Nama dan Tajuk.");
+
+        document.getElementById('loadingBar').style.display = 'block';
+        try {
+            if (docId) {
+                await updateDoc(doc(db, "pinjaman", docId), data);
+            } else {
+                await addDoc(collection(db, "pinjaman"), data);
+            }
+            closeModal();
+        } catch (e) {
+            window.showError("Gagal Simpan: " + e.message);
+        }
+        document.getElementById('loadingBar').style.display = 'none';
+    }
+
+    window.deleteRecord = async function() {
+        const docId = document.getElementById('docId').value;
+        if(confirm("Padam rekod ini?")) {
+            await deleteDoc(doc(db, "pinjaman", docId));
+            closeModal();
+        }
+    }
+</script>
+</body>
+</html>
