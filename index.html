@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Pustakawan Digital | V6.4 (Compact & Notes)</title>
+    <title>Sistem Pustakawan Digital | V6.9.1 (Fixed)</title>
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,7 +21,10 @@
 
             --radius-card: 6px; --radius-btn: 4px;
             --shadow-3d: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
-            --bg-weekend: #D6D6D6; 
+            
+            /* Warna Kalendar */
+            --bg-weekend: #B0B0B0; /* Kelabu Gelap untuk Hujung Minggu */
+            --bg-weekday: #FFFFFF; /* Cerah untuk Hari Bekerja */
         }
 
         [data-theme="dark"] {
@@ -29,7 +32,8 @@
             --primary: #60CDFF; --primary-light: rgba(96, 205, 255, 0.15);
             --success: #6CCB5F; --danger: #FF99A4;
             --text-main: #FFFFFF; --text-muted: #D0D0D0; --border: #454545;
-            --bg-weekend: #333333;
+            --bg-weekend: #444444; /* Kelabu Gelap Malam */
+            --bg-weekday: #2c2c2c;
         }
 
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg-body); color: var(--text-main); margin: 0; padding: 15px; transition: 0.3s; font-size: 0.9rem; }
@@ -73,20 +77,26 @@
         .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
         .cal-grid-headers { text-align: center; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 5px; }
+        
         .cal-day {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: var(--radius-btn); padding: 4px; min-height: 60px;
+            background: var(--bg-weekday); border: 1px solid var(--border);
+            border-radius: var(--radius-btn); padding: 4px; min-height: 70px;
             text-align: left; font-size: 0.85rem; cursor: pointer;
-            display: flex; flex-direction: column;
-            transition: 0.2s;
+            display: flex; flex-direction: column; justify-content: flex-start;
+            transition: 0.2s; position: relative;
         }
         .cal-day:hover { background: var(--primary-light); transform: scale(1.02); z-index: 2; }
-        .cal-day.weekend { background-color: var(--bg-weekend); border-color: #999; color: var(--text-muted); }
-        .cal-day.today { border: 2px solid var(--primary); background: var(--primary-light); font-weight: bold; color: var(--primary); }
-        .cal-dots { display: flex; gap: 2px; margin-top: auto; flex-wrap: wrap; justify-content: center;}
-        .cal-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
-        .cal-dot.red { background-color: var(--danger); }
-        .cal-dot.green { background-color: var(--success); }
+        
+        /* Gaya Hujung Minggu */
+        .cal-day.weekend { 
+            background-color: var(--bg-weekend); 
+            border-color: #999; 
+            color: var(--text-muted);
+        }
+        
+        .cal-day.today { border: 2px solid var(--primary); font-weight: bold; }
+
+        .cal-info { font-size: 0.7rem; font-weight: bold; margin-top: 2px; line-height: 1.2; }
 
         /* Widget Summary */
         .card { background: var(--surface); padding: 15px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); }
@@ -156,7 +166,7 @@
         
         <div style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 15px;">
             <div id="loginDate" style="font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.75rem;"></div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 5px;">Versi Aplikasi: PUSTAKA-V6.4-COMPACT</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 5px;">Versi Aplikasi: PUSTAKA-V6.9.1-FIXED</div>
         </div>
     </div>
 </div>
@@ -177,7 +187,7 @@
             </div>
             <div style="text-align: right;">
                 <div id="headerDate" style="font-weight: 800; color: var(--primary); text-transform: uppercase; font-size:0.9rem;"></div>
-                <div style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">PUSTAKA-V6.4-COMPACT</div>
+                <div style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">PUSTAKA-V6.9.1-FIXED</div>
                 <div style="margin-top: 10px; display:flex; gap:5px; justify-content:flex-end;">
                     <button class="btn-3d secondary" onclick="toggleTheme()">🌙 Tema</button>
                     <button class="btn-3d" onclick="openModal()">➕ Pinjaman Baru</button>
@@ -232,34 +242,32 @@
                     <div class="cal-header">
                         <h3 style="margin:0; font-size:1.1rem;" id="calMonthYear">Bulan Tahun</h3>
                         <div>
-                            <button class="btn-3d secondary" onclick="changeMonth(-1)">◀</button>
-                            <button class="btn-3d secondary" onclick="changeMonth(1)">▶</button>
+                            <button class="btn-3d secondary" onclick="changeMonth(-1)">◀ Prev</button>
+                            <button class="btn-3d secondary" onclick="changeMonth(1)">Next ▶</button>
                         </div>
                     </div>
+                    <!-- Isnin start -->
                     <div class="cal-grid-headers">
-                        <div>Ahd</div><div>Isn</div><div>Sel</div><div>Rab</div><div>Kha</div><div>Jum</div><div>Sab</div>
+                        <div>Isn</div><div>Sel</div><div>Rab</div><div>Kha</div><div>Jum</div><div style="color:var(--danger)">Sab</div><div style="color:var(--danger)">Ahd</div>
                     </div>
                     <div class="cal-grid" id="calGrid"></div>
                     <div style="font-size: 0.75rem; margin-top: 15px; color: var(--text-muted); text-align: center;">
-                        <span style="color:var(--danger)">●</span> Tarikh Pulang (Belum) &nbsp; 
-                        <span style="color:var(--success)">●</span> Rekod Telah Pulang
+                        <span style="color:var(--success)"><b>+1 Pinjam</b></span> : Rekod Pinjaman Baru &nbsp;|&nbsp; 
+                        <span style="color:var(--danger)"><b>1 Pulang</b></span> : Tarikh Perlu Pulang
                     </div>
                 </div>
 
                 <!-- Ringkasan Status Widget -->
                 <div class="card">
                     <h3 style="color: var(--primary); margin-top: 0; margin-bottom: 15px; font-size:1.1rem;">Ringkasan Status</h3>
-                    
                     <div class="widget-item" style="border-left: 4px solid var(--text-main);">
                         <span>Jumlah Belum Pulang: <b id="lbl-active">0</b></span>
                         <span class="widget-search-icon" onclick="goToTabFilter('active')" title="Lihat Senarai">🔍</span>
                     </div>
-
                     <div class="widget-item" style="border-left: 4px solid var(--primary); background: rgba(0, 83, 225, 0.05);">
                         <span style="color: var(--primary);">Dalam Tempoh (OK): <b id="lbl-ok">0</b></span>
                         <span class="widget-search-icon" onclick="goToTabFilter('ok')" title="Lihat Senarai">🔍</span>
                     </div>
-
                     <div class="widget-item" style="border-left: 4px solid var(--danger); background: rgba(229, 57, 53, 0.05);">
                         <span style="color: var(--danger);">Lebih Had 14 Hari: <b id="lbl-late">0</b></span>
                         <span class="widget-search-icon" onclick="goToTabFilter('late')" title="Lihat Senarai">🔍</span>
@@ -277,7 +285,7 @@
                         <button class="btn-clear" onclick="document.getElementById('searchInput').value=''; renderTable();">❌</button>
                     </div>
 
-                    <!-- Kumpulan Butang Kanan (Print & CSV) -->
+                    <!-- Print & CSV -->
                     <div class="action-wrapper">
                         <div style="display:flex; align-items:center; gap:5px; background:var(--bg-body); padding:5px; border-radius:var(--radius-btn); border:1px solid var(--border);">
                             <select id="printMonth" style="border:none; background:transparent; font-size:0.9rem; color:var(--text-main); cursor:pointer;">
@@ -322,7 +330,7 @@
     </div>
 </div>
 
-<!-- 3. MODAL (Padat & Tiada Delete) -->
+<!-- 3. MODAL -->
 <div class="modal-overlay" id="mainModal">
     <div class="modal">
         <div class="modal-header">
@@ -382,7 +390,6 @@
                 </div>
             </div>
 
-            <!-- NEW: Comment Field -->
             <div class="col-full">
                 <span class="form-label">Catatan / Komen Ringkas</span>
                 <textarea id="f_catatan" class="form-input" rows="2" placeholder="Masukkan catatan ringkas di sini..."></textarea>
@@ -537,8 +544,9 @@
     function renderCalendar() {
         const m = calDate.getMonth(), y = calDate.getFullYear();
         document.getElementById('calMonthYear').innerText = new Date(y, m).toLocaleDateString('ms-MY', { month: 'long', year: 'numeric' }).toUpperCase();
+        
         const firstDayIndex = new Date(y, m, 1).getDay(); 
-        const adjustedFirstDay = (firstDayIndex === 0) ? 6 : firstDayIndex - 1;
+        const adjustedFirstDay = (firstDayIndex === 0) ? 6 : firstDayIndex - 1; // Isnin Start
         const daysInMonth = new Date(y, m + 1, 0).getDate();
         const grid = document.getElementById('calGrid');
         grid.innerHTML = '';
@@ -546,26 +554,30 @@
         for (let i = 0; i < adjustedFirstDay; i++) grid.innerHTML += `<div></div>`;
 
         for (let i = 1; i <= daysInMonth; i++) {
-            let dots = '';
             const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
-            let redCount = 0, greenCount = 0;
+            
+            let borrowCount = 0;
+            let dueCount = 0;
 
             window.dbData.forEach(item => {
-                if (item.tPulang === dateStr) {
-                    if (item.status === 'Selesai') greenCount++; else redCount++;
-                }
+                if (item.tPinjam === dateStr) borrowCount++;
+                if (item.tPulang === dateStr && item.status !== 'Selesai') dueCount++;
             });
 
-            if (redCount > 0) dots += `<div class="cal-dot red" title="${redCount} Belum Pulang"></div>`;
-            if (greenCount > 0) dots += `<div class="cal-dot green" title="${greenCount} Selesai"></div>`;
+            // HTML Content for the day
+            let content = `<span style="font-weight:bold; margin-bottom:5px;">${i}</span>`;
+            if (borrowCount > 0) content += `<div class="cal-info" style="color:var(--success);">+${borrowCount} Pinjam</div>`;
+            if (dueCount > 0) content += `<div class="cal-info" style="color:var(--danger);">${dueCount} Pulang</div>`;
 
+            // Grid Index Logic for Weekend
             const currentGridIndex = adjustedFirstDay + i - 1;
-            const colIndex = currentGridIndex % 7;
+            const colIndex = currentGridIndex % 7; 
+            // 5 = Sabtu, 6 = Ahad (since 0=Isnin)
             const isWeekend = (colIndex === 5 || colIndex === 6);
             const weekendClass = isWeekend ? 'weekend' : '';
 
             const isToday = (new Date().toDateString() === new Date(y, m, i).toDateString()) ? 'today' : '';
-            grid.innerHTML += `<div class="cal-day ${isToday} ${weekendClass}" onclick="clickCal(${i})">${i} <div class="cal-dots">${dots}</div></div>`;
+            grid.innerHTML += `<div class="cal-day ${isToday} ${weekendClass}" onclick="clickCal(${i})">${content}</div>`;
         }
     }
 
@@ -771,6 +783,9 @@
     import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } 
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+    // ----------------------------------------------------------------------------------
+    // ⚠️ PASTIKAN KOD API INI DIISI DENGAN BETUL SEBELUM UPLOAD KE GITHUB
+    // ----------------------------------------------------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyAfEJBFMTX1HOo5SMpfDf4Cx61HhbtiAWE",
       authDomain: "pustakawan-digital.firebaseapp.com",
@@ -787,11 +802,7 @@
         try {
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
-            const status = document.getElementById('statusText');
-            if(status) {
-                status.innerText = "✅ Bersambung";
-                status.style.color = "var(--success)";
-            }
+            
             startListening();
         } catch (e) {
             alert("Ralat Firebase: " + e.message);
@@ -809,8 +820,6 @@
             renderCalendar(); 
         }, (error) => {
             console.error("Gagal baca data:", error);
-            document.getElementById('statusText').innerText = "⚠️ Ralat Sambungan";
-            document.getElementById('statusText').style.color = "red";
         });
     }
 
