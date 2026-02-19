@@ -3,306 +3,605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Pustakawan Digital | V4.3 (Fixed)</title>
+    <title>Sistem Pustakawan Digital | V6.4 (Compact & Notes)</title>
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #ECE9D8; --surface: #FFFFFF;
-            --primary: #0053E1; --primary-light: #D3E5FF;
+            /* --- TEMA TERANG --- */
+            --bg-body: #ECE9D8;         
+            --surface: #FFFFFF;         
+            
+            --primary: #0053E1; 
+            --primary-light: #D3E5FF;
             --success: #4BA52E; --danger: #E53935;
-            --text-main: #000000; --text-muted: #444444; --border: #8BA1C5;
-            --radius-card: 8px; --radius-btn: 4px;
-            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            
+            --text-main: #000000;       
+            --text-muted: #444444;      
+            --border: #8BA1C5;          
+
+            --radius-card: 6px; --radius-btn: 4px;
+            --shadow-3d: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
+            --bg-weekend: #D6D6D6; 
         }
+
         [data-theme="dark"] {
             --bg-body: #202020; --surface: rgba(44, 44, 44, 0.95);
             --primary: #60CDFF; --primary-light: rgba(96, 205, 255, 0.15);
             --success: #6CCB5F; --danger: #FF99A4;
             --text-main: #FFFFFF; --text-muted: #D0D0D0; --border: #454545;
+            --bg-weekend: #333333;
         }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-body); color: var(--text-main); margin: 0; padding: 20px; transition: 0.3s; }
-        
-        /* Components */
-        .container { max-width: 1200px; margin: 0 auto; }
-        .card { background: var(--surface); padding: 25px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow); }
-        .btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: var(--radius-btn); cursor: pointer; background: var(--primary); color: white; font-weight: 600; transition: 0.2s; }
-        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
-        .btn.secondary { background: var(--surface); color: var(--text-main); }
-        .btn.danger { background: var(--danger); color: white; border-color: var(--danger); }
-        .input-box { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--surface); color: var(--text-main); box-sizing: border-box; margin-bottom: 10px; }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-body); color: var(--text-main); margin: 0; padding: 15px; transition: 0.3s; font-size: 0.9rem; }
         
         /* Layouts */
-        #loginView { display: flex; height: 90vh; justify-content: center; align-items: center; }
-        #dashboardView { display: none; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); text-align: center; cursor: pointer; }
-        .stat-num { font-size: 2rem; font-weight: bold; }
+        /* Header */
+        header { background: var(--surface); padding: 15px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: var(--shadow-3d); }
+        .logo h1 { margin: 0; font-size: 1.5rem; font-weight: 800; text-transform: uppercase; }
+        .logo span { color: var(--primary); }
+
+        /* Buttons */
+        .btn-3d { 
+            background: var(--primary); color: white; padding: 6px 14px; 
+            border-radius: var(--radius-btn); border: 1px solid var(--border); 
+            cursor: pointer; font-weight: 600; transition: 0.1s; 
+            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+            white-space: nowrap; font-size: 0.85rem;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn-3d:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+        .btn-3d.secondary { background: var(--surface); color: var(--text-main); }
+        .btn-3d.danger { background: var(--danger); color: white; border-color: var(--danger); }
+        .btn-clear { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 0 12px; border-radius: var(--radius-btn); font-weight: bold; font-size: 0.8rem; }
         
-        /* Table */
-        .table-wrap { overflow-x: auto; border-radius: var(--radius-card); border: 1px solid var(--border); }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; background: var(--surface); }
-        th { text-align: left; padding: 12px; background: var(--bg-body); color: var(--text-muted); border-bottom: 2px solid var(--border); }
-        td { padding: 12px; border-bottom: 1px solid var(--border); }
-        
+        /* Inputs */
+        .input-box { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--surface); color: var(--text-main); box-sizing: border-box; margin-bottom: 8px; font-size: 0.9rem; }
+
+        /* Stats Grid */
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .stat-card { background: var(--surface); padding: 15px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-3d); cursor: pointer; transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); border-color: var(--primary); }
+        .stat-icon { font-size: 2rem; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.05); border-radius: 6px; border: 1px solid var(--border); }
+        .stat-value { font-size: 1.8rem; font-weight: 700; margin-top: 2px; line-height: 1; }
+        .stat-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Calendar */
+        .calendar-card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); margin-bottom: 15px;}
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .cal-grid-headers { text-align: center; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 5px; }
+        .cal-day {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius-btn); padding: 4px; min-height: 60px;
+            text-align: left; font-size: 0.85rem; cursor: pointer;
+            display: flex; flex-direction: column;
+            transition: 0.2s;
+        }
+        .cal-day:hover { background: var(--primary-light); transform: scale(1.02); z-index: 2; }
+        .cal-day.weekend { background-color: var(--bg-weekend); border-color: #999; color: var(--text-muted); }
+        .cal-day.today { border: 2px solid var(--primary); background: var(--primary-light); font-weight: bold; color: var(--primary); }
+        .cal-dots { display: flex; gap: 2px; margin-top: auto; flex-wrap: wrap; justify-content: center;}
+        .cal-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
+        .cal-dot.red { background-color: var(--danger); }
+        .cal-dot.green { background-color: var(--success); }
+
+        /* Widget Summary */
+        .card { background: var(--surface); padding: 15px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); }
+        .widget-item { 
+            background: rgba(0,0,0,0.03); border: 1px solid var(--border); 
+            padding: 10px; border-radius: 6px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;
+        }
+        .widget-search-icon { cursor: pointer; color: var(--text-muted); font-size: 1rem; padding: 4px; border-radius: 50%; transition: 0.2s; }
+        .widget-search-icon:hover { background: var(--primary); color: white; }
+
+        /* Table & Filters */
+        .content-card { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-3d); }
+        .toolbar { padding: 15px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; background: var(--bg-body); }
+        .search-wrapper { display: flex; flex: 1; min-width: 250px; gap: 5px; }
+        .action-wrapper { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+        .table-wrap { overflow-x: auto; margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th { text-align: left; padding: 10px; background: var(--bg-body); color: var(--text-muted); border-bottom: 2px solid var(--border); text-transform: uppercase; font-size: 0.75rem; }
+        td { padding: 10px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        tr { background: var(--surface); }
+        .filter-chips { display: flex; gap: 8px; padding: 10px 15px; border-bottom: 1px solid var(--border); background: var(--surface); }
+        .chip { background: var(--bg-body); border: 1px solid var(--border); padding: 4px 12px; border-radius: 15px; cursor: pointer; color: var(--text-muted); font-weight: 600; font-size: 0.8rem; }
+        .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Tabs */
+        .nav-tabs { display: flex; gap: 8px; margin-bottom: 15px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+        .nav-btn { background: none; border: none; font-size: 0.95rem; font-weight: 600; color: var(--text-muted); padding: 8px 15px; cursor: pointer; border-radius: var(--radius-btn); }
+        .nav-btn.active { background: var(--surface); color: var(--primary); border: 1px solid var(--border); border-bottom: none; position: relative; top: 2px; box-shadow: 0 -2px 0 var(--primary) inset;}
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
+
         /* Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
-        .modal { background: var(--surface); padding: 25px; border-radius: var(--radius-card); width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); }
-        .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .modal { background: var(--surface); padding: 20px; border-radius: var(--radius-card); width: 90%; max-width: 550px; max-height: 95vh; overflow-y: auto; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .col-full { grid-column: span 2; }
-        
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .form-label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 2px; color: var(--text-muted); }
+        .form-input { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--surface); color: var(--text-main); box-sizing: border-box; font-size: 0.9rem; }
+        textarea.form-input { resize: vertical; min-height: 60px; font-family: inherit; }
+
         #loadingBar { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--success)); z-index: 9999; display: none; }
-        
-        @media (max-width: 768px) { .grid-form { grid-template-columns: 1fr; } .col-full { grid-column: span 1; } }
+        #loginView { display: flex; height: 90vh; justify-content: center; align-items: center; }
+        #appView { display: none; } 
+
+        @media (max-width: 768px) { .dashboard-grid, .grid-form { grid-template-columns: 1fr; } .col-full { grid-column: span 1; } header { flex-direction: column; text-align: center; gap: 15px; } .toolbar { flex-direction: column; align-items: stretch; } }
     </style>
 </head>
 <body>
 
 <div id="loadingBar"></div>
 
-<!-- DIAGNOSTIK ERROR -->
-<div id="error-box">
-    <strong>⚠️ Status Sistem:</strong>
-    <ul id="error-list" style="margin: 5px 0 0 20px; padding: 0;"></ul>
-</div>
-
-<!-- 1. LOGIN -->
+<!-- 1. LOGIN SCREEN -->
 <div id="loginView">
-    <div class="card" style="width: 100%; max-width: 350px; text-align: center;">
-        <h2 style="color: var(--primary); margin-top: 0;">PUSTAKA CLOUD</h2>
-        <p>Log Masuk Sistem</p>
-        <input type="text" id="username" class="input-box" placeholder="ID (admin)">
-        <input type="password" id="password" class="input-box" placeholder="Kata Laluan (1234)">
-        <button class="btn" style="width: 100%;" onclick="attemptLogin()">Log Masuk</button>
-        <div style="margin-top:15px; font-size:0.8rem; color:var(--text-muted)">Versi: 4.3 (Bug Fix)</div>
-    </div>
-</div>
-
-<!-- 2. DASHBOARD -->
-<div id="dashboardView">
-    <div class="header">
-        <div>
-            <h2 style="margin:0;">Dashboard Pustakawan</h2>
-            <small id="statusText" style="color:orange;">Menyambung ke Firebase...</small>
-        </div>
-        <div style="display:flex; gap:10px;">
-            <button class="btn secondary" onclick="toggleTheme()">🌙</button>
-            <button class="btn" onclick="openModal()">+ Rekod</button>
-            <button class="btn danger" onclick="location.reload()">Keluar</button>
-        </div>
-    </div>
-
-    <div class="stats-grid">
-        <div class="stat-card" onclick="filterData('all')">
-            <div class="stat-num" id="stat-total">0</div>
-            <div>Jumlah Pinjaman</div>
-        </div>
-        <div class="stat-card" onclick="filterData('active')">
-            <div class="stat-num" id="stat-active" style="color:var(--primary)">0</div>
-            <div>Sedang Dipinjam</div>
-        </div>
-        <div class="stat-card" onclick="filterData('late')">
-            <div class="stat-num" id="stat-late" style="color:var(--danger)">0</div>
-            <div>Lewat (>14 Hari)</div>
-        </div>
-    </div>
-
-    <div class="card" style="padding:0; overflow:hidden;">
-        <div style="padding:15px; border-bottom:1px solid var(--border); display:flex; gap:10px;">
-            <input type="text" id="searchInput" class="input-box" style="margin:0; flex:1;" placeholder="Cari nama peminjam..." onkeyup="renderTable()">
-            <button class="btn secondary" onclick="document.getElementById('searchInput').value=''; renderTable();">Padam Carian</button>
-        </div>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Maklumat Peminjam</th>
-                        <th>Bahan</th>
-                        <th>Status & Tempoh</th>
-                        <th style="text-align:right;">Tindakan</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <tr><td colspan="4" style="text-align:center;">Memuatkan data...</td></tr>
-                </tbody>
-            </table>
+    <div class="card" style="width: 100%; max-width: 360px; text-align: center; padding: 30px;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">📚</div>
+        <h2 style="color: var(--text-main); margin: 0; font-size: 1.3rem;">SISTEM <span style="color: var(--primary);">PUSTAKAWAN</span></h2>
+        <p style="color: var(--text-muted); margin-bottom: 25px; font-size: 0.85rem;">Sistem Pengurusan Pinjaman Digital</p>
+        
+        <input type="text" id="username" class="input-box" placeholder="Nama Pengguna" value="pustakawan">
+        <input type="password" id="password" class="input-box" placeholder="Kata Laluan" value="pustakaMTIB">
+        
+        <button class="btn-3d" style="width: 100%; margin-top: 10px;" onclick="attemptLogin()">Log Masuk</button>
+        <button class="btn-3d secondary" style="width: 100%; margin-top: 10px;" onclick="toggleTheme()">🌙 Tema Windows 11</button>
+        
+        <div style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 15px;">
+            <div id="loginDate" style="font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.75rem;"></div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 5px;">Versi Aplikasi: PUSTAKA-V6.4-COMPACT</div>
         </div>
     </div>
 </div>
 
-<!-- 3. MODAL -->
+<!-- 2. APP VIEW -->
+<div id="appView">
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size: 1.8rem;">📚</span>
+                    <div>
+                        <h1 style="margin:0; line-height:1; font-size:1.4rem;">SISTEM <span style="color:var(--primary)">PUSTAKAWAN</span></h1>
+                        <p style="margin:0; font-size:0.75rem; color:var(--text-muted);">Pengurusan Pinjaman Buku & Media</p>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div id="headerDate" style="font-weight: 800; color: var(--primary); text-transform: uppercase; font-size:0.9rem;"></div>
+                <div style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">PUSTAKA-V6.4-COMPACT</div>
+                <div style="margin-top: 10px; display:flex; gap:5px; justify-content:flex-end;">
+                    <button class="btn-3d secondary" onclick="toggleTheme()">🌙 Tema</button>
+                    <button class="btn-3d" onclick="openModal()">➕ Pinjaman Baru</button>
+                    <button class="btn-3d danger" onclick="location.reload()">Keluar</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- TABS -->
+        <div class="nav-tabs">
+            <button class="nav-btn active" id="btn-dashboard" onclick="switchTab('dashboard')">📊 Dashboard Utama</button>
+            <button class="nav-btn" id="btn-senarai" onclick="switchTab('senarai')">📖 Rekod Pinjaman</button>
+        </div>
+
+        <!-- TAB 1: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content active">
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="stat-card" onclick="goToTabFilter('active')">
+                    <div class="stat-icon">📖</div>
+                    <div>
+                        <div class="stat-label">SEDANG DIPINJAM</div>
+                        <div class="stat-value" style="color: var(--primary);" id="stat-active">0</div>
+                    </div>
+                </div>
+                <div class="stat-card" onclick="goToTabFilter('late')">
+                    <div class="stat-icon" style="color: var(--danger); border-color: var(--danger);">⚠️</div>
+                    <div>
+                        <div class="stat-label">LEWAT / >14 HARI</div>
+                        <div class="stat-value" style="color: var(--danger);" id="stat-late">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: var(--warning); border-color: var(--warning);">💰</div>
+                    <div>
+                        <div class="stat-label">KUTIPAN DENDA (BULAN INI)</div>
+                        <div class="stat-value" style="color: var(--warning);" id="statFine">RM 0.00</div>
+                    </div>
+                </div>
+                <div class="stat-card" onclick="goToTabFilter('all')">
+                    <div class="stat-icon">📚</div>
+                    <div>
+                        <div class="stat-label">JUMLAH REKOD</div>
+                        <div class="stat-value" id="stat-total">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Calendar -->
+                <div class="calendar-card">
+                    <div class="cal-header">
+                        <h3 style="margin:0; font-size:1.1rem;" id="calMonthYear">Bulan Tahun</h3>
+                        <div>
+                            <button class="btn-3d secondary" onclick="changeMonth(-1)">◀</button>
+                            <button class="btn-3d secondary" onclick="changeMonth(1)">▶</button>
+                        </div>
+                    </div>
+                    <div class="cal-grid-headers">
+                        <div>Ahd</div><div>Isn</div><div>Sel</div><div>Rab</div><div>Kha</div><div>Jum</div><div>Sab</div>
+                    </div>
+                    <div class="cal-grid" id="calGrid"></div>
+                    <div style="font-size: 0.75rem; margin-top: 15px; color: var(--text-muted); text-align: center;">
+                        <span style="color:var(--danger)">●</span> Tarikh Pulang (Belum) &nbsp; 
+                        <span style="color:var(--success)">●</span> Rekod Telah Pulang
+                    </div>
+                </div>
+
+                <!-- Ringkasan Status Widget -->
+                <div class="card">
+                    <h3 style="color: var(--primary); margin-top: 0; margin-bottom: 15px; font-size:1.1rem;">Ringkasan Status</h3>
+                    
+                    <div class="widget-item" style="border-left: 4px solid var(--text-main);">
+                        <span>Jumlah Belum Pulang: <b id="lbl-active">0</b></span>
+                        <span class="widget-search-icon" onclick="goToTabFilter('active')" title="Lihat Senarai">🔍</span>
+                    </div>
+
+                    <div class="widget-item" style="border-left: 4px solid var(--primary); background: rgba(0, 83, 225, 0.05);">
+                        <span style="color: var(--primary);">Dalam Tempoh (OK): <b id="lbl-ok">0</b></span>
+                        <span class="widget-search-icon" onclick="goToTabFilter('ok')" title="Lihat Senarai">🔍</span>
+                    </div>
+
+                    <div class="widget-item" style="border-left: 4px solid var(--danger); background: rgba(229, 57, 53, 0.05);">
+                        <span style="color: var(--danger);">Lebih Had 14 Hari: <b id="lbl-late">0</b></span>
+                        <span class="widget-search-icon" onclick="goToTabFilter('late')" title="Lihat Senarai">🔍</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: REKOD PINJAMAN -->
+        <div id="tab-senarai" class="tab-content">
+            <div class="content-card">
+                <div class="toolbar">
+                    <div class="search-wrapper">
+                        <input type="text" id="searchInput" class="input-box" style="margin:0; width:100%;" placeholder="Cari nama, ID, atau tajuk..." onkeyup="renderTable()">
+                        <button class="btn-clear" onclick="document.getElementById('searchInput').value=''; renderTable();">❌</button>
+                    </div>
+
+                    <!-- Kumpulan Butang Kanan (Print & CSV) -->
+                    <div class="action-wrapper">
+                        <div style="display:flex; align-items:center; gap:5px; background:var(--bg-body); padding:5px; border-radius:var(--radius-btn); border:1px solid var(--border);">
+                            <select id="printMonth" style="border:none; background:transparent; font-size:0.9rem; color:var(--text-main); cursor:pointer;">
+                                <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option>
+                                <option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option>
+                                <option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option>
+                                <option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option>
+                            </select>
+                            <input type="number" id="printYear" value="2026" style="width:60px; border:none; background:transparent; font-size:0.9rem; color:var(--text-main);">
+                            <button class="btn-3d" onclick="printReport()">🖨️ Cetak</button>
+                        </div>
+                        <button class="btn-3d secondary" onclick="exportCSV()">📥 CSV</button>
+                    </div>
+                </div>
+                
+                <div class="filter-chips">
+                    <button id="chip-all" class="chip active" onclick="setFilter('all')">Semua</button>
+                    <button id="chip-aktif" class="chip" onclick="setFilter('active')">Semua Aktif</button>
+                    <button id="chip-ok" class="chip" onclick="setFilter('ok')">Dalam Tempoh</button>
+                    <button id="chip-lewat" class="chip" onclick="setFilter('late')">Lewat</button>
+                </div>
+            
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:30%">Peminjam</th>
+                                <th style="width:35%">Bahan / Tajuk</th>
+                                <th style="width:25%">Tarikh & Tempoh</th>
+                                <th style="width:10%">Status</th>
+                                <th style="text-align:right;">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr><td colspan="5" style="text-align:center;">Memuatkan data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 3. MODAL (Padat & Tiada Delete) -->
 <div class="modal-overlay" id="mainModal">
     <div class="modal">
-        <h3 style="margin-top:0;">Urus Rekod</h3>
+        <div class="modal-header">
+            <h3 style="margin:0; font-size:1.2rem;">📝 Maklumat Pinjaman</h3>
+            <button onclick="closeModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
         <input type="hidden" id="docId">
         
         <div class="grid-form">
             <div class="col-full">
-                <label>Nama Peminjam</label>
-                <input type="text" id="f_nama" class="input-box">
+                <span class="form-label">Nama Peminjam</span>
+                <input type="text" id="f_nama" class="form-input">
             </div>
             <div>
-                <label>No. Ahli</label>
-                <input type="text" id="f_noPekerja" class="input-box">
+                <span class="form-label">No. Ahli</span>
+                <input type="text" id="f_noPekerja" class="form-input">
             </div>
             <div>
-                <label>No. Telefon</label>
-                <input type="text" id="f_phone" class="input-box">
+                <span class="form-label">No. Telefon</span>
+                <div style="display:flex; gap:5px;">
+                    <input type="text" id="f_phone" class="form-input" style="margin:0;">
+                    <a id="btnWA" href="#" target="_blank" class="btn-3d" style="background:#25D366; color:white; display:none; align-items:center; justify-content:center; padding: 0 10px;" title="WhatsApp">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.009.55 2.144.842 3.306.843h.001c3.181 0 5.768-2.586 5.768-5.766 0-1.541-.6-2.99-1.684-4.075-1.084-1.085-2.526-1.684-4.066-1.684zm-9.016.33c1.829-2.28 4.661-3.732 7.829-3.732 5.504 0 9.969 4.464 9.969 9.969 0 2.657-1.077 5.071-2.825 6.883-1.745 1.81-4.145 2.914-6.811 2.914-1.897 0-3.69-.537-5.244-1.472l-5.933 1.556 1.583-5.786c-1.07-1.704-1.701-3.729-1.701-5.901 0-2.302.697-4.444 1.891-6.223z"/></svg>
+                    </a>
+                </div>
             </div>
             
             <div class="col-full">
-                <label>Tajuk Bahan</label>
-                <input type="text" id="f_tajuk" class="input-box">
+                <span class="form-label">Tajuk Bahan</span>
+                <input type="text" id="f_tajuk" class="form-input">
             </div>
             <div>
-                <label>Kategori</label>
-                <select id="f_jenis" class="input-box">
-                    <option>Buku</option><option>Fail</option><option>Majalah</option><option>Alat</option>
-                </select>
+                <span class="form-label">Kategori</span>
+                <select id="f_jenis" class="form-input"><option>Buku</option><option>Fail</option><option>Majalah</option><option>Alat</option></select>
             </div>
             <div>
-                <label>Tarikh Pinjam</label>
-                <input type="date" id="f_tPinjam" class="input-box" oninput="liveCalc()">
+                <span class="form-label">Tarikh Pinjam</span>
+                <input type="date" id="f_tPinjam" class="form-input" oninput="liveCalc()">
             </div>
             
-            <div class="col-full" style="background:var(--bg-body); padding:10px; border-radius:5px;">
-                <label>Status Pemulangan:</label><br>
-                <div style="margin-top:5px; display:flex; gap:15px;">
-                    <label><input type="radio" name="status" value="Dipinjam" checked onclick="toggleReturn(false)"> Belum Pulang</label>
-                    <label><input type="radio" name="status" value="Selesai" onclick="toggleReturn(true)"> Sudah Pulang</label>
+            <div class="col-full" style="background:var(--bg-weekend); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                <span class="form-label" style="margin-bottom:5px;">Status Pemulangan:</span>
+                <div style="display:flex; gap:15px; margin-bottom:8px;">
+                    <label style="cursor:pointer; font-size:0.9rem;"><input type="radio" name="status" value="Dipinjam" checked onclick="toggleReturn(false)"> Belum Pulang</label>
+                    <label style="cursor:pointer; font-size:0.9rem;"><input type="radio" name="status" value="Selesai" onclick="toggleReturn(true)"> Telah Dipulangkan</label>
                 </div>
                 
-                <div style="margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
                     <div>
-                        <label style="font-size:0.8rem;">Tkh. Pulang Asal:</label>
-                        <input type="date" id="f_tPulang" class="input-box" oninput="liveCalc()">
+                        <span class="form-label">Tarikh Pemulangan Asal:</span>
+                        <input type="date" id="f_tPulang" class="form-input" oninput="liveCalc()">
                     </div>
                     <div id="div_return_date" style="display:none;">
-                        <label style="font-size:0.8rem; color:var(--success);">Tkh. Pulang Sebenar:</label>
-                        <input type="date" id="f_tDipulangkan" class="input-box" oninput="liveCalc()">
+                        <span class="form-label" style="color:var(--success);">Tarikh Pemulangan Sebenar:</span>
+                        <input type="date" id="f_tDipulangkan" class="form-input" oninput="liveCalc()">
                     </div>
                 </div>
             </div>
+
+            <!-- NEW: Comment Field -->
+            <div class="col-full">
+                <span class="form-label">Catatan / Komen Ringkas</span>
+                <textarea id="f_catatan" class="form-input" rows="2" placeholder="Masukkan catatan ringkas di sini..."></textarea>
+            </div>
             
-            <div class="col-full" id="live-info" style="text-align:center; font-weight:bold; color:var(--primary); padding:10px; font-size:0.9rem;"></div>
+            <div class="col-full" id="live-info" style="text-align:center; font-weight:bold; color:var(--primary); padding:5px; font-size:0.9rem;"></div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-top:20px;">
-            <button type="button" class="btn secondary" onclick="closeModal()">Batal</button>
-            <button type="button" id="btnDelete" class="btn danger" style="display:none;" onclick="deleteRecord()">Hapus</button>
-            <button type="button" class="btn" style="flex:1;" onclick="window.saveData()">Simpan</button>
+        <div style="display:flex; gap:10px; margin-top:15px; justify-content: flex-end;">
+            <button type="button" class="btn-3d secondary" onclick="closeModal()">Batal</button>
+            <button type="button" class="btn-3d" onclick="window.saveData()">💾 Simpan Rekod</button>
         </div>
     </div>
 </div>
 
-<!-- JAVASCRIPT GLOBAL (UI) -->
+<!-- LOGIC -->
 <script>
     window.dbData = [];
     window.currentFilter = 'all';
+    let calDate = new Date();
 
+    // LOGIN LOGIC
     function attemptLogin() {
         const u = document.getElementById('username').value;
         const p = document.getElementById('password').value;
-        if(u === 'admin' && p === '1234') {
+        if(u === 'pustakawan' && p === 'pustakaMTIB') {
             document.getElementById('loginView').style.display = 'none';
-            document.getElementById('dashboardView').style.display = 'block';
+            document.getElementById('appView').style.display = 'block';
+            setupDateDisplay();
             if(window.initFirebase) window.initFirebase();
+            renderCalendar();
+            
+            const now = new Date();
+            if(document.getElementById('printMonth')) document.getElementById('printMonth').value = now.getMonth();
+            if(document.getElementById('printYear')) document.getElementById('printYear').value = now.getFullYear();
         } else {
             alert("ID atau Kata Laluan salah.");
         }
     }
 
+    function setupDateDisplay() {
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const dateStr = new Date().toLocaleDateString('ms-MY', options).toUpperCase();
+        if(document.getElementById('headerDate')) document.getElementById('headerDate').innerText = dateStr;
+        if(document.getElementById('loginDate')) document.getElementById('loginDate').innerText = dateStr;
+    }
+
+    // TABS
+    window.switchTab = function(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
+    }
+
+    window.goToTabFilter = function(filterType) {
+        window.switchTab('senarai');
+        window.setFilter(filterType);
+    }
+
+    window.setFilter = function(type) {
+        window.currentFilter = type;
+        document.querySelectorAll('.chip').forEach(el => el.classList.remove('active'));
+        let chipId = 'chip-' + type;
+        if (type === 'active') chipId = 'chip-aktif';
+        if (type === 'late') chipId = 'chip-lewat';
+        const chip = document.getElementById(chipId);
+        if(chip) chip.classList.add('active');
+        renderTable();
+    }
+
+    // RENDER TABLE
     window.renderTable = function() {
         const tbody = document.getElementById('tableBody');
         const search = document.getElementById('searchInput').value.toLowerCase();
         tbody.innerHTML = '';
 
         const dataToRender = window.dbData.filter(item => {
-            const text = (item.nama + item.tajuk + item.noPekerja).toLowerCase();
+            const text = (item.nama + item.tajuk + item.noPekerja + item.tPinjam + item.tPulang).toLowerCase();
             if(search && !text.includes(search)) return false;
 
             const dur = calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
+            const isLate = dur > 14;
+
             if(window.currentFilter === 'active' && item.status === 'Selesai') return false;
-            if(window.currentFilter === 'late' && dur <= 14) return false;
+            if(window.currentFilter === 'ok' && (item.status === 'Selesai' || isLate)) return false; 
+            if(window.currentFilter === 'late' && (item.status === 'Selesai' || !isLate)) return false; 
             return true;
         });
 
         if(dataToRender.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">Tiada rekod dijumpai.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Tiada rekod.</td></tr>';
             return;
         }
 
         dataToRender.forEach(item => {
             const dur = calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
-            const isLate = dur > 14;
-            const statusColor = item.status === 'Selesai' ? 'green' : (isLate ? 'red' : 'blue');
-            const statusText = item.status === 'Selesai' ? 'Selesai' : (isLate ? 'Lewat' : 'Aktif');
+            const isLate = dur > 14 && item.status !== 'Selesai';
+            
+            let statusBadge = '';
+            if(item.status === 'Selesai') {
+                statusBadge = `<div style="border:1px solid var(--success); background:#f0fdf4; color:var(--success); padding:3px 6px; border-radius:4px; font-weight:bold; font-size:0.75rem; display:inline-block;">✅ Telah Dipulangkan</div>`;
+                if(parseFloat(item.denda) > 0) statusBadge += `<div style="color:var(--danger); font-size:0.75rem; margin-top:2px;">Denda: RM ${item.denda}</div>`;
+            } else if(isLate) {
+                statusBadge = `<div style="border:1px solid var(--danger); background:#fef2f2; color:var(--danger); padding:3px 6px; border-radius:4px; font-weight:bold; font-size:0.75rem; display:inline-block;">⚠️ Lewat</div>`;
+            } else {
+                statusBadge = `<div style="border:1px solid var(--primary); background:#eff6ff; color:var(--primary); padding:3px 6px; border-radius:4px; font-weight:bold; font-size:0.75rem; display:inline-block;">🟢 Dipinjam</div>`;
+            }
 
             const row = `
                 <tr>
-                    <td><strong>${item.nama}</strong><br><small>${item.noPekerja}</small></td>
+                    <td><strong>${item.nama}</strong><br><small style="color:var(--text-muted)">${item.noPekerja}</small></td>
                     <td>${item.tajuk}<br><small>${item.jenis}</small></td>
                     <td>
-                        <small>Pinjam: ${formatDate(item.tPinjam)}</small><br>
-                        <strong style="color:${isLate ? 'var(--danger)' : 'var(--success)'}">⏳ ${dur} Hari</strong>
+                        <div style="font-size:0.85rem">Pinjam: ${formatDate(item.tPinjam)}</div>
+                        <div style="font-weight:bold; color:${isLate ? 'var(--danger)' : 'var(--primary)'}; font-size:0.8rem; margin-top:2px;">
+                            ⌛ Tempoh: ${dur} Hari
+                        </div>
                     </td>
-                    <td>
-                        <span style="padding:4px 8px; border-radius:10px; font-size:0.8rem; background:${statusColor==='red'?'#FEE2E2':statusColor==='green'?'#D1FAE5':'#DBEAFE'}; color:${statusColor==='red'?'#991B1B':statusColor==='green'?'#065F46':'#1E40AF'}">${statusText}</span>
-                    </td>
+                    <td>${statusBadge}</td>
                     <td style="text-align:right;">
-                        <button class="btn secondary" onclick="prepareEdit('${item.id}')">✏️</button>
+                        <button class="btn-3d secondary" onclick="prepareEdit('${item.id}')">✏️ Edit</button>
                     </td>
                 </tr>
             `;
             tbody.innerHTML += row;
         });
-        
         updateCountUI();
     }
-    
+
     function updateCountUI() {
-        document.getElementById('stat-total').innerText = window.dbData.length;
-        document.getElementById('stat-active').innerText = window.dbData.filter(i => i.status !== 'Selesai').length;
-        document.getElementById('stat-late').innerText = window.dbData.filter(i => i.status !== 'Selesai' && calculateDuration(i.tPinjam, null) > 14).length;
+        const total = window.dbData.length;
+        const active = window.dbData.filter(i => i.status !== 'Selesai').length;
+        const late = window.dbData.filter(i => i.status !== 'Selesai' && calculateDuration(i.tPinjam, null) > 14).length;
+        const ok = active - late;
+        let fine = 0;
+        window.dbData.forEach(i => { if(i.denda) fine += parseFloat(i.denda); });
+
+        if(document.getElementById('stat-active')) document.getElementById('stat-active').innerText = active;
+        if(document.getElementById('stat-late')) document.getElementById('stat-late').innerText = late;
+        if(document.getElementById('statFine')) document.getElementById('statFine').innerText = 'RM ' + fine.toFixed(2);
+        if(document.getElementById('stat-total')) document.getElementById('stat-total').innerText = total;
+
+        if(document.getElementById('lbl-active')) document.getElementById('lbl-active').innerText = active;
+        if(document.getElementById('lbl-ok')) document.getElementById('lbl-ok').innerText = ok;
+        if(document.getElementById('lbl-late')) document.getElementById('lbl-late').innerText = late;
     }
 
-    window.filterData = function(type) {
-        window.currentFilter = type;
-        renderTable();
+    // CALENDAR (ISN START)
+    window.changeMonth = function(n) { calDate.setMonth(calDate.getMonth() + n); renderCalendar(); }
+
+    function renderCalendar() {
+        const m = calDate.getMonth(), y = calDate.getFullYear();
+        document.getElementById('calMonthYear').innerText = new Date(y, m).toLocaleDateString('ms-MY', { month: 'long', year: 'numeric' }).toUpperCase();
+        const firstDayIndex = new Date(y, m, 1).getDay(); 
+        const adjustedFirstDay = (firstDayIndex === 0) ? 6 : firstDayIndex - 1;
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+        const grid = document.getElementById('calGrid');
+        grid.innerHTML = '';
+
+        for (let i = 0; i < adjustedFirstDay; i++) grid.innerHTML += `<div></div>`;
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            let dots = '';
+            const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+            let redCount = 0, greenCount = 0;
+
+            window.dbData.forEach(item => {
+                if (item.tPulang === dateStr) {
+                    if (item.status === 'Selesai') greenCount++; else redCount++;
+                }
+            });
+
+            if (redCount > 0) dots += `<div class="cal-dot red" title="${redCount} Belum Pulang"></div>`;
+            if (greenCount > 0) dots += `<div class="cal-dot green" title="${greenCount} Selesai"></div>`;
+
+            const currentGridIndex = adjustedFirstDay + i - 1;
+            const colIndex = currentGridIndex % 7;
+            const isWeekend = (colIndex === 5 || colIndex === 6);
+            const weekendClass = isWeekend ? 'weekend' : '';
+
+            const isToday = (new Date().toDateString() === new Date(y, m, i).toDateString()) ? 'today' : '';
+            grid.innerHTML += `<div class="cal-day ${isToday} ${weekendClass}" onclick="clickCal(${i})">${i} <div class="cal-dots">${dots}</div></div>`;
+        }
     }
 
-    // Modal Logic
+    window.clickCal = function(day) {
+        let m = String(calDate.getMonth() + 1).padStart(2, '0');
+        let d = String(day).padStart(2, '0');
+        let dateStr = `${calDate.getFullYear()}-${m}-${d}`;
+        window.switchTab('senarai');
+        document.getElementById('searchInput').value = dateStr;
+        window.setFilter('all');
+        window.renderTable();
+    }
+
+    // MODAL
     window.openModal = function() {
         document.getElementById('docId').value = '';
-        
-        // --- FIX: Only clear text inputs, NOT radio buttons ---
-        const inputs = document.querySelectorAll('.modal input');
+        const inputs = document.querySelectorAll('.modal input, .modal textarea');
         inputs.forEach(i => {
-            if(i.type !== 'radio' && i.type !== 'checkbox' && i.type !== 'button') {
-                i.value = '';
-            }
+            if(i.type !== 'radio' && i.type !== 'checkbox' && i.type !== 'button') i.value = '';
         });
         
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('f_tPinjam').value = today;
-        
         const due = new Date(); due.setDate(due.getDate() + 14);
         document.getElementById('f_tPulang').value = due.toISOString().split('T')[0];
         
-        // Safe radio selection
         const radioDipinjam = document.querySelector('input[name="status"][value="Dipinjam"]');
         if(radioDipinjam) radioDipinjam.checked = true;
 
         toggleReturn(false);
-        document.getElementById('btnDelete').style.display = 'none';
+        if(document.getElementById('btnWA')) document.getElementById('btnWA').style.display = 'none';
         document.getElementById('mainModal').style.display = 'flex';
         liveCalc();
     }
 
-    window.closeModal = function() {
-        document.getElementById('mainModal').style.display = 'none';
-    }
+    window.closeModal = function() { document.getElementById('mainModal').style.display = 'none'; }
 
     window.prepareEdit = function(id) {
         const item = window.dbData.find(x => x.id === id);
@@ -311,20 +610,29 @@
         document.getElementById('docId').value = id;
         document.getElementById('f_nama').value = item.nama;
         document.getElementById('f_noPekerja').value = item.noPekerja;
-        document.getElementById('f_phone').value = item.whatsapp; // Pastikan ID ini f_phone
+        document.getElementById('f_phone').value = item.whatsapp;
         document.getElementById('f_jenis').value = item.jenis;
         document.getElementById('f_tajuk').value = item.tajuk;
         document.getElementById('f_tPinjam').value = item.tPinjam;
         document.getElementById('f_tPulang').value = item.tPulang; 
+        document.getElementById('f_catatan').value = item.catatan || ''; 
         
         const isSelesai = item.status === 'Selesai';
         const radioToSelect = document.querySelector(`input[name="status"][value="${isSelesai ? 'Selesai' : 'Dipinjam'}"]`);
         if(radioToSelect) radioToSelect.checked = true;
 
         document.getElementById('f_tDipulangkan').value = item.tDipulangkan || '';
-        
         toggleReturn(isSelesai);
-        document.getElementById('btnDelete').style.display = 'inline-block';
+        
+        // WhatsApp Button
+        const btnWA = document.getElementById('btnWA');
+        if(item.whatsapp && btnWA) {
+            btnWA.style.display = 'inline-flex';
+            btnWA.href = `https://wa.me/${item.whatsapp}`;
+        } else if (btnWA) {
+            btnWA.style.display = 'none';
+        }
+
         document.getElementById('mainModal').style.display = 'flex';
         liveCalc();
     }
@@ -363,10 +671,10 @@
         
         const info = document.getElementById('live-info');
         if(late > 0) {
-            info.innerHTML = `⚠️ Tempoh: ${days} Hari (Denda: RM ${fine})`;
+            info.innerHTML = `⚠️ Tempoh: ${days} Hari (Lebih ${late} hari) | Denda: RM ${fine}`;
             info.style.color = 'var(--danger)';
         } else {
-            info.innerHTML = `✅ Tempoh: ${days} Hari (Dalam Had)`;
+            info.innerHTML = `✅ Tempoh: ${days} Hari (Dalam Had 14 Hari)`;
             info.style.color = 'var(--success)';
         }
     }
@@ -375,15 +683,94 @@
         const html = document.documentElement;
         html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     }
+
+    // PRINT REPORT
+    window.printReport = function() {
+        const m = parseInt(document.getElementById('printMonth').value);
+        const y = parseInt(document.getElementById('printYear').value);
+        const today = new Date().toLocaleDateString('ms-MY');
+
+        const filtered = window.dbData.filter(item => {
+            const d = new Date(item.tPinjam);
+            return d.getMonth() === m && d.getFullYear() === y;
+        });
+
+        if(filtered.length === 0) return alert("Tiada rekod untuk bulan ini.");
+
+        const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+        
+        let html = `<html><head>
+            <title>Laporan ${monthNames[m]} ${y}</title>
+            <style>
+                @page { size: landscape; }
+                body{font-family:sans-serif; padding:20px; font-size:12px;} 
+                table{width:100%; border-collapse:collapse; margin-top:20px;}
+                th,td{border:1px solid #000; padding:5px 8px; font-size:11px;} 
+                th{background:#f0f0f0;}
+                h2,p{text-align:center; margin:5px;}
+                .footer { margin-top: 30px; text-align: center; font-size: 10px; font-style: italic; }
+                .date-print { position: absolute; top: 10px; right: 10px; font-size: 10px; }
+            </style>
+        </head><body>
+            <div class="date-print">Tarikh Cetakan: ${today}</div>
+            <h2>LAPORAN PINJAMAN PUSTAKA MTIB</h2>
+            <p>Bulan: ${monthNames[m]} ${y}</p>
+            <table><thead><tr>
+                <th width="3%">No</th><th width="20%">Nama Peminjam</th><th width="20%">Bahan/Tajuk</th>
+                <th width="10%">Tarikh Pinjam</th><th width="10%">Tarikh Pulang (Asal)</th>
+                <th width="10%">Tarikh Pulang (Sebenar)</th><th width="7%">Hari Lewat</th>
+                <th width="10%">Caj Denda</th><th width="10%">Status</th>
+            </tr></thead><tbody>`;
+
+        filtered.forEach((item, idx) => {
+            const dur = calculateDuration(item.tPinjam, item.tDipulangkan || null);
+            const lateDays = dur - 14 > 0 ? dur - 14 : 0;
+            const actualReturn = item.tDipulangkan ? formatDate(item.tDipulangkan) : '-';
+            const fine = item.denda || '0.00';
+
+            html += `<tr>
+                <td style="text-align:center">${idx + 1}</td>
+                <td>${item.nama}<br><small>${item.noPekerja}</small></td>
+                <td>${item.tajuk}<br><small>${item.jenis}</small></td>
+                <td style="text-align:center">${formatDate(item.tPinjam)}</td>
+                <td style="text-align:center">${formatDate(item.tPulang)}</td>
+                <td style="text-align:center">${actualReturn}</td>
+                <td style="text-align:center; color:${lateDays>0?'red':'black'}">${lateDays > 0 ? lateDays : '-'}</td>
+                <td style="text-align:right">${fine > 0 ? 'RM '+fine : '-'}</td>
+                <td style="text-align:center">${item.status === 'Selesai' ? 'Selesai' : 'Belum'}</td>
+            </tr>`;
+        });
+        html += `</tbody></table>
+            <div class="footer">
+                "Cetakan berkomputer ini tidak memerlukan tandatangan"
+            </div>
+        </body></html>`;
+
+        const win = window.open('', '', 'width=1100,height=600');
+        win.document.write(html);
+        win.document.close();
+        win.print();
+    }
+
+    function exportCSV() {
+        let c = "Nama,ID,Bahan,Tajuk,Tempoh(Hari),Pinjam,Pulang,Status,Denda,Catatan\n";
+        window.dbData.forEach(x => {
+            let dur = calculateDuration(x.tPinjam, x.status === 'Selesai' ? x.tDipulangkan : null);
+            let note = x.catatan ? x.catatan.replace(/,/g, ' ') : '';
+            c += `"${x.nama}","${x.noPekerja}","${x.jenis}","${x.tajuk}","${dur}","${x.tPinjam}","${x.tPulang}","${x.status}","${x.denda}","${note}"\n`
+        });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([c],{type:'text/csv'}));
+        a.download = 'Laporan_Pinjaman.csv'; a.click();
+    }
 </script>
 
-<!-- FIREBASE MODULE -->
+<!-- FIREBASE -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } 
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // --- RUANG KONFIGURASI FIREBASE ---
     const firebaseConfig = {
       apiKey: "AIzaSyAfEJBFMTX1HOo5SMpfDf4Cx61HhbtiAWE",
       authDomain: "pustakawan-digital.firebaseapp.com",
@@ -393,7 +780,6 @@
       appId: "1:811520945210:web:667f2d12138c7db4dc1903",
       measurementId: "G-FX9CH5QG92"
     };
-    // ----------------------------------
 
     let db;
 
@@ -402,9 +788,10 @@
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             const status = document.getElementById('statusText');
-            status.innerText = "✅ Bersambung";
-            status.style.color = "var(--success)";
-            
+            if(status) {
+                status.innerText = "✅ Bersambung";
+                status.style.color = "var(--success)";
+            }
             startListening();
         } catch (e) {
             alert("Ralat Firebase: " + e.message);
@@ -419,16 +806,16 @@
             }));
             window.dbData.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
             window.renderTable();
+            renderCalendar(); 
         }, (error) => {
             console.error("Gagal baca data:", error);
-            // Jangan alert di sini untuk elak spam jika offline
             document.getElementById('statusText').innerText = "⚠️ Ralat Sambungan";
             document.getElementById('statusText').style.color = "red";
         });
     }
 
     window.saveData = async function() {
-        if(!db) return alert("Tiada sambungan database. Sila refresh.");
+        if(!db) return alert("Tiada sambungan database.");
         
         const docId = document.getElementById('docId').value;
         const statusEl = document.querySelector('input[name="status"]:checked');
@@ -437,12 +824,10 @@
         const tPinjam = document.getElementById('f_tPinjam').value;
         const tDipulangkan = document.getElementById('f_tDipulangkan').value;
         
-        // Kira Denda Akhir
         let endDate = (isSelesai && tDipulangkan) ? new Date(tDipulangkan) : new Date();
         endDate.setHours(0,0,0,0);
         const startDate = new Date(tPinjam);
         startDate.setHours(0,0,0,0);
-        
         const days = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
         const overdue = days - 14;
         const dendaVal = overdue > 0 ? (overdue * 0.20).toFixed(2) : "0.00";
@@ -450,14 +835,15 @@
         const data = {
             nama: document.getElementById('f_nama').value,
             noPekerja: document.getElementById('f_noPekerja').value,
-            whatsapp: document.getElementById('f_phone').value, // Pastikan ID ini betul
+            whatsapp: document.getElementById('f_phone').value, 
             jenis: document.getElementById('f_jenis').value,
             tajuk: document.getElementById('f_tajuk').value,
             tPinjam: tPinjam,
             tPulang: document.getElementById('f_tPulang').value, 
             tDipulangkan: isSelesai ? tDipulangkan : null, 
             status: isSelesai ? 'Selesai' : 'Dipinjam',
-            denda: dendaVal
+            denda: dendaVal,
+            catatan: document.getElementById('f_catatan').value
         };
 
         if(!data.nama || !data.tajuk) return alert("Sila isi Nama dan Tajuk.");
@@ -471,21 +857,9 @@
             }
             closeModal();
         } catch (e) {
-            alert("GAGAL SIMPAN: " + e.message + "\n\nSila semak 'Firestore Rules' di Firebase Console anda.");
+            alert("GAGAL SIMPAN: " + e.message);
         }
         document.getElementById('loadingBar').style.display = 'none';
-    }
-
-    window.deleteRecord = async function() {
-        const docId = document.getElementById('docId').value;
-        if(confirm("Padam rekod ini?")) {
-            try {
-                await deleteDoc(doc(db, "pinjaman", docId));
-                closeModal();
-            } catch (e) {
-                alert("Gagal Padam: " + e.message);
-            }
-        }
     }
 </script>
 </body>
