@@ -64,15 +64,14 @@
             </div>
 
             <form id="form-login" class="space-y-4 text-left">
-                <p class="text-xs text-center text-blue-600 font-bold mb-2">Nota: Pengesahan kata laluan dimatikan sementara.</p>
                 <div>
-                    <input type="text" id="admin-id" placeholder="ID Pengguna" value="admin" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    <input type="text" id="admin-id" placeholder="ID Pengguna" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                 </div>
                 <div>
-                    <input type="password" id="admin-pass" placeholder="Kata Laluan" value="1234" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    <input type="password" id="admin-pass" placeholder="Kata Laluan" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
                 </div>
                 <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded transition-colors">
-                    Log Masuk (Bypass)
+                    Log Masuk
                 </button>
             </form>
         </div>
@@ -582,9 +581,20 @@
         // 1. Admin Login
         document.getElementById('form-login').onsubmit = (e) => {
             e.preventDefault();
-            state.role = 'admin';
-            switchView('dashboard');
-            showToast("Log masuk Admin berjaya.");
+            const id = document.getElementById('admin-id').value;
+            const pass = document.getElementById('admin-pass').value;
+
+            if (id === 'mtib' && pass === 'pustaka_mtib') {
+                state.role = 'admin';
+                switchView('dashboard');
+                showToast("Log masuk Admin berjaya.");
+                
+                // Kosongkan semula ruangan selepas berjaya log masuk
+                document.getElementById('admin-id').value = '';
+                document.getElementById('admin-pass').value = '';
+            } else {
+                showToast("ID Pengguna atau Kata Laluan tidak sah.");
+            }
         };
 
         // 2. Add Visitor (Guest Form & Admin Modal)
