@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Pustakawan Digital | V6.9.1 (Fixed)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Sistem Pustakawan Digital</title>
     <style>
         :root {
             /* --- TEMA TERANG --- */
@@ -14,137 +13,155 @@
             --primary: #0053E1; 
             --primary-light: #D3E5FF;
             --success: #4BA52E; --danger: #E53935;
+            --warning: #F59E0B;
             
-            --text-main: #000000;       
-            --text-muted: #444444;      
-            --border: #8BA1C5;          
+            --text-main: #333333;       
+            --text-muted: #666666;      
+            --border: #D1D5DB;          
 
-            --radius-card: 6px; --radius-btn: 4px;
-            --shadow-3d: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
+            --radius-card: 8px; --radius-btn: 6px;
+            --shadow-3d: 0 2px 8px rgba(0, 0, 0, 0.08);
             
-            /* Warna Kalendar */
-            --bg-weekend: #B0B0B0; /* Kelabu Gelap untuk Hujung Minggu */
-            --bg-weekday: #FFFFFF; /* Cerah untuk Hari Bekerja */
+            --bg-weekend: #f3f4f6; 
+            --bg-weekday: #FFFFFF; 
         }
 
         [data-theme="dark"] {
-            --bg-body: #202020; --surface: rgba(44, 44, 44, 0.95);
-            --primary: #60CDFF; --primary-light: rgba(96, 205, 255, 0.15);
-            --success: #6CCB5F; --danger: #FF99A4;
-            --text-main: #FFFFFF; --text-muted: #D0D0D0; --border: #454545;
-            --bg-weekend: #444444; /* Kelabu Gelap Malam */
-            --bg-weekday: #2c2c2c;
+            /* --- TEMA GELAP --- */
+            --bg-body: #111827; --surface: #1F2937;
+            --primary: #3B82F6; --primary-light: rgba(59, 130, 246, 0.15);
+            --success: #10B981; --danger: #EF4444; --warning: #fbbf24;
+            --text-main: #F9FAFB; --text-muted: #9CA3AF; --border: #374151;
+            --bg-weekend: #374151; --bg-weekday: #1F2937;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-body); color: var(--text-main); margin: 0; padding: 15px; transition: 0.3s; font-size: 0.9rem; }
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-body); color: var(--text-main); margin: 0; padding: 15px; 
+            transition: 0.3s; font-size: 0.95rem; font-weight: 400; line-height: 1.5;
+        }
         
-        /* Layouts */
         .container { max-width: 1200px; margin: 0 auto; }
-        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
+        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
         
         /* Header */
-        header { background: var(--surface); padding: 15px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: var(--shadow-3d); }
-        .logo h1 { margin: 0; font-size: 1.5rem; font-weight: 800; text-transform: uppercase; }
+        header { background: var(--surface); padding: 15px 25px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: var(--shadow-3d); }
+        .logo h1 { margin: 0; font-size: 1.6rem; font-weight: 700; text-transform: uppercase; }
         .logo span { color: var(--primary); }
 
         /* Buttons */
         .btn-3d { 
-            background: var(--primary); color: white; padding: 6px 14px; 
-            border-radius: var(--radius-btn); border: 1px solid var(--border); 
-            cursor: pointer; font-weight: 600; transition: 0.1s; 
-            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
-            white-space: nowrap; font-size: 0.85rem;
-            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--primary); color: white; padding: 8px 16px; 
+            border-radius: var(--radius-btn); border: 1px solid transparent; 
+            cursor: pointer; font-weight: 600; transition: 0.2s; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            white-space: nowrap; font-size: 0.9rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 5px;
         }
-        .btn-3d:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
-        .btn-3d.secondary { background: var(--surface); color: var(--text-main); }
+        .btn-3d:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-3d:active { transform: translateY(0); box-shadow: none; }
+        .btn-3d.secondary { background: var(--surface); color: var(--text-main); border-color: var(--border); box-shadow: none; }
+        .btn-3d.secondary:hover { background: var(--bg-body); }
         .btn-3d.danger { background: var(--danger); color: white; border-color: var(--danger); }
-        .btn-clear { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 0 12px; border-radius: var(--radius-btn); font-weight: bold; font-size: 0.8rem; }
+        
+        .btn-clear { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 8px 12px; border-radius: var(--radius-btn); font-weight: 600; font-size: 0.85rem; transition: 0.2s; }
+        .btn-clear:hover { background: var(--danger-light); color: var(--danger); border-color: var(--danger); }
         
         /* Inputs */
-        .input-box { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--surface); color: var(--text-main); box-sizing: border-box; margin-bottom: 8px; font-size: 0.9rem; }
+        .input-box { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--surface); color: var(--text-main); box-sizing: border-box; margin-bottom: 8px; font-size: 0.95rem; font-family: inherit; }
+        .input-box:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
 
         /* Stats Grid */
-        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .stat-card { background: var(--surface); padding: 15px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-3d); cursor: pointer; transition: transform 0.2s; }
-        .stat-card:hover { transform: translateY(-2px); border-color: var(--primary); }
-        .stat-icon { font-size: 2rem; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.05); border-radius: 6px; border: 1px solid var(--border); }
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-3d); cursor: pointer; transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+        .stat-icon { font-size: 2rem; width: 55px; height: 55px; display: flex; justify-content: center; align-items: center; background: var(--bg-body); border-radius: 8px; border: 1px solid var(--border); }
         .stat-value { font-size: 1.8rem; font-weight: 700; margin-top: 2px; line-height: 1; }
-        .stat-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .stat-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
 
         /* Calendar */
-        .calendar-card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); margin-bottom: 15px;}
-        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-        .cal-grid-headers { text-align: center; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 5px; }
+        .calendar-card { background: var(--surface); padding: 25px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); margin-bottom: 15px;}
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .cal-header h3 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+        .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .cal-grid-headers { text-align: center; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px; text-transform: uppercase; }
         
         .cal-day {
             background: var(--bg-weekday); border: 1px solid var(--border);
-            border-radius: var(--radius-btn); padding: 4px; min-height: 70px;
-            text-align: left; font-size: 0.85rem; cursor: pointer;
+            border-radius: var(--radius-btn); padding: 6px; min-height: 75px;
+            text-align: left; font-size: 0.95rem; font-weight: 500; cursor: pointer;
             display: flex; flex-direction: column; justify-content: flex-start;
             transition: 0.2s; position: relative;
         }
-        .cal-day:hover { background: var(--primary-light); transform: scale(1.02); z-index: 2; }
-        
-        /* Gaya Hujung Minggu */
-        .cal-day.weekend { 
-            background-color: var(--bg-weekend); 
-            border-color: #999; 
-            color: var(--text-muted);
-        }
-        
-        .cal-day.today { border: 2px solid var(--primary); font-weight: bold; }
+        .cal-day:hover { background: var(--primary-light); border-color: var(--primary); z-index: 2; transform: scale(1.02); }
+        .cal-day.weekend { background-color: var(--bg-weekend); color: var(--text-muted); }
+        .cal-day.today { border: 2px solid var(--primary); color: var(--primary); font-weight: 700; background: var(--surface); }
 
-        .cal-info { font-size: 0.7rem; font-weight: bold; margin-top: 2px; line-height: 1.2; }
+        .cal-info { font-size: 0.75rem; font-weight: 600; margin-top: 3px; line-height: 1.2; background: rgba(255,255,255,0.8); padding: 2px 4px; border-radius: 4px; display: inline-block; width: max-content; }
+        [data-theme="dark"] .cal-info { background: rgba(0,0,0,0.5); }
 
         /* Widget Summary */
-        .card { background: var(--surface); padding: 15px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); }
+        .card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); }
         .widget-item { 
-            background: rgba(0,0,0,0.03); border: 1px solid var(--border); 
-            padding: 10px; border-radius: 6px; margin-bottom: 8px;
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;
+            background: var(--bg-body); border: 1px solid var(--border); 
+            padding: 12px 15px; border-radius: 8px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; font-weight: 500;
         }
-        .widget-search-icon { cursor: pointer; color: var(--text-muted); font-size: 1rem; padding: 4px; border-radius: 50%; transition: 0.2s; }
-        .widget-search-icon:hover { background: var(--primary); color: white; }
+        .widget-search-icon { cursor: pointer; color: var(--text-muted); font-size: 1.1rem; padding: 5px; border-radius: 50%; transition: 0.2s; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+        .widget-search-icon:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* Table & Filters */
         .content-card { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-3d); }
-        .toolbar { padding: 15px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; background: var(--bg-body); }
+        .toolbar { padding: 20px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; background: var(--bg-body); }
         .search-wrapper { display: flex; flex: 1; min-width: 250px; gap: 5px; }
-        .action-wrapper { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+        .action-wrapper { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+        
         .table-wrap { overflow-x: auto; margin-top: 0; }
-        table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        th { text-align: left; padding: 10px; background: var(--bg-body); color: var(--text-muted); border-bottom: 2px solid var(--border); text-transform: uppercase; font-size: 0.75rem; }
-        td { padding: 10px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-        tr { background: var(--surface); }
-        .filter-chips { display: flex; gap: 8px; padding: 10px 15px; border-bottom: 1px solid var(--border); background: var(--surface); }
-        .chip { background: var(--bg-body); border: 1px solid var(--border); padding: 4px 12px; border-radius: 15px; cursor: pointer; color: var(--text-muted); font-weight: 600; font-size: 0.8rem; }
+        table { width: 100%; border-collapse: collapse; min-width: 850px; }
+        th { text-align: left; padding: 12px 15px; background: var(--bg-body); color: var(--text-muted); border-bottom: 2px solid var(--border); text-transform: uppercase; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; }
+        td { padding: 12px 15px; border-bottom: 1px solid var(--border); font-size: 0.95rem; vertical-align: top; color: var(--text-main); }
+        tr:hover td { background-color: rgba(0,0,0,0.02); }
+        [data-theme="dark"] tr:hover td { background-color: rgba(255,255,255,0.02); }
+
+        .filter-chips { display: flex; gap: 10px; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; }
+        .chip { background: var(--bg-body); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; cursor: pointer; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: 0.2s; white-space: nowrap; }
+        .chip:hover { background: var(--border); }
         .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* Tabs */
-        .nav-tabs { display: flex; gap: 8px; margin-bottom: 15px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
-        .nav-btn { background: none; border: none; font-size: 0.95rem; font-weight: 600; color: var(--text-muted); padding: 8px 15px; cursor: pointer; border-radius: var(--radius-btn); }
-        .nav-btn.active { background: var(--surface); color: var(--primary); border: 1px solid var(--border); border-bottom: none; position: relative; top: 2px; box-shadow: 0 -2px 0 var(--primary) inset;}
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        .nav-tabs { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 0; overflow-x: auto; }
+        .nav-btn { background: none; border: 1px solid transparent; border-bottom: none; font-size: 1.05rem; font-weight: 600; color: var(--text-muted); padding: 10px 20px; cursor: pointer; border-radius: 8px 8px 0 0; transition: 0.2s; margin-bottom: -2px; white-space: nowrap; }
+        .nav-btn:hover { background: var(--bg-body); color: var(--text-main); }
+        .nav-btn.active { background: var(--surface); color: var(--primary); border: 1px solid var(--border); border-bottom-color: var(--surface); }
+        
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
 
         /* Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
-        .modal { background: var(--surface); padding: 20px; border-radius: var(--radius-card); width: 90%; max-width: 550px; max-height: 95vh; overflow-y: auto; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+        .modal { background: var(--surface); padding: 25px; border-radius: var(--radius-card); width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .col-full { grid-column: span 2; }
-        .modal-header { display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        .form-label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 2px; color: var(--text-muted); }
-        .form-input { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--surface); color: var(--text-main); box-sizing: border-box; font-size: 0.9rem; }
-        textarea.form-input { resize: vertical; min-height: 60px; font-family: inherit; }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        
+        .form-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; color: var(--text-muted); }
+        .form-input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--surface); color: var(--text-main); box-sizing: border-box; font-size: 0.95rem; font-family: inherit; }
+        .form-input:focus { outline: none; border-color: var(--primary); }
+        textarea.form-input { resize: vertical; min-height: 60px; }
 
         #loadingBar { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--success)); z-index: 9999; display: none; }
-        #loginView { display: flex; height: 90vh; justify-content: center; align-items: center; }
+        #loginView { display: flex; height: 90vh; justify-content: center; align-items: center; flex-direction: column; }
         #appView { display: none; } 
 
-        @media (max-width: 768px) { .dashboard-grid, .grid-form { grid-template-columns: 1fr; } .col-full { grid-column: span 1; } header { flex-direction: column; text-align: center; gap: 15px; } .toolbar { flex-direction: column; align-items: stretch; } }
+        @media (max-width: 768px) { 
+            .dashboard-grid, .grid-form { grid-template-columns: 1fr; } 
+            .col-full { grid-column: span 1; } 
+            header { flex-direction: column; text-align: center; gap: 15px; } 
+            .header-right { align-items: center; }
+            .toolbar { flex-direction: column; align-items: stretch; } 
+            .action-wrapper { justify-content: space-between; }
+        }
     </style>
 </head>
 <body>
@@ -153,21 +170,21 @@
 
 <!-- 1. LOGIN SCREEN -->
 <div id="loginView">
-    <div class="card" style="width: 100%; max-width: 360px; text-align: center; padding: 30px;">
-        <div style="font-size: 2.5rem; margin-bottom: 10px;">📚</div>
-        <h2 style="color: var(--text-main); margin: 0; font-size: 1.3rem;">SISTEM <span style="color: var(--primary);">PUSTAKAWAN</span></h2>
-        <p style="color: var(--text-muted); margin-bottom: 25px; font-size: 0.85rem;">Sistem Pengurusan Pinjaman Digital</p>
+    <div class="card" style="width: 100%; max-width: 380px; text-align: center; padding: 40px 30px; background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d);">
+        <div style="font-size: 3.5rem; margin-bottom: 15px; line-height:1;">📚</div>
+        <h2 style="color: var(--text-main); margin: 0 0 5px 0; font-size: 1.6rem; font-weight: 700;" class="app-title-display">SISTEM PUSTAKAWAN</h2>
+        <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem;">Sistem Pengurusan Pinjaman Digital</p>
         
-        <input type="text" id="username" class="input-box" placeholder="Nama Pengguna" value="pustakawan">
-        <input type="password" id="password" class="input-box" placeholder="Kata Laluan" value="pustakaMTIB">
-        
-        <button class="btn-3d" style="width: 100%; margin-top: 10px;" onclick="attemptLogin()">Log Masuk</button>
-        <button class="btn-3d secondary" style="width: 100%; margin-top: 10px;" onclick="toggleTheme()">🌙 Tema Windows 11</button>
-        
-        <div style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 15px;">
-            <div id="loginDate" style="font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.75rem;"></div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 5px;">Versi Aplikasi: PUSTAKA-V6.9.1-FIXED</div>
+        <div style="text-align: left;">
+            <label class="form-label">ID Pengguna</label>
+            <input type="text" id="username" class="input-box" placeholder="Contoh: pustakawan" value="pustakawan" style="margin-bottom: 15px;">
+            
+            <label class="form-label" style="margin-top: 15px;">Kata Laluan</label>
+            <input type="password" id="password" class="input-box" placeholder="Masukkan kata laluan" value="pustakaMTIB" style="margin-bottom: 25px;">
         </div>
+
+        <button class="btn-3d" style="width: 100%; font-size: 1.05rem; padding: 12px; margin-bottom: 15px;" onclick="window.attemptLogin()">Log Masuk Secure</button>
+        <button class="btn-3d secondary" style="width: 100%; padding: 10px;" onclick="window.toggleTheme()">🌙 Tukar Tema Skrin</button>
     </div>
 </div>
 
@@ -177,20 +194,22 @@
         <!-- Header -->
         <header>
             <div class="logo">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span style="font-size: 1.8rem;">📚</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <span style="font-size: 2.2rem; line-height:1;">📚</span>
                     <div>
-                        <h1 style="margin:0; line-height:1; font-size:1.4rem;">SISTEM <span style="color:var(--primary)">PUSTAKAWAN</span></h1>
-                        <p style="margin:0; font-size:0.75rem; color:var(--text-muted);">Pengurusan Pinjaman Buku & Media</p>
+                        <h1 style="margin:0; line-height:1.2; font-size:1.6rem;" class="app-title-display">SISTEM PUSTAKAWAN</h1>
+                        <p style="margin:0; font-size:0.85rem; color:var(--text-muted); font-weight: 500;">Pengurusan Pinjaman & Bahan Baru</p>
                     </div>
                 </div>
             </div>
-            <div style="text-align: right;">
-                <div id="headerDate" style="font-weight: 800; color: var(--primary); text-transform: uppercase; font-size:0.9rem;"></div>
-                <div style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">PUSTAKA-V6.9.1-FIXED</div>
-                <div style="margin-top: 10px; display:flex; gap:5px; justify-content:flex-end;">
-                    <button class="btn-3d secondary" onclick="toggleTheme()">🌙 Tema</button>
-                    <button class="btn-3d" onclick="openModal()">➕ Pinjaman Baru</button>
+            <div class="header-right" style="display: flex; flex-direction: column; align-items: flex-end;">
+                <div id="headerDate" style="font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 1.1rem; letter-spacing: 0.5px;"></div>
+                
+                <div style="margin-top: 10px; display:flex; gap:8px; align-items: center;">
+                    <small id="statusText" style="color:var(--warning); margin-right:5px; font-weight:600;">Menyambung...</small>
+                    <button class="btn-3d secondary" onclick="window.toggleTheme()">🌙 Tema</button>
+                    <!-- Ikon Tetapan Pindah Sini -->
+                    <button class="btn-3d secondary" onclick="window.switchTab('tetapan')" title="Tetapan Sistem">⚙️ Tetapan</button>
                     <button class="btn-3d danger" onclick="location.reload()">Keluar</button>
                 </div>
             </div>
@@ -198,37 +217,38 @@
 
         <!-- TABS -->
         <div class="nav-tabs">
-            <button class="nav-btn active" id="btn-dashboard" onclick="switchTab('dashboard')">📊 Dashboard Utama</button>
-            <button class="nav-btn" id="btn-senarai" onclick="switchTab('senarai')">📖 Rekod Pinjaman</button>
+            <button class="nav-btn active" id="btn-dashboard" onclick="window.switchTab('dashboard')">📊 Dashboard Utama</button>
+            <button class="nav-btn" id="btn-senarai" onclick="window.switchTab('senarai')">📖 Rekod Pinjaman</button>
+            <button class="nav-btn" id="btn-buku" onclick="window.switchTab('buku')">📚 Bahan Rujukan Baharu</button>
         </div>
 
         <!-- TAB 1: DASHBOARD -->
         <div id="tab-dashboard" class="tab-content active">
             <!-- Stats Row -->
             <div class="stats-row">
-                <div class="stat-card" onclick="goToTabFilter('active')">
-                    <div class="stat-icon">📖</div>
+                <div class="stat-card" onclick="window.goToTabFilter('active')">
+                    <div class="stat-icon" style="color: var(--primary); background: var(--primary-light);">📖</div>
                     <div>
                         <div class="stat-label">SEDANG DIPINJAM</div>
                         <div class="stat-value" style="color: var(--primary);" id="stat-active">0</div>
                     </div>
                 </div>
-                <div class="stat-card" onclick="goToTabFilter('late')">
-                    <div class="stat-icon" style="color: var(--danger); border-color: var(--danger);">⚠️</div>
+                <div class="stat-card" onclick="window.goToTabFilter('late')">
+                    <div class="stat-icon" style="color: var(--danger); background: var(--danger-light);">⚠️</div>
                     <div>
                         <div class="stat-label">LEWAT / >14 HARI</div>
                         <div class="stat-value" style="color: var(--danger);" id="stat-late">0</div>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="color: var(--warning); border-color: var(--warning);">💰</div>
+                <div class="stat-card" onclick="window.openFineModal()" title="Klik untuk lihat Laporan Denda">
+                    <div class="stat-icon" style="color: var(--warning); background: rgba(245, 158, 11, 0.15);">💰</div>
                     <div>
-                        <div class="stat-label">KUTIPAN DENDA (BULAN INI)</div>
+                        <div class="stat-label">KUTIPAN DENDA (SEMUA)</div>
                         <div class="stat-value" style="color: var(--warning);" id="statFine">RM 0.00</div>
                     </div>
                 </div>
-                <div class="stat-card" onclick="goToTabFilter('all')">
-                    <div class="stat-icon">📚</div>
+                <div class="stat-card" onclick="window.goToTabFilter('all')">
+                    <div class="stat-icon" style="color: var(--text-muted); background: var(--border);">📚</div>
                     <div>
                         <div class="stat-label">JUMLAH REKOD</div>
                         <div class="stat-value" id="stat-total">0</div>
@@ -240,10 +260,10 @@
                 <!-- Calendar -->
                 <div class="calendar-card">
                     <div class="cal-header">
-                        <h3 style="margin:0; font-size:1.1rem;" id="calMonthYear">Bulan Tahun</h3>
-                        <div>
-                            <button class="btn-3d secondary" onclick="changeMonth(-1)">◀ Prev</button>
-                            <button class="btn-3d secondary" onclick="changeMonth(1)">Next ▶</button>
+                        <h3 style="margin:0; font-size:1.2rem; font-weight:700;" id="calMonthYear">Bulan Tahun</h3>
+                        <div style="display:flex; gap:5px;">
+                            <button class="btn-clear" style="border:1px solid var(--border);" onclick="window.changeMonth(-1)">◀ Prev</button>
+                            <button class="btn-clear" style="border:1px solid var(--border);" onclick="window.changeMonth(1)">Next ▶</button>
                         </div>
                     </div>
                     <!-- Isnin start -->
@@ -251,26 +271,29 @@
                         <div>Isn</div><div>Sel</div><div>Rab</div><div>Kha</div><div>Jum</div><div style="color:var(--danger)">Sab</div><div style="color:var(--danger)">Ahd</div>
                     </div>
                     <div class="cal-grid" id="calGrid"></div>
-                    <div style="font-size: 0.75rem; margin-top: 15px; color: var(--text-muted); text-align: center;">
-                        <span style="color:var(--success)"><b>+1 Pinjam</b></span> : Rekod Pinjaman Baru &nbsp;|&nbsp; 
+                    <div style="font-size: 0.85rem; margin-top: 15px; color: var(--text-muted); text-align: center; font-weight:500;">
+                        <span style="color:var(--success)"><b>+1 Pinjam</b></span> : Mula Pinjam &nbsp;|&nbsp; 
                         <span style="color:var(--danger)"><b>1 Pulang</b></span> : Tarikh Perlu Pulang
                     </div>
                 </div>
 
                 <!-- Ringkasan Status Widget -->
                 <div class="card">
-                    <h3 style="color: var(--primary); margin-top: 0; margin-bottom: 15px; font-size:1.1rem;">Ringkasan Status</h3>
-                    <div class="widget-item" style="border-left: 4px solid var(--text-main);">
-                        <span>Jumlah Belum Pulang: <b id="lbl-active">0</b></span>
-                        <span class="widget-search-icon" onclick="goToTabFilter('active')" title="Lihat Senarai">🔍</span>
+                    <h3 style="color: var(--text-main); margin-top: 0; margin-bottom: 20px; font-size:1.2rem; font-weight:700;">Ringkasan Semasa</h3>
+                    
+                    <div class="widget-item" style="border-left: 5px solid var(--text-main);">
+                        <span>Buku Belum Pulang <br><b id="lbl-active" style="font-size:1.2rem;">0</b></span>
+                        <span class="widget-search-icon" onclick="window.goToTabFilter('active')" title="Lihat Senarai">🔍</span>
                     </div>
-                    <div class="widget-item" style="border-left: 4px solid var(--primary); background: rgba(0, 83, 225, 0.05);">
-                        <span style="color: var(--primary);">Dalam Tempoh (OK): <b id="lbl-ok">0</b></span>
-                        <span class="widget-search-icon" onclick="goToTabFilter('ok')" title="Lihat Senarai">🔍</span>
+
+                    <div class="widget-item" style="border-left: 5px solid var(--primary); background: var(--primary-light);">
+                        <span style="color: var(--primary);">Dalam Tempoh (OK) <br><b id="lbl-ok" style="font-size:1.2rem;">0</b></span>
+                        <span class="widget-search-icon" onclick="window.goToTabFilter('ok')" title="Lihat Senarai" style="background:var(--surface);">🔍</span>
                     </div>
-                    <div class="widget-item" style="border-left: 4px solid var(--danger); background: rgba(229, 57, 53, 0.05);">
-                        <span style="color: var(--danger);">Lebih Had 14 Hari: <b id="lbl-late">0</b></span>
-                        <span class="widget-search-icon" onclick="goToTabFilter('late')" title="Lihat Senarai">🔍</span>
+
+                    <div class="widget-item" style="border-left: 5px solid var(--danger); background: var(--danger-light);">
+                        <span style="color: var(--danger);">Lebih Had 14 Hari <br><b id="lbl-late" style="font-size:1.2rem;">0</b></span>
+                        <span class="widget-search-icon" onclick="window.goToTabFilter('late')" title="Lihat Senarai" style="background:var(--surface);">🔍</span>
                     </div>
                 </div>
             </div>
@@ -281,168 +304,395 @@
             <div class="content-card">
                 <div class="toolbar">
                     <div class="search-wrapper">
-                        <input type="text" id="searchInput" class="input-box" style="margin:0; width:100%;" placeholder="Cari nama, ID, atau tajuk..." onkeyup="renderTable()">
-                        <button class="btn-clear" onclick="document.getElementById('searchInput').value=''; renderTable();">❌</button>
+                        <input type="text" id="searchInput" class="input-box" style="margin:0; width:100%;" placeholder="Cari nama peminjam, ID, atau tajuk..." onkeyup="window.renderTable()">
+                        <button class="btn-clear" onclick="document.getElementById('searchInput').value=''; window.renderTable();">❌ Padam</button>
                     </div>
 
-                    <!-- Print & CSV -->
+                    <!-- Butang Pinjaman Baru Dipindah ke Sini -->
                     <div class="action-wrapper">
-                        <div style="display:flex; align-items:center; gap:5px; background:var(--bg-body); padding:5px; border-radius:var(--radius-btn); border:1px solid var(--border);">
-                            <select id="printMonth" style="border:none; background:transparent; font-size:0.9rem; color:var(--text-main); cursor:pointer;">
-                                <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option>
-                                <option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option>
-                                <option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option>
-                                <option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option>
+                        <button class="btn-3d" onclick="window.openModal()" style="background:var(--success); border-color:var(--success); font-size:0.95rem; margin-right: 10px;">➕ Pinjaman Baru</button>
+
+                        <div style="display:flex; align-items:center; gap:8px; background:var(--bg-body); padding:6px 10px; border-radius:var(--radius-btn); border:1px solid var(--border);">
+                            <span style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">Laporan:</span>
+                            <select id="printMonth" style="border:1px solid var(--border); background:var(--surface); font-size:0.9rem; color:var(--text-main); cursor:pointer; padding:4px; border-radius:4px;">
+                                <option value="0">Januari</option><option value="1">Februari</option><option value="2">Mac</option>
+                                <option value="3">April</option><option value="4">Mei</option><option value="5">Jun</option>
+                                <option value="6">Julai</option><option value="7">Ogos</option><option value="8">September</option>
+                                <option value="9">Oktober</option><option value="10">November</option><option value="11">Disember</option>
                             </select>
-                            <input type="number" id="printYear" value="2026" style="width:60px; border:none; background:transparent; font-size:0.9rem; color:var(--text-main);">
-                            <button class="btn-3d" onclick="printReport()">🖨️ Cetak</button>
+                            <input type="number" id="printYear" value="2026" style="width:70px; border:1px solid var(--border); background:var(--surface); font-size:0.9rem; color:var(--text-main); padding:4px; border-radius:4px;">
+                            <button class="btn-3d" onclick="window.printReport()">🖨️ Cetak</button>
                         </div>
-                        <button class="btn-3d secondary" onclick="exportCSV()">📥 CSV</button>
                     </div>
                 </div>
                 
                 <div class="filter-chips">
-                    <button id="chip-all" class="chip active" onclick="setFilter('all')">Semua</button>
-                    <button id="chip-aktif" class="chip" onclick="setFilter('active')">Semua Aktif</button>
-                    <button id="chip-ok" class="chip" onclick="setFilter('ok')">Dalam Tempoh</button>
-                    <button id="chip-lewat" class="chip" onclick="setFilter('late')">Lewat</button>
+                    <button id="chip-all" class="chip active" onclick="window.setFilter('all')">Semua Rekod</button>
+                    <button id="chip-aktif" class="chip" onclick="window.setFilter('active')">Belum Pulang</button>
+                    <button id="chip-ok" class="chip" onclick="window.setFilter('ok')">Dalam Tempoh</button>
+                    <button id="chip-lewat" class="chip" onclick="window.setFilter('late')">Lewat Pulang</button>
                 </div>
             
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
-                                <th style="width:30%">Peminjam</th>
+                                <th style="width:25%">Maklumat Peminjam</th>
                                 <th style="width:35%">Bahan / Tajuk</th>
-                                <th style="width:25%">Tarikh & Tempoh</th>
+                                <th style="width:20%">Tarikh & Tempoh</th>
                                 <th style="width:10%">Status</th>
                                 <th style="text-align:right;">Tindakan</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody">
-                            <tr><td colspan="5" style="text-align:center;">Memuatkan data...</td></tr>
+                            <tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan data dari awan...</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- TAB BARU: BAHAN RUJUKAN BAHARU -->
+        <div id="tab-buku" class="tab-content">
+            <div class="content-card">
+                <div class="toolbar">
+                    <div class="search-wrapper">
+                        <input type="text" id="searchBukuInput" class="input-box" style="margin:0; width:100%;" placeholder="Cari tajuk buku, penerbit, atau kategori..." onkeyup="window.renderBukuTable()">
+                        <button class="btn-clear" onclick="document.getElementById('searchBukuInput').value=''; window.renderBukuTable();">❌ Padam</button>
+                    </div>
+
+                    <div class="action-wrapper">
+                        <button class="btn-3d" onclick="window.openBukuModal()" style="background:var(--success); border-color:var(--success); font-size:0.95rem; margin-right: 10px;">➕ Rekod Buku Baru</button>
+
+                        <div style="display:flex; align-items:center; gap:8px; background:var(--bg-body); padding:6px 10px; border-radius:var(--radius-btn); border:1px solid var(--border);">
+                            <span style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">Laporan Tahun:</span>
+                            <input type="number" id="printBukuYear" value="2026" style="width:70px; border:1px solid var(--border); background:var(--surface); font-size:0.9rem; color:var(--text-main); padding:4px; border-radius:4px;">
+                            <button class="btn-3d" onclick="window.printBukuReport()">🖨️ Cetak Senarai</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:12%">Tarikh</th>
+                                <th style="width:25%">Tajuk & Edisi</th>
+                                <th style="width:20%">Maklumat Bahan</th>
+                                <th style="width:20%">Penerima / Sumber</th>
+                                <th style="width:13%">Kategori</th>
+                                <th style="text-align:right;">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bukuTableBody">
+                            <tr><td colspan="6" style="text-align:center; padding: 30px;">Memuatkan senarai bahan rujukan...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB TETAPAN -->
+        <div id="tab-tetapan" class="tab-content">
+            <div class="content-card" style="padding: 30px;">
+                <h2 style="margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 25px;">⚙️ Tetapan Sistem Aplikasi</h2>
+                
+                <div style="max-width: 600px;">
+                    <div style="margin-bottom: 25px;">
+                        <label class="form-label" style="font-size: 1rem; color:var(--text-main);">Tajuk Utama Aplikasi</label>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin: 0 0 10px 0;">Ubah tajuk yang dipaparkan di bahagian atas halaman (cth: PUSTAKA SK BANGI).</p>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="setting_app_title" class="input-box" style="margin:0;" placeholder="SISTEM PUSTAKAWAN">
+                            <button class="btn-3d" onclick="window.saveAppTitle()">💾 Simpan Tajuk</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-body); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); margin-top: 40px; max-width: 600px;">
+                    <h4 style="margin-top: 0; color: var(--text-main);">Eksport Pangkalan Data (Sandaran Luaran)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0;">Muat turun semua rekod ke dalam format fail .CSV untuk simpanan Excel.</p>
+                    <div style="display:flex; gap:10px; margin-top:15px;">
+                        <button onclick="window.exportDatabase()" class="btn-3d" style="flex:1; justify-content:center;">📥 Download Pinjaman DB</button>
+                        <button onclick="window.exportBukuDatabase()" class="btn-3d secondary" style="flex:1; justify-content:center;">📥 Download Buku DB</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
-<!-- 3. MODAL -->
+<!-- MODAL MAKLUMAT PINJAMAN -->
 <div class="modal-overlay" id="mainModal">
     <div class="modal">
         <div class="modal-header">
-            <h3 style="margin:0; font-size:1.2rem;">📝 Maklumat Pinjaman</h3>
-            <button onclick="closeModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+            <h3 style="margin:0; font-size:1.3rem;">📝 Borang Pinjaman</h3>
+            <button onclick="window.closeModal()" style="background:var(--bg-body); border:1px solid var(--border); width:35px; height:35px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center;">&times;</button>
         </div>
         <input type="hidden" id="docId">
         
         <div class="grid-form">
-            <div class="col-full">
-                <span class="form-label">Nama Peminjam</span>
-                <input type="text" id="f_nama" class="form-input">
+            <div class="form-group col-full">
+                <label class="form-label">Nama Penuh Peminjam</label>
+                <input type="text" id="f_nama" class="form-input" placeholder="Masukkan nama peminjam">
             </div>
-            <div>
-                <span class="form-label">No. Ahli</span>
-                <input type="text" id="f_noPekerja" class="form-input">
+            <div class="form-group">
+                <label class="form-label">No. Ahli / Pekerja</label>
+                <input type="text" id="f_noPekerja" class="form-input" placeholder="A001">
             </div>
-            <div>
-                <span class="form-label">No. Telefon</span>
+            <div class="form-group">
+                <label class="form-label">Bahagian</label>
+                <input type="text" id="f_bahagian" class="form-input" placeholder="Cth: Kewangan / IT">
+            </div>
+            
+            <div class="form-group col-full">
+                <label class="form-label">No. Telefon (WhatsApp)</label>
                 <div style="display:flex; gap:5px;">
-                    <input type="text" id="f_phone" class="form-input" style="margin:0;">
-                    <a id="btnWA" href="#" target="_blank" class="btn-3d" style="background:#25D366; color:white; display:none; align-items:center; justify-content:center; padding: 0 10px;" title="WhatsApp">
+                    <input type="text" id="f_phone" class="form-input" style="margin:0;" placeholder="601...">
+                    <a id="btnWA" href="#" target="_blank" class="btn-3d" style="background:#25D366; color:white; display:none; align-items:center; justify-content:center; padding: 0 12px; border:none;" title="WhatsApp Peminjam">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.009.55 2.144.842 3.306.843h.001c3.181 0 5.768-2.586 5.768-5.766 0-1.541-.6-2.99-1.684-4.075-1.084-1.085-2.526-1.684-4.066-1.684zm-9.016.33c1.829-2.28 4.661-3.732 7.829-3.732 5.504 0 9.969 4.464 9.969 9.969 0 2.657-1.077 5.071-2.825 6.883-1.745 1.81-4.145 2.914-6.811 2.914-1.897 0-3.69-.537-5.244-1.472l-5.933 1.556 1.583-5.786c-1.07-1.704-1.701-3.729-1.701-5.901 0-2.302.697-4.444 1.891-6.223z"/></svg>
                     </a>
                 </div>
             </div>
             
-            <div class="col-full">
-                <span class="form-label">Tajuk Bahan</span>
-                <input type="text" id="f_tajuk" class="form-input">
+            <div class="form-group col-full">
+                <label class="form-label">Tajuk Bahan Pinjaman</label>
+                <input type="text" id="f_tajuk" class="form-input" placeholder="Masukkan tajuk buku/bahan">
             </div>
-            <div>
-                <span class="form-label">Kategori</span>
-                <select id="f_jenis" class="form-input"><option>Buku</option><option>Fail</option><option>Majalah</option><option>Alat</option></select>
-            </div>
-            <div>
-                <span class="form-label">Tarikh Pinjam</span>
-                <input type="date" id="f_tPinjam" class="form-input" oninput="liveCalc()">
+            <div class="form-group col-full">
+                <label class="form-label">Kategori Bahan</label>
+                <select id="f_jenis" class="form-input"><option>Buku</option><option>Fail Dokumen</option><option>Majalah</option><option>Alat Bantu</option></select>
             </div>
             
-            <div class="col-full" style="background:var(--bg-weekend); padding:10px; border-radius:6px; border:1px solid var(--border);">
-                <span class="form-label" style="margin-bottom:5px;">Status Pemulangan:</span>
-                <div style="display:flex; gap:15px; margin-bottom:8px;">
-                    <label style="cursor:pointer; font-size:0.9rem;"><input type="radio" name="status" value="Dipinjam" checked onclick="toggleReturn(false)"> Belum Pulang</label>
-                    <label style="cursor:pointer; font-size:0.9rem;"><input type="radio" name="status" value="Selesai" onclick="toggleReturn(true)"> Telah Dipulangkan</label>
+            <div class="form-group">
+                <label class="form-label">Tarikh Pinjam</label>
+                <input type="date" id="f_tPinjam" class="form-input" onchange="window.autoCalcReturnDateEdit(); window.liveCalc()">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tarikh Jangkaan Pulang</label>
+                <input type="date" id="f_tPulang" class="form-input" style="border-color: var(--primary);" oninput="window.liveCalc()">
+            </div>
+            
+            <div class="col-full" style="background:var(--bg-weekend); padding:15px; border-radius:8px; border:1px solid var(--border); margin-top: 5px;">
+                <label class="form-label" style="margin-bottom:8px; font-size:0.9rem;">Tandakan Status Pemulangan:</label>
+                <div style="display:flex; gap:20px; margin-bottom:12px; background:var(--surface); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                    <label style="cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; font-weight:600;"><input type="radio" name="status" value="Dipinjam" checked onclick="window.toggleReturn(false)"> Belum Pulang</label>
+                    <label style="cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; font-weight:600; color:var(--success);"><input type="radio" name="status" value="Selesai" onclick="window.toggleReturn(true)"> Telah Dipulangkan</label>
                 </div>
                 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
-                    <div>
-                        <span class="form-label">Tarikh Pemulangan Asal:</span>
-                        <input type="date" id="f_tPulang" class="form-input" oninput="liveCalc()">
-                    </div>
-                    <div id="div_return_date" style="display:none;">
-                        <span class="form-label" style="color:var(--success);">Tarikh Pemulangan Sebenar:</span>
-                        <input type="date" id="f_tDipulangkan" class="form-input" oninput="liveCalc()">
-                    </div>
+                <div id="div_return_date" style="display:none; margin-top: 10px;">
+                    <label class="form-label" style="color:var(--success);">Tarikh Pemulangan Sebenar:</label>
+                    <input type="date" id="f_tDipulangkan" class="form-input" style="border-color:var(--success); background:#f0fdf4;" oninput="window.liveCalc()">
                 </div>
             </div>
 
-            <div class="col-full">
-                <span class="form-label">Catatan / Komen Ringkas</span>
-                <textarea id="f_catatan" class="form-input" rows="2" placeholder="Masukkan catatan ringkas di sini..."></textarea>
+            <div class="form-group col-full">
+                <label class="form-label" style="margin-top:5px;">Catatan / Komen Ringkas (Pilihan)</label>
+                <textarea id="f_catatan" class="form-input" rows="2" placeholder="Masukkan catatan tentang keadaan buku atau bayaran denda..."></textarea>
             </div>
             
-            <div class="col-full" id="live-info" style="text-align:center; font-weight:bold; color:var(--primary); padding:5px; font-size:0.9rem;"></div>
+            <div class="col-full" id="live-info" style="text-align:center; font-weight:600; color:var(--primary); padding:8px; font-size:0.95rem; background: var(--primary-light); border-radius: 6px;"></div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-top:15px; justify-content: flex-end;">
-            <button type="button" class="btn-3d secondary" onclick="closeModal()">Batal</button>
+        <div style="display:flex; gap:10px; margin-top:20px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 20px;">
+            <button type="button" id="btnDelete" class="btn-3d danger" style="display:none; margin-right:auto;" onclick="window.deleteRecord()">🗑️ Hapus</button>
+            <button type="button" class="btn-3d secondary" onclick="window.closeModal()">Batal</button>
             <button type="button" class="btn-3d" onclick="window.saveData()">💾 Simpan Rekod</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL BAHAN RUJUKAN BAHARU -->
+<div class="modal-overlay" id="bukuModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 style="margin:0; font-size:1.3rem;">📚 Daftar Buku/Bahan Baru</h3>
+            <button onclick="window.closeBukuModal()" style="background:var(--bg-body); border:1px solid var(--border); width:35px; height:35px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center;">&times;</button>
+        </div>
+        <input type="hidden" id="bukuId">
+        
+        <div class="grid-form">
+            <div class="form-group col-full" style="background: var(--primary-light); padding:12px; border-radius: 6px; border: 1px solid var(--primary);">
+                <label class="form-label" style="color:var(--primary);">Kategori Penerimaan</label>
+                <select id="b_kategori" class="form-input" style="border-color:var(--primary); font-weight:600;">
+                    <option value="Buku Percuma">🎁 Bahan / Buku Percuma</option>
+                    <option value="Pembelian Baru">🛒 Pembelian Baru</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tarikh Diterima</label>
+                <input type="date" id="b_tarikh" class="form-input">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Jenis Bahan</label>
+                <select id="b_jenis" class="form-input">
+                    <option value="Laporan">Laporan</option>
+                    <option value="Buku">Buku</option>
+                    <option value="Majalah">Majalah</option>
+                    <option value="Jurnal">Jurnal</option>
+                    <option value="Lain-lain">Lain-lain</option>
+                </select>
+            </div>
+            
+            <div class="form-group col-full">
+                <label class="form-label">Tajuk Bahan</label>
+                <input type="text" id="b_tajuk" class="form-input" placeholder="Masukkan tajuk penuh rujukan">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Edisi / Isu</label>
+                <input type="text" id="b_edisi" class="form-input" placeholder="Cth: Bil. 134/2025">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Bilangan (Kuantiti)</label>
+                <input type="number" id="b_bilangan" class="form-input" value="1" min="1">
+            </div>
+
+            <div class="form-group col-full">
+                <label class="form-label">ISSN / ISBN</label>
+                <input type="text" id="b_isbn" class="form-input" placeholder="Cth: ISBN 978-629-...">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Bidang</label>
+                <select id="b_bidang" class="form-input">
+                    <option value="Perusahaan Kayu">Perusahaan Kayu</option>
+                    <option value="Bukan Perusahaan Kayu">Bukan Perusahaan Kayu</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Penerbitan</label>
+                <select id="b_penerbitan" class="form-input">
+                    <option value="Dalam Negara">Dalam Negara</option>
+                    <option value="Luar Negara">Luar Negara</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Penerima</label>
+                <input type="text" id="b_penerima" class="form-input" placeholder="Nama penerima bahan">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Perolehan Daripada (Sumber)</label>
+                <input type="text" id="b_sumber" class="form-input" placeholder="Cth: MTIB / UITM / Syarikat XYZ">
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 15px;">
+            <button type="button" id="btnDeleteBuku" class="btn-3d danger" style="display:none; margin-right:auto;" onclick="window.deleteBuku()">🗑️ Hapus</button>
+            <button type="button" class="btn-3d secondary" onclick="window.closeBukuModal()">Batal</button>
+            <button type="button" class="btn-3d" onclick="window.saveBuku()">💾 Simpan Rekod</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL LAPORAN DENDA KHUSUS -->
+<div class="modal-overlay" id="fineModal">
+    <div class="modal" style="max-width: 850px;">
+        <div class="modal-header">
+            <h3 style="margin:0; font-size:1.3rem;">💰 Laporan Terperinci Denda</h3>
+            <button onclick="window.closeFineModal()" style="background:var(--bg-body); border:1px solid var(--border); width:35px; height:35px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center;">&times;</button>
+        </div>
+        
+        <div class="table-wrap" style="max-height: 450px; overflow-y: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:5%; text-align:center;">No</th>
+                        <th style="width:25%">Peminjam</th>
+                        <th style="width:30%">Tajuk Bahan</th>
+                        <th style="width:15%; text-align:center;">Lewat (Hari)</th>
+                        <th style="width:15%; text-align:right;">Kadar Denda</th>
+                        <th style="width:10%; text-align:center;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="fineTableBody">
+                    <!-- Diisi oleh JS -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:2px dashed var(--border);">
+            <div style="font-size:1.2rem; font-weight:700;">Jumlah Keseluruhan: <span id="totalFineAmount" style="color:var(--danger); margin-left:8px;">RM 0.00</span></div>
+            <div style="display:flex; gap:10px;">
+                <button type="button" class="btn-3d secondary" onclick="window.closeFineModal()">Tutup</button>
+                <button type="button" class="btn-3d" onclick="window.printFineReport()">🖨️ Cetak Senarai Denda</button>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- LOGIC -->
 <script>
-    window.dbData = [];
+    // --- GLOBAL VARIABLES ---
+    window.dbData = []; // Data Pinjaman
+    window.dbBuku = []; // Data Buku Baru
     window.currentFilter = 'all';
     let calDate = new Date();
 
-    // LOGIN LOGIC
-    function attemptLogin() {
-        const u = document.getElementById('username').value;
-        const p = document.getElementById('password').value;
-        if(u === 'pustakawan' && p === 'pustakaMTIB') {
-            document.getElementById('loginView').style.display = 'none';
-            document.getElementById('appView').style.display = 'block';
-            setupDateDisplay();
-            if(window.initFirebase) window.initFirebase();
-            renderCalendar();
-            
-            const now = new Date();
-            if(document.getElementById('printMonth')) document.getElementById('printMonth').value = now.getMonth();
-            if(document.getElementById('printYear')) document.getElementById('printYear').value = now.getFullYear();
-        } else {
-            alert("ID atau Kata Laluan salah.");
-        }
-    }
-
-    function setupDateDisplay() {
+    // --- INITIALIZATION ---
+    window.setupDateDisplay = function() {
         const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         const dateStr = new Date().toLocaleDateString('ms-MY', options).toUpperCase();
         if(document.getElementById('headerDate')) document.getElementById('headerDate').innerText = dateStr;
         if(document.getElementById('loginDate')) document.getElementById('loginDate').innerText = dateStr;
     }
 
-    // TABS
+    window.initTheme = function() {
+        const savedTheme = localStorage.getItem('pustakawan_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+
+    window.loadAppTitle = function() {
+        const title = localStorage.getItem('pustakawan_app_title') || 'SISTEM PUSTAKAWAN';
+        document.querySelectorAll('.app-title-display').forEach(el => {
+            el.innerText = title;
+        });
+        const inputSet = document.getElementById('setting_app_title');
+        if(inputSet) inputSet.value = title;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        window.initTheme();
+        window.setupDateDisplay();
+        window.loadAppTitle();
+    });
+
+    window.saveAppTitle = function() {
+        const newTitle = document.getElementById('setting_app_title').value.trim() || 'SISTEM PUSTAKAWAN';
+        localStorage.setItem('pustakawan_app_title', newTitle);
+        window.loadAppTitle();
+        alert("Tajuk aplikasi berjaya dikemaskini kepada: " + newTitle);
+    }
+
+    // --- LOGIN ---
+    window.attemptLogin = function() {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        if(u === 'pustakawan' && p === 'pustakaMTIB') {
+            document.getElementById('loginView').style.display = 'none';
+            document.getElementById('appView').style.display = 'block';
+            
+            if(window.initFirebase) window.initFirebase();
+            window.renderCalendar();
+            
+            const now = new Date();
+            if(document.getElementById('printMonth')) document.getElementById('printMonth').value = now.getMonth();
+            if(document.getElementById('printYear')) document.getElementById('printYear').value = now.getFullYear();
+        } else {
+            alert("ID pengguna atau Kata Laluan salah.");
+        }
+    }
+
+    // --- TABS & FILTER LOGIC ---
     window.switchTab = function(tabId) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-        document.getElementById('tab-' + tabId).classList.add('active');
-        document.getElementById('btn-' + tabId).classList.add('active');
+        const tab = document.getElementById('tab-' + tabId);
+        const btn = document.getElementById('btn-' + tabId);
+        if (tab) tab.classList.add('active');
+        if (btn) btn.classList.add('active');
     }
 
     window.goToTabFilter = function(filterType) {
@@ -458,20 +708,45 @@
         if (type === 'late') chipId = 'chip-lewat';
         const chip = document.getElementById(chipId);
         if(chip) chip.classList.add('active');
-        renderTable();
+        window.renderTable();
     }
 
-    // RENDER TABLE
+    // --- UTILITIES ---
+    window.formatDate = function(d) {
+        if(!d) return '-';
+        return d.split('-').reverse().join('/');
+    }
+
+    window.calculateDuration = function(start, end) {
+        if(!start) return 0;
+        const d1 = new Date(start);
+        const d2 = end ? new Date(end) : new Date();
+        d1.setHours(0,0,0,0); d2.setHours(0,0,0,0);
+        return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+    }
+
+    window.autoCalcReturnDateEdit = function() {
+        const pinjamVal = document.getElementById('f_tPinjam').value;
+        if (pinjamVal) {
+            const pinjamDate = new Date(pinjamVal);
+            pinjamDate.setDate(pinjamDate.getDate() + 14);
+            document.getElementById('f_tPulang').value = pinjamDate.toISOString().split('T')[0];
+        }
+    }
+
+    // --- PINJAMAN: RENDER TABLE ---
     window.renderTable = function() {
         const tbody = document.getElementById('tableBody');
-        const search = document.getElementById('searchInput').value.toLowerCase();
+        if(!tbody) return;
+        
+        const search = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase() : '';
         tbody.innerHTML = '';
 
         const dataToRender = window.dbData.filter(item => {
             const text = (item.nama + item.tajuk + item.noPekerja + item.tPinjam + item.tPulang).toLowerCase();
             if(search && !text.includes(search)) return false;
 
-            const dur = calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
+            const dur = window.calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
             const isLate = dur > 14;
 
             if(window.currentFilter === 'active' && item.status === 'Selesai') return false;
@@ -481,52 +756,64 @@
         });
 
         if(dataToRender.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Tiada rekod.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod dijumpai.</td></tr>';
             return;
         }
 
         dataToRender.forEach(item => {
-            const dur = calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
+            const dur = window.calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
             const isLate = dur > 14 && item.status !== 'Selesai';
             
             let statusBadge = '';
             if(item.status === 'Selesai') {
-                statusBadge = `<div style="border:1px solid var(--success); background:#f0fdf4; color:var(--success); padding:3px 6px; border-radius:4px; font-weight:bold; font-size:0.75rem; display:inline-block;">✅ Telah Dipulangkan</div>`;
-                if(parseFloat(item.denda) > 0) statusBadge += `<div style="color:var(--danger); font-size:0.75rem; margin-top:2px;">Denda: RM ${item.denda}</div>`;
+                statusBadge = `<div style="border:1px solid var(--success); background:#f0fdf4; color:var(--success); padding:4px 8px; border-radius:6px; font-weight:600; font-size:0.75rem; display:inline-block;">✅ Telah Dipulangkan</div>`;
+                if(parseFloat(item.denda) > 0) statusBadge += `<div style="color:var(--danger); font-size:0.75rem; margin-top:4px; font-weight:600;">Denda: RM ${item.denda}</div>`;
             } else if(isLate) {
-                statusBadge = `<div style="border:1px solid var(--danger); background:#fef2f2; color:var(--danger); padding:3px 6px; border-radius:4px; font-weight:bold; font-size:0.75rem; display:inline-block;">⚠️ Lewat</div>`;
+                statusBadge = `<div style="border:1px solid var(--danger); background:#fef2f2; color:var(--danger); padding:4px 8px; border-radius:6px; font-weight:600; font-size:0.75rem; display:inline-block;">⚠️ Lewat Pulang</div>`;
             } else {
-                statusBadge = `<div style="border:1px solid var(--primary); background:#eff6ff; color:var(--primary); padding:3px 6px; border-radius:4px; font-weight:bold; font-size:0.75rem; display:inline-block;">🟢 Dipinjam</div>`;
+                statusBadge = `<div style="border:1px solid var(--primary); background:#eff6ff; color:var(--primary); padding:4px 8px; border-radius:6px; font-weight:600; font-size:0.75rem; display:inline-block;">🟢 Sedang Dipinjam</div>`;
             }
+
+            const bhg = item.bahagian ? `<br><small style="color:var(--primary); font-weight:600;">[ ${item.bahagian} ]</small>` : '';
 
             const row = `
                 <tr>
-                    <td><strong>${item.nama}</strong><br><small style="color:var(--text-muted)">${item.noPekerja}</small></td>
-                    <td>${item.tajuk}<br><small>${item.jenis}</small></td>
+                    <td><strong style="color:var(--text-main); font-size:1rem;">${item.nama}</strong><br><small style="color:var(--text-muted); font-weight:600;">${item.noPekerja}</small>${bhg}</td>
+                    <td><div style="font-weight:600; color:var(--text-main);">${item.tajuk}</div><small style="background:var(--bg-body); padding:2px 6px; border-radius:4px; border:1px solid var(--border); font-size:0.75rem;">${item.jenis}</small></td>
                     <td>
-                        <div style="font-size:0.85rem">Pinjam: ${formatDate(item.tPinjam)}</div>
-                        <div style="font-weight:bold; color:${isLate ? 'var(--danger)' : 'var(--primary)'}; font-size:0.8rem; margin-top:2px;">
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Pinjam: <strong>${window.formatDate(item.tPinjam)}</strong></div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Jangka Pulang: <strong>${window.formatDate(item.tPulang)}</strong></div>
+                        <div style="font-weight:600; color:${isLate ? 'var(--danger)' : 'var(--primary)'}; font-size:0.85rem; margin-top:4px; background: ${isLate ? 'var(--danger-light)' : 'var(--primary-light)'}; padding:2px 6px; border-radius:4px; width:max-content;">
                             ⌛ Tempoh: ${dur} Hari
                         </div>
                     </td>
                     <td>${statusBadge}</td>
                     <td style="text-align:right;">
-                        <button class="btn-3d secondary" onclick="prepareEdit('${item.id}')">✏️ Edit</button>
+                        <button class="btn-3d secondary" onclick="window.prepareEdit('${item.id}')">✏️ Pinda Maklumat</button>
                     </td>
                 </tr>
             `;
             tbody.innerHTML += row;
         });
-        updateCountUI();
+        window.updateCountUI();
     }
 
-    function updateCountUI() {
+    window.updateCountUI = function() {
         const total = window.dbData.length;
         const active = window.dbData.filter(i => i.status !== 'Selesai').length;
-        const late = window.dbData.filter(i => i.status !== 'Selesai' && calculateDuration(i.tPinjam, null) > 14).length;
+        const late = window.dbData.filter(i => i.status !== 'Selesai' && window.calculateDuration(i.tPinjam, null) > 14).length;
         const ok = active - late;
+        
         let fine = 0;
-        window.dbData.forEach(i => { if(i.denda) fine += parseFloat(i.denda); });
+        window.dbData.forEach(i => { 
+            const dur = window.calculateDuration(i.tPinjam, i.status === 'Selesai' ? i.tDipulangkan : null);
+            const overdue = dur - 14;
+            if (i.status === 'Selesai') {
+                if(i.denda) fine += parseFloat(i.denda);
+            } else if (overdue > 0) {
+                fine += (overdue * 0.20);
+            }
+        });
 
         if(document.getElementById('stat-active')) document.getElementById('stat-active').innerText = active;
         if(document.getElementById('stat-late')) document.getElementById('stat-late').innerText = late;
@@ -538,12 +825,59 @@
         if(document.getElementById('lbl-late')) document.getElementById('lbl-late').innerText = late;
     }
 
-    // CALENDAR (ISN START)
-    window.changeMonth = function(n) { calDate.setMonth(calDate.getMonth() + n); renderCalendar(); }
+    // --- DENDA MODAL ---
+    window.openFineModal = function() {
+        const tbody = document.getElementById('fineTableBody');
+        tbody.innerHTML = '';
+        let totalFine = 0;
+        let count = 1;
 
-    function renderCalendar() {
+        window.dbData.forEach(item => {
+            const dur = window.calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
+            const overdue = dur - 14;
+            const liveFine = overdue > 0 ? (overdue * 0.20) : 0;
+            const savedFine = item.denda ? parseFloat(item.denda) : 0;
+            const actualFine = item.status === 'Selesai' ? savedFine : liveFine;
+
+            if (actualFine > 0) {
+                totalFine += actualFine;
+                const statusBadge = item.status === 'Selesai' ? 
+                    '<span style="color:var(--success); font-weight:600; font-size:0.85rem; background:#f0fdf4; padding:2px 8px; border-radius:12px; border:1px solid var(--success);">Dibayar</span>' : 
+                    '<span style="color:var(--danger); font-weight:600; font-size:0.85rem; background:#fef2f2; padding:2px 8px; border-radius:12px; border:1px solid var(--danger);">Tertunggak</span>';
+                    
+                tbody.innerHTML += `
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="text-align:center; padding:10px;">${count++}</td>
+                        <td style="padding:10px;"><strong style="font-size:1rem; color:var(--text-main);">${item.nama}</strong><br><small style="color:var(--text-muted); font-weight:600;">${item.noPekerja}</small></td>
+                        <td style="padding:10px; font-weight:500;">${item.tajuk}</td>
+                        <td style="text-align:center; padding:10px; color:var(--danger); font-weight:600; font-size:1rem;">${overdue} Hari</td>
+                        <td style="text-align:right; padding:10px; font-weight:600; font-size:1rem;">RM ${actualFine.toFixed(2)}</td>
+                        <td style="text-align:center; padding:10px;">${statusBadge}</td>
+                    </tr>
+                `;
+            }
+        });
+
+        if (count === 1) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; font-weight:500; color:var(--text-muted);">Tiada rekod denda buat masa ini.</td></tr>';
+        }
+
+        document.getElementById('totalFineAmount').innerText = 'RM ' + totalFine.toFixed(2);
+        document.getElementById('fineModal').style.display = 'flex';
+    }
+
+    window.closeFineModal = function() {
+        document.getElementById('fineModal').style.display = 'none';
+    }
+
+    // --- CALENDAR (ISN START) ---
+    window.changeMonth = function(n) { calDate.setMonth(calDate.getMonth() + n); window.renderCalendar(); }
+
+    window.renderCalendar = function() {
         const m = calDate.getMonth(), y = calDate.getFullYear();
-        document.getElementById('calMonthYear').innerText = new Date(y, m).toLocaleDateString('ms-MY', { month: 'long', year: 'numeric' }).toUpperCase();
+        if(!document.getElementById('calMonthYear')) return;
+        
+        document.getElementById('calMonthYear').innerText = new Date(y, m).toLocaleDateString('ms-MY', { month: 'long', year: 'numeric' });
         
         const firstDayIndex = new Date(y, m, 1).getDay(); 
         const adjustedFirstDay = (firstDayIndex === 0) ? 6 : firstDayIndex - 1; // Isnin Start
@@ -564,20 +898,17 @@
                 if (item.tPulang === dateStr && item.status !== 'Selesai') dueCount++;
             });
 
-            // HTML Content for the day
-            let content = `<span style="font-weight:bold; margin-bottom:5px;">${i}</span>`;
+            let content = `<span style="font-weight:600; font-size:1.1rem; margin-bottom:2px;">${i}</span>`;
             if (borrowCount > 0) content += `<div class="cal-info" style="color:var(--success);">+${borrowCount} Pinjam</div>`;
             if (dueCount > 0) content += `<div class="cal-info" style="color:var(--danger);">${dueCount} Pulang</div>`;
 
-            // Grid Index Logic for Weekend
             const currentGridIndex = adjustedFirstDay + i - 1;
             const colIndex = currentGridIndex % 7; 
-            // 5 = Sabtu, 6 = Ahad (since 0=Isnin)
             const isWeekend = (colIndex === 5 || colIndex === 6);
             const weekendClass = isWeekend ? 'weekend' : '';
 
             const isToday = (new Date().toDateString() === new Date(y, m, i).toDateString()) ? 'today' : '';
-            grid.innerHTML += `<div class="cal-day ${isToday} ${weekendClass}" onclick="clickCal(${i})">${content}</div>`;
+            grid.innerHTML += `<div class="cal-day ${isToday} ${weekendClass}" onclick="window.clickCal(${i})">${content}</div>`;
         }
     }
 
@@ -586,31 +917,32 @@
         let d = String(day).padStart(2, '0');
         let dateStr = `${calDate.getFullYear()}-${m}-${d}`;
         window.switchTab('senarai');
-        document.getElementById('searchInput').value = dateStr;
+        const searchInput = document.getElementById('searchInput');
+        if(searchInput) searchInput.value = dateStr;
         window.setFilter('all');
         window.renderTable();
     }
 
-    // MODAL
+    // --- MODAL PINJAMAN UTAMA ---
     window.openModal = function() {
         document.getElementById('docId').value = '';
-        const inputs = document.querySelectorAll('.modal input, .modal textarea');
+        const inputs = document.querySelectorAll('#mainModal .form-input');
         inputs.forEach(i => {
             if(i.type !== 'radio' && i.type !== 'checkbox' && i.type !== 'button') i.value = '';
         });
         
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('f_tPinjam').value = today;
-        const due = new Date(); due.setDate(due.getDate() + 14);
-        document.getElementById('f_tPulang').value = due.toISOString().split('T')[0];
+        window.autoCalcReturnDateEdit();
         
         const radioDipinjam = document.querySelector('input[name="status"][value="Dipinjam"]');
         if(radioDipinjam) radioDipinjam.checked = true;
 
-        toggleReturn(false);
+        window.toggleReturn(false);
         if(document.getElementById('btnWA')) document.getElementById('btnWA').style.display = 'none';
+        if(document.getElementById('btnDelete')) document.getElementById('btnDelete').style.display = 'none';
         document.getElementById('mainModal').style.display = 'flex';
-        liveCalc();
+        window.liveCalc();
     }
 
     window.closeModal = function() { document.getElementById('mainModal').style.display = 'none'; }
@@ -623,6 +955,7 @@
         document.getElementById('f_nama').value = item.nama;
         document.getElementById('f_noPekerja').value = item.noPekerja;
         document.getElementById('f_phone').value = item.whatsapp;
+        document.getElementById('f_bahagian').value = item.bahagian || '';
         document.getElementById('f_jenis').value = item.jenis;
         document.getElementById('f_tajuk').value = item.tajuk;
         document.getElementById('f_tPinjam').value = item.tPinjam;
@@ -634,41 +967,32 @@
         if(radioToSelect) radioToSelect.checked = true;
 
         document.getElementById('f_tDipulangkan').value = item.tDipulangkan || '';
-        toggleReturn(isSelesai);
+        window.toggleReturn(isSelesai);
         
         // WhatsApp Button
         const btnWA = document.getElementById('btnWA');
         if(item.whatsapp && btnWA) {
             btnWA.style.display = 'inline-flex';
-            btnWA.href = `https://wa.me/${item.whatsapp}`;
+            btnWA.href = `https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}`;
         } else if (btnWA) {
             btnWA.style.display = 'none';
         }
 
+        // Tunjukkan Butang Hapus hanya jika edit mode
+        if(document.getElementById('btnDelete')) document.getElementById('btnDelete').style.display = 'inline-flex';
+
         document.getElementById('mainModal').style.display = 'flex';
-        liveCalc();
+        window.liveCalc();
     }
 
     window.toggleReturn = function(show) {
         const div = document.getElementById('div_return_date');
+        if(!div) return;
         div.style.display = show ? 'block' : 'none';
         if(show && !document.getElementById('f_tDipulangkan').value) {
             document.getElementById('f_tDipulangkan').value = new Date().toISOString().split('T')[0];
         }
-        liveCalc();
-    }
-
-    function calculateDuration(start, end) {
-        if(!start) return 0;
-        const d1 = new Date(start);
-        const d2 = end ? new Date(end) : new Date();
-        d1.setHours(0,0,0,0); d2.setHours(0,0,0,0);
-        return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
-    }
-
-    function formatDate(d) {
-        if(!d) return '-';
-        return d.split('-').reverse().join('/');
+        window.liveCalc();
     }
 
     window.liveCalc = function() {
@@ -677,26 +1001,108 @@
         const isSelesai = statusEl ? statusEl.value === 'Selesai' : false;
         const end = isSelesai ? document.getElementById('f_tDipulangkan').value : null;
         
-        const days = calculateDuration(start, end);
+        const days = window.calculateDuration(start, end);
         const late = days - 14;
         const fine = late > 0 ? (late * 0.20).toFixed(2) : '0.00';
         
         const info = document.getElementById('live-info');
+        if(!info) return;
+
         if(late > 0) {
-            info.innerHTML = `⚠️ Tempoh: ${days} Hari (Lebih ${late} hari) | Denda: RM ${fine}`;
+            info.innerHTML = `⚠️ Tempoh Pegangan: ${days} Hari (Lebih ${late} hari) | <span style="color:var(--danger)">Anggaran Denda: RM ${fine}</span>`;
+            info.style.background = 'rgba(239, 68, 68, 0.1)';
             info.style.color = 'var(--danger)';
+            info.style.border = '1px solid var(--danger)';
         } else {
-            info.innerHTML = `✅ Tempoh: ${days} Hari (Dalam Had 14 Hari)`;
-            info.style.color = 'var(--success)';
+            info.innerHTML = `✅ Tempoh Pegangan: ${days} Hari (Dalam Had 14 Hari)`;
+            info.style.background = 'rgba(59, 130, 246, 0.1)';
+            info.style.color = 'var(--primary)';
+            info.style.border = '1px solid transparent';
         }
     }
 
     window.toggleTheme = function() {
         const html = document.documentElement;
-        html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('pustakawan_theme', newTheme);
     }
 
-    // PRINT REPORT
+    // --- TAB BUKU BARU LOGIC ---
+    window.renderBukuTable = function() {
+        const tbody = document.getElementById('bukuTableBody');
+        if(!tbody) return;
+        const search = document.getElementById('searchBukuInput').value.toLowerCase();
+        tbody.innerHTML = '';
+
+        const dataToRender = window.dbBuku.filter(item => {
+            const txt = (item.tajuk + (item.isbn||'') + item.penerbitan + item.kategori + item.sumber).toLowerCase();
+            return !search || txt.includes(search);
+        });
+
+        if(dataToRender.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Tiada rekod buku dijumpai.</td></tr>';
+            return;
+        }
+
+        dataToRender.forEach(item => {
+            const badgeColor = item.kategori === 'Buku Percuma' ? 'var(--success)' : '#F59E0B';
+            const badgeBg = item.kategori === 'Buku Percuma' ? '#E8F5E9' : '#FFFBEB';
+
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${window.formatDate(item.tarikh)}</strong></td>
+                    <td><div style="font-weight:600; font-size:1.05rem;">${item.tajuk}</div><div style="color:var(--text-muted); font-size:0.85rem;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td>
+                    <td><div style="font-size:0.85rem;">${item.jenis} - ${item.bidang}</div><div style="color:var(--primary); font-size:0.85rem; font-family:monospace; font-weight:600;">${item.isbn || '-'}</div></td>
+                    <td><div style="font-size:0.9rem; font-weight:600;">${item.penerima}</div><div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan}</div></td>
+                    <td><span style="color:${badgeColor}; background:${badgeBg}; border:1px solid ${badgeColor}; padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.8rem; display:inline-block;">${item.kategori}</span></td>
+                    <td style="text-align:right;">
+                        <button class="btn-3d secondary" onclick="window.prepareEditBuku('${item.id}')">✏️ Pinda</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    window.openBukuModal = function() {
+        document.getElementById('bukuId').value = '';
+        document.querySelectorAll('#bukuModal .form-input').forEach(i => { if(i.id !== 'b_bilangan') i.value = ''; });
+        document.getElementById('b_bilangan').value = '1';
+        document.getElementById('b_tarikh').valueAsDate = new Date();
+        document.getElementById('b_kategori').value = 'Buku Percuma';
+        document.getElementById('b_jenis').value = 'Buku';
+        document.getElementById('b_bidang').value = 'Bukan Perusahaan Kayu';
+        document.getElementById('b_penerbitan').value = 'Dalam Negara';
+        
+        if(document.getElementById('btnDeleteBuku')) document.getElementById('btnDeleteBuku').style.display = 'none';
+        document.getElementById('bukuModal').style.display = 'flex';
+    }
+
+    window.closeBukuModal = function() { document.getElementById('bukuModal').style.display = 'none'; }
+
+    window.prepareEditBuku = function(id) {
+        const item = window.dbBuku.find(x => String(x.id) === String(id));
+        if(!item) return;
+
+        document.getElementById('bukuId').value = id;
+        document.getElementById('b_kategori').value = item.kategori || 'Buku Percuma';
+        document.getElementById('b_tarikh').value = item.tarikh;
+        document.getElementById('b_tajuk').value = item.tajuk;
+        document.getElementById('b_edisi').value = item.edisi || '';
+        document.getElementById('b_bilangan').value = item.bilangan || 1;
+        document.getElementById('b_isbn').value = item.isbn || '';
+        document.getElementById('b_jenis').value = item.jenis || 'Buku';
+        document.getElementById('b_bidang').value = item.bidang || 'Bukan Perusahaan Kayu';
+        document.getElementById('b_penerbitan').value = item.penerbitan || 'Dalam Negara';
+        document.getElementById('b_penerima').value = item.penerima || '';
+        document.getElementById('b_sumber').value = item.sumber || '';
+        
+        if(document.getElementById('btnDeleteBuku')) document.getElementById('btnDeleteBuku').style.display = 'inline-flex';
+        document.getElementById('bukuModal').style.display = 'flex';
+    }
+
+    // --- PRINT REPORTS PINJAMAN ---
     window.printReport = function() {
         const m = parseInt(document.getElementById('printMonth').value);
         const y = parseInt(document.getElementById('printYear').value);
@@ -714,48 +1120,53 @@
         let html = `<html><head>
             <title>Laporan ${monthNames[m]} ${y}</title>
             <style>
-                @page { size: landscape; }
-                body{font-family:sans-serif; padding:20px; font-size:12px;} 
-                table{width:100%; border-collapse:collapse; margin-top:20px;}
-                th,td{border:1px solid #000; padding:5px 8px; font-size:11px;} 
-                th{background:#f0f0f0;}
-                h2,p{text-align:center; margin:5px;}
-                .footer { margin-top: 30px; text-align: center; font-size: 10px; font-style: italic; }
-                .date-print { position: absolute; top: 10px; right: 10px; font-size: 10px; }
+                @page { size: landscape; margin: 20mm; }
+                body { font-family: 'Segoe UI', Arial, sans-serif; padding:0; font-size:12px; color: #333; } 
+                table { width:100%; border-collapse:collapse; margin-top:20px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+                th,td { border:1px solid #ddd; padding:10px; font-size:11px; } 
+                th { background:#f4f4f4; text-transform: uppercase; font-weight: bold; color: #000; }
+                h2 { text-align:center; margin:5px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+                p { text-align:center; margin:0 0 20px 0; font-size: 14px; color: #666; font-weight: bold; }
+                .footer { margin-top: 40px; text-align: center; font-size: 10px; font-style: italic; color: #999; border-top: 1px dashed #ddd; padding-top: 10px; }
+                .date-print { position: absolute; top: 0px; right: 0px; font-size: 10px; color: #999; font-weight:bold; }
             </style>
         </head><body>
             <div class="date-print">Tarikh Cetakan: ${today}</div>
-            <h2>LAPORAN PINJAMAN PUSTAKA MTIB</h2>
+            <h2>LAPORAN PINJAMAN PUSTAKA</h2>
             <p>Bulan: ${monthNames[m]} ${y}</p>
             <table><thead><tr>
-                <th width="3%">No</th><th width="20%">Nama Peminjam</th><th width="20%">Bahan/Tajuk</th>
-                <th width="10%">Tarikh Pinjam</th><th width="10%">Tarikh Pulang (Asal)</th>
-                <th width="10%">Tarikh Pulang (Sebenar)</th><th width="7%">Hari Lewat</th>
-                <th width="10%">Caj Denda</th><th width="10%">Status</th>
+                <th width="3%" style="text-align:center;">No</th>
+                <th width="20%">Nama Peminjam / Bahagian</th>
+                <th width="20%">Bahan/Tajuk</th>
+                <th width="10%" style="text-align:center;">Tarikh Pinjam</th>
+                <th width="10%" style="text-align:center;">Jangka Pulang</th>
+                <th width="10%" style="text-align:center;">Tarikh Pulang (Sebenar)</th>
+                <th width="7%" style="text-align:center;">Hari Lewat</th>
+                <th width="10%" style="text-align:right;">Caj Denda</th>
+                <th width="10%" style="text-align:center;">Status</th>
             </tr></thead><tbody>`;
 
         filtered.forEach((item, idx) => {
-            const dur = calculateDuration(item.tPinjam, item.tDipulangkan || null);
+            const dur = window.calculateDuration(item.tPinjam, item.tDipulangkan || null);
             const lateDays = dur - 14 > 0 ? dur - 14 : 0;
-            const actualReturn = item.tDipulangkan ? formatDate(item.tDipulangkan) : '-';
+            const actualReturn = item.tDipulangkan ? window.formatDate(item.tDipulangkan) : '-';
             const fine = item.denda || '0.00';
+            const bhgStr = item.bahagian ? `<br><span style="color:#0053E1; font-weight:bold;">[${item.bahagian}]</span>` : '';
 
             html += `<tr>
-                <td style="text-align:center">${idx + 1}</td>
-                <td>${item.nama}<br><small>${item.noPekerja}</small></td>
-                <td>${item.tajuk}<br><small>${item.jenis}</small></td>
-                <td style="text-align:center">${formatDate(item.tPinjam)}</td>
-                <td style="text-align:center">${formatDate(item.tPulang)}</td>
-                <td style="text-align:center">${actualReturn}</td>
-                <td style="text-align:center; color:${lateDays>0?'red':'black'}">${lateDays > 0 ? lateDays : '-'}</td>
-                <td style="text-align:right">${fine > 0 ? 'RM '+fine : '-'}</td>
-                <td style="text-align:center">${item.status === 'Selesai' ? 'Selesai' : 'Belum'}</td>
+                <td style="text-align:center; font-weight:bold;">${idx + 1}</td>
+                <td><strong>${item.nama}</strong><br><span style="color:#666; font-weight:bold;">${item.noPekerja}</span>${bhgStr}</td>
+                <td><strong>${item.tajuk}</strong><br><span style="background:#eee; padding:2px 4px; border-radius:3px; font-size:9px; font-weight:bold;">${item.jenis}</span></td>
+                <td style="text-align:center; font-weight:bold;">${window.formatDate(item.tPinjam)}</td>
+                <td style="text-align:center; font-weight:bold;">${window.formatDate(item.tPulang)}</td>
+                <td style="text-align:center; font-weight:bold;">${actualReturn}</td>
+                <td style="text-align:center; font-weight:bold; color:${lateDays>0?'#E53935':'#333'}">${lateDays > 0 ? lateDays : '-'}</td>
+                <td style="text-align:right; font-weight:bold;">${fine > 0 ? 'RM '+fine : '-'}</td>
+                <td style="text-align:center; font-weight:bold; color:${item.status === 'Selesai'?'#4BA52E':'#E53935'}">${item.status === 'Selesai' ? 'Selesai' : 'Belum Pulang'}</td>
             </tr>`;
         });
         html += `</tbody></table>
-            <div class="footer">
-                "Cetakan berkomputer ini tidak memerlukan tandatangan"
-            </div>
+            <div class="footer">Dokumen ini dicetak melalui Sistem Pustakawan Digital dan tidak memerlukan tandatangan.</div>
         </body></html>`;
 
         const win = window.open('', '', 'width=1100,height=600');
@@ -764,36 +1175,182 @@
         win.print();
     }
 
-    function exportCSV() {
-        let c = "Nama,ID,Bahan,Tajuk,Tempoh(Hari),Pinjam,Pulang,Status,Denda,Catatan\n";
+    window.printFineReport = function() {
+        const today = new Date().toLocaleDateString('ms-MY');
+        let html = `<html><head>
+            <title>Laporan Kutipan Denda</title>
+            <style>
+                body { font-family: 'Segoe UI', Arial, sans-serif; padding:20px; font-size:12px; color: #333; } 
+                table { width:100%; border-collapse:collapse; margin-top:20px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+                th,td { border:1px solid #ddd; padding:10px; font-size:12px; text-align:left; } 
+                th { background:#f4f4f4; text-transform: uppercase; font-weight: bold; }
+                .text-center { text-align:center; } .text-right { text-align:right; }
+                h2 { text-align:center; margin:5px 0; font-size: 18px; letter-spacing: 1px; }
+                p { text-align:center; margin:0 0 20px 0; color: #666; }
+                .footer { margin-top: 40px; text-align: center; font-size: 10px; font-style: italic; color: #999; border-top: 1px dashed #ddd; padding-top: 10px; }
+            </style>
+        </head><body>
+            <h2>LAPORAN KUTIPAN DENDA PUSTAKA</h2>
+            <p>Tarikh Cetakan: <strong>${today}</strong></p>
+            <table><thead><tr>
+                <th width="5%" class="text-center">No</th>
+                <th width="25%">Maklumat Peminjam</th>
+                <th width="30%">Tajuk Bahan Pinjaman</th>
+                <th width="10%" class="text-center">Bil. Hari Lewat</th>
+                <th width="15%" class="text-right">Kadar Denda (RM)</th>
+                <th width="15%" class="text-center">Status Bayaran</th>
+            </tr></thead><tbody>`;
+
+        let totalFine = 0;
+        let count = 1;
+
+        window.dbData.forEach(item => {
+            const dur = window.calculateDuration(item.tPinjam, item.status === 'Selesai' ? item.tDipulangkan : null);
+            const overdue = dur - 14;
+            const liveFine = overdue > 0 ? (overdue * 0.20) : 0;
+            const savedFine = item.denda ? parseFloat(item.denda) : 0;
+            const actualFine = item.status === 'Selesai' ? savedFine : liveFine;
+
+            if (actualFine > 0) {
+                totalFine += actualFine;
+                const statusTxt = item.status === 'Selesai' ? '<span style="color:#4BA52E">Dibayar</span>' : '<span style="color:#E53935">Tertunggak</span>';
+                html += `<tr>
+                    <td class="text-center">${count++}</td>
+                    <td><strong>${item.nama}</strong><br><span style="color:#666">${item.noPekerja}</span></td>
+                    <td>${item.tajuk}</td>
+                    <td class="text-center" style="color:#E53935; font-weight:bold;">${overdue}</td>
+                    <td class="text-right" style="font-weight:bold;">${actualFine.toFixed(2)}</td>
+                    <td class="text-center" style="font-weight:bold;">${statusTxt}</td>
+                </tr>`;
+            }
+        });
+
+        if (count === 1) html += `<tr><td colspan="6" class="text-center" style="padding:20px; color:#999;">Tiada rekod denda direkodkan setakat ini.</td></tr>`;
+
+        html += `<tr>
+            <td colspan="4" class="text-right" style="font-size:14px;"><strong>JUMLAH KESELURUHAN DENDA:</strong></td>
+            <td class="text-right" style="font-size:14px; color:#E53935;"><strong>RM ${totalFine.toFixed(2)}</strong></td>
+            <td></td>
+        </tr></tbody></table>
+        <div class="footer">Dokumen ini dijana secara automatik oleh Sistem Pustakawan Digital.</div>
+        </body></html>`;
+
+        const win = window.open('', '', 'width=900,height=600');
+        win.document.write(html);
+        win.document.close();
+        win.print();
+    }
+
+    window.printBukuReport = function() {
+        const y = parseInt(document.getElementById('printBukuYear').value);
+        const today = new Date().toLocaleDateString('ms-MY');
+
+        const filtered = window.dbBuku.filter(item => new Date(item.tarikh).getFullYear() === y);
+
+        if(filtered.length === 0) return alert("Tiada rekod buku baru untuk tahun tersebut.");
+
+        let html = `<html><head>
+            <title>Laporan Bahan Rujukan Baharu ${y}</title>
+            <style>
+                @page { size: landscape; margin: 15mm; }
+                body { font-family: Arial, sans-serif; padding:0; font-size:11px; color: #000; } 
+                table { width:100%; border-collapse:collapse; margin-top:20px; }
+                th,td { border:1px solid #000; padding:6px; font-size:10px; } 
+                th { background:#f0f0f0; text-transform: uppercase; font-weight: bold; text-align:center;}
+                h2 { text-align:center; margin:5px 0; font-size: 16px; font-weight:bold; }
+                .date-print { position: absolute; top: 0px; right: 0px; font-size: 9px; }
+            </style>
+        </head><body>
+            <div class="date-print">Tarikh Cetakan: ${today}</div>
+            <h2>BAHAN RUJUKAN BAHARU TAHUN ${y}</h2>
+            <table><thead><tr>
+                <th width="3%">BIL</th>
+                <th width="8%">TARIKH</th>
+                <th width="20%">TAJUK</th>
+                <th width="10%">EDISI/ISU</th>
+                <th width="5%">BILANGAN</th>
+                <th width="10%">ISSN/ISBN</th>
+                <th width="8%">JENIS BAHAN</th>
+                <th width="10%">BIDANG</th>
+                <th width="8%">PENERBITAN</th>
+                <th width="8%">PENERIMA</th>
+                <th width="10%">PEROLEHAN DARIPADA</th>
+            </tr></thead><tbody>`;
+
+        filtered.forEach((item, idx) => {
+            html += `<tr>
+                <td style="text-align:center">${idx + 1}</td>
+                <td style="text-align:center">${window.formatDate(item.tarikh)}</td>
+                <td><strong>${item.tajuk}</strong><br><small style="color:#0053E1; font-weight:bold;">[${item.kategori}]</small></td>
+                <td>${item.edisi || '-'}</td>
+                <td style="text-align:center">${item.bilangan || 1}</td>
+                <td style="text-align:center">${item.isbn || '-'}</td>
+                <td style="text-align:center">${item.jenis || '-'}</td>
+                <td style="text-align:center">${item.bidang || '-'}</td>
+                <td style="text-align:center">${item.penerbitan || '-'}</td>
+                <td style="text-align:center">${item.penerima || '-'}</td>
+                <td style="text-align:center">${item.sumber || '-'}</td>
+            </tr>`;
+        });
+        html += `</tbody></table></body></html>`;
+
+        const win = window.open('', '', 'width=1100,height=600');
+        win.document.write(html);
+        win.document.close();
+        win.print();
+    }
+
+    // --- EXPORT DATABASE ---
+    window.exportCSV = function() {
+        let c = "Nama,ID,Bahagian,Bahan,Tajuk,Tempoh(Hari),Pinjam,Jangka_Pulang,Status,Denda,Catatan\n";
         window.dbData.forEach(x => {
-            let dur = calculateDuration(x.tPinjam, x.status === 'Selesai' ? x.tDipulangkan : null);
+            let dur = window.calculateDuration(x.tPinjam, x.status === 'Selesai' ? x.tDipulangkan : null);
             let note = x.catatan ? x.catatan.replace(/,/g, ' ') : '';
-            c += `"${x.nama}","${x.noPekerja}","${x.jenis}","${x.tajuk}","${dur}","${x.tPinjam}","${x.tPulang}","${x.status}","${x.denda}","${note}"\n`
+            c += `"${x.nama}","${x.noPekerja}","${x.bahagian || ''}","${x.jenis}","${x.tajuk}","${dur}","${x.tPinjam}","${x.tPulang}","${x.status}","${x.denda}","${note}"\n`
         });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob([c],{type:'text/csv'}));
-        a.download = 'Laporan_Pinjaman.csv'; a.click();
+        a.download = 'Laporan_Senarai_Pinjaman.csv'; a.click();
     }
+
+    window.exportDatabase = function() {
+        if(window.dbData && window.dbData.length === 0) return alert("Tiada data pinjaman untuk dieksport.");
+        let c = "Nama,ID,Bahagian,Bahan,Tajuk,Tempoh(Hari),Pinjam,Jangka_Pulang,Status,Denda,Catatan\n";
+        window.dbData.forEach(x => {
+            let dur = window.calculateDuration(x.tPinjam, x.status.includes('Selesai') ? x.tDipulangkan : null);
+            let note = x.catatan ? x.catatan.replace(/,/g, ' ') : '';
+            c += `"${x.nama}","${x.noPekerja}","${x.bahagian || ''}","${x.jenis}","${x.tajuk}","${dur}","${x.tPinjam}","${x.tPulang}","${x.status}","${x.denda || 0}","${note}"\n`
+        });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([c],{type:'text/csv'}));
+        a.download = 'Backup_Pinjaman_DB.csv'; a.click();
+    };
+
+    window.exportBukuDatabase = function() {
+        if(window.dbBuku && window.dbBuku.length === 0) return alert("Tiada data buku untuk dieksport.");
+        let c = "Kategori,Tarikh,Tajuk,Edisi,Bilangan,ISBN,Jenis,Bidang,Penerbitan,Penerima,Sumber\n";
+        window.dbBuku.forEach(x => {
+            c += `"${x.kategori}","${x.tarikh}","${x.tajuk}","${x.edisi||''}","${x.bilangan||1}","${x.isbn||''}","${x.jenis||''}","${x.bidang||''}","${x.penerbitan||''}","${x.penerima||''}","${x.sumber||''}"\n`;
+        });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([c],{type:'text/csv'}));
+        a.download = 'Backup_Buku_DB.csv'; a.click();
+    };
 </script>
 
-<!-- FIREBASE -->
+<!-- FIREBASE SCRIPT (CLOUD DATA) -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } 
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // ----------------------------------------------------------------------------------
-    // ⚠️ PASTIKAN KOD API INI DIISI DENGAN BETUL SEBELUM UPLOAD KE GITHUB
-    // ----------------------------------------------------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyAfEJBFMTX1HOo5SMpfDf4Cx61HhbtiAWE",
       authDomain: "pustakawan-digital.firebaseapp.com",
       projectId: "pustakawan-digital",
       storageBucket: "pustakawan-digital.firebasestorage.app",
       messagingSenderId: "811520945210",
-      appId: "1:811520945210:web:667f2d12138c7db4dc1903",
-      measurementId: "G-FX9CH5QG92"
+      appId: "1:811520945210:web:667f2d12138c7db4dc1903"
     };
 
     let db;
@@ -802,14 +1359,24 @@
         try {
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
-            
+            const status = document.getElementById('statusText');
+            if(status) {
+                status.innerText = "✅ Dalam Talian";
+                status.style.color = "var(--success)";
+            }
             startListening();
         } catch (e) {
+            const status = document.getElementById('statusText');
+            if(status) {
+                status.innerText = "⚠️ Tiada Sambungan";
+                status.style.color = "var(--danger)";
+            }
             alert("Ralat Firebase: " + e.message);
         }
     }
 
     function startListening() {
+        // Listener untuk Pinjaman
         onSnapshot(collection(db, "pinjaman"), (snapshot) => {
             window.dbData = snapshot.docs.map(doc => ({
                 id: doc.id,
@@ -817,14 +1384,32 @@
             }));
             window.dbData.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
             window.renderTable();
-            renderCalendar(); 
+            window.renderCalendar(); 
         }, (error) => {
-            console.error("Gagal baca data:", error);
+            console.error("Gagal baca data pinjaman:", error);
+            const status = document.getElementById('statusText');
+            if(status) {
+                status.innerText = "⚠️ Tiada Sambungan";
+                status.style.color = "var(--danger)";
+            }
+        });
+
+        // Listener untuk Buku Baru
+        onSnapshot(collection(db, "buku_baru"), (snapshot) => {
+            window.dbBuku = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            window.dbBuku.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
+            window.renderBukuTable();
+        }, (error) => {
+            console.error("Gagal baca data buku:", error);
         });
     }
 
+    // --- SAVE & DELETE PINJAMAN (CLOUD) ---
     window.saveData = async function() {
-        if(!db) return alert("Tiada sambungan database.");
+        if(!db) return alert("Tiada sambungan pangkalan data.");
         
         const docId = document.getElementById('docId').value;
         const statusEl = document.querySelector('input[name="status"]:checked');
@@ -845,6 +1430,7 @@
             nama: document.getElementById('f_nama').value,
             noPekerja: document.getElementById('f_noPekerja').value,
             whatsapp: document.getElementById('f_phone').value, 
+            bahagian: document.getElementById('f_bahagian').value,
             jenis: document.getElementById('f_jenis').value,
             tajuk: document.getElementById('f_tajuk').value,
             tPinjam: tPinjam,
@@ -855,7 +1441,7 @@
             catatan: document.getElementById('f_catatan').value
         };
 
-        if(!data.nama || !data.tajuk) return alert("Sila isi Nama dan Tajuk.");
+        if(!data.nama || !data.tajuk) return alert("Sila isi Nama Peminjam dan Tajuk Bahan.");
 
         document.getElementById('loadingBar').style.display = 'block';
         try {
@@ -864,11 +1450,72 @@
             } else {
                 await addDoc(collection(db, "pinjaman"), data);
             }
-            closeModal();
+            window.closeModal();
         } catch (e) {
             alert("GAGAL SIMPAN: " + e.message);
+            const status = document.getElementById('statusText');
+            if(status) {
+                status.innerText = "⚠️ Tiada Sambungan";
+                status.style.color = "var(--danger)";
+            }
         }
         document.getElementById('loadingBar').style.display = 'none';
+    }
+
+    window.deleteRecord = async function() {
+        const docId = document.getElementById('docId').value;
+        if (!docId) return alert("Sila pilih rekod.");
+        if(confirm("Padam rekod pinjaman ini secara kekal dari awan?")) {
+            document.getElementById('loadingBar').style.display = 'block';
+            try {
+                await deleteDoc(doc(db, "pinjaman", docId));
+                window.closeModal();
+            } catch (e) { alert("Gagal Padam: " + e.message); }
+            document.getElementById('loadingBar').style.display = 'none';
+        }
+    }
+
+    // --- SAVE & DELETE BUKU BARU (CLOUD) ---
+    window.saveBuku = async function() {
+        if(!db) return alert("Tiada sambungan pangkalan data.");
+        
+        const docId = document.getElementById('bukuId').value;
+        const data = {
+            kategori: document.getElementById('b_kategori').value,
+            tarikh: document.getElementById('b_tarikh').value,
+            tajuk: document.getElementById('b_tajuk').value,
+            edisi: document.getElementById('b_edisi').value,
+            bilangan: document.getElementById('b_bilangan').value,
+            isbn: document.getElementById('b_isbn').value,
+            jenis: document.getElementById('b_jenis').value,
+            bidang: document.getElementById('b_bidang').value,
+            penerbitan: document.getElementById('b_penerbitan').value,
+            penerima: document.getElementById('b_penerima').value,
+            sumber: document.getElementById('b_sumber').value
+        };
+
+        if(!data.tajuk) return alert("Sila isi Tajuk Bahan.");
+
+        document.getElementById('loadingBar').style.display = 'block';
+        try {
+            if (docId) await updateDoc(doc(db, "buku_baru", docId), data);
+            else await addDoc(collection(db, "buku_baru"), data);
+            window.closeBukuModal();
+        } catch (e) { alert("GAGAL SIMPAN BUKU: " + e.message); }
+        document.getElementById('loadingBar').style.display = 'none';
+    }
+
+    window.deleteBuku = async function() {
+        const docId = document.getElementById('bukuId').value;
+        if (!docId) return alert("Sila pilih rekod.");
+        if(confirm("Padam rekod buku ini secara kekal dari awan?")) {
+            document.getElementById('loadingBar').style.display = 'block';
+            try {
+                await deleteDoc(doc(db, "buku_baru", docId));
+                window.closeBukuModal();
+            } catch (e) { alert("Gagal Padam: " + e.message); }
+            document.getElementById('loadingBar').style.display = 'none';
+        }
     }
 </script>
 </body>
