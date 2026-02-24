@@ -165,7 +165,7 @@
         .btn-3d.danger { background: transparent; color: var(--danger); border: 1px solid var(--border); box-shadow: none; }
         .btn-3d.danger:hover { background: var(--danger-light); border-color: var(--danger); }
 
-        .btn-clear { background: var(--bg-body); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 10px 15px; border-radius: var(--radius-btn); font-weight: 500; transition: 0.2s; font-family: inherit;}
+        .btn-clear { background: var(--bg-body); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 10px 14px; border-radius: var(--radius-btn); font-weight: 500; transition: 0.2s; font-family: inherit; display: inline-flex; align-items: center; justify-content: center;}
         .btn-clear:hover { background: var(--danger-light); color: var(--danger); border-color: var(--danger); }
 
         /* --- NAVIGATION --- */
@@ -250,25 +250,20 @@
         .content-card { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm); }
         .toolbar { padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 15px; justify-content: space-between; background: var(--surface); flex-wrap: wrap; align-items: center;}
         
-        .search-container { flex: 1; display: flex; gap: 8px; min-width: 250px; }
-        .search-input { width: 100%; padding: 10px 15px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--bg-body); color: var(--text-main); font-family: inherit; font-size: 0.95rem;}
+        .search-container { flex: 1; display: flex; gap: 8px; min-width: 250px; align-items: center; }
+        .search-input { flex: 1; padding: 10px 15px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--bg-body); color: var(--text-main); font-family: inherit; font-size: 0.95rem;}
 
-        table { width: 100%; border-collapse: collapse; min-width: 850px; }
-        th { background: var(--bg-body); text-align: left; padding: 15px 20px; color: var(--text-muted); border-bottom: 1px solid var(--border); font-size: 0.85rem; font-weight: 600; }
-        td { padding: 15px 20px; border-bottom: 1px solid var(--border); color: var(--text-main); font-size: 0.95rem; vertical-align: top;}
-        tr:hover td { background: var(--bg-body); }
+        .action-wrapper { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
         
-        .badge-btn {
-            padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;
-            display: inline-flex; align-items: center; gap: 5px; border: 1px solid transparent;
-        }
-        .badge-active { background: var(--badge-active-bg); color: var(--badge-active-text); border-color: var(--badge-active-border); }
-        .badge-late { background: var(--badge-late-bg); color: var(--badge-late-text); border-color: var(--badge-late-border); }
-        .badge-done { background: var(--badge-done-bg); color: var(--badge-done-text); border-color: var(--badge-done-border); }
+        table { width: 100%; border-collapse: collapse; min-width: 850px; }
+        th { background: var(--bg-body); text-align: left; padding: 15px 20px; color: var(--text-muted); border-bottom: 2px solid var(--border); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
+        td { padding: 15px 20px; border-bottom: 1px solid var(--border); font-size: 0.95rem; vertical-align: top; color: var(--text-main); }
+        tr:hover td { background-color: rgba(0,0,0,0.02); }
+        [data-theme="dark"] tr:hover td { background-color: rgba(255,255,255,0.02); }
 
-        .filter-chips { display: flex; gap: 8px; padding: 15px 20px; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none;}
-        .chip { background: var(--bg-body); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; cursor: pointer; color: var(--text-muted); font-weight: 500; transition: 0.2s; font-size: 0.9rem; white-space: nowrap; font-family: inherit;}
-        .chip:hover { background: var(--border); color: var(--text-main); }
+        .filter-chips { display: flex; gap: 10px; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; scrollbar-width: none;}
+        .chip { background: var(--bg-body); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; cursor: pointer; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: 0.2s; white-space: nowrap; font-family: inherit;}
+        .chip:hover { background: var(--border); }
         .chip.active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); font-weight: 600; }
 
         /* --- MODAL --- */
@@ -432,7 +427,6 @@
                             <input type="number" id="reportYear" value="2026" style="width:70px; border:1px solid var(--border); background:var(--surface); color:var(--text-main); padding:6px; border-radius:4px; font-size: 0.9rem;" title="Pilih Tahun Cetakan">
                             <button class="btn-3d secondary" onclick="window.printMonthlyReport()" title="Jana dan cetak laporan PDF mengikut bulan terpilih">🖨️ Cetak</button>
                         </div>
-                        <button class="btn-3d secondary" onclick="window.exportCSV()" title="Muat turun jadual pinjaman ke format CSV">📥 CSV</button>
                         <button class="btn-3d" onclick="window.openModal()" title="Buka borang untuk rekod pinjaman baharu">➕ Pinjaman Baru</button>
                     </div>
                 </div>
@@ -469,7 +463,7 @@
                 <div class="toolbar">
                     <div class="search-wrapper">
                         <input type="text" id="searchBukuInput" class="search-input" placeholder="Cari tajuk buku, penerbit, atau kategori..." onkeyup="window.renderBukuTable()" title="Taip untuk mencari maklumat buku baharu">
-                        <button class="btn-clear" onclick="document.getElementById('searchBukuInput').value=''; window.renderBukuTable();" title="Padam teks carian">❌ Padam</button>
+                        <button class="btn-clear" onclick="document.getElementById('searchBukuInput').value=''; window.renderBukuTable();" title="Padam teks carian">❌</button>
                     </div>
 
                     <div class="action-wrapper">
@@ -1283,10 +1277,10 @@
         setTimeout(() => document.getElementById('bukuModal').classList.add('open'), 10);
     }
 
-    // --- PRINT REPORTS PINJAMAN ---
-    window.printReport = function() {
-        const m = parseInt(document.getElementById('printMonth').value);
-        const y = parseInt(document.getElementById('printYear').value);
+    // --- PRINT REPORTS ---
+    window.printMonthlyReport = function() {
+        const m = parseInt(document.getElementById('reportMonth').value);
+        const y = parseInt(document.getElementById('reportYear').value);
         const today = new Date().toLocaleDateString('ms-MY');
 
         const filtered = window.dbData.filter(item => {
@@ -1299,17 +1293,16 @@
         const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
         
         let html = `<html><head>
-            <title>Laporan ${monthNames[m]} ${y}</title>
+            <title>Laporan Pinjaman - ${monthNames[m]} ${y}</title>
             <style>
                 @page { size: landscape; margin: 20mm; }
-                body { font-family: 'Segoe UI', Arial, sans-serif; padding:0; font-size:12px; color: #333; } 
-                table { width:100%; border-collapse:collapse; margin-top:20px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-                th,td { border:1px solid #ddd; padding:10px; font-size:11px; } 
-                th { background:#f4f4f4; text-transform: uppercase; font-weight: bold; color: #000; }
-                h2 { text-align:center; margin:5px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
-                p { text-align:center; margin:0 0 20px 0; font-size: 14px; color: #666; font-weight: bold; }
-                .footer { margin-top: 40px; text-align: center; font-size: 10px; font-style: italic; color: #999; border-top: 1px dashed #ddd; padding-top: 10px; }
-                .date-print { position: absolute; top: 0px; right: 0px; font-size: 10px; color: #999; font-weight:bold; }
+                body { font-family: sans-serif; padding: 20px; font-size:12px;}
+                h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase;}
+                p { text-align: center; color: #555; margin-top: 0; font-weight: bold;}
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                th, td { border: 1px solid #000; padding: 8px; text-align: left; font-size: 11px; }
+                th { background-color: #f2f2f2; text-transform: uppercase; font-weight: bold;}
+                .date-print { position: absolute; top: 0px; right: 0px; font-size: 10px; color: #999; }
             </style>
         </head><body>
             <div class="date-print">Tarikh Cetakan: ${today}</div>
@@ -1342,12 +1335,14 @@
                 <td style="text-align:center; font-weight:bold;">${window.formatDate(item.tPulang)}</td>
                 <td style="text-align:center; font-weight:bold;">${actualReturn}</td>
                 <td style="text-align:center; font-weight:bold; color:${lateDays>0?'#D93025':'#333'}">${lateDays > 0 ? lateDays : '-'}</td>
-                <td style="text-align:right; font-weight:bold;">${fine > 0 ? 'RM '+fine : '-'}</td>
+                <td style="text-align:right; font-weight:bold;">${fine > 0 ? 'RM '+parseFloat(fine).toFixed(2) : '-'}</td>
                 <td style="text-align:center; font-weight:bold; color:${item.status.includes('Selesai')?'#1E8E3E':'#D93025'}">${item.status.includes('Selesai') ? 'Selesai' : 'Belum Pulang'}</td>
             </tr>`;
         });
         html += `</tbody></table>
-            <div class="footer">Dokumen ini dicetak melalui Sistem Pustakawan Digital dan tidak memerlukan tandatangan.</div>
+            <div class="footer" style="margin-top: 40px; text-align: center; font-size: 10px; font-style: italic; color: #999; border-top: 1px dashed #ddd; padding-top: 10px;">
+                Dokumen ini dicetak melalui Sistem Pustakawan Digital dan tidak memerlukan tandatangan.
+            </div>
         </body></html>`;
 
         const win = window.open('', '', 'width=1100,height=600');
@@ -1400,7 +1395,7 @@
                     <td><strong>${item.nama}</strong><br><span style="color:#666">${item.noPekerja}</span></td>
                     <td>${item.tajuk}</td>
                     <td class="text-center" style="color:#D93025; font-weight:bold;">${overdue}</td>
-                    <td class="text-right" style="font-weight:bold;">${actualFine.toFixed(2)}</td>
+                    <td class="text-right" style="font-weight:bold;">${parseFloat(actualFine).toFixed(2)}</td>
                     <td class="text-center" style="font-weight:bold;">${statusTxt}</td>
                 </tr>`;
             }
@@ -1479,19 +1474,6 @@
         win.document.write(html);
         win.document.close();
         win.print();
-    }
-
-    // --- EXPORT DATABASE ---
-    window.exportCSV = function() {
-        let c = "Nama,ID,Bahagian,Bahan,Tajuk,Tempoh(Hari),Pinjam,Jangka_Pulang,Status,Denda,Catatan\n";
-        window.dbData.forEach(x => {
-            let dur = window.calculateDuration(x.tPinjam, x.status.includes('Selesai') ? x.tDipulangkan : null);
-            let note = x.catatan ? x.catatan.replace(/,/g, ' ') : '';
-            c += `"${x.nama}","${x.noPekerja}","${x.bahagian || ''}","${x.jenis}","${x.tajuk}","${dur}","${x.tPinjam}","${x.tPulang}","${x.status}","${x.denda}","${note}"\n`
-        });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob([c],{type:'text/csv'}));
-        a.download = 'Laporan_Senarai_Pinjaman.csv'; a.click();
     }
 
     window.exportDatabase = function() {
@@ -1596,9 +1578,9 @@
         const statusEl = document.querySelector('input[name="sm_status_pulang"]:checked');
         const isSelesai = statusEl ? statusEl.value === 'sudah' : false;
 
-        const tPinjam = document.getElementById('em_tPinjam').value;
-        const tDipulangkan = document.getElementById('em_tDipulangkan').value;
-        const tPulang = document.getElementById('sm_tPulang').value;
+        const tPinjam = document.getElementById('em_tPinjam').value || document.getElementById('f_tPinjam').value;
+        const tDipulangkan = document.getElementById('em_tDipulangkan').value || document.getElementById('f_tDipulangkan').value;
+        const tPulang = document.getElementById('sm_tPulang').value || document.getElementById('f_tPulang').value;
         
         let endDate = (isSelesai && tDipulangkan) ? new Date(tDipulangkan) : new Date();
         endDate.setHours(0,0,0,0);
@@ -1609,18 +1591,18 @@
         const dendaVal = overdue > 0 ? (overdue * 0.20).toFixed(2) : "0.00";
 
         const data = {
-            nama: document.getElementById('em_nama').value,
-            noPekerja: document.getElementById('em_noPekerja').value,
-            whatsapp: document.getElementById('em_whatsapp').value, 
-            bahagian: document.getElementById('em_bahagian').value,
-            jenis: document.getElementById('em_jenis').value,
-            tajuk: document.getElementById('em_tajuk').value,
+            nama: document.getElementById('em_nama').value || document.getElementById('f_nama').value,
+            noPekerja: document.getElementById('em_noPekerja').value || document.getElementById('f_noPekerja').value,
+            whatsapp: document.getElementById('em_whatsapp').value || document.getElementById('f_phone').value, 
+            bahagian: document.getElementById('em_bahagian').value || document.getElementById('f_bahagian').value,
+            jenis: document.getElementById('em_jenis').value || document.getElementById('f_jenis').value,
+            tajuk: document.getElementById('em_tajuk').value || document.getElementById('f_tajuk').value,
             tPinjam: tPinjam,
             tPulang: tPulang, 
             tDipulangkan: isSelesai ? tDipulangkan : null, 
             status: isSelesai ? 'Selesai' : 'Dipinjam',
             denda: dendaVal,
-            catatan: document.getElementById('em_catatan').value
+            catatan: document.getElementById('em_catatan').value || document.getElementById('f_catatan').value
         };
 
         if(!data.nama || !data.tajuk) return alert("Sila isi Nama Peminjam dan Tajuk Bahan.");
@@ -1632,6 +1614,8 @@
             } else {
                 await addDoc(collection(dbInstance, "pinjaman"), data);
             }
+            // Pastikan isihan tempatan juga dilakukan sementara tunggu listener siap
+            window.dbData.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
             window.closeModal();
             window.closeStatusModal();
         } catch (e) {
@@ -1684,6 +1668,8 @@
         try {
             if (docId) await updateDoc(doc(dbInstance, "buku_baru", docId), data);
             else await addDoc(collection(dbInstance, "buku_baru"), data);
+            // Isihan sementara untuk UX lancar
+            window.dbBuku.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
             window.closeBukuModal();
         } catch (e) { alert("GAGAL SIMPAN BUKU: " + e.message); }
         document.getElementById('loadingBar').style.display = 'none';
