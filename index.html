@@ -10,10 +10,17 @@
             --bg-body: #ECE9D8;         
             --surface: #FFFFFF;         
             
+            --primary-gradient: linear-gradient(180deg, #3E8FFF 0%, #0045D0 100%);
+            --primary-border: #003C74;
+            --accent-gradient: linear-gradient(180deg, #81D264 0%, #398319 100%);
+            --accent-border: #235F0B;
+            
             --primary: #0053E1; 
             --primary-light: #D3E5FF;
-            --success: #4BA52E; --danger: #E53935;
-            --warning: #F59E0B;
+            
+            --success: #4BA52E;
+            --danger: #E53935;
+            --danger-light: #FEE2E2;
             
             --text-main: #333333;       
             --text-muted: #666666;      
@@ -71,25 +78,25 @@
         .input-box { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--surface); color: var(--text-main); box-sizing: border-box; margin-bottom: 8px; font-size: 0.95rem; font-family: inherit; }
         .input-box:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
 
-        /* Stats Grid */
+        /* Stats Grid (Dikecilkan) */
         .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-3d); cursor: pointer; transition: transform 0.2s; }
+        .stat-card { background: var(--surface); padding: 15px; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-3d); cursor: pointer; transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-3px); border-color: var(--primary); }
-        .stat-icon { font-size: 2rem; width: 55px; height: 55px; display: flex; justify-content: center; align-items: center; background: var(--bg-body); border-radius: 8px; border: 1px solid var(--border); }
-        .stat-value { font-size: 1.8rem; font-weight: 700; margin-top: 2px; line-height: 1; }
-        .stat-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .stat-icon { font-size: 1.6rem; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; background: var(--bg-body); border-radius: 8px; border: 1px solid var(--border); }
+        .stat-value { font-size: 1.6rem; font-weight: 700; margin-top: 2px; line-height: 1; }
+        .stat-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
 
-        /* Calendar */
-        .calendar-card { background: var(--surface); padding: 25px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); margin-bottom: 15px;}
+        /* Calendar (Dikecilkan) */
+        .calendar-card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); margin-bottom: 15px;}
         .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .cal-header h3 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+        .cal-header h3 { margin: 0; font-size: 1.1rem; font-weight: 700; }
         .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-        .cal-grid-headers { text-align: center; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px; text-transform: uppercase; }
+        .cal-grid-headers { text-align: center; font-weight: 600; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 5px; text-transform: uppercase; }
         
         .cal-day {
             background: var(--bg-weekday); border: 1px solid var(--border);
-            border-radius: var(--radius-btn); padding: 6px; min-height: 75px;
-            text-align: left; font-size: 0.95rem; font-weight: 500; cursor: pointer;
+            border-radius: var(--radius-btn); padding: 6px; min-height: 60px;
+            text-align: left; font-size: 0.9rem; font-weight: 500; cursor: pointer;
             display: flex; flex-direction: column; justify-content: flex-start;
             transition: 0.2s; position: relative;
         }
@@ -97,22 +104,22 @@
         .cal-day.weekend { background-color: var(--bg-weekend); color: var(--text-muted); }
         .cal-day.today { border: 2px solid var(--primary); color: var(--primary); font-weight: 700; background: var(--surface); }
 
-        .cal-info { font-size: 0.75rem; font-weight: 600; margin-top: 3px; line-height: 1.2; background: rgba(255,255,255,0.8); padding: 2px 4px; border-radius: 4px; display: inline-block; width: max-content; }
+        .cal-info { font-size: 0.7rem; font-weight: 600; margin-top: 3px; line-height: 1.2; background: rgba(255,255,255,0.8); padding: 2px 4px; border-radius: 4px; display: inline-block; width: max-content; }
         [data-theme="dark"] .cal-info { background: rgba(0,0,0,0.5); }
 
-        /* Widget Summary */
+        /* Widget Summary (Dikecilkan) */
         .card { background: var(--surface); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-3d); }
         .widget-item { 
             background: var(--bg-body); border: 1px solid var(--border); 
-            padding: 12px 15px; border-radius: 8px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; font-weight: 500;
+            padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 500;
         }
-        .widget-search-icon { cursor: pointer; color: var(--text-muted); font-size: 1.1rem; padding: 5px; border-radius: 50%; transition: 0.2s; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+        .widget-search-icon { cursor: pointer; color: var(--text-muted); font-size: 1rem; padding: 4px; border-radius: 50%; transition: 0.2s; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; }
         .widget-search-icon:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* Table & Filters */
         .content-card { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-3d); }
-        .toolbar { padding: 20px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; background: var(--bg-body); }
+        .toolbar { padding: 20px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; align-items: center; background: var(--bg-body); }
         .search-wrapper { display: flex; flex: 1; min-width: 250px; gap: 5px; }
         .action-wrapper { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
         
@@ -129,7 +136,7 @@
         .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* Tabs */
-        .nav-tabs { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 0; overflow-x: auto; }
+        .nav-tabs { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 0; overflow-x: auto; }
         .nav-btn { background: none; border: 1px solid transparent; border-bottom: none; font-size: 1.05rem; font-weight: 600; color: var(--text-muted); padding: 10px 20px; cursor: pointer; border-radius: 8px 8px 0 0; transition: 0.2s; margin-bottom: -2px; white-space: nowrap; }
         .nav-btn:hover { background: var(--bg-body); color: var(--text-main); }
         .nav-btn.active { background: var(--surface); color: var(--primary); border: 1px solid var(--border); border-bottom-color: var(--surface); }
@@ -160,13 +167,13 @@
             header { flex-direction: column; text-align: center; gap: 15px; } 
             .header-right { align-items: center; }
             .toolbar { flex-direction: column; align-items: stretch; } 
-            .action-wrapper { justify-content: space-between; }
+            .action-wrapper { justify-content: space-between; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-<div id="loadingBar"></div>
+<div id="loadingBar" style="position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--success)); z-index: 9999; display: none;"></div>
 
 <!-- 1. LOGIN SCREEN -->
 <div id="loginView">
@@ -193,7 +200,7 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <div class="logo">
+            <div class="logo-section">
                 <div style="display:flex; align-items:center; gap:12px;">
                     <span style="font-size: 2.2rem; line-height:1;">📚</span>
                     <div>
@@ -260,7 +267,7 @@
                 <!-- Calendar -->
                 <div class="calendar-card">
                     <div class="cal-header">
-                        <h3 style="margin:0; font-size:1.2rem; font-weight:700;" id="calMonthYear">Bulan Tahun</h3>
+                        <h3 style="margin:0; font-size:1.1rem; font-weight:700;" id="calMonthYear">Bulan Tahun</h3>
                         <div style="display:flex; gap:5px;">
                             <button class="btn-clear" style="border:1px solid var(--border);" onclick="window.changeMonth(-1)">◀ Prev</button>
                             <button class="btn-clear" style="border:1px solid var(--border);" onclick="window.changeMonth(1)">Next ▶</button>
@@ -271,7 +278,7 @@
                         <div>Isn</div><div>Sel</div><div>Rab</div><div>Kha</div><div>Jum</div><div style="color:var(--danger)">Sab</div><div style="color:var(--danger)">Ahd</div>
                     </div>
                     <div class="cal-grid" id="calGrid"></div>
-                    <div style="font-size: 0.85rem; margin-top: 15px; color: var(--text-muted); text-align: center; font-weight:500;">
+                    <div style="font-size: 0.8rem; margin-top: 15px; color: var(--text-muted); text-align: center; font-weight:500;">
                         <span style="color:var(--success)"><b>+1 Pinjam</b></span> : Mula Pinjam &nbsp;|&nbsp; 
                         <span style="color:var(--danger)"><b>1 Pulang</b></span> : Tarikh Perlu Pulang
                     </div>
@@ -279,20 +286,20 @@
 
                 <!-- Ringkasan Status Widget -->
                 <div class="card">
-                    <h3 style="color: var(--text-main); margin-top: 0; margin-bottom: 20px; font-size:1.2rem; font-weight:700;">Ringkasan Semasa</h3>
+                    <h3 style="color: var(--text-main); margin-top: 0; margin-bottom: 20px; font-size:1.1rem; font-weight:700;">Ringkasan Semasa</h3>
                     
                     <div class="widget-item" style="border-left: 5px solid var(--text-main);">
-                        <span>Buku Belum Pulang <br><b id="lbl-active" style="font-size:1.2rem;">0</b></span>
+                        <span>Buku Belum Pulang <br><b id="lbl-active" style="font-size:1.1rem;">0</b></span>
                         <span class="widget-search-icon" onclick="window.goToTabFilter('active')" title="Lihat Senarai">🔍</span>
                     </div>
 
                     <div class="widget-item" style="border-left: 5px solid var(--primary); background: var(--primary-light);">
-                        <span style="color: var(--primary);">Dalam Tempoh (OK) <br><b id="lbl-ok" style="font-size:1.2rem;">0</b></span>
+                        <span style="color: var(--primary);">Dalam Tempoh (OK) <br><b id="lbl-ok" style="font-size:1.1rem;">0</b></span>
                         <span class="widget-search-icon" onclick="window.goToTabFilter('ok')" title="Lihat Senarai" style="background:var(--surface);">🔍</span>
                     </div>
 
                     <div class="widget-item" style="border-left: 5px solid var(--danger); background: var(--danger-light);">
-                        <span style="color: var(--danger);">Lebih Had 14 Hari <br><b id="lbl-late" style="font-size:1.2rem;">0</b></span>
+                        <span style="color: var(--danger);">Lebih Had 14 Hari <br><b id="lbl-late" style="font-size:1.1rem;">0</b></span>
                         <span class="widget-search-icon" onclick="window.goToTabFilter('late')" title="Lihat Senarai" style="background:var(--surface);">🔍</span>
                     </div>
                 </div>
@@ -308,10 +315,7 @@
                         <button class="btn-clear" onclick="document.getElementById('searchInput').value=''; window.renderTable();">❌ Padam</button>
                     </div>
 
-                    <!-- Butang Pinjaman Baru Dipindah ke Sini -->
                     <div class="action-wrapper">
-                        <button class="btn-3d" onclick="window.openModal()" style="background:var(--success); border-color:var(--success); font-size:0.95rem; margin-right: 10px;">➕ Pinjaman Baru</button>
-
                         <div style="display:flex; align-items:center; gap:8px; background:var(--bg-body); padding:6px 10px; border-radius:var(--radius-btn); border:1px solid var(--border);">
                             <span style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">Laporan:</span>
                             <select id="printMonth" style="border:1px solid var(--border); background:var(--surface); font-size:0.9rem; color:var(--text-main); cursor:pointer; padding:4px; border-radius:4px;">
@@ -323,6 +327,8 @@
                             <input type="number" id="printYear" value="2026" style="width:70px; border:1px solid var(--border); background:var(--surface); font-size:0.9rem; color:var(--text-main); padding:4px; border-radius:4px;">
                             <button class="btn-3d" onclick="window.printReport()">🖨️ Cetak</button>
                         </div>
+                        <button class="btn-3d secondary" onclick="window.exportCSV()">📥 CSV</button>
+                        <button class="btn-3d" onclick="window.openModal()" style="background:var(--success); border-color:var(--success); font-size:0.95rem;">➕ Pinjaman Baru</button>
                     </div>
                 </div>
                 
@@ -362,13 +368,12 @@
                     </div>
 
                     <div class="action-wrapper">
-                        <button class="btn-3d" onclick="window.openBukuModal()" style="background:var(--success); border-color:var(--success); font-size:0.95rem; margin-right: 10px;">➕ Rekod Buku Baru</button>
-
                         <div style="display:flex; align-items:center; gap:8px; background:var(--bg-body); padding:6px 10px; border-radius:var(--radius-btn); border:1px solid var(--border);">
                             <span style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">Laporan Tahun:</span>
                             <input type="number" id="printBukuYear" value="2026" style="width:70px; border:1px solid var(--border); background:var(--surface); font-size:0.9rem; color:var(--text-main); padding:4px; border-radius:4px;">
                             <button class="btn-3d" onclick="window.printBukuReport()">🖨️ Cetak Senarai</button>
                         </div>
+                        <button class="btn-3d" onclick="window.openBukuModal()" style="background:var(--success); border-color:var(--success); font-size:0.95rem;">➕ Rekod Buku Baru</button>
                     </div>
                 </div>
                 
@@ -432,7 +437,7 @@
         <input type="hidden" id="docId">
         
         <div class="grid-form">
-            <div class="form-group col-full">
+            <div class="form-group">
                 <label class="form-label">Nama Penuh Peminjam</label>
                 <input type="text" id="f_nama" class="form-input" placeholder="Masukkan nama peminjam">
             </div>
@@ -440,12 +445,8 @@
                 <label class="form-label">No. Ahli / Pekerja</label>
                 <input type="text" id="f_noPekerja" class="form-input" placeholder="A001">
             </div>
+
             <div class="form-group">
-                <label class="form-label">Bahagian</label>
-                <input type="text" id="f_bahagian" class="form-input" placeholder="Cth: Kewangan / IT">
-            </div>
-            
-            <div class="form-group col-full">
                 <label class="form-label">No. Telefon (WhatsApp)</label>
                 <div style="display:flex; gap:5px;">
                     <input type="text" id="f_phone" class="form-input" style="margin:0;" placeholder="601...">
@@ -453,6 +454,10 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.009.55 2.144.842 3.306.843h.001c3.181 0 5.768-2.586 5.768-5.766 0-1.541-.6-2.99-1.684-4.075-1.084-1.085-2.526-1.684-4.066-1.684zm-9.016.33c1.829-2.28 4.661-3.732 7.829-3.732 5.504 0 9.969 4.464 9.969 9.969 0 2.657-1.077 5.071-2.825 6.883-1.745 1.81-4.145 2.914-6.811 2.914-1.897 0-3.69-.537-5.244-1.472l-5.933 1.556 1.583-5.786c-1.07-1.704-1.701-3.729-1.701-5.901 0-2.302.697-4.444 1.891-6.223z"/></svg>
                     </a>
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Bahagian</label>
+                <input type="text" id="f_bahagian" class="form-input" placeholder="Cth: Kewangan / IT">
             </div>
             
             <div class="form-group col-full">
@@ -1021,14 +1026,6 @@
         }
     }
 
-    window.toggleTheme = function() {
-        const html = document.documentElement;
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('pustakawan_theme', newTheme);
-    }
-
     // --- TAB BUKU BARU LOGIC ---
     window.renderBukuTable = function() {
         const tbody = document.getElementById('bukuTableBody');
@@ -1058,7 +1055,7 @@
                     <td><div style="font-size:0.9rem; font-weight:600;">${item.penerima}</div><div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan}</div></td>
                     <td><span style="color:${badgeColor}; background:${badgeBg}; border:1px solid ${badgeColor}; padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.8rem; display:inline-block;">${item.kategori}</span></td>
                     <td style="text-align:right;">
-                        <button class="btn-3d secondary" onclick="window.prepareEditBuku('${item.id}')">✏️ Pinda</button>
+                        <button class="btn-3d secondary" onclick="window.prepareEditBuku('${item.id}')">✏️ Pinda Maklumat</button>
                     </td>
                 </tr>
             `;
@@ -1361,14 +1358,14 @@
             db = getFirestore(app);
             const status = document.getElementById('statusText');
             if(status) {
-                status.innerText = "✅ Dalam Talian";
+                status.innerHTML = "🌐 Dalam Talian";
                 status.style.color = "var(--success)";
             }
             startListening();
         } catch (e) {
             const status = document.getElementById('statusText');
             if(status) {
-                status.innerText = "⚠️ Tiada Sambungan";
+                status.innerHTML = "🔴 Tiada Sambungan";
                 status.style.color = "var(--danger)";
             }
             alert("Ralat Firebase: " + e.message);
@@ -1389,7 +1386,7 @@
             console.error("Gagal baca data pinjaman:", error);
             const status = document.getElementById('statusText');
             if(status) {
-                status.innerText = "⚠️ Tiada Sambungan";
+                status.innerHTML = "🔴 Tiada Sambungan";
                 status.style.color = "var(--danger)";
             }
         });
@@ -1455,7 +1452,7 @@
             alert("GAGAL SIMPAN: " + e.message);
             const status = document.getElementById('statusText');
             if(status) {
-                status.innerText = "⚠️ Tiada Sambungan";
+                status.innerHTML = "🔴 Tiada Sambungan";
                 status.style.color = "var(--danger)";
             }
         }
