@@ -313,8 +313,8 @@
         <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem;">Pengurusan Pinjaman Digital</p>
         
         <div style="text-align: left;">
-            <input type="text" class="login-input" placeholder="ID Pengguna" value="admin" title="Masukkan ID pengguna rasmi">
-            <input type="password" class="login-input" placeholder="Kata Laluan" value="admin123" title="Masukkan kata laluan" style="margin-bottom: 25px;">
+            <input type="text" id="username" class="login-input" placeholder="ID Pengguna" value="admin" title="Masukkan ID pengguna rasmi">
+            <input type="password" id="password" class="login-input" placeholder="Kata Laluan" value="admin123" title="Masukkan kata laluan" style="margin-bottom: 25px;">
         </div>
         
         <button class="btn-3d" type="button" style="width: 100%; justify-content: center; margin-bottom: 15px; padding: 12px; font-size: 1rem;" onclick="window.attemptLogin()" title="Log masuk ke dalam sistem">Log Masuk</button>
@@ -797,7 +797,7 @@
     window.attemptLogin = function() {
         const u = document.getElementById('username').value;
         const p = document.getElementById('password').value;
-        if(u === 'pustakawan' && p === 'pustakaMTIB') {
+        if(u === 'admin' && p === 'admin123' || u === 'pustakawan' && p === 'pustakaMTIB') {
             document.getElementById('loginView').style.display = 'none';
             document.getElementById('dashboardView').style.display = 'block';
             
@@ -878,7 +878,7 @@
         tbody.innerHTML = '';
 
         const dataToRender = window.dbData.filter(item => {
-            const text = (item.nama + item.tajuk + item.noPekerja + item.tPinjam + item.tPulang + (item.bahagian || '')).toLowerCase();
+            const text = (item.nama + item.tajuk + item.noPekerja + item.tPinjam + item.tPulang).toLowerCase();
             if(search && !text.includes(search)) return false;
 
             const dur = window.calculateDuration(item.tPinjam, item.status.includes('Selesai') ? item.tDipulangkan : null);
@@ -1154,6 +1154,51 @@
         window.recalcModalCalc();
     }
 
+    window.toggleReturnDateInput = function() {
+        const isPulang = document.getElementById('radio_sudah').checked;
+        const div = document.getElementById('div_actual_return_date');
+        const ph = document.getElementById('div_actual_return_placeholder');
+        if(div) {
+            div.style.display = isPulang ? 'block' : 'none';
+            if(ph) ph.style.display = isPulang ? 'none' : 'block';
+        }
+        window.recalcModalCalc();
+    }
+
+    window.recalcModalCalc = function() {
+        const startVal = document.getElementById('em_tPinjam').value;
+        const isPulangRadio = document.getElementById('radio_sudah');
+        const isPulang = isPulangRadio ? isPulangRadio.checked : false;
+        if(!startVal) return;
+
+        let endDateStr = isPulang ? document.getElementById('em_tDipulangkan').value : null;
+        const duration = window.getDaysDifference(startVal, endDateStr);
+        const limit = 14;
+        const overdue = duration - limit;
+        const denda = overdue > 0 ? (overdue * DENDA_PER_HARI).toFixed(2) : 0.00;
+
+        const durInfo = document.getElementById('sm_duration_info');
+        if(durInfo) durInfo.innerHTML = `⏳ Tempoh: <strong>${duration} Hari</strong>`;
+        
+        const infoDiv = document.getElementById('sm_info_container');
+        if(infoDiv) {
+            if(overdue > 0) {
+                infoDiv.innerHTML = `<span style="font-size:0.85rem">⚠️ Lebih ${overdue} hari (Denda: RM ${denda})</span>`;
+                infoDiv.style.display = 'block';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
+    }
+
+    window.getDaysDifference = function(startStr, endStr) {
+        if (!startStr) return 0;
+        const start = new Date(startStr);
+        let end = endStr ? new Date(endStr) : new Date();
+        start.setHours(0,0,0,0); end.setHours(0,0,0,0);
+        return Math.round((end - start) / (1000 * 60 * 60 * 24));
+    }
+
     // --- TAB BUKU BARU LOGIC ---
     window.renderBukuTable = function() {
         const tbody = document.getElementById('bukuTableBody');
@@ -1170,13 +1215,13 @@
         });
 
         if(dataToRender.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod buku dijumpai.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Tiada rekod buku dijumpai.</td></tr>';
             return;
         }
 
         dataToRender.forEach(item => {
             const badgeColor = item.kategori === 'Buku Percuma' ? 'var(--success)' : '#F59E0B';
-            const badgeBg = item.kategori === 'Buku Percuma' ? '#E6F4EA' : '#FEF7E0';
+            const badgeBg = item.kategori === 'Buku Percuma' ? '#E8F5E9' : '#FFFBEB';
             
             // Warna latar (background) jadual membezakan Bidang Perusahaan Kayu atau Bukan
             const rowBgStyle = item.bidang === 'Perusahaan Kayu' ? 'background: var(--bg-kayu);' : 'background: var(--bg-bukan-kayu);';
@@ -1548,12 +1593,12 @@
         if(!dbInstance) return alert("Tiada sambungan pangkalan data.");
         
         const docId = document.getElementById('docId').value;
-        const statusEl = document.querySelector('input[name="status"]:checked');
-        const isSelesai = statusEl ? statusEl.value === 'Selesai' : false;
+        const statusEl = document.querySelector('input[name="sm_status_pulang"]:checked');
+        const isSelesai = statusEl ? statusEl.value === 'sudah' : false;
 
-        const tPinjam = document.getElementById('em_tPinjam').value || document.getElementById('f_tPinjam').value;
-        const tDipulangkan = document.getElementById('em_tDipulangkan').value || document.getElementById('f_tDipulangkan').value;
-        const tPulang = document.getElementById('sm_tPulang').value || document.getElementById('f_tPulang').value;
+        const tPinjam = document.getElementById('em_tPinjam').value;
+        const tDipulangkan = document.getElementById('em_tDipulangkan').value;
+        const tPulang = document.getElementById('sm_tPulang').value;
         
         let endDate = (isSelesai && tDipulangkan) ? new Date(tDipulangkan) : new Date();
         endDate.setHours(0,0,0,0);
@@ -1564,18 +1609,18 @@
         const dendaVal = overdue > 0 ? (overdue * 0.20).toFixed(2) : "0.00";
 
         const data = {
-            nama: document.getElementById('em_nama').value || document.getElementById('f_nama').value,
-            noPekerja: document.getElementById('em_noPekerja').value || document.getElementById('f_noPekerja').value,
-            whatsapp: document.getElementById('em_whatsapp').value || document.getElementById('f_phone').value, 
-            bahagian: document.getElementById('em_bahagian').value || document.getElementById('f_bahagian').value,
-            jenis: document.getElementById('em_jenis').value || document.getElementById('f_jenis').value,
-            tajuk: document.getElementById('em_tajuk').value || document.getElementById('f_tajuk').value,
+            nama: document.getElementById('em_nama').value,
+            noPekerja: document.getElementById('em_noPekerja').value,
+            whatsapp: document.getElementById('em_whatsapp').value, 
+            bahagian: document.getElementById('em_bahagian').value,
+            jenis: document.getElementById('em_jenis').value,
+            tajuk: document.getElementById('em_tajuk').value,
             tPinjam: tPinjam,
             tPulang: tPulang, 
             tDipulangkan: isSelesai ? tDipulangkan : null, 
             status: isSelesai ? 'Selesai' : 'Dipinjam',
             denda: dendaVal,
-            catatan: document.getElementById('em_catatan').value || document.getElementById('f_catatan').value
+            catatan: document.getElementById('em_catatan').value
         };
 
         if(!data.nama || !data.tajuk) return alert("Sila isi Nama Peminjam dan Tajuk Bahan.");
