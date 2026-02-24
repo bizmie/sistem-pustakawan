@@ -23,8 +23,8 @@
             --text-muted: #5F6368;      
             --border: #DADCE0;          
 
-            --radius-card: 16px;
-            --radius-btn: 8px;
+            --radius-card: 12px;
+            --radius-btn: 6px;
             --shadow-sm: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             
@@ -80,8 +80,8 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             margin: 0;
-            padding: 15px;
-            line-height: 1.5;
+            padding: 10px;
+            line-height: 1.4;
             transition: background-color 0.3s ease, color 0.3s ease;
             -webkit-font-smoothing: antialiased;
         }
@@ -97,12 +97,12 @@
 
         .login-card {
             background: var(--surface);
-            padding: 40px 30px;
+            padding: 30px 20px;
             border-radius: var(--radius-card);
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
             width: 100%;
-            max-width: 380px;
+            max-width: 340px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -111,19 +111,19 @@
         .login-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 6px;
+            top: 0; left: 0; width: 100%; height: 4px;
             background: var(--primary);
         }
 
         .login-input {
-            width: 100%; padding: 12px; margin-bottom: 15px;
+            width: 100%; padding: 10px; margin-bottom: 12px;
             border: 1px solid var(--border); border-radius: var(--radius-btn);
             background: var(--bg-body); color: var(--text-main);
-            box-sizing: border-box; transition: 0.2s; font-family: inherit; font-size: 1rem;
+            box-sizing: border-box; transition: 0.2s; font-family: inherit; font-size: 0.95rem;
         }
         .login-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); background: var(--surface); }
 
-        .login-footer-info { margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted); }
+        .login-footer-info { margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-muted); }
 
         /* --- DASHBOARD --- */
         #dashboardView { display: none; }
@@ -131,33 +131,33 @@
 
         /* --- HEADER --- */
         header {
-            background: var(--surface); padding: 20px 25px;
+            background: var(--surface); padding: 12px 20px;
             border-radius: var(--radius-card); border: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 25px; box-shadow: var(--shadow-sm); 
+            margin-bottom: 15px; box-shadow: var(--shadow-sm); 
         }
 
         .logo-section h1 {
-            margin: 0; font-size: 1.6rem; color: var(--text-main); 
+            margin: 0; font-size: 1.4rem; color: var(--text-main); 
             font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
-            display: flex; align-items: center; gap: 12px;
+            display: flex; align-items: center; gap: 8px;
         }
         .logo-section span { color: var(--primary); }
-        .logo-section p { margin: 4px 0 0 52px; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+        .logo-section p { margin: 2px 0 0 42px; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; }
         
         .header-right { text-align: right; }
-        #headerDate { color: var(--primary); font-size: 1.05rem; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; }
-        .header-actions { display: flex; gap: 10px; justify-content: flex-end; align-items: center;}
+        #headerDate { color: var(--primary); font-size: 0.95rem; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
+        .header-actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center;}
 
         /* --- BUTTONS --- */
         .btn-3d {
             background: var(--primary); border: none; color: white;
-            padding: 10px 18px; border-radius: var(--radius-btn); font-weight: 500;
+            padding: 8px 14px; border-radius: var(--radius-btn); font-weight: 500;
             cursor: pointer; box-shadow: var(--shadow-sm); transition: 0.2s;
-            display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-family: inherit;
         }
-        .btn-3d:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 2px 4px 0 rgba(60,64,67,0.3); }
-        .btn-3d:active { transform: translateY(0); box-shadow: var(--shadow-sm); }
+        .btn-3d:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        .btn-3d:active { transform: translateY(0); box-shadow: none; }
         
         .btn-3d.secondary { background: transparent; color: var(--primary); border: 1px solid var(--border); box-shadow: none; }
         .btn-3d.secondary:hover { background: var(--primary-light); border-color: var(--primary); }
@@ -165,62 +165,63 @@
         .btn-3d.danger { background: transparent; color: var(--danger); border: 1px solid var(--border); box-shadow: none; }
         .btn-3d.danger:hover { background: var(--danger-light); border-color: var(--danger); }
 
-        .btn-clear { background: var(--bg-body); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 10px 14px; border-radius: var(--radius-btn); font-weight: 500; transition: 0.2s; font-family: inherit; display: inline-flex; align-items: center; justify-content: center;}
+        .btn-clear { background: var(--bg-body); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 6px 12px; border-radius: var(--radius-btn); font-weight: 500; transition: 0.2s; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem;}
         .btn-clear:hover { background: var(--danger-light); color: var(--danger); border-color: var(--danger); }
 
         /* --- NAVIGATION --- */
-        .nav-tabs { display: flex; gap: 8px; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 0; overflow-x: auto; scrollbar-width: none; }
+        .nav-tabs { display: flex; gap: 6px; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 0; overflow-x: auto; scrollbar-width: none; }
         .nav-tabs::-webkit-scrollbar { display: none; }
         .nav-btn {
             background: transparent; color: var(--text-muted); border: 1px solid transparent; border-bottom: none;
-            padding: 12px 20px; font-size: 1rem; font-weight: 500; cursor: pointer; 
+            padding: 10px 16px; font-size: 0.95rem; font-weight: 500; cursor: pointer; 
             border-radius: 8px 8px 0 0; transition: 0.2s; margin-bottom: -1px; white-space: nowrap; font-family: inherit;
         }
         .nav-btn:hover { background: var(--bg-body); color: var(--text-main); }
         .nav-btn.active {
             background: var(--surface); color: var(--primary); 
             border-color: var(--border); border-bottom-color: var(--surface);
+            box-shadow: 0 3px 0 0 var(--primary) inset; 
         }
 
         /* --- SECTIONS --- */
-        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .tab-content { display: none; animation: fadeIn 0.2s ease-in-out; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- STATS & CALENDAR --- */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
         .stat-card {
-            background: var(--surface); padding: 20px;
+            background: var(--surface); padding: 15px;
             border-radius: var(--radius-card); border: 1px solid var(--border);
-            display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-sm); 
+            display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-sm); 
         }
         .stat-icon {
-            width: 48px; height: 48px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
             background: var(--bg-body); border: 1px solid var(--border);
         }
-        .stat-info h3 { margin: 0; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
-        .stat-info .value { font-size: 1.6rem; font-weight: 500; color: var(--text-main); margin-top: 2px;}
+        .stat-info h3 { margin: 0; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;}
+        .stat-info .value { font-size: 1.5rem; font-weight: 600; color: var(--text-main); margin-top: 0px;}
         
         .stat-card.clickable { cursor: pointer; transition: 0.2s; }
         .stat-card.clickable:hover { transform: translateY(-2px); border-color: var(--primary); box-shadow: var(--shadow-md); }
 
-        .dashboard-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .dashboard-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
         .calendar-card, .widget-card {
-            background: var(--surface); padding: 20px;
+            background: var(--surface); padding: 15px;
             border-radius: var(--radius-card); border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
         }
-        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .cal-header h3 { margin: 0; color: var(--text-main); font-weight: 500;}
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .cal-header h3 { margin: 0; color: var(--text-main); font-weight: 500; font-size: 1.05rem;}
         
-        .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-        .cal-grid-headers { text-align: center; font-weight: 600; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 10px; text-transform: uppercase;}
+        .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .cal-grid-headers { text-align: center; font-weight: 600; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase;}
         
         .cal-day {
             background: var(--bg-body); border: 1px solid transparent;
-            border-radius: var(--radius-btn); padding: 6px 4px; min-height: 55px;
-            text-align: center; font-size: 0.95rem; font-weight: 400;
+            border-radius: var(--radius-btn); padding: 4px 2px; min-height: 48px;
+            text-align: center; font-size: 0.9rem; font-weight: 400;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
             transition: 0.2s;
         }
@@ -228,73 +229,74 @@
         .cal-day.today { border: 2px solid var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
         .cal-day.clickable:hover { background: var(--primary-light); border-color: var(--primary); cursor: pointer; transform: scale(1.05); z-index: 2; }
         
-        .cal-dots { display: flex; gap: 3px; margin-top: 5px; justify-content: center; flex-wrap: wrap; }
-        .cal-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+        .cal-dots { display: flex; gap: 2px; margin-top: 3px; justify-content: center; flex-wrap: wrap; }
+        .cal-dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
         .cal-dot.red { background-color: var(--danger); } 
         .cal-dot.green { background-color: var(--success); } 
 
         .widget-item { 
             background: var(--bg-body); border: 1px solid var(--border); 
-            padding: 12px 15px; border-radius: 12px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; font-weight: 500;
+            padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 500;
         }
         .search-shortcut-btn {
             cursor: pointer; display: inline-flex; justify-content: center; align-items: center;
-            width: 32px; height: 32px; border-radius: 50%;
+            width: 28px; height: 28px; border-radius: 50%;
             background: var(--surface); border: 1px solid var(--border);
-            font-size: 0.9rem; color: var(--primary); transition: 0.2s;
+            font-size: 0.85rem; color: var(--primary); transition: 0.2s;
         }
         .search-shortcut-btn:hover { background: var(--primary-light); border-color: var(--primary); }
 
         /* --- TABLE --- */
         .content-card { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm); }
-        .toolbar { padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 15px; justify-content: space-between; background: var(--surface); flex-wrap: wrap; align-items: center;}
+        .toolbar { padding: 12px 15px; border-bottom: 1px solid var(--border); display: flex; gap: 10px; justify-content: space-between; background: var(--surface); flex-wrap: wrap; align-items: center;}
         
-        .search-container { flex: 1; display: flex; gap: 8px; min-width: 250px; align-items: center; }
-        .search-input { flex: 1; padding: 10px 15px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--bg-body); color: var(--text-main); font-family: inherit; font-size: 0.95rem;}
+        .search-container { flex: 1; display: flex; gap: 6px; min-width: 250px; align-items: center; }
+        .search-input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--bg-body); color: var(--text-main); font-family: inherit; font-size: 0.9rem;}
 
-        .action-wrapper { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+        .action-wrapper { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
         
-        table { width: 100%; border-collapse: collapse; min-width: 850px; }
-        th { background: var(--bg-body); text-align: left; padding: 15px 20px; color: var(--text-muted); border-bottom: 2px solid var(--border); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
-        td { padding: 15px 20px; border-bottom: 1px solid var(--border); font-size: 0.95rem; vertical-align: top; color: var(--text-main); }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { background: var(--bg-body); text-align: left; padding: 10px 12px; color: var(--text-muted); border-bottom: 1px solid var(--border); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.3px; }
+        td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; vertical-align: top; color: var(--text-main); }
         tr:hover td { background-color: rgba(0,0,0,0.02); }
         [data-theme="dark"] tr:hover td { background-color: rgba(255,255,255,0.02); }
 
-        .filter-chips { display: flex; gap: 10px; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; scrollbar-width: none;}
-        .chip { background: var(--bg-body); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; cursor: pointer; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: 0.2s; white-space: nowrap; font-family: inherit;}
+        .filter-chips { display: flex; gap: 8px; padding: 10px 15px; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; scrollbar-width: none;}
+        .chip { background: var(--bg-body); border: 1px solid var(--border); padding: 5px 12px; border-radius: 20px; cursor: pointer; color: var(--text-muted); font-weight: 500; font-size: 0.85rem; transition: 0.2s; white-space: nowrap; font-family: inherit;}
         .chip:hover { background: var(--border); }
         .chip.active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); font-weight: 600; }
 
         /* --- MODAL --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: 0.2s; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: 0.2s; }
         .modal-overlay.open { opacity: 1; visibility: visible; }
-        .modal { background: var(--surface); width: 100%; max-width: 650px; padding: 30px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-md); max-height: 90vh; overflow-y: auto;}
+        .modal { background: var(--surface); width: 100%; max-width: 600px; padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-md); max-height: 90vh; overflow-y: auto;}
         
-        .grid-compact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .grid-compact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .col-span-2 { grid-column: span 2; }
         
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9rem; color: var(--text-muted); }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--bg-body); color: var(--text-main); box-sizing: border-box; font-size: 0.95rem; font-family: inherit; transition: 0.2s; }
+        .form-group label { display: block; margin-bottom: 4px; font-weight: 500; font-size: 0.85rem; color: var(--text-muted); }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--bg-body); color: var(--text-main); box-sizing: border-box; font-size: 0.9rem; font-family: inherit; transition: 0.2s; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 2px var(--primary-light); background: var(--surface); }
 
-        #autosave-indicator { position: fixed; top: 20px; right: 20px; background: var(--surface); color: var(--success); padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateY(-10px); transition: all 0.3s ease; z-index: 9999; border: 1px solid var(--border); box-shadow: var(--shadow-sm); pointer-events: none; }
+        #autosave-indicator { position: fixed; top: 15px; right: 15px; background: var(--surface); color: var(--success); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 6px; opacity: 0; transform: translateY(-10px); transition: all 0.3s ease; z-index: 9999; border: 1px solid var(--border); box-shadow: var(--shadow-sm); pointer-events: none; }
 
         @media (max-width: 768px) {
             .dashboard-layout, .grid-compact { grid-template-columns: 1fr; }
             .col-span-2 { grid-column: span 1; }
-            header { flex-direction: column; text-align: center; gap: 15px; padding: 20px;}
+            header { flex-direction: column; text-align: center; gap: 12px; padding: 15px;}
             .header-right { align-items: center; text-align: center; justify-content: center; width: 100%;}
             .header-actions { justify-content: center; }
             .toolbar { flex-direction: column; align-items: stretch; }
             .action-wrapper { justify-content: space-between; width: 100%; }
+            .search-container { width: 100%; }
             
             table, thead, tbody, th, td, tr { display: block; width: 100%; box-sizing: border-box; }
             thead tr { display: none; }
-            tr { margin-bottom: 15px; border: 1px solid var(--border); padding: 15px; border-radius: var(--radius-card); background: var(--surface); box-shadow: var(--shadow-sm);}
-            td { display: flex; flex-direction: column; text-align: left; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+            tr { margin-bottom: 12px; border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-card); background: var(--surface); box-shadow: var(--shadow-sm);}
+            td { display: flex; flex-direction: column; text-align: left; padding: 6px 0; border-bottom: 1px dashed var(--border); }
             td:last-child { border-bottom: none; }
-            td::before { content: attr(data-label); font-weight: 500; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+            td::before { content: attr(data-label); font-weight: 500; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
         }
     </style>
 </head>
@@ -303,20 +305,20 @@
 <!-- Login Screen -->
 <div id="loginView">
     <div class="login-card">
-        <div style="font-size: 3.5rem; margin-bottom: 10px; line-height:1;">📚</div>
-        <h1 style="color: var(--text-main); margin-bottom: 5px; font-size: 1.6rem; font-weight: 500;" class="app-title-display">SISTEM PUSTAKAWAN</h1>
-        <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem;">Pengurusan Pinjaman Digital</p>
+        <div style="font-size: 3rem; margin-bottom: 10px; line-height:1;">📚</div>
+        <h1 style="color: var(--text-main); margin-bottom: 5px; font-size: 1.4rem; font-weight: 500;" class="app-title-display">SISTEM PUSTAKAWAN</h1>
+        <p style="color: var(--text-muted); margin-bottom: 25px; font-size: 0.9rem;">Pengurusan Pinjaman Digital</p>
         
         <div style="text-align: left;">
             <input type="text" id="username" class="login-input" placeholder="ID Pengguna" value="admin" title="Masukkan ID pengguna rasmi">
-            <input type="password" id="password" class="login-input" placeholder="Kata Laluan" value="admin123" title="Masukkan kata laluan" style="margin-bottom: 25px;">
+            <input type="password" id="password" class="login-input" placeholder="Kata Laluan" value="admin123" title="Masukkan kata laluan" style="margin-bottom: 20px;">
         </div>
         
-        <button class="btn-3d" type="button" style="width: 100%; justify-content: center; margin-bottom: 15px; padding: 12px; font-size: 1rem;" onclick="window.attemptLogin()" title="Log masuk ke dalam sistem">Log Masuk</button>
+        <button class="btn-3d" type="button" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.95rem;" onclick="window.attemptLogin()" title="Log masuk ke dalam sistem">Log Masuk</button>
 
         <div class="login-footer-info">
             <div style="margin-bottom: 5px; font-weight: 500; color: var(--primary);" id="loginDate"></div>
-            Versi Aplikasi: <span style="background: var(--bg-body); border: 1px solid var(--border); padding: 2px 8px; border-radius: 12px; font-family: monospace; color: var(--text-muted);">PUSTAKA-V8.1-PIXEL</span>
+            Versi Aplikasi: <span style="background: var(--bg-body); border: 1px solid var(--border); padding: 2px 6px; border-radius: 8px; font-family: monospace; color: var(--text-muted);">PUSTAKA-V8.2-COMPACT</span>
         </div>
     </div>
 </div>
@@ -324,20 +326,20 @@
 <!-- Dashboard -->
 <div id="dashboardView">
     <div id="autosave-indicator">
-        <span id="autosave-icon" style="font-size: 1.1rem;">💾</span> <span id="autosave-text">Data Tersimpan</span>
+        <span id="autosave-icon" style="font-size: 1rem;">💾</span> <span id="autosave-text">Data Tersimpan</span>
     </div>
 
     <div class="container">
         <!-- Header -->
         <header>
             <div class="logo-section">
-                <h1><span style="font-size: 2.2rem;">📚</span> <div class="app-title-display">SISTEM PUSTAKAWAN</div></h1>
+                <h1><span style="font-size: 1.8rem;">📚</span> <div class="app-title-display">SISTEM PUSTAKAWAN</div></h1>
                 <p>Pengurusan Pinjaman Buku & Media</p>
             </div>
             
             <div class="header-right">
                 <div id="headerDate"></div>
-                <div id="appVersion">PUSTAKA-V8.1-PIXEL</div>
+                <div id="appVersion">PUSTAKA-V8.2-COMPACT</div>
                 <div class="header-actions">
                     <small id="statusText" style="color:var(--success); margin-right:5px; font-weight:500; display: flex; align-items: center;" title="Status talian pelayan awan">🌐 Dalam Talian</small>
                     <button class="btn-3d secondary" type="button" onclick="window.switchTab('tetapan')" title="Buka halaman tetapan sistem">⚙️ Tetapan</button>
@@ -391,15 +393,15 @@
                         <div>Isnin</div><div>Selasa</div><div>Rabu</div><div>Khamis</div><div>Jumaat</div><div style="color:var(--danger)">Sabtu</div><div style="color:var(--danger)">Ahad</div>
                     </div>
                     <div class="cal-grid" id="calGrid"></div>
-                    <div style="margin-top:15px; font-size:0.85rem; color:var(--text-muted); display:flex; gap:15px; justify-content:center;">
-                        <span style="display:flex; align-items:center; gap:5px;"><span class="cal-dot green"></span> Mula Pinjam</span>
-                        <span style="display:flex; align-items:center; gap:5px;"><span class="cal-dot red"></span> Tarikh Perlu Pulang</span>
+                    <div style="margin-top:10px; font-size:0.8rem; color:var(--text-muted); display:flex; gap:15px; justify-content:center;">
+                        <span style="display:flex; align-items:center; gap:4px;"><span class="cal-dot green"></span> Mula Pinjam</span>
+                        <span style="display:flex; align-items:center; gap:4px;"><span class="cal-dot red"></span> Tarikh Perlu Pulang</span>
                     </div>
                 </div>
 
                 <div class="widget-card">
                     <h3 style="color: var(--text-main); margin-top:0; font-weight: 500;">Ringkasan Status</h3>
-                    <div id="notificationList" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                    <div id="notificationList" style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
                         <!-- Content injected by JS -->
                     </div>
                 </div>
@@ -410,21 +412,21 @@
         <div id="tab-senarai" class="tab-content">
             <div class="content-card">
                 <div class="toolbar">
-                    <div class="search-wrapper">
+                    <div class="search-container">
                         <input type="text" id="searchInput" class="search-input" placeholder="Cari nama peminjam, ID, atau tajuk..." onkeyup="window.renderTable()" title="Taip untuk mencari rekod pinjaman">
                         <button class="btn-clear" onclick="window.clearSearch()" title="Padam Carian">❌</button>
                     </div>
                     
                     <div class="action-wrapper">
-                        <div style="display:flex; align-items:center; gap:8px; background:var(--bg-body); padding:6px 10px; border-radius:var(--radius-btn); border:1px solid var(--border);">
-                            <span style="font-size:0.85rem; font-weight:500; color:var(--text-muted);">Laporan:</span>
-                            <select id="reportMonth" style="border:1px solid var(--border); background:var(--surface); color:var(--text-main); padding:6px; border-radius:4px; font-family:inherit; font-size: 0.9rem;" title="Pilih Bulan Cetakan">
+                        <div style="display:flex; align-items:center; gap:6px; background:var(--bg-body); padding:4px 8px; border-radius:var(--radius-btn); border:1px solid var(--border);">
+                            <span style="font-size:0.8rem; font-weight:500; color:var(--text-muted);">Laporan:</span>
+                            <select id="reportMonth" style="border:1px solid var(--border); background:var(--surface); color:var(--text-main); padding:4px 6px; border-radius:4px; font-family:inherit; font-size: 0.85rem;" title="Pilih Bulan Cetakan">
                                 <option value="0">Januari</option><option value="1">Februari</option><option value="2">Mac</option>
                                 <option value="3">April</option><option value="4">Mei</option><option value="5">Jun</option>
                                 <option value="6">Julai</option><option value="7">Ogos</option><option value="8">September</option>
                                 <option value="9">Oktober</option><option value="10">November</option><option value="11">Disember</option>
                             </select>
-                            <input type="number" id="reportYear" value="2026" style="width:70px; border:1px solid var(--border); background:var(--surface); color:var(--text-main); padding:6px; border-radius:4px; font-size: 0.9rem;" title="Pilih Tahun Cetakan">
+                            <input type="number" id="reportYear" value="2026" style="width:60px; border:1px solid var(--border); background:var(--surface); color:var(--text-main); padding:4px 6px; border-radius:4px; font-size: 0.85rem;" title="Pilih Tahun Cetakan">
                             <button class="btn-3d secondary" onclick="window.printMonthlyReport()" title="Jana dan cetak laporan PDF mengikut bulan terpilih">🖨️ Cetak</button>
                         </div>
                         <button class="btn-3d" onclick="window.openModal()" title="Buka borang untuk rekod pinjaman baharu">➕ Pinjaman Baru</button>
@@ -450,7 +452,7 @@
                             </tr>
                         </thead>
                         <tbody id="tableBody">
-                            <tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan data dari pangkalan data...</td></tr>
+                            <tr><td colspan="5" style="text-align:center; padding: 20px;">Memuatkan data dari pangkalan data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -461,16 +463,16 @@
         <div id="tab-buku" class="tab-content">
             <div class="content-card">
                 <div class="toolbar">
-                    <div class="search-wrapper">
+                    <div class="search-container">
                         <input type="text" id="searchBukuInput" class="search-input" placeholder="Cari tajuk buku, penerbit, atau kategori..." onkeyup="window.renderBukuTable()" title="Taip untuk mencari maklumat buku baharu">
                         <button class="btn-clear" onclick="document.getElementById('searchBukuInput').value=''; window.renderBukuTable();" title="Padam teks carian">❌</button>
                     </div>
 
                     <div class="action-wrapper">
-                        <div style="display:flex; align-items:center; gap:8px; background:var(--bg-body); padding:6px 10px; border-radius:var(--radius-btn); border:1px solid var(--border);">
-                            <span style="font-size:0.85rem; font-weight:500; color:var(--text-muted);">Laporan Tahun:</span>
-                            <input type="number" id="printBukuYear" value="2026" style="width:70px; border:1px solid var(--border); background:var(--surface); color:var(--text-main); padding:6px; border-radius:4px; font-size: 0.9rem;" title="Pilih Tahun Cetakan Bahan Baru">
-                            <button class="btn-3d secondary" onclick="window.printBukuReport()" title="Jana dan cetak senarai PDF bahan rujukan baharu">🖨️ Cetak Senarai</button>
+                        <div style="display:flex; align-items:center; gap:6px; background:var(--bg-body); padding:4px 8px; border-radius:var(--radius-btn); border:1px solid var(--border);">
+                            <span style="font-size:0.8rem; font-weight:500; color:var(--text-muted);">Laporan Tahun:</span>
+                            <input type="number" id="printBukuYear" value="2026" style="width:60px; border:1px solid var(--border); background:var(--surface); color:var(--text-main); padding:4px 6px; border-radius:4px; font-size: 0.85rem;" title="Pilih Tahun Cetakan Bahan Baru">
+                            <button class="btn-3d secondary" onclick="window.printBukuReport()" title="Jana dan cetak senarai PDF bahan rujukan baharu">🖨️ Cetak</button>
                         </div>
                         <button class="btn-3d" onclick="window.openBukuModal()" title="Buka borang pendaftaran bahan rujukan baharu">➕ Rekod Buku Baru</button>
                     </div>
@@ -489,7 +491,7 @@
                             </tr>
                         </thead>
                         <tbody id="bukuTableBody">
-                            <tr><td colspan="6" style="text-align:center; padding: 30px;">Memuatkan senarai bahan rujukan...</td></tr>
+                            <tr><td colspan="6" style="text-align:center; padding: 20px;">Memuatkan senarai bahan rujukan...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -498,13 +500,13 @@
 
         <!-- SEKSYEN 3: TETAPAN -->
         <div id="tab-tetapan" class="tab-content">
-            <div class="content-card" style="padding: 30px;">
-                <h2 style="margin-top:0; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 25px; font-weight: 500;">⚙️ Tetapan Sistem Aplikasi</h2>
+            <div class="content-card" style="padding: 20px;">
+                <h2 style="margin-top:0; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; font-weight: 500; font-size: 1.2rem;">⚙️ Tetapan Sistem Aplikasi</h2>
                 
                 <div style="max-width: 600px;">
-                    <div style="margin-bottom: 30px;">
-                        <label class="form-label" style="font-size: 1rem; color:var(--text-main); font-weight: 500;">Tajuk Utama Aplikasi</label>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 15px 0;">Ubah tajuk yang dipaparkan di bahagian atas halaman sistem.</p>
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label" style="font-size: 0.95rem; color:var(--text-main); font-weight: 500;">Tajuk Utama Aplikasi</label>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin: 4px 0 10px 0;">Ubah tajuk yang dipaparkan di bahagian atas halaman sistem.</p>
                         <div style="display:flex; gap:10px;">
                             <input type="text" id="setting_app_title" class="input-box" style="margin:0;" placeholder="SISTEM PUSTAKAWAN" title="Masukkan tajuk sistem perpustakaan anda">
                             <button class="btn-3d" onclick="window.saveAppTitle()" title="Simpan perubahan tajuk">💾 Simpan</button>
@@ -512,10 +514,10 @@
                     </div>
                 </div>
 
-                <div style="background: var(--bg-body); padding: 25px; border-radius: var(--radius-card); border: 1px solid var(--border); margin-top: 40px; max-width: 600px;">
-                    <h4 style="margin-top: 0; color: var(--text-main); font-weight: 500; font-size: 1.1rem;">Eksport Pangkalan Data (Sandaran)</h4>
-                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:5px; margin-bottom: 20px;">Muat turun semua rekod ke dalam format fail .CSV untuk simpanan selamat (Backup).</p>
-                    <div style="display:flex; gap:15px;">
+                <div style="background: var(--bg-body); padding: 20px; border-radius: var(--radius-card); border: 1px solid var(--border); margin-top: 30px; max-width: 600px;">
+                    <h4 style="margin-top: 0; color: var(--text-main); font-weight: 500; font-size: 1.05rem;">Eksport Pangkalan Data (Sandaran)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px; margin-bottom: 15px;">Muat turun semua rekod ke dalam format fail .CSV untuk simpanan selamat (Backup).</p>
+                    <div style="display:flex; gap:10px;">
                         <button onclick="window.exportDatabase()" class="btn-3d secondary" style="flex:1; justify-content:center;" title="Sandaran untuk Jadual Pinjaman">📥 Data Pinjaman</button>
                         <button onclick="window.exportBukuDatabase()" class="btn-3d secondary" style="flex:1; justify-content:center;" title="Sandaran untuk Jadual Buku Baru">📥 Data Buku Baru</button>
                     </div>
@@ -529,7 +531,7 @@
 <div class="modal-overlay" id="statusModal">
     <div class="modal">
         <div class="modal-header">
-            <h3 id="sm_title" style="margin:0; color:var(--text-main); font-size:1.2rem; font-weight: 500;">Urus Pinjaman</h3>
+            <h3 id="sm_title" style="margin:0; color:var(--text-main); font-size:1.1rem; font-weight: 500;">Urus Pinjaman</h3>
             <button onclick="window.closeStatusModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;" title="Tutup tetingkap ini">&times;</button>
         </div>
         <input type="hidden" id="docId">
@@ -541,23 +543,23 @@
             <div class="form-group" style="position: relative;">
                 <label>WhatsApp</label>
                 <div style="display:flex; align-items:center;">
-                    <input type="text" id="em_whatsapp" style="padding-right: 40px;" placeholder="601..." title="Pastikan bermula dengan 6 untuk link ke WhatsApp">
+                    <input type="text" id="em_whatsapp" style="padding-right: 35px;" placeholder="601..." title="Pastikan bermula dengan 6 untuk link ke WhatsApp">
                     <!-- Ikon WA Hijau -->
-                    <a id="waLinkBtn" href="#" target="_blank" title="Buka di aplikasi WhatsApp Peminjam" style="position:absolute; right:8px; text-decoration:none; display:none;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <a id="waLinkBtn" href="#" target="_blank" title="Buka di aplikasi WhatsApp Peminjam" style="position:absolute; right:5px; text-decoration:none; display:none;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2C6.48 2 2 6.48 2 12C2 13.85 2.5 15.55 3.35 17L2.25 21.05C2.15 21.45 2.55 21.85 2.95 21.75L7 20.65C8.45 21.5 10.15 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C10.45 20 9 19.6 7.75 18.85L4.8 19.65L5.6 16.7C4.85 15.45 4.45 14 4.45 12.45C4.45 8.35 7.8 5 11.95 5C16.1 5 19.45 8.35 19.45 12.45C19.45 16.55 16.1 19.9 12 19.9V20Z" fill="#1E8E3E"/>
                             <path d="M15.4 14.3C15.2 14.2 14.2 13.7 14 13.65C13.8 13.6 13.65 13.55 13.5 13.75C13.35 13.95 12.95 14.45 12.8 14.6C12.65 14.75 12.5 14.75 12.3 14.65C12.1 14.55 11.45 14.35 10.7 13.65C10.1 13.1 9.7 12.45 9.6 12.25C9.5 12.05 9.6 11.95 9.7 11.85C9.8 11.75 9.9 11.65 10 11.55C10.1 11.45 10.15 11.35 10.2 11.25C10.25 11.15 10.25 11.05 10.2 10.95C10.15 10.85 9.75 9.85 9.6 9.45C9.45 9.05 9.3 9.1 9.2 9.1H8.8C8.65 9.1 8.4 9.15 8.2 9.4C8 9.65 7.45 10.15 7.45 11.2C7.45 12.25 8.2 13.25 8.3 13.4C8.4 13.55 9.8 15.7 11.95 16.6C13.7 17.35 14.05 17.2 14.45 17.15C14.85 17.1 15.7 16.65 15.9 16.1C16.1 15.55 16.1 15.1 16.05 15C16 14.9 15.85 14.85 15.65 14.75H15.4V14.3Z" fill="#1E8E3E"/>
                         </svg>
                     </a>
                 </div>
             </div>
-            <div class="form-group"><label>Bahagian</label><input type="text" id="em_bahagian" placeholder="Cth: Kewangan / IT" title="Masukkan bahagian/jabatan peminjam bekerja"></div>
+            <div class="form-group"><label>Bahagian</label><input type="text" id="em_bahagian" placeholder="Cth: Kewangan" title="Masukkan bahagian/jabatan peminjam bekerja"></div>
             
-            <div class="form-group"><label>Tajuk Bahan</label><input type="text" id="em_tajuk" placeholder="Tajuk Buku / Bahan" title="Sila taip tajuk penuh bahan yang dipinjam"></div>
-            <div class="form-group"><label>Kategori</label><select id="em_jenis" title="Pilih kategori/jenis bahan yang dipinjam"><option value="Buku">Buku</option><option value="Fail Dokumen">Fail Dokumen</option><option value="Majalah">Majalah</option><option value="Alat Bantu">Alat Bantu Mengajar</option></select></div>
+            <div class="form-group"><label>Tajuk Bahan</label><input type="text" id="em_tajuk" placeholder="Tajuk Bahan" title="Sila taip tajuk penuh bahan yang dipinjam"></div>
+            <div class="form-group"><label>Kategori</label><select id="em_jenis" title="Pilih kategori bahan"><option value="Buku">Buku</option><option value="Fail Dokumen">Fail Dokumen</option><option value="Majalah">Majalah</option><option value="Alat Bantu">Alat Bantu Mengajar</option></select></div>
         </div>
 
-        <div style="background: var(--primary-light); padding: 15px; border-radius: var(--radius-btn); border: 1px solid rgba(26, 115, 232, 0.2); margin-top: 15px;">
+        <div style="background: var(--primary-light); padding: 12px; border-radius: var(--radius-btn); border: 1px solid rgba(26, 115, 232, 0.2); margin-top: 10px;">
             <div class="grid-compact">
                 <div class="form-group">
                     <label style="color: var(--primary); font-weight: 600;">Tarikh Pinjam</label>
@@ -565,51 +567,45 @@
                 </div>
                 <div class="form-group">
                     <label style="color: var(--primary); font-weight: 600;">Jangkaan Pulang</label>
-                    <input type="date" id="sm_tPulang" style="border-color: var(--primary);" oninput="window.recalcModalCalc()" title="Tarikh ini ditetapkan secara automatik (14 Hari) atau boleh diubah secara manual">
+                    <input type="date" id="sm_tPulang" style="border-color: var(--primary);" oninput="window.recalcModalCalc()" title="Tarikh automatik (+14 Hari)">
                 </div>
             </div>
         </div>
 
-        <div style="background: var(--bg-body); padding: 15px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 15px;">
+        <div style="background: var(--bg-body); padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 10px;">
             <div class="form-group" style="margin-bottom: 0;">
-                <label style="margin-bottom: 8px;">Status Pemulangan</label>
-                <div style="display: flex; gap: 20px;">
-                    <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; color: var(--text-main); font-size: 0.95rem;">
+                <label style="margin-bottom: 6px;">Status Pemulangan</label>
+                <div style="display: flex; gap: 15px;">
+                    <label style="display: flex; align-items: center; gap: 4px; cursor: pointer; color: var(--text-main); font-size: 0.9rem;">
                         <input type="radio" name="sm_status_pulang" value="belum" id="radio_belum" onchange="window.toggleReturnDateInput()" title="Buku masih dipegang peminjam"> Belum Pulang
                     </label>
-                    <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; color: var(--success); font-size: 0.95rem; font-weight: 500;">
+                    <label style="display: flex; align-items: center; gap: 4px; cursor: pointer; color: var(--success); font-size: 0.9rem; font-weight: 500;">
                         <input type="radio" name="sm_status_pulang" value="sudah" id="radio_sudah" onchange="window.toggleReturnDateInput()" title="Tandakan jika buku sudah diserahkan kembali"> Telah Dipulangkan
                     </label>
                 </div>
             </div>
 
-            <div class="form-group" id="div_actual_return_date" style="display:none; margin-top: 15px;">
+            <div class="form-group" id="div_actual_return_date" style="display:none; margin-top: 10px;">
                 <label style="color:var(--success); font-weight: 600;">Tarikh Pemulangan Sebenar</label>
                 <input type="date" id="em_tDipulangkan" oninput="window.recalcModalCalc()" onchange="window.recalcModalCalc()" style="border-color: var(--success);" title="Masukkan tarikh bilakah buku ini benar-benar dipulangkan">
             </div>
-            <!-- Placeholder -->
-            <div id="div_actual_return_placeholder" style="height: 10px;"></div>
         </div>
         
-        <div class="form-group" style="margin-top: 15px;">
+        <div class="form-group" style="margin-top: 10px;">
             <label>Catatan / Komen Ringkas (Pilihan)</label>
             <textarea id="em_catatan" rows="2" placeholder="Nota tambahan..." title="Ruang tambahan untuk sebarang komen."></textarea>
         </div>
         
         <!-- Info Bar -->
-        <div style="display:flex; gap:10px; margin-top:15px; font-size:0.9rem;">
-            <div id="sm_duration_info" style="flex:1; background: var(--bg-body); padding: 10px; border-radius: var(--radius-btn); text-align:center; font-weight: 500; border:1px solid var(--border);">
-                <!-- Diisi oleh JS -->
-            </div>
-            <div id="sm_info_container" style="flex:1; background: var(--danger-light); padding: 10px; border-radius: var(--radius-btn); border: 1px dashed var(--danger); text-align:center; display:none; color:var(--danger); font-weight: 500;">
-                <!-- Denda info -->
-            </div>
+        <div style="display:flex; gap:10px; margin-top:10px; font-size:0.85rem;">
+            <div id="sm_duration_info" style="flex:1; background: var(--bg-body); padding: 8px; border-radius: var(--radius-btn); text-align:center; font-weight: 500; border:1px solid var(--border);"></div>
+            <div id="sm_info_container" style="flex:1; background: var(--danger-light); padding: 8px; border-radius: var(--radius-btn); border: 1px dashed var(--danger); text-align:center; display:none; color:var(--danger); font-weight: 500;"></div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-top: 25px;">
+        <div style="display:flex; gap:10px; margin-top: 15px;">
             <button onclick="window.deleteRecord()" id="btnDelete" class="btn-3d danger" type="button" style="margin-right:auto;" title="Padam rekod ini secara kekal dari pangkalan data">🗑️ Hapus</button>
             <button onclick="window.closeStatusModal()" class="btn-3d secondary" type="button" title="Batal segala pindaan dan tutup borang">Batal</button>
-            <button onclick="window.saveModalChanges()" class="btn-3d" type="button" style="padding-left: 30px; padding-right: 30px;" title="Simpan perubahan dan kemaskini ke Pangkalan Data">💾 Simpan</button>
+            <button onclick="window.saveModalChanges()" class="btn-3d" type="button" style="padding-left: 20px; padding-right: 20px;" title="Simpan perubahan dan kemaskini ke Pangkalan Data">💾 Simpan</button>
         </div>
     </div>
 </div>
@@ -619,12 +615,12 @@
     <div class="modal">
         <div class="modal-header">
             <h3 style="margin:0; font-size:1.2rem; font-weight: 500;">📚 Daftar Buku/Bahan Baru</h3>
-            <button onclick="window.closeBukuModal()" style="background:var(--bg-body); border:1px solid var(--border); width:35px; height:35px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Tutup tetingkap ini">&times;</button>
+            <button onclick="window.closeBukuModal()" style="background:var(--bg-body); border:1px solid var(--border); width:30px; height:30px; border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Tutup tetingkap ini">&times;</button>
         </div>
         <input type="hidden" id="bukuId">
         
         <div class="grid-form">
-            <div class="form-group col-full" style="background: var(--primary-light); padding:15px; border-radius: var(--radius-btn); border: 1px solid var(--primary-light);">
+            <div class="form-group col-full" style="background: var(--primary-light); padding:12px; border-radius: var(--radius-btn); border: 1px solid var(--primary-light);">
                 <label style="color:var(--primary); font-weight: 600;">Kategori Penerimaan</label>
                 <select id="b_kategori" class="form-input" style="border-color:var(--primary); font-weight: 500;" title="Pilih status penerimaan untuk klasifikasi aset">
                     <option value="Buku Percuma">🎁 Bahan / Buku Percuma</option>
@@ -691,31 +687,31 @@
             </div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-top:25px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 20px;">
+        <div style="display:flex; gap:10px; margin-top:20px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 15px;">
             <button type="button" id="btnDeleteBuku" class="btn-3d danger" style="display:none; margin-right:auto;" onclick="window.deleteBuku()" title="Padam rekod pendaftaran buku ini secara kekal">🗑️ Hapus</button>
             <button type="button" class="btn-3d secondary" onclick="window.closeBukuModal()" title="Batal segala pindaan dan tutup borang pendaftaran">Batal</button>
-            <button type="button" class="btn-3d" style="padding-left: 30px; padding-right: 30px;" onclick="window.saveBuku()" title="Daftar buku ini ke dalam pangkalan data pusat sumber">💾 Simpan</button>
+            <button type="button" class="btn-3d" style="padding-left: 20px; padding-right: 20px;" onclick="window.saveBuku()" title="Daftar buku ini ke dalam pangkalan data pusat sumber">💾 Simpan</button>
         </div>
     </div>
 </div>
 
 <!-- MODAL LAPORAN DENDA KHUSUS -->
 <div class="modal-overlay" id="fineModal">
-    <div class="modal" style="max-width: 850px;">
+    <div class="modal" style="max-width: 750px;">
         <div class="modal-header">
-            <h3 style="margin:0; font-size:1.2rem; font-weight: 500;">💰 Laporan Terperinci Denda</h3>
-            <button onclick="window.closeFineModal()" style="background:var(--bg-body); border:1px solid var(--border); width:35px; height:35px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Tutup tetingkap laporan denda ini">&times;</button>
+            <h3 style="margin:0; font-size:1.1rem; font-weight: 500;">💰 Laporan Terperinci Denda</h3>
+            <button onclick="window.closeFineModal()" style="background:var(--bg-body); border:1px solid var(--border); width:30px; height:30px; border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Tutup tetingkap laporan denda ini">&times;</button>
         </div>
         
-        <div class="table-wrap" style="max-height: 450px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-card);">
-            <table style="margin: 0;">
+        <div class="table-wrap" style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-card);">
+            <table style="margin: 0; min-width: 600px;">
                 <thead style="position: sticky; top: 0; z-index: 10;">
                     <tr>
                         <th style="width:5%; text-align:center;">No</th>
-                        <th style="width:25%">Peminjam</th>
+                        <th style="width:30%">Peminjam</th>
                         <th style="width:30%">Tajuk Bahan</th>
                         <th style="width:15%; text-align:center;">Lewat (Hari)</th>
-                        <th style="width:15%; text-align:right;">Kadar Denda</th>
+                        <th style="width:10%; text-align:right;">Kadar Denda</th>
                         <th style="width:10%; text-align:center;">Status</th>
                     </tr>
                 </thead>
@@ -725,8 +721,8 @@
             </table>
         </div>
         
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:2px dashed var(--border);">
-            <div style="font-size:1.1rem; font-weight:500;">Jumlah Keseluruhan: <span id="totalFineAmount" style="color:var(--danger); margin-left:8px; font-weight: 700;">RM 0.00</span></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; padding-top:15px; border-top:2px dashed var(--border);">
+            <div style="font-size:1.05rem; font-weight:500;">Jumlah Keseluruhan: <span id="totalFineAmount" style="color:var(--danger); margin-left:8px; font-weight: 600;">RM 0.00</span></div>
             <div style="display:flex; gap:10px;">
                 <button type="button" class="btn-3d secondary" onclick="window.closeFineModal()" title="Tutup paparan denda">Tutup</button>
                 <button type="button" class="btn-3d" onclick="window.printFineReport()" title="Jana dokumen untuk cetak keseluruhan senarai denda">🖨️ Cetak Senarai Denda</button>
@@ -885,7 +881,7 @@
         });
 
         if(dataToRender.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod dijumpai.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Tiada rekod dijumpai.</td></tr>';
             return;
         }
 
@@ -907,7 +903,7 @@
 
             const row = `
                 <tr>
-                    <td data-label="Peminjam"><strong style="color:var(--text-main); font-size:1rem;">${item.nama}</strong><br><small style="color:var(--text-muted);">${item.noPekerja}</small>${bhg}</td>
+                    <td data-label="Peminjam"><strong style="color:var(--text-main); font-size:0.95rem;">${item.nama}</strong><br><small style="color:var(--text-muted);">${item.noPekerja}</small>${bhg}</td>
                     <td data-label="Bahan"><div style="font-weight:500; color:var(--text-main);">${item.tajuk}</div><small style="background:var(--bg-body); padding:2px 6px; border-radius:4px; border:1px solid var(--border); font-size:0.75rem;">${item.jenis}</small></td>
                     <td data-label="Tarikh">
                         <div style="font-size:0.85rem; color:var(--text-muted);">Pinjam: <strong>${window.formatDate(item.tPinjam)}</strong></div>
@@ -993,7 +989,7 @@
                 tbody.innerHTML += `
                     <tr style="border-bottom: 1px solid var(--border);">
                         <td style="text-align:center; padding:10px;">${count++}</td>
-                        <td style="padding:10px;"><strong style="font-size:1rem; color:var(--text-main);">${item.nama}</strong><br><small style="color:var(--text-muted);">${item.noPekerja}</small></td>
+                        <td style="padding:10px;"><strong style="font-size:0.95rem; color:var(--text-main);">${item.nama}</strong><br><small style="color:var(--text-muted);">${item.noPekerja}</small></td>
                         <td style="padding:10px;">${item.tajuk}</td>
                         <td style="text-align:center; padding:10px; color:var(--danger); font-weight:500; font-size:0.95rem;">${overdue} Hari</td>
                         <td style="text-align:right; padding:10px; font-weight:500; font-size:0.95rem;">RM ${actualFine.toFixed(2)}</td>
@@ -1004,7 +1000,7 @@
         });
 
         if (count === 1) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; font-weight:400; color:var(--text-muted);">Tiada rekod denda buat masa ini.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; font-weight:400; color:var(--text-muted);">Tiada rekod denda buat masa ini.</td></tr>';
         }
 
         document.getElementById('totalFineAmount').innerText = 'RM ' + totalFine.toFixed(2);
@@ -1223,7 +1219,7 @@
             tbody.innerHTML += `
                 <tr style="${rowBgStyle}">
                     <td data-label="Tarikh"><strong>${window.formatDate(item.tarikh)}</strong></td>
-                    <td data-label="Tajuk"><div style="font-weight:500; font-size:1.05rem;">${item.tajuk}</div><div style="color:var(--text-muted); font-size:0.85rem;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td>
+                    <td data-label="Tajuk"><div style="font-weight:500; font-size:1rem;">${item.tajuk}</div><div style="color:var(--text-muted); font-size:0.85rem;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td>
                     <td data-label="Info Bahan"><div style="font-size:0.85rem;">${item.jenis} - <span style="font-weight:500;">${item.bidang}</span></div><div style="color:var(--primary); font-size:0.85rem; font-family:monospace; font-weight:500;">${item.isbn || '-'}</div></td>
                     <td data-label="Penerima / Sumber"><div style="font-size:0.9rem; font-weight:500;">${item.penerima}</div><div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan}</div></td>
                     <td data-label="Kategori"><span style="color:${badgeColor}; background:${badgeBg}; padding:4px 8px; border-radius:4px; font-weight:500; font-size:0.8rem; display:inline-block;">${item.kategori}</span></td>
@@ -1476,6 +1472,7 @@
         win.print();
     }
 
+    // --- EXPORT DATABASE ---
     window.exportDatabase = function() {
         if(window.dbData && window.dbData.length === 0) return alert("Tiada data pinjaman untuk dieksport.");
         let c = "Nama,ID,Bahagian,Bahan,Tajuk,Tempoh(Hari),Pinjam,Jangka_Pulang,Status,Denda,Catatan\n";
