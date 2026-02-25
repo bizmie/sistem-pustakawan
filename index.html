@@ -402,14 +402,14 @@
 
                 <div style="display: flex; flex-direction: column; gap: 15px;">
                     <div class="widget-card" style="padding: 15px;">
-                        <h3 style="color: var(--text-main); margin-top:0; font-weight: 600; font-size: 1.05rem;">Ringkasan Status</h3>
+                        <h3 style="color: var(--text-main); margin-top:0; font-weight: 500; font-size: 1.05rem;">Ringkasan Status</h3>
                         <div id="notificationList" style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
                             <!-- Content injected by JS -->
                         </div>
                     </div>
                     
                     <div class="widget-card" style="padding: 15px;">
-                        <h3 style="color: var(--text-main); margin-top:0; font-weight: 600; font-size: 1.05rem;">Bahan Baru (Bulan Ini)</h3>
+                        <h3 style="color: var(--text-main); margin-top:0; font-weight: 500; font-size: 1.05rem;">Bahan Baru (Bulan Ini)</h3>
                         <div id="newBooksWidgetList" style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; max-height: 220px; overflow-y: auto; padding-right: 5px;">
                             <!-- Content injected by JS -->
                         </div>
@@ -1218,7 +1218,7 @@
         if(!startVal) return;
 
         let endDateStr = isPulang ? document.getElementById('em_tDipulangkan').value : null;
-        const duration = window.getDaysDifference(startVal, endDateStr);
+        const duration = window.calculateDuration(startVal, endDateStr);
         const limit = 14;
         const overdue = duration - limit;
         const denda = overdue > 0 ? (overdue * DENDA_PER_HARI).toFixed(2) : 0.00;
@@ -1394,6 +1394,72 @@
         </body></html>`;
 
         const win = window.open('', '', 'width=1100,height=600');
+        win.document.write(html);
+        win.document.close();
+        win.print();
+    }
+
+    window.printFineReport = function() {
+        const today = new Date().toLocaleDateString('ms-MY');
+        let html = `<html><head>
+            <title>Laporan Kutipan Denda</title>
+            <style>
+                body { font-family: 'Segoe UI', Arial, sans-serif; padding:20px; font-size:12px; color: #333; } 
+                table { width:100%; border-collapse:collapse; margin-top:20px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+                th,td { border:1px solid #ddd; padding:10px; font-size:12px; text-align:left; } 
+                th { background:#f4f4f4; text-transform: uppercase; font-weight: bold; }
+                .text-center { text-align:center; } .text-right { text-align:right; }
+                h2 { text-align:center; margin:5px 0; font-size: 18px; letter-spacing: 1px; }
+                p { text-align:center; margin:0 0 20px 0; color: #666; }
+                .footer { margin-top: 40px; text-align: center; font-size: 10px; font-style: italic; color: #999; border-top: 1px dashed #ddd; padding-top: 10px; }
+            </style>
+        </head><body>
+            <h2>LAPORAN KUTIPAN DENDA PUSTAKA</h2>
+            <p>Tarikh Cetakan: <strong>${today}</strong></p>
+            <table><thead><tr>
+                <th width="5%" class="text-center">No</th>
+                <th width="25%">Maklumat Peminjam</th>
+                <th width="30%">Tajuk Bahan Pinjaman</th>
+                <th width="10%" class="text-center">Bil. Hari Lewat</th>
+                <th width="15%" class="text-right">Kadar Denda (RM)</th>
+                <th width="15%" class="text-center">Status Bayaran</th>
+            </tr></thead><tbody>`;
+
+        let totalFine = 0;
+        let count = 1;
+
+        window.dbData.forEach(item => {
+            const dur = window.calculateDuration(item.tPinjam, item.status.includes('Selesai') ? item.tDipulangkan : null);
+            const overdue = dur - 14;
+            const liveFine = overdue > 0 ? (overdue * 0.20) : 0;
+            const savedFine = item.denda ? parseFloat(item.denda) : 0;
+            const actualFine = item.status.includes('Selesai') ? savedFine : liveFine;
+
+            if (actualFine > 0) {
+                totalFine += actualFine;
+                const statusTxt = item.status.includes('Selesai') ? '<span style="color:#1E8E3E">Dibayar</span>' : '<span style="color:#D93025">Tertunggak</span>';
+                html += `<tr>
+                    <td class="text-center">${count++}</td>
+                    <td><strong>${item.nama}</strong><br><span style="color:#666">${item.noPekerja}</span></td>
+                    <td>${item.tajuk}</td>
+                    <td class="text-center" style="color:#D93025; font-weight:bold;">${overdue}</td>
+                    <td class="text-right" style="font-weight:bold;">${parseFloat(actualFine).toFixed(2)}</td>
+                    <td class="text-center" style="font-weight:bold;">${statusTxt}</td>
+                </tr>`;
+            }
+        });
+
+        if (count === 1) html += `<tr><td colspan="6" class="text-center" style="padding:20px; color:#999;">Tiada rekod denda direkodkan setakat ini.</td></tr>`;
+
+        html += `<tr>
+            <td colspan="4" class="text-right" style="font-size:14px;"><strong>JUMLAH KESELURUHAN DENDA:</strong></td>
+            <td class="text-right" style="font-size:14px; color:#D93025;"><strong>RM ${totalFine.toFixed(2)}</strong></td>
+            <td></td>
+        </tr></tbody></table>
+        <div class="footer">Dokumen ini dijana secara automatik oleh Sistem Pustakawan Digital.</div>
+        </body></html>`;
+
+        const win = window.open('', '', 'width=900,height=600');
         win.document.write(html);
         win.document.close();
         win.print();
@@ -1597,6 +1663,7 @@
             } else {
                 await addDoc(collection(dbInstance, "pinjaman"), data);
             }
+            // Pastikan isihan tempatan juga dilakukan sementara tunggu listener siap
             window.dbData.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
             window.closeModal();
             window.closeStatusModal();
@@ -1625,16 +1692,15 @@
         }
     }
 
-    // --- SAVE & DELETE BUKU BARU (CLOUD/LOCAL) ---
+    // --- SAVE & DELETE BUKU BARU (CLOUD) ---
     window.saveBuku = async function(statusRec = 'Aktif') {
+        if(!dbInstance) return alert("Tiada sambungan pangkalan data.");
+        
         const docId = document.getElementById('bukuId').value;
-        const tajuk = document.getElementById('b_tajuk').value;
-        if(!tajuk) return alert("Sila isi Tajuk Bahan.");
-
         const data = {
             kategori: document.getElementById('b_kategori').value,
             tarikh: document.getElementById('b_tarikh').value,
-            tajuk: tajuk,
+            tajuk: document.getElementById('b_tajuk').value,
             edisi: document.getElementById('b_edisi').value,
             bilangan: document.getElementById('b_bilangan').value,
             isbn: document.getElementById('b_isbn').value,
@@ -1646,26 +1712,13 @@
             status_rekod: statusRec
         };
 
-        if(!dbInstance) {
-            // JIKA TIADA FIREBASE - Guna LocalStorage
-            if(docId) {
-                const idx = window.dbBuku.findIndex(x => String(x.id) === String(docId));
-                if(idx > -1) window.dbBuku[idx] = { ...window.dbBuku[idx], ...data };
-            } else {
-                data.id = Date.now();
-                window.dbBuku.unshift(data);
-            }
-            localStorage.setItem(DB_BUKU_KEY, JSON.stringify(window.dbBuku));
-            window.renderBukuTable();
-            window.closeBukuModal();
-            return;
-        }
+        if(!data.tajuk) return alert("Sila isi Tajuk Bahan.");
 
-        // JIKA ADA FIREBASE - Guna Awan
         document.getElementById('loadingBar').style.display = 'block';
         try {
             if (docId) await updateDoc(doc(dbInstance, "buku_baru", docId), data);
             else await addDoc(collection(dbInstance, "buku_baru"), data);
+            // Isihan sementara untuk UX lancar
             window.dbBuku.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
             window.closeBukuModal();
         } catch (e) { alert("GAGAL SIMPAN BUKU: " + e.message); }
@@ -1675,16 +1728,7 @@
     window.deleteBuku = async function() {
         const docId = document.getElementById('bukuId').value;
         if (!docId) return alert("Sila pilih rekod.");
-        if(confirm("Padam rekod buku ini secara kekal?")) {
-            
-            if(!dbInstance) {
-                window.dbBuku = window.dbBuku.filter(x => String(x.id) !== String(docId));
-                localStorage.setItem(DB_BUKU_KEY, JSON.stringify(window.dbBuku));
-                window.renderBukuTable();
-                window.closeBukuModal();
-                return;
-            }
-
+        if(confirm("Padam rekod buku ini secara kekal dari awan?")) {
             document.getElementById('loadingBar').style.display = 'block';
             try {
                 await deleteDoc(doc(dbInstance, "buku_baru", docId));
