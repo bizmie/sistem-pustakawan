@@ -275,6 +275,12 @@
         .grid-compact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .col-span-2 { grid-column: span 2; }
         
+        /* 4 Columns specific layout for Book Modal */
+        .grid-cols-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .col-span-4 { grid-column: span 4; }
+        .col-span-3 { grid-column: span 3; }
+        .col-span-1 { grid-column: span 1; }
+
         .form-group label { display: block; margin-bottom: 4px; font-weight: 500; font-size: 0.85rem; color: var(--text-muted); }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-btn); background: var(--bg-body); color: var(--text-main); box-sizing: border-box; font-size: 0.9rem; font-family: inherit; transition: 0.2s; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 2px var(--primary-light); background: var(--surface); }
@@ -283,7 +289,8 @@
 
         @media (max-width: 768px) {
             .dashboard-layout, .grid-compact { grid-template-columns: 1fr; }
-            .col-span-2 { grid-column: span 1; }
+            .grid-cols-4 { grid-template-columns: 1fr; }
+            .col-span-1, .col-span-2, .col-span-3, .col-span-4 { grid-column: span 1; }
             header { flex-direction: column; text-align: center; gap: 12px; padding: 15px;}
             .header-right { align-items: center; text-align: center; justify-content: center; width: 100%;}
             .header-actions { justify-content: center; }
@@ -477,7 +484,7 @@
                             <input type="number" id="printBukuYear" value="2026" style="width:60px; border:1px solid var(--border); background:var(--surface); color:var(--text-main); padding:4px 6px; border-radius:4px; font-size: 0.85rem;" title="Pilih Tahun Cetakan Bahan Baru">
                             <button class="btn-3d secondary" onclick="window.printBukuReport()" title="Jana dan cetak senarai PDF bahan rujukan baharu">🖨️ Cetak</button>
                         </div>
-                        <button class="btn-3d" onclick="window.openBukuModal()" title="Buka borang pendaftaran bahan rujukan baharu">➕ Rekod Buku Baru</button>
+                        <button class="btn-3d" onclick="window.openBukuModal()" style="background:var(--success); border-color:var(--success); font-size:0.95rem;" title="Buka borang pendaftaran bahan rujukan baharu">➕ Rekod Buku Baru</button>
                     </div>
                 </div>
                 
@@ -518,7 +525,7 @@
                     
                     <div style="margin-bottom: 20px; padding-top: 15px; border-top: 1px dashed var(--border);">
                         <label class="form-label" style="font-size: 0.95rem; color:var(--text-main); font-weight: 500;">Versi Aplikasi</label>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin: 4px 0 10px 0; font-family: monospace; font-weight: 600;">PUSTAKA-V8.3</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin: 4px 0 10px 0; font-family: monospace; font-weight: 600;">PUSTAKA-V8.4-COMPACT</p>
                     </div>
                 </div>
 
@@ -552,7 +559,6 @@
                 <label>WhatsApp</label>
                 <div style="display:flex; align-items:center;">
                     <input type="text" id="em_whatsapp" style="padding-right: 35px;" placeholder="601..." title="Pastikan bermula dengan 6 untuk link ke WhatsApp">
-                    <!-- Ikon WA Hijau -->
                     <a id="waLinkBtn" href="#" target="_blank" title="Buka di aplikasi WhatsApp Peminjam" style="position:absolute; right:5px; text-decoration:none; display:none;">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2C6.48 2 2 6.48 2 12C2 13.85 2.5 15.55 3.35 17L2.25 21.05C2.15 21.45 2.55 21.85 2.95 21.75L7 20.65C8.45 21.5 10.15 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C10.45 20 9 19.6 7.75 18.85L4.8 19.65L5.6 16.7C4.85 15.45 4.45 14 4.45 12.45C4.45 8.35 7.8 5 11.95 5C16.1 5 19.45 8.35 19.45 12.45C19.45 16.55 16.1 19.9 12 19.9V20Z" fill="#1E8E3E"/>
@@ -620,85 +626,86 @@
 
 <!-- MODAL BAHAN RUJUKAN BAHARU -->
 <div class="modal-overlay" id="bukuModal">
-    <div class="modal">
+    <div class="modal" style="max-width: 750px;">
         <div class="modal-header">
-            <h3 style="margin:0; font-size:1.2rem; font-weight: 500;">📚 Daftar Buku/Bahan Baru</h3>
-            <button onclick="window.closeBukuModal()" style="background:var(--bg-body); border:1px solid var(--border); width:30px; height:30px; border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Tutup tetingkap ini">&times;</button>
+            <h3 style="margin:0; font-size:1.2rem; font-weight: 600;">📚 Daftar Buku/Bahan Baru</h3>
         </div>
         <input type="hidden" id="bukuId">
         
-        <div class="grid-form">
-            <div class="form-group col-full" style="background: var(--primary-light); padding:12px; border-radius: var(--radius-btn); border: 1px solid var(--primary-light);">
-                <label style="color:var(--primary); font-weight: 600;">Kategori Penerimaan</label>
+        <div class="grid-cols-4">
+            <div class="form-group col-span-2">
+                <label class="form-label" style="color:var(--primary); font-weight: 600;">Kategori Penerimaan</label>
                 <select id="b_kategori" class="form-input" style="border-color:var(--primary); font-weight: 500;" title="Pilih status penerimaan untuk klasifikasi aset">
                     <option value="Buku Percuma">🎁 Bahan / Buku Percuma</option>
                     <option value="Pembelian Baru">🛒 Pembelian Baru</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>Tarikh Diterima</label>
-                <input type="date" id="b_tarikh" title="Pilih tarikh bahan diterima oleh pusat sumber">
+            <div class="form-group col-span-2">
+                <label class="form-label">Tarikh Diterima</label>
+                <input type="date" id="b_tarikh" class="form-input" title="Pilih tarikh bahan diterima oleh pusat sumber">
             </div>
-            <div class="form-group">
-                <label>Jenis Bahan</label>
-                <select id="b_jenis" title="Klasifikasikan format bahan rujukan yang didaftarkan">
-                    <option value="Laporan">Laporan</option>
+            
+            <div class="form-group col-span-4">
+                <label class="form-label">Tajuk Bahan</label>
+                <input type="text" id="b_tajuk" class="form-input" placeholder="Masukkan tajuk penuh rujukan" title="Wajib diisi - Nama atau tajuk rasmi bahan rujukan">
+            </div>
+
+            <div class="form-group col-span-2">
+                <label class="form-label">Edisi / Isu</label>
+                <input type="text" id="b_edisi" class="form-input" placeholder="Cth: Bil. 134/2025" title="Sila nyatakan siri keluaran, nombor isu atau versi edisi bahan ini">
+            </div>
+
+            <div class="form-group col-span-2">
+                <label class="form-label">ISSN / ISBN</label>
+                <input type="text" id="b_isbn" class="form-input" placeholder="Cth: ISBN 978-629-..." title="Masukkan kod pengenalan buku (International Standard Book Number)">
+            </div>
+
+            <!-- COMPACT ROW FOR SMALL DATA -->
+            <div class="form-group col-span-1">
+                <label class="form-label">Jenis Bahan</label>
+                <select id="b_jenis" class="form-input" title="Klasifikasikan format bahan rujukan yang didaftarkan">
                     <option value="Buku">Buku</option>
+                    <option value="Laporan">Laporan</option>
                     <option value="Majalah">Majalah</option>
                     <option value="Jurnal">Jurnal</option>
                     <option value="Lain-lain">Lain-lain</option>
                 </select>
             </div>
-            
-            <div class="form-group col-full">
-                <label>Tajuk Bahan</label>
-                <input type="text" id="b_tajuk" placeholder="Masukkan tajuk penuh rujukan" title="Wajib diisi - Nama atau tajuk rasmi bahan rujukan">
+            <div class="form-group col-span-1">
+                <label class="form-label">Bilangan</label>
+                <input type="number" id="b_bilangan" class="form-input" value="1" min="1" title="Nyatakan kuantiti (unit) bahan yang diterima untuk rekod inventori">
             </div>
-
-            <div class="form-group">
-                <label>Edisi / Isu</label>
-                <input type="text" id="b_edisi" placeholder="Cth: Bil. 134/2025" title="Sila nyatakan siri keluaran, nombor isu atau versi edisi bahan ini">
-            </div>
-            <div class="form-group">
-                <label>Bilangan (Kuantiti)</label>
-                <input type="number" id="b_bilangan" value="1" min="1" title="Nyatakan kuantiti (unit) bahan yang diterima untuk rekod inventori">
-            </div>
-
-            <div class="form-group col-full">
-                <label>ISSN / ISBN</label>
-                <input type="text" id="b_isbn" placeholder="Cth: ISBN 978-629-..." title="Masukkan kod pengenalan buku (International Standard Book Number)">
-            </div>
-
-            <div class="form-group">
-                <label>Bidang</label>
-                <select id="b_bidang" title="Tentukan samada bahan ini tergolong dalam bidang Perusahaan Kayu atau tidak">
-                    <option value="Perusahaan Kayu">Perusahaan Kayu</option>
+            <div class="form-group col-span-1">
+                <label class="form-label">Bidang</label>
+                <select id="b_bidang" class="form-input" title="Tentukan samada bahan ini tergolong dalam bidang Perusahaan Kayu atau tidak">
+                    <option value="Perusahaan Kayu" selected>Perusahaan Kayu</option>
                     <option value="Bukan Perusahaan Kayu">Bukan Perusahaan Kayu</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Penerbitan</label>
-                <select id="b_penerbitan" title="Lokasi asal penerbitan rujukan tersebut dicetak">
+            <div class="form-group col-span-1">
+                <label class="form-label">Penerbitan</label>
+                <select id="b_penerbitan" class="form-input" title="Lokasi asal penerbitan rujukan tersebut dicetak">
                     <option value="Dalam Negara">Dalam Negara</option>
                     <option value="Luar Negara">Luar Negara</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>Penerima</label>
-                <input type="text" id="b_penerima" placeholder="Nama penerima bahan" title="Masukkan nama pegawai pusat sumber yang menerima aset ini">
+            <div class="form-group col-span-2">
+                <label class="form-label">Penerima</label>
+                <input type="text" id="b_penerima" class="form-input" placeholder="Nama penerima bahan" title="Masukkan nama pegawai pusat sumber yang menerima aset ini">
             </div>
-            <div class="form-group">
-                <label>Perolehan Daripada (Sumber)</label>
-                <input type="text" id="b_sumber" placeholder="Cth: MTIB / UITM / Syarikat XYZ" title="Nama agensi, syarikat, atau entiti dari mana bahan tersebut diperoleh">
+            <div class="form-group col-span-2">
+                <label class="form-label">Perolehan Daripada (Sumber)</label>
+                <input type="text" id="b_sumber" class="form-input" placeholder="Cth: MTIB / UITM / Syarikat XYZ" title="Nama agensi, syarikat, atau entiti dari mana bahan tersebut diperoleh">
             </div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-top:20px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 15px;">
+        <div style="display:flex; gap:10px; margin-top:25px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 15px;">
             <button type="button" id="btnDeleteBuku" class="btn-3d danger" style="display:none; margin-right:auto;" onclick="window.deleteBuku()" title="Padam rekod pendaftaran buku ini secara kekal">🗑️ Hapus</button>
-            <button type="button" class="btn-3d secondary" onclick="window.closeBukuModal()" title="Batal segala pindaan dan tutup borang pendaftaran">Batal</button>
-            <button type="button" class="btn-3d" style="padding-left: 20px; padding-right: 20px;" onclick="window.saveBuku()" title="Daftar buku ini ke dalam pangkalan data pusat sumber">💾 Simpan</button>
+            <button type="button" class="btn-clear" style="border: 1px solid var(--danger); color: var(--danger); margin-right:auto;" onclick="window.closeBukuModal()" title="Batal segala pindaan dan tutup borang pendaftaran">❌ Tutup</button>
+            <button type="button" class="btn-3d secondary" style="border-color: var(--warning); color: var(--warning); box-shadow: none;" onclick="window.saveBuku('KIV')" title="Simpan sebagai rekod sementara (KIV)">⏳ Simpan KIV</button>
+            <button type="button" class="btn-3d" style="padding-left: 20px; padding-right: 20px;" onclick="window.saveBuku('Aktif')" title="Daftar buku ini ke dalam pangkalan data pusat sumber">💾 Simpan Rekod</button>
         </div>
     </div>
 </div>
@@ -752,14 +759,14 @@
     const DENDA_PER_HARI = 0.20; 
 
     // Initialize Local Storage Fallback Data (If cloud is slow/unavailable)
-    let db = JSON.parse(localStorage.getItem(DB_KEY)) || [];
-    let dbBuku = JSON.parse(localStorage.getItem(DB_BUKU_KEY)) || [];
+    window.dbData = JSON.parse(localStorage.getItem(DB_KEY)) || [];
+    window.dbBuku = JSON.parse(localStorage.getItem(DB_BUKU_KEY)) || [];
 
-    if(dbBuku.length === 0) {
-        dbBuku = [
-            { id: 201, kategori: "Buku Percuma", tarikh: "2026-01-12", jenis: "Laporan", tajuk: "Laporan Timber Statistics Malaysia Export dan Import", edisi: "Januari - September 2025", bilangan: "1", isbn: "", bidang: "Perusahaan Kayu", penerbitan: "Dalam Negara", penerima: "Sharifah", sumber: "MTIB (BPS)" }
+    if(window.dbBuku.length === 0) {
+        window.dbBuku = [
+            { id: 201, kategori: "Buku Percuma", tarikh: "2026-01-12", jenis: "Laporan", tajuk: "Laporan Timber Statistics Malaysia Export dan Import", edisi: "Januari - September 2025", bilangan: "1", isbn: "", bidang: "Perusahaan Kayu", penerbitan: "Dalam Negara", penerima: "Sharifah", sumber: "MTIB (BPS)", status_rekod: "Aktif" }
         ];
-        localStorage.setItem(DB_BUKU_KEY, JSON.stringify(dbBuku));
+        localStorage.setItem(DB_BUKU_KEY, JSON.stringify(window.dbBuku));
     }
 
     // --- INITIALIZATION ---
@@ -768,6 +775,11 @@
         const dateStr = new Date().toLocaleDateString('ms-MY', options).toUpperCase();
         if(document.getElementById('headerDate')) document.getElementById('headerDate').innerText = dateStr;
         if(document.getElementById('loginDate')) document.getElementById('loginDate').innerText = dateStr;
+    }
+
+    window.initTheme = function() {
+        const savedTheme = localStorage.getItem('pustakawan_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
     }
 
     window.loadAppTitle = function() {
@@ -958,17 +970,17 @@
         const notifList = document.getElementById('notificationList');
         if(notifList) {
             notifList.innerHTML = `
-                <div class="widget-item" style="border-left: 4px solid var(--text-main); padding: 8px 12px; margin-bottom: 6px;">
-                    <span>Buku Belum Pulang <br><b style="font-size:1rem; color:var(--text-main); font-weight:600;">${active}</b></span>
-                    <span class="widget-search-icon" style="width:24px; height:24px; font-size:0.8rem;" onclick="window.goToTabFilter('active')" title="Lihat Senarai Belum Pulang">🔍</span>
+                <div class="widget-item" style="border-left: 5px solid var(--text-main);">
+                    <span>Buku Belum Pulang <br><b style="font-size:1.1rem; color:var(--text-main); font-weight:600;">${active}</b></span>
+                    <span class="widget-search-icon" onclick="window.goToTabFilter('active')" title="Lihat Senarai Belum Pulang">🔍</span>
                 </div>
-                <div class="widget-item" style="border-left: 4px solid var(--primary); background: var(--primary-light); padding: 8px 12px; margin-bottom: 6px;">
-                    <span style="color: var(--primary);">Dalam Tempoh (OK) <br><b style="font-size:1rem; font-weight:600;">${ok}</b></span>
-                    <span class="widget-search-icon" style="background:var(--surface); width:24px; height:24px; font-size:0.8rem;" onclick="window.goToTabFilter('ok')" title="Lihat Senarai Dalam Tempoh">🔍</span>
+                <div class="widget-item" style="border-left: 5px solid var(--primary); background: var(--primary-light);">
+                    <span style="color: var(--primary);">Dalam Tempoh (OK) <br><b style="font-size:1.1rem; font-weight:600;">${ok}</b></span>
+                    <span class="widget-search-icon" onclick="window.goToTabFilter('ok')" title="Lihat Senarai Dalam Tempoh" style="background:var(--surface);">🔍</span>
                 </div>
-                <div class="widget-item" style="border-left: 4px solid var(--danger); background: var(--danger-light); padding: 8px 12px; margin-bottom: 0;">
-                    <span style="color: var(--danger);">Lebih Had 14 Hari <br><b style="font-size:1rem; font-weight:600;">${late}</b></span>
-                    <span class="widget-search-icon" style="background:var(--surface); width:24px; height:24px; font-size:0.8rem;" onclick="window.goToTabFilter('late')" title="Lihat Senarai Lewat">🔍</span>
+                <div class="widget-item" style="border-left: 5px solid var(--danger); background: var(--danger-light);">
+                    <span style="color: var(--danger);">Lebih Had 14 Hari <br><b style="font-size:1.1rem; font-weight:600;">${late}</b></span>
+                    <span class="widget-search-icon" onclick="window.goToTabFilter('late')" title="Lihat Senarai Lewat" style="background:var(--surface);">🔍</span>
                 </div>
             `;
         }
@@ -1254,11 +1266,12 @@
             
             // Warna latar (background) jadual membezakan Bidang Perusahaan Kayu atau Bukan
             const rowBgStyle = item.bidang === 'Perusahaan Kayu' ? 'background: var(--bg-kayu);' : 'background: var(--bg-bukan-kayu);';
+            const kivBadge = item.status_rekod === 'KIV' ? `<span style="background:var(--danger-light); color:var(--danger); padding:2px 6px; border-radius:4px; font-size:0.75rem; font-weight:600; margin-left:8px;" title="Rekod Sementara (KIV)">⏳ KIV</span>` : '';
 
             tbody.innerHTML += `
                 <tr style="${rowBgStyle}">
                     <td data-label="Tarikh"><strong>${window.formatDate(item.tarikh)}</strong></td>
-                    <td data-label="Tajuk"><div style="font-weight:500; font-size:1rem;">${item.tajuk}</div><div style="color:var(--text-muted); font-size:0.85rem;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td>
+                    <td data-label="Tajuk"><div style="font-weight:500; font-size:1.05rem;">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.85rem;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td>
                     <td data-label="Info Bahan"><div style="font-size:0.85rem;">${item.jenis} - <span style="font-weight:500;">${item.bidang}</span></div><div style="color:var(--primary); font-size:0.85rem; font-family:monospace; font-weight:500;">${item.isbn || '-'}</div></td>
                     <td data-label="Penerima / Sumber"><div style="font-size:0.9rem; font-weight:500;">${item.penerima}</div><div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan}</div></td>
                     <td data-label="Kategori"><span style="color:${badgeColor}; background:${badgeBg}; padding:4px 8px; border-radius:4px; font-weight:500; font-size:0.8rem; display:inline-block;">${item.kategori}</span></td>
@@ -1277,7 +1290,7 @@
         document.getElementById('b_tarikh').valueAsDate = new Date();
         document.getElementById('b_kategori').value = 'Buku Percuma';
         document.getElementById('b_jenis').value = 'Buku';
-        document.getElementById('b_bidang').value = 'Bukan Perusahaan Kayu';
+        document.getElementById('b_bidang').value = 'Perusahaan Kayu';
         document.getElementById('b_penerbitan').value = 'Dalam Negara';
         
         if(document.getElementById('btnDeleteBuku')) document.getElementById('btnDeleteBuku').style.display = 'none';
@@ -1302,7 +1315,7 @@
         document.getElementById('b_bilangan').value = item.bilangan || 1;
         document.getElementById('b_isbn').value = item.isbn || '';
         document.getElementById('b_jenis').value = item.jenis || 'Buku';
-        document.getElementById('b_bidang').value = item.bidang || 'Bukan Perusahaan Kayu';
+        document.getElementById('b_bidang').value = item.bidang || 'Perusahaan Kayu';
         document.getElementById('b_penerbitan').value = item.penerbitan || 'Dalam Negara';
         document.getElementById('b_penerima').value = item.penerima || '';
         document.getElementById('b_sumber').value = item.sumber || '';
@@ -1386,72 +1399,6 @@
         win.print();
     }
 
-    window.printFineReport = function() {
-        const today = new Date().toLocaleDateString('ms-MY');
-        let html = `<html><head>
-            <title>Laporan Kutipan Denda</title>
-            <style>
-                body { font-family: 'Segoe UI', Arial, sans-serif; padding:20px; font-size:12px; color: #333; } 
-                table { width:100%; border-collapse:collapse; margin-top:20px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
-                th,td { border:1px solid #ddd; padding:10px; font-size:12px; text-align:left; } 
-                th { background:#f4f4f4; text-transform: uppercase; font-weight: bold; }
-                .text-center { text-align:center; } .text-right { text-align:right; }
-                h2 { text-align:center; margin:5px 0; font-size: 18px; letter-spacing: 1px; }
-                p { text-align:center; margin:0 0 20px 0; color: #666; }
-                .footer { margin-top: 40px; text-align: center; font-size: 10px; font-style: italic; color: #999; border-top: 1px dashed #ddd; padding-top: 10px; }
-            </style>
-        </head><body>
-            <h2>LAPORAN KUTIPAN DENDA PUSTAKA</h2>
-            <p>Tarikh Cetakan: <strong>${today}</strong></p>
-            <table><thead><tr>
-                <th width="5%" class="text-center">No</th>
-                <th width="25%">Maklumat Peminjam</th>
-                <th width="30%">Tajuk Bahan Pinjaman</th>
-                <th width="10%" class="text-center">Bil. Hari Lewat</th>
-                <th width="15%" class="text-right">Kadar Denda (RM)</th>
-                <th width="15%" class="text-center">Status Bayaran</th>
-            </tr></thead><tbody>`;
-
-        let totalFine = 0;
-        let count = 1;
-
-        window.dbData.forEach(item => {
-            const dur = window.calculateDuration(item.tPinjam, item.status.includes('Selesai') ? item.tDipulangkan : null);
-            const overdue = dur - 14;
-            const liveFine = overdue > 0 ? (overdue * 0.20) : 0;
-            const savedFine = item.denda ? parseFloat(item.denda) : 0;
-            const actualFine = item.status.includes('Selesai') ? savedFine : liveFine;
-
-            if (actualFine > 0) {
-                totalFine += actualFine;
-                const statusTxt = item.status.includes('Selesai') ? '<span style="color:#1E8E3E">Dibayar</span>' : '<span style="color:#D93025">Tertunggak</span>';
-                html += `<tr>
-                    <td class="text-center">${count++}</td>
-                    <td><strong>${item.nama}</strong><br><span style="color:#666">${item.noPekerja}</span></td>
-                    <td>${item.tajuk}</td>
-                    <td class="text-center" style="color:#D93025; font-weight:bold;">${overdue}</td>
-                    <td class="text-right" style="font-weight:bold;">${parseFloat(actualFine).toFixed(2)}</td>
-                    <td class="text-center" style="font-weight:bold;">${statusTxt}</td>
-                </tr>`;
-            }
-        });
-
-        if (count === 1) html += `<tr><td colspan="6" class="text-center" style="padding:20px; color:#999;">Tiada rekod denda direkodkan setakat ini.</td></tr>`;
-
-        html += `<tr>
-            <td colspan="4" class="text-right" style="font-size:14px;"><strong>JUMLAH KESELURUHAN DENDA:</strong></td>
-            <td class="text-right" style="font-size:14px; color:#D93025;"><strong>RM ${totalFine.toFixed(2)}</strong></td>
-            <td></td>
-        </tr></tbody></table>
-        <div class="footer">Dokumen ini dijana secara automatik oleh Sistem Pustakawan Digital.</div>
-        </body></html>`;
-
-        const win = window.open('', '', 'width=900,height=600');
-        win.document.write(html);
-        win.document.close();
-        win.print();
-    }
-
     window.printBukuReport = function() {
         const y = parseInt(document.getElementById('printBukuYear').value);
         const today = new Date().toLocaleDateString('ms-MY');
@@ -1527,9 +1474,9 @@
 
     window.exportBukuDatabase = function() {
         if(window.dbBuku && window.dbBuku.length === 0) return alert("Tiada data buku untuk dieksport.");
-        let c = "Kategori,Tarikh,Tajuk,Edisi,Bilangan,ISBN,Jenis,Bidang,Penerbitan,Penerima,Sumber\n";
+        let c = "Kategori,Tarikh,Tajuk,Edisi,Bilangan,ISBN,Jenis,Bidang,Penerbitan,Penerima,Sumber,Status\n";
         window.dbBuku.forEach(x => {
-            c += `"${x.kategori}","${x.tarikh}","${x.tajuk}","${x.edisi||''}","${x.bilangan||1}","${x.isbn||''}","${x.jenis||''}","${x.bidang||''}","${x.penerbitan||''}","${x.penerima||''}","${x.sumber||''}"\n`;
+            c += `"${x.kategori}","${x.tarikh}","${x.tajuk}","${x.edisi||''}","${x.bilangan||1}","${x.isbn||''}","${x.jenis||''}","${x.bidang||''}","${x.penerbitan||''}","${x.penerima||''}","${x.sumber||''}","${x.status_rekod||'Aktif'}"\n`;
         });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob([c],{type:'text/csv'}));
@@ -1650,7 +1597,6 @@
             } else {
                 await addDoc(collection(dbInstance, "pinjaman"), data);
             }
-            // Pastikan isihan tempatan juga dilakukan sementara tunggu listener siap
             window.dbData.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
             window.closeModal();
             window.closeStatusModal();
@@ -1679,15 +1625,16 @@
         }
     }
 
-    // --- SAVE & DELETE BUKU BARU (CLOUD) ---
-    window.saveBuku = async function() {
-        if(!dbInstance) return alert("Tiada sambungan pangkalan data.");
-        
+    // --- SAVE & DELETE BUKU BARU (CLOUD/LOCAL) ---
+    window.saveBuku = async function(statusRec = 'Aktif') {
         const docId = document.getElementById('bukuId').value;
+        const tajuk = document.getElementById('b_tajuk').value;
+        if(!tajuk) return alert("Sila isi Tajuk Bahan.");
+
         const data = {
             kategori: document.getElementById('b_kategori').value,
             tarikh: document.getElementById('b_tarikh').value,
-            tajuk: document.getElementById('b_tajuk').value,
+            tajuk: tajuk,
             edisi: document.getElementById('b_edisi').value,
             bilangan: document.getElementById('b_bilangan').value,
             isbn: document.getElementById('b_isbn').value,
@@ -1695,16 +1642,30 @@
             bidang: document.getElementById('b_bidang').value,
             penerbitan: document.getElementById('b_penerbitan').value,
             penerima: document.getElementById('b_penerima').value,
-            sumber: document.getElementById('b_sumber').value
+            sumber: document.getElementById('b_sumber').value,
+            status_rekod: statusRec
         };
 
-        if(!data.tajuk) return alert("Sila isi Tajuk Bahan.");
+        if(!dbInstance) {
+            // JIKA TIADA FIREBASE - Guna LocalStorage
+            if(docId) {
+                const idx = window.dbBuku.findIndex(x => String(x.id) === String(docId));
+                if(idx > -1) window.dbBuku[idx] = { ...window.dbBuku[idx], ...data };
+            } else {
+                data.id = Date.now();
+                window.dbBuku.unshift(data);
+            }
+            localStorage.setItem(DB_BUKU_KEY, JSON.stringify(window.dbBuku));
+            window.renderBukuTable();
+            window.closeBukuModal();
+            return;
+        }
 
+        // JIKA ADA FIREBASE - Guna Awan
         document.getElementById('loadingBar').style.display = 'block';
         try {
             if (docId) await updateDoc(doc(dbInstance, "buku_baru", docId), data);
             else await addDoc(collection(dbInstance, "buku_baru"), data);
-            // Isihan sementara untuk UX lancar
             window.dbBuku.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
             window.closeBukuModal();
         } catch (e) { alert("GAGAL SIMPAN BUKU: " + e.message); }
@@ -1714,7 +1675,16 @@
     window.deleteBuku = async function() {
         const docId = document.getElementById('bukuId').value;
         if (!docId) return alert("Sila pilih rekod.");
-        if(confirm("Padam rekod buku ini secara kekal dari awan?")) {
+        if(confirm("Padam rekod buku ini secara kekal?")) {
+            
+            if(!dbInstance) {
+                window.dbBuku = window.dbBuku.filter(x => String(x.id) !== String(docId));
+                localStorage.setItem(DB_BUKU_KEY, JSON.stringify(window.dbBuku));
+                window.renderBukuTable();
+                window.closeBukuModal();
+                return;
+            }
+
             document.getElementById('loadingBar').style.display = 'block';
             try {
                 await deleteDoc(doc(dbInstance, "buku_baru", docId));
