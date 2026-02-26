@@ -86,6 +86,8 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        #loadingBar { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--success)); z-index: 9999; display: none; }
+
         /* --- LOGIN SCREEN --- */
         #loginView {
             display: flex;
@@ -309,6 +311,8 @@
 </head>
 <body>
 
+<div id="loadingBar"></div>
+
 <!-- Login Screen -->
 <div id="loginView">
     <div class="login-card">
@@ -525,7 +529,7 @@
                     
                     <div style="margin-bottom: 20px; padding-top: 15px; border-top: 1px dashed var(--border);">
                         <label class="form-label" style="font-size: 0.95rem; color:var(--text-main); font-weight: 500;">Versi Aplikasi</label>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin: 4px 0 10px 0; font-family: monospace; font-weight: 600;">PUSTAKA-V8.4-COMPACT</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin: 4px 0 10px 0; font-family: monospace; font-weight: 600;">PUSTAKA-V8.3</p>
                     </div>
                 </div>
 
@@ -547,18 +551,18 @@
     <div class="modal">
         <div class="modal-header">
             <h3 id="sm_title" style="margin:0; color:var(--text-main); font-size:1.1rem; font-weight: 500;">Urus Pinjaman</h3>
-            <button onclick="window.closeStatusModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;" title="Tutup tetingkap ini">&times;</button>
+            <button onclick="window.closeModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;" title="Tutup tetingkap ini">&times;</button>
         </div>
         <input type="hidden" id="docId">
         
         <div class="grid-compact">
-            <div class="form-group"><label>Nama Peminjam</label><input type="text" id="em_nama" placeholder="Nama Penuh" title="Taip nama penuh peminjam bahan"></div>
-            <div class="form-group"><label>ID / No. Pekerja</label><input type="text" id="em_noPekerja" placeholder="A001" title="Sila masukkan ID ahli atau No. pekerja jika ada"></div>
+            <div class="form-group"><label>Nama Peminjam</label><input type="text" id="f_nama" placeholder="Nama Penuh" title="Taip nama penuh peminjam bahan"></div>
+            <div class="form-group"><label>ID / No. Pekerja</label><input type="text" id="f_noPekerja" placeholder="A001" title="Sila masukkan ID ahli atau No. pekerja jika ada"></div>
             
             <div class="form-group" style="position: relative;">
                 <label>WhatsApp</label>
                 <div style="display:flex; align-items:center;">
-                    <input type="text" id="em_whatsapp" style="padding-right: 35px;" placeholder="601..." title="Pastikan bermula dengan 6 untuk link ke WhatsApp">
+                    <input type="text" id="f_whatsapp" style="padding-right: 35px;" placeholder="601..." title="Pastikan bermula dengan 6 untuk link ke WhatsApp">
                     <a id="waLinkBtn" href="#" target="_blank" title="Buka di aplikasi WhatsApp Peminjam" style="position:absolute; right:5px; text-decoration:none; display:none;">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2C6.48 2 2 6.48 2 12C2 13.85 2.5 15.55 3.35 17L2.25 21.05C2.15 21.45 2.55 21.85 2.95 21.75L7 20.65C8.45 21.5 10.15 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C10.45 20 9 19.6 7.75 18.85L4.8 19.65L5.6 16.7C4.85 15.45 4.45 14 4.45 12.45C4.45 8.35 7.8 5 11.95 5C16.1 5 19.45 8.35 19.45 12.45C19.45 16.55 16.1 19.9 12 19.9V20Z" fill="#1E8E3E"/>
@@ -567,21 +571,21 @@
                     </a>
                 </div>
             </div>
-            <div class="form-group"><label>Bahagian</label><input type="text" id="em_bahagian" placeholder="Cth: Kewangan" title="Masukkan bahagian/jabatan peminjam bekerja"></div>
+            <div class="form-group"><label>Bahagian</label><input type="text" id="f_bahagian" placeholder="Cth: Kewangan" title="Masukkan bahagian/jabatan peminjam bekerja"></div>
             
-            <div class="form-group"><label>Tajuk Bahan</label><input type="text" id="em_tajuk" placeholder="Tajuk Bahan" title="Sila taip tajuk penuh bahan yang dipinjam"></div>
-            <div class="form-group"><label>Kategori</label><select id="em_jenis" title="Pilih kategori bahan"><option value="Buku">Buku</option><option value="Fail Dokumen">Fail Dokumen</option><option value="Majalah">Majalah</option><option value="Alat Bantu">Alat Bantu Mengajar</option></select></div>
+            <div class="form-group"><label>Tajuk Bahan</label><input type="text" id="f_tajuk" placeholder="Tajuk Bahan" title="Sila taip tajuk penuh bahan yang dipinjam"></div>
+            <div class="form-group"><label>Kategori</label><select id="f_jenis" title="Pilih kategori bahan"><option value="Buku">Buku</option><option value="Fail Dokumen">Fail Dokumen</option><option value="Majalah">Majalah</option><option value="Alat Bantu">Alat Bantu Mengajar</option></select></div>
         </div>
 
         <div style="background: var(--primary-light); padding: 12px; border-radius: var(--radius-btn); border: 1px solid rgba(26, 115, 232, 0.2); margin-top: 10px;">
             <div class="grid-compact">
                 <div class="form-group">
                     <label style="color: var(--primary); font-weight: 600;">Tarikh Pinjam</label>
-                    <input type="date" id="em_tPinjam" onchange="window.autoCalcReturnDateEdit(); window.recalcModalCalc()" title="Pilih tarikh bahan mula dipinjam">
+                    <input type="date" id="f_tPinjam" onchange="window.autoCalcReturnDateEdit(); window.recalcModalCalc()" title="Pilih tarikh bahan mula dipinjam">
                 </div>
                 <div class="form-group">
                     <label style="color: var(--primary); font-weight: 600;">Jangkaan Pulang</label>
-                    <input type="date" id="sm_tPulang" style="border-color: var(--primary);" oninput="window.recalcModalCalc()" title="Tarikh automatik (+14 Hari)">
+                    <input type="date" id="f_tPulang" style="border-color: var(--primary);" oninput="window.recalcModalCalc()" title="Tarikh automatik (+14 Hari)">
                 </div>
             </div>
         </div>
@@ -601,13 +605,13 @@
 
             <div class="form-group" id="div_actual_return_date" style="display:none; margin-top: 10px;">
                 <label style="color:var(--success); font-weight: 600;">Tarikh Pemulangan Sebenar</label>
-                <input type="date" id="em_tDipulangkan" oninput="window.recalcModalCalc()" onchange="window.recalcModalCalc()" style="border-color: var(--success);" title="Masukkan tarikh bilakah buku ini benar-benar dipulangkan">
+                <input type="date" id="f_tDipulangkan" oninput="window.recalcModalCalc()" onchange="window.recalcModalCalc()" style="border-color: var(--success);" title="Masukkan tarikh bilakah buku ini benar-benar dipulangkan">
             </div>
         </div>
         
         <div class="form-group" style="margin-top: 10px;">
             <label>Catatan / Komen Ringkas (Pilihan)</label>
-            <textarea id="em_catatan" rows="2" placeholder="Nota tambahan..." title="Ruang tambahan untuk sebarang komen."></textarea>
+            <textarea id="f_catatan" rows="2" placeholder="Nota tambahan..." title="Ruang tambahan untuk sebarang komen."></textarea>
         </div>
         
         <!-- Info Bar -->
@@ -617,9 +621,9 @@
         </div>
 
         <div style="display:flex; gap:10px; margin-top: 15px;">
-            <button onclick="window.deleteRecord()" id="btnDelete" class="btn-3d danger" type="button" style="margin-right:auto;" title="Padam rekod ini secara kekal dari pangkalan data">🗑️ Hapus</button>
-            <button onclick="window.closeStatusModal()" class="btn-3d secondary" type="button" title="Batal segala pindaan dan tutup borang">Batal</button>
-            <button onclick="window.saveModalChanges()" class="btn-3d" type="button" style="padding-left: 20px; padding-right: 20px;" title="Simpan perubahan dan kemaskini ke Pangkalan Data">💾 Simpan</button>
+            <button onclick="window.deleteRecord()" id="btnDelete" class="btn-3d danger" type="button" style="display:none; margin-right:auto;" title="Padam rekod ini secara kekal dari pangkalan data">🗑️ Hapus</button>
+            <button onclick="window.closeModal()" class="btn-clear" style="border: 1px solid var(--danger); color: var(--danger); margin-right:auto;" type="button" title="Batal segala pindaan dan tutup borang">❌ Tutup</button>
+            <button onclick="window.saveData()" class="btn-3d" type="button" style="padding-left: 20px; padding-right: 20px;" title="Simpan perubahan dan kemaskini ke Pangkalan Data">💾 Simpan Rekod</button>
         </div>
     </div>
 </div>
@@ -629,6 +633,7 @@
     <div class="modal" style="max-width: 750px;">
         <div class="modal-header">
             <h3 style="margin:0; font-size:1.2rem; font-weight: 600;">📚 Daftar Buku/Bahan Baru</h3>
+            <button onclick="window.closeBukuModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;" title="Tutup tetingkap ini">&times;</button>
         </div>
         <input type="hidden" id="bukuId">
         
@@ -710,42 +715,6 @@
     </div>
 </div>
 
-<!-- MODAL LAPORAN DENDA KHUSUS -->
-<div class="modal-overlay" id="fineModal">
-    <div class="modal" style="max-width: 750px;">
-        <div class="modal-header">
-            <h3 style="margin:0; font-size:1.1rem; font-weight: 500;">💰 Laporan Terperinci Denda</h3>
-            <button onclick="window.closeFineModal()" style="background:var(--bg-body); border:1px solid var(--border); width:30px; height:30px; border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Tutup tetingkap laporan denda ini">&times;</button>
-        </div>
-        
-        <div class="table-wrap" style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-card);">
-            <table style="margin: 0; min-width: 600px;">
-                <thead style="position: sticky; top: 0; z-index: 10;">
-                    <tr>
-                        <th style="width:5%; text-align:center;">No</th>
-                        <th style="width:30%">Peminjam</th>
-                        <th style="width:30%">Tajuk Bahan</th>
-                        <th style="width:15%; text-align:center;">Lewat (Hari)</th>
-                        <th style="width:10%; text-align:right;">Kadar Denda</th>
-                        <th style="width:10%; text-align:center;">Status</th>
-                    </tr>
-                </thead>
-                <tbody id="fineTableBody">
-                    <!-- Diisi oleh JS -->
-                </tbody>
-            </table>
-        </div>
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px; padding-top:15px; border-top:2px dashed var(--border);">
-            <div style="font-size:1.05rem; font-weight:500;">Jumlah Keseluruhan: <span id="totalFineAmount" style="color:var(--danger); margin-left:8px; font-weight: 600;">RM 0.00</span></div>
-            <div style="display:flex; gap:10px;">
-                <button type="button" class="btn-3d secondary" onclick="window.closeFineModal()" title="Tutup paparan denda">Tutup</button>
-                <button type="button" class="btn-3d" onclick="window.printFineReport()" title="Jana dokumen untuk cetak keseluruhan senarai denda">🖨️ Cetak Senarai Denda</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     // --- GLOBAL VARIABLES & STATE ---
     window.dbData = []; // Data Pinjaman
@@ -758,7 +727,7 @@
     const DB_BUKU_KEY = 'pustakawan_buku_db_v1';
     const DENDA_PER_HARI = 0.20; 
 
-    // Initialize Local Storage Fallback Data (If cloud is slow/unavailable)
+    // --- INITIALIZATION LOCAL FALLBACK ---
     window.dbData = JSON.parse(localStorage.getItem(DB_KEY)) || [];
     window.dbBuku = JSON.parse(localStorage.getItem(DB_BUKU_KEY)) || [];
 
@@ -769,7 +738,7 @@
         localStorage.setItem(DB_BUKU_KEY, JSON.stringify(window.dbBuku));
     }
 
-    // --- INITIALIZATION ---
+    // --- UTILITIES ---
     window.setupDateDisplay = function() {
         const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         const dateStr = new Date().toLocaleDateString('ms-MY', options).toUpperCase();
@@ -791,17 +760,40 @@
         if(inputSet) inputSet.value = title;
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        window.setupDateDisplay();
-        window.loadAppTitle();
-    });
-
     window.saveAppTitle = function() {
         const newTitle = document.getElementById('setting_app_title').value.trim() || 'SISTEM PUSTAKAWAN';
         localStorage.setItem('pustakawan_app_title', newTitle);
         window.loadAppTitle();
         alert("Tajuk aplikasi berjaya dikemaskini kepada: " + newTitle);
     }
+
+    window.formatDate = function(d) {
+        if(!d) return '-';
+        return d.split('-').reverse().join('/');
+    }
+
+    window.calculateDuration = function(start, end) {
+        if(!start) return 0;
+        const d1 = new Date(start);
+        const d2 = end ? new Date(end) : new Date();
+        d1.setHours(0,0,0,0); d2.setHours(0,0,0,0);
+        return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+    }
+
+    window.autoCalcReturnDateEdit = function() {
+        const pinjamVal = document.getElementById('f_tPinjam').value;
+        if (pinjamVal) {
+            const pinjamDate = new Date(pinjamVal);
+            pinjamDate.setDate(pinjamDate.getDate() + 14);
+            document.getElementById('f_tPulang').value = pinjamDate.toISOString().split('T')[0];
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        window.setupDateDisplay();
+        window.loadAppTitle();
+        window.initTheme();
+    });
 
     // --- LOGIN ---
     window.attemptLogin = function() {
@@ -811,8 +803,16 @@
             document.getElementById('loginView').style.display = 'none';
             document.getElementById('dashboardView').style.display = 'block';
             
-            if(window.initFirebase) window.initFirebase();
-            window.renderCalendar();
+            // Check if Firebase is defined from config module
+            if (typeof window.initFirebase === 'function') {
+                window.initFirebase();
+            } else {
+                // If not, render from local storage
+                window.renderTable();
+                window.renderCalendar();
+                window.renderBukuTable();
+                window.updateCountUI();
+            }
             
             const now = new Date();
             if(document.getElementById('printMonth')) document.getElementById('printMonth').value = now.getMonth();
@@ -854,29 +854,6 @@
         const input = document.getElementById('searchInput');
         if(input) input.value = '';
         window.renderTable();
-    }
-
-    // --- UTILITIES ---
-    window.formatDate = function(d) {
-        if(!d) return '-';
-        return d.split('-').reverse().join('/');
-    }
-
-    window.calculateDuration = function(start, end) {
-        if(!start) return 0;
-        const d1 = new Date(start);
-        const d2 = end ? new Date(end) : new Date();
-        d1.setHours(0,0,0,0); d2.setHours(0,0,0,0);
-        return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
-    }
-
-    window.autoCalcReturnDateEdit = function() {
-        const pinjamVal = document.getElementById('em_tPinjam').value;
-        if (pinjamVal) {
-            const pinjamDate = new Date(pinjamVal);
-            pinjamDate.setDate(pinjamDate.getDate() + 14);
-            document.getElementById('sm_tPulang').value = pinjamDate.toISOString().split('T')[0];
-        }
     }
 
     // --- PINJAMAN: RENDER TABLE ---
@@ -1006,7 +983,6 @@
         }
 
         let html = '';
-        // Display top 5 recently added (they are already sorted by date desc)
         filtered.slice(0, 5).forEach(b => {
             const bColor = b.kategori === 'Buku Percuma' ? 'var(--success)' : 'var(--warning)';
             html += `
@@ -1122,17 +1098,17 @@
         window.renderTable();
     }
 
-    // --- MODAL PINJAMAN UTAMA ---
+    // --- MODAL PINJAMAN UTAMA (TAMBAH & EDIT) ---
     window.openModal = function() {
-        currId = null;
+        currId = null; // Important: Clear any existing active ID
         document.getElementById('docId').value = '';
-        const inputs = document.querySelectorAll('#statusModal .form-input');
+        const inputs = document.querySelectorAll('#statusModal input, #statusModal textarea, #statusModal select');
         inputs.forEach(i => {
             if(i.type !== 'radio' && i.type !== 'checkbox' && i.type !== 'button') i.value = '';
         });
         
         const today = new Date().toISOString().split('T')[0];
-        document.getElementById('em_tPinjam').value = today;
+        document.getElementById('f_tPinjam').value = today;
         window.autoCalcReturnDateEdit();
         
         const radioDipinjam = document.getElementById('radio_belum');
@@ -1141,45 +1117,47 @@
         window.toggleReturnDateInput();
         if(document.getElementById('waLinkBtn')) document.getElementById('waLinkBtn').style.display = 'none';
         if(document.getElementById('btnDelete')) document.getElementById('btnDelete').style.display = 'none';
-        document.getElementById('sm_title').innerText = "📝 Rekod Pinjaman Baru";
+        
+        const titleEl = document.getElementById('sm_title');
+        if(titleEl) titleEl.innerText = "📝 Rekod Pinjaman Baru";
         
         document.getElementById('statusModal').style.display = 'flex';
         setTimeout(() => document.getElementById('statusModal').classList.add('open'), 10);
         window.recalcModalCalc();
     }
 
-    window.closeStatusModal = function() { 
+    window.closeModal = function() { 
         document.getElementById('statusModal').classList.remove('open');
         setTimeout(() => { document.getElementById('statusModal').style.display = 'none'; }, 200);
+        currId = null; // Important: Clear active ID to prevent accidental edits
     }
-    
-    // Fallback for previous function name
-    window.closeModal = window.closeStatusModal;
 
     window.prepareEdit = function(id) {
         currId = String(id);
         const item = window.dbData.find(x => String(x.id) === currId);
         if(!item) return;
 
-        document.getElementById('sm_title').innerText = "✏️ Pinda Maklumat Pinjaman";
-        document.getElementById('docId').value = id;
-        document.getElementById('em_nama').value = item.nama;
-        document.getElementById('em_noPekerja').value = item.noPekerja;
-        document.getElementById('em_whatsapp').value = item.whatsapp || '';
-        document.getElementById('em_bahagian').value = item.bahagian || '';
-        document.getElementById('em_jenis').value = item.jenis;
-        document.getElementById('em_tajuk').value = item.tajuk;
-        document.getElementById('em_tPinjam').value = item.tPinjam;
-        document.getElementById('sm_tPulang').value = item.tPulang; 
-        document.getElementById('em_catatan').value = item.catatan || ''; 
+        const titleEl = document.getElementById('sm_title');
+        if(titleEl) titleEl.innerText = "✏️ Pinda Maklumat Pinjaman";
         
-        const isSelesai = item.status.includes('Selesai');
+        document.getElementById('docId').value = id;
+        document.getElementById('f_nama').value = item.nama || '';
+        document.getElementById('f_noPekerja').value = item.noPekerja || '';
+        document.getElementById('f_whatsapp').value = item.whatsapp || '';
+        document.getElementById('f_bahagian').value = item.bahagian || '';
+        document.getElementById('f_jenis').value = item.jenis || 'Buku';
+        document.getElementById('f_tajuk').value = item.tajuk || '';
+        document.getElementById('f_tPinjam').value = item.tPinjam || '';
+        document.getElementById('f_tPulang').value = item.tPulang || ''; 
+        document.getElementById('f_catatan').value = item.catatan || ''; 
+        
+        const isSelesai = item.status && item.status.includes('Selesai');
         if(isSelesai) {
             document.getElementById('radio_sudah').checked = true;
-            document.getElementById('em_tDipulangkan').value = item.tDipulangkan || new Date().toISOString().split('T')[0];
+            document.getElementById('f_tDipulangkan').value = item.tDipulangkan || new Date().toISOString().split('T')[0];
         } else {
             document.getElementById('radio_belum').checked = true;
-            document.getElementById('em_tDipulangkan').value = new Date().toISOString().split('T')[0];
+            document.getElementById('f_tDipulangkan').value = new Date().toISOString().split('T')[0];
         }
 
         window.toggleReturnDateInput();
@@ -1203,21 +1181,19 @@
     window.toggleReturnDateInput = function() {
         const isPulang = document.getElementById('radio_sudah').checked;
         const div = document.getElementById('div_actual_return_date');
-        const ph = document.getElementById('div_actual_return_placeholder');
         if(div) {
             div.style.display = isPulang ? 'block' : 'none';
-            if(ph) ph.style.display = isPulang ? 'none' : 'block';
         }
         window.recalcModalCalc();
     }
 
     window.recalcModalCalc = function() {
-        const startVal = document.getElementById('em_tPinjam').value;
+        const startVal = document.getElementById('f_tPinjam').value;
         const isPulangRadio = document.getElementById('radio_sudah');
         const isPulang = isPulangRadio ? isPulangRadio.checked : false;
         if(!startVal) return;
 
-        let endDateStr = isPulang ? document.getElementById('em_tDipulangkan').value : null;
+        let endDateStr = isPulang ? document.getElementById('f_tDipulangkan').value : null;
         const duration = window.calculateDuration(startVal, endDateStr);
         const limit = 14;
         const overdue = duration - limit;
@@ -1235,6 +1211,61 @@
                 infoDiv.style.display = 'none';
             }
         }
+    }
+
+    // Storan Tempatan Sandaran untuk Pinjaman
+    window.localSaveData = function() {
+        const docId = document.getElementById('docId').value;
+        const isPulang = document.getElementById('radio_sudah').checked;
+        const tPinjam = document.getElementById('f_tPinjam').value;
+        const tDipulangkan = isPulang ? document.getElementById('f_tDipulangkan').value : null;
+
+        let dendaVal = "0.00";
+        if(isPulang && tPinjam && tDipulangkan) {
+            const dur = window.calculateDuration(tPinjam, tDipulangkan);
+            const overdue = dur - 14;
+            if (overdue > 0) dendaVal = (overdue * DENDA_PER_HARI).toFixed(2);
+        }
+
+        const data = {
+            nama: document.getElementById('f_nama').value,
+            noPekerja: document.getElementById('f_noPekerja').value,
+            whatsapp: document.getElementById('f_whatsapp').value, 
+            bahagian: document.getElementById('f_bahagian').value,
+            jenis: document.getElementById('f_jenis').value,
+            tajuk: document.getElementById('f_tajuk').value,
+            tPinjam: tPinjam,
+            tPulang: document.getElementById('f_tPulang').value, 
+            tDipulangkan: tDipulangkan, 
+            status: isPulang ? 'Selesai - Telah Dipulangkan' : 'Dipinjam',
+            denda: dendaVal,
+            catatan: document.getElementById('f_catatan').value
+        };
+
+        if(!data.nama || !data.tajuk) return alert("Sila isi Nama Peminjam dan Tajuk Bahan.");
+
+        if(docId) {
+            const idx = window.dbData.findIndex(x => String(x.id) === String(docId));
+            if(idx > -1) window.dbData[idx] = { ...window.dbData[idx], ...data };
+        } else {
+            data.id = Date.now().toString();
+            window.dbData.unshift(data);
+        }
+
+        localStorage.setItem(DB_KEY, JSON.stringify(window.dbData));
+        const ind = document.getElementById('autosave-indicator');
+        if(ind) { ind.style.opacity = '1'; ind.style.transform = 'translateY(0)'; setTimeout(() => { ind.style.opacity = '0'; ind.style.transform = 'translateY(-10px)'; }, 2000); }
+        
+        window.renderTable(); window.updateCountUI(); window.renderCalendar(); window.closeModal();
+    }
+    
+    window.localDeleteRecord = function() {
+        const docId = document.getElementById('docId').value;
+        if (!docId) return alert("Sila pilih rekod.");
+        
+        window.dbData = window.dbData.filter(x => String(x.id) !== String(docId));
+        localStorage.setItem(DB_KEY, JSON.stringify(window.dbData));
+        window.renderTable(); window.updateCountUI(); window.renderCalendar(); window.closeModal();
     }
 
     // --- TAB BUKU BARU LOGIC ---
@@ -1323,6 +1354,51 @@
         if(document.getElementById('btnDeleteBuku')) document.getElementById('btnDeleteBuku').style.display = 'inline-flex';
         document.getElementById('bukuModal').style.display = 'flex';
         setTimeout(() => document.getElementById('bukuModal').classList.add('open'), 10);
+    }
+
+    // Storan Tempatan Sandaran untuk Buku
+    window.localSaveBuku = function(statusRec = 'Aktif') {
+        const docId = document.getElementById('bukuId').value;
+        const tajuk = document.getElementById('b_tajuk').value;
+        if(!tajuk) return alert("Sila isi Tajuk Bahan.");
+
+        const data = {
+            kategori: document.getElementById('b_kategori').value,
+            tarikh: document.getElementById('b_tarikh').value,
+            tajuk: tajuk,
+            edisi: document.getElementById('b_edisi').value,
+            bilangan: document.getElementById('b_bilangan').value,
+            isbn: document.getElementById('b_isbn').value,
+            jenis: document.getElementById('b_jenis').value,
+            bidang: document.getElementById('b_bidang').value,
+            penerbitan: document.getElementById('b_penerbitan').value,
+            penerima: document.getElementById('b_penerima').value,
+            sumber: document.getElementById('b_sumber').value,
+            status_rekod: statusRec
+        };
+
+        if(docId) {
+            const idx = window.dbBuku.findIndex(x => String(x.id) === String(docId));
+            if(idx > -1) window.dbBuku[idx] = { ...window.dbBuku[idx], ...data };
+        } else {
+            data.id = Date.now().toString();
+            window.dbBuku.unshift(data);
+        }
+
+        localStorage.setItem(DB_BUKU_KEY, JSON.stringify(window.dbBuku));
+        const ind = document.getElementById('autosave-indicator');
+        if(ind) { ind.style.opacity = '1'; ind.style.transform = 'translateY(0)'; setTimeout(() => { ind.style.opacity = '0'; ind.style.transform = 'translateY(-10px)'; }, 2000); }
+
+        window.renderBukuTable(); window.closeBukuModal();
+    }
+    
+    window.localDeleteBuku = function() {
+        const docId = document.getElementById('bukuId').value;
+        if (!docId) return alert("Sila pilih rekod.");
+
+        window.dbBuku = window.dbBuku.filter(x => String(x.id) !== String(docId));
+        localStorage.setItem(DB_BUKU_KEY, JSON.stringify(window.dbBuku));
+        window.renderBukuTable(); window.closeBukuModal();
     }
 
     // --- PRINT REPORTS ---
@@ -1550,12 +1626,9 @@
     };
 </script>
 
-<!-- FIREBASE SCRIPT (CLOUD DATA) -->
+<!-- FIREBASE CLOUD DATA STORAGE -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } 
-    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+    // Direct initialization object instead of external config.js to fix module loading error
     const firebaseConfig = {
       apiKey: "AIzaSyAfEJBFMTX1HOo5SMpfDf4Cx61HhbtiAWE",
       authDomain: "pustakawan-digital.firebaseapp.com",
@@ -1565,12 +1638,23 @@
       appId: "1:811520945210:web:667f2d12138c7db4dc1903"
     };
 
-    let dbInstance;
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // Bind Firebase methods to global window object
+    window.addDoc = addDoc;
+    window.collection = collection;
+    window.doc = doc;
+    window.updateDoc = updateDoc;
+    window.deleteDoc = deleteDoc;
+
+    let dbInstance = null;
 
     window.initFirebase = function() {
         try {
             const app = initializeApp(firebaseConfig);
             dbInstance = getFirestore(app);
+            window.dbInstance = dbInstance; // Bind ke global
             const status = document.getElementById('statusText');
             if(status) {
                 status.innerHTML = "🌐 Dalam Talian";
@@ -1584,6 +1668,8 @@
                 status.style.color = "var(--danger)";
             }
             console.error("Ralat Firebase: " + e.message);
+            // Teruskan panggil jadual data lokal
+            window.renderTable(); window.renderCalendar(); window.renderBukuTable(); window.updateCountUI();
         }
     }
 
@@ -1619,88 +1705,89 @@
         });
     }
 
-    // --- SAVE & DELETE PINJAMAN (CLOUD) ---
+    // --- SAVE & DELETE PINJAMAN (CLOUD ATAU LOCAL) ---
     window.saveData = async function() {
-        if(!dbInstance) return alert("Tiada sambungan pangkalan data.");
+        if(!window.dbInstance) return window.localSaveData(); // fallback local
         
         const docId = document.getElementById('docId').value;
         const statusEl = document.querySelector('input[name="sm_status_pulang"]:checked');
         const isSelesai = statusEl ? statusEl.value === 'sudah' : false;
 
-        const tPinjam = document.getElementById('em_tPinjam').value || document.getElementById('f_tPinjam').value;
-        const tDipulangkan = document.getElementById('em_tDipulangkan').value || document.getElementById('f_tDipulangkan').value;
-        const tPulang = document.getElementById('sm_tPulang').value || document.getElementById('f_tPulang').value;
+        const tPinjam = document.getElementById('f_tPinjam').value;
+        const tDipulangkan = isSelesai ? document.getElementById('f_tDipulangkan').value : null;
+        const tPulang = document.getElementById('f_tPulang').value;
         
-        let endDate = (isSelesai && tDipulangkan) ? new Date(tDipulangkan) : new Date();
-        endDate.setHours(0,0,0,0);
-        const startDate = new Date(tPinjam);
-        startDate.setHours(0,0,0,0);
-        const days = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
-        const overdue = days - 14;
-        const dendaVal = overdue > 0 ? (overdue * 0.20).toFixed(2) : "0.00";
+        let dendaVal = "0.00";
+        if(isSelesai && tPinjam && tDipulangkan) {
+            const dur = window.calculateDuration(tPinjam, tDipulangkan);
+            const overdue = dur - 14;
+            if(overdue > 0) dendaVal = (overdue * 0.20).toFixed(2);
+        }
 
         const data = {
-            nama: document.getElementById('em_nama').value || document.getElementById('f_nama').value,
-            noPekerja: document.getElementById('em_noPekerja').value || document.getElementById('f_noPekerja').value,
-            whatsapp: document.getElementById('em_whatsapp').value || document.getElementById('f_phone').value, 
-            bahagian: document.getElementById('em_bahagian').value || document.getElementById('f_bahagian').value,
-            jenis: document.getElementById('em_jenis').value || document.getElementById('f_jenis').value,
-            tajuk: document.getElementById('em_tajuk').value || document.getElementById('f_tajuk').value,
+            nama: document.getElementById('f_nama').value,
+            noPekerja: document.getElementById('f_noPekerja').value,
+            whatsapp: document.getElementById('f_whatsapp').value, 
+            bahagian: document.getElementById('f_bahagian').value,
+            jenis: document.getElementById('f_jenis').value,
+            tajuk: document.getElementById('f_tajuk').value,
             tPinjam: tPinjam,
             tPulang: tPulang, 
-            tDipulangkan: isSelesai ? tDipulangkan : null, 
-            status: isSelesai ? 'Selesai' : 'Dipinjam',
+            tDipulangkan: tDipulangkan, 
+            status: isSelesai ? 'Selesai - Telah Dipulangkan' : 'Dipinjam',
             denda: dendaVal,
-            catatan: document.getElementById('em_catatan').value || document.getElementById('f_catatan').value
+            catatan: document.getElementById('f_catatan').value
         };
 
         if(!data.nama || !data.tajuk) return alert("Sila isi Nama Peminjam dan Tajuk Bahan.");
 
-        document.getElementById('loadingBar').style.display = 'block';
+        const loader = document.getElementById('loadingBar');
+        if(loader) loader.style.display = 'block';
         try {
             if (docId) {
-                await updateDoc(doc(dbInstance, "pinjaman", docId), data);
+                await window.updateDoc(window.doc(window.dbInstance, "pinjaman", docId), data);
             } else {
-                await addDoc(collection(dbInstance, "pinjaman"), data);
+                await window.addDoc(window.collection(window.dbInstance, "pinjaman"), data);
             }
-            // Pastikan isihan tempatan juga dilakukan sementara tunggu listener siap
-            window.dbData.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
             window.closeModal();
-            window.closeStatusModal();
         } catch (e) {
-            alert("GAGAL SIMPAN: " + e.message);
-            const status = document.getElementById('statusText');
-            if(status) {
-                status.innerHTML = "🔴 Tiada Sambungan";
-                status.style.color = "var(--danger)";
-            }
+            alert("GAGAL SIMPAN KE AWAN: " + e.message);
+            window.localSaveData(); // fallback local
         }
-        document.getElementById('loadingBar').style.display = 'none';
+        if(loader) loader.style.display = 'none';
     }
 
     window.deleteRecord = async function() {
         const docId = document.getElementById('docId').value;
         if (!docId) return alert("Sila pilih rekod.");
-        if(confirm("Padam rekod pinjaman ini secara kekal dari awan?")) {
-            document.getElementById('loadingBar').style.display = 'block';
+        
+        if(confirm("⚠️ AMARAN PENTING!\n\nAdakah anda pasti mahu memadam rekod pinjaman ini secara KEKAL? Data yang dipadam tidak boleh dikembalikan.")) {
+            
+            if(!window.dbInstance) return window.localDeleteRecord();
+
+            const loader = document.getElementById('loadingBar');
+            if(loader) loader.style.display = 'block';
             try {
-                await deleteDoc(doc(dbInstance, "pinjaman", docId));
+                await window.deleteDoc(window.doc(window.dbInstance, "pinjaman", docId));
                 window.closeModal();
-                window.closeStatusModal();
             } catch (e) { alert("Gagal Padam: " + e.message); }
-            document.getElementById('loadingBar').style.display = 'none';
+            if(loader) loader.style.display = 'none';
         }
     }
 
-    // --- SAVE & DELETE BUKU BARU (CLOUD) ---
+    // --- SAVE & DELETE BUKU BARU (CLOUD ATAU LOCAL) ---
     window.saveBuku = async function(statusRec = 'Aktif') {
-        if(!dbInstance) return alert("Tiada sambungan pangkalan data.");
+        if(!window.dbInstance) return window.localSaveBuku(statusRec); // fallback local
         
         const docId = document.getElementById('bukuId').value;
+        const tajuk = document.getElementById('b_tajuk').value;
+
+        if(!tajuk) return alert("Sila isi Tajuk Bahan.");
+
         const data = {
             kategori: document.getElementById('b_kategori').value,
             tarikh: document.getElementById('b_tarikh').value,
-            tajuk: document.getElementById('b_tajuk').value,
+            tajuk: tajuk,
             edisi: document.getElementById('b_edisi').value,
             bilangan: document.getElementById('b_bilangan').value,
             isbn: document.getElementById('b_isbn').value,
@@ -1712,29 +1799,34 @@
             status_rekod: statusRec
         };
 
-        if(!data.tajuk) return alert("Sila isi Tajuk Bahan.");
-
-        document.getElementById('loadingBar').style.display = 'block';
+        const loader = document.getElementById('loadingBar');
+        if(loader) loader.style.display = 'block';
         try {
-            if (docId) await updateDoc(doc(dbInstance, "buku_baru", docId), data);
-            else await addDoc(collection(dbInstance, "buku_baru"), data);
-            // Isihan sementara untuk UX lancar
-            window.dbBuku.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
+            if (docId) await window.updateDoc(window.doc(window.dbInstance, "buku_baru", docId), data);
+            else await window.addDoc(window.collection(window.dbInstance, "buku_baru"), data);
             window.closeBukuModal();
-        } catch (e) { alert("GAGAL SIMPAN BUKU: " + e.message); }
-        document.getElementById('loadingBar').style.display = 'none';
+        } catch (e) { 
+            alert("GAGAL SIMPAN BUKU KE AWAN: " + e.message); 
+            window.localSaveBuku(statusRec);
+        }
+        if(loader) loader.style.display = 'none';
     }
 
     window.deleteBuku = async function() {
         const docId = document.getElementById('bukuId').value;
         if (!docId) return alert("Sila pilih rekod.");
-        if(confirm("Padam rekod buku ini secara kekal dari awan?")) {
-            document.getElementById('loadingBar').style.display = 'block';
+        
+        if(confirm("⚠️ AMARAN PENTING!\n\nAdakah anda pasti mahu memadam rekod buku/bahan ini secara KEKAL? Tindakan ini tidak boleh dibatalkan.")) {
+            
+            if(!window.dbInstance) return window.localDeleteBuku();
+            
+            const loader = document.getElementById('loadingBar');
+            if(loader) loader.style.display = 'block';
             try {
-                await deleteDoc(doc(dbInstance, "buku_baru", docId));
+                await window.deleteDoc(window.doc(window.dbInstance, "buku_baru", docId));
                 window.closeBukuModal();
             } catch (e) { alert("Gagal Padam: " + e.message); }
-            document.getElementById('loadingBar').style.display = 'none';
+            if(loader) loader.style.display = 'none';
         }
     }
 </script>
