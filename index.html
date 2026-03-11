@@ -238,7 +238,7 @@
             <span class="mac-dot mac-green"></span>
         </div>
         <div style="font-size: 3rem; margin-bottom: 8px; line-height:1; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">📚</div>
-        <h1 style="color: var(--text-main); margin-bottom: 2px; font-size: 1.4rem;" class="app-title-display">SISTEM PUSTAKAWAN</h1>
+        <h1 style="color: var(--text-main); margin-bottom: 2px; font-size: 1.4rem;">PUSTAKA MTIB</h1>
         <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.8rem;" class="login-subtitle-display">Pengurusan Pinjaman Digital</p>
         
         <button class="btn-3d" type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 16px; background: var(--success); border-color: #27C93F;" onclick="window.visitorLogin()">👤 Masuk Sebagai Pelawat</button>
@@ -298,7 +298,7 @@
             <div class="logo-section">
                 <div style="display:flex; align-items:center; gap:12px;">
                     <div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span></div>
-                    <h1 style="margin:0;"><span style="font-size: 1.4rem; margin-right:6px;">📚</span> <div class="app-title-display">SISTEM PUSTAKAWAN</div></h1>
+                    <h1 style="margin:0;"><span style="font-size: 1.4rem; margin-right:6px;">📚</span> PUSTAKA PUSAT SUMBER MTIB</h1>
                 </div>
             </div>
             <div class="header-right">
@@ -454,7 +454,7 @@
                     <div class="table-wrap" style="max-height:60vh; overflow-y:auto;"> 
                         <table id="mainTable">
                             <thead><tr><th style="width: 25%;">Maklumat Peminjam</th><th style="width: 30%;">Bahan / Tajuk</th><th style="width: 25%;">Tarikh & Tempoh</th><th style="width: 10%;">Status</th><th id="senarai-th-tindakan" style="text-align: right; width: 10%;">Tindakan</th></tr></thead>
-                            <tbody id="tableBody"><tr><td colspan="5" style="text-align:center; padding: 20px;">Memuatkan data...</td></tr></tbody>
+                            <tbody id="tableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan data...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
@@ -468,7 +468,22 @@
                     <div class="search-container"><input type="text" id="searchBukuInput" class="search-input" style="margin:0; padding:8px 12px;" placeholder="Cari tajuk buku, penerbit..." onkeyup="window.renderBukuTable()"><button class="btn-clear" style="padding:8px 12px;" onclick="document.getElementById('searchBukuInput').value=''; window.renderBukuTable();">❌</button></div>
                     <div class="action-wrapper" id="action-wrapper-buku">
                         <div style="display:flex; align-items:center; gap:8px; background:var(--bg-body); padding:6px 12px; border-radius:var(--radius-btn); border:1px solid var(--border);">
-                            <span style="font-size:0.85rem; font-weight:600;">Tahun:</span><input type="number" id="printBukuYear" value="2026" style="width:70px; margin:0; padding:4px 8px; border:1px solid var(--border); border-radius:4px; background:var(--surface-solid);">
+                            <select id="printBukuMonth" class="form-group select" style="margin:0; padding:4px; width:auto; border:1px solid var(--border); border-radius:4px; background:var(--surface-solid);">
+                                <option value="all">Semua Bulan</option>
+                                <option value="0">Januari</option>
+                                <option value="1">Februari</option>
+                                <option value="2">Mac</option>
+                                <option value="3">April</option>
+                                <option value="4">Mei</option>
+                                <option value="5">Jun</option>
+                                <option value="6">Julai</option>
+                                <option value="7">Ogos</option>
+                                <option value="8">September</option>
+                                <option value="9">Oktober</option>
+                                <option value="10">November</option>
+                                <option value="11">Disember</option>
+                            </select>
+                            <input type="number" id="printBukuYear" value="2026" style="width:70px; margin:0; padding:4px 8px; border:1px solid var(--border); border-radius:4px; background:var(--surface-solid);">
                             <button class="btn-3d secondary" style="padding:4px 12px;" onclick="window.printBukuReport()">🖨️ Cetak Laporan</button>
                         </div>
                         <button class="btn-3d" style="padding:8px 16px;" onclick="window.openBukuModal()">➕ Rekod Buku Baru</button>
@@ -477,7 +492,7 @@
                 <div class="table-wrap" style="max-height:70vh; overflow-y:auto;">
                     <table>
                         <thead><tr><th style="width:12%">Tarikh</th><th style="width:25%">Tajuk & Edisi</th><th style="width:20%">Maklumat Bahan</th><th style="width:20%">Penerima / Sumber</th><th style="width:13%">Kategori</th><th id="buku-th-tindakan" style="text-align:right;">Tindakan</th></tr></thead>
-                        <tbody id="bukuTableBody"><tr><td colspan="6" style="text-align:center; padding: 20px;">Memuatkan senarai bahan...</td></tr></tbody>
+                        <tbody id="bukuTableBody"><tr><td colspan="6" style="text-align:center; padding: 30px;">Memuatkan senarai bahan...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -782,7 +797,7 @@
         <div style="display:flex; gap:10px; margin-top:16px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 16px;">
             <button type="button" id="btnDeleteBuku" class="btn-3d danger" style="display:none; margin-right:auto;" onclick="window.deleteBuku()">🗑️ Hapus</button>
             <button type="button" class="btn-clear" style="margin-right:auto;" onclick="window.closeBukuModal()">❌ Tutup</button>
-            <button type="button" class="btn-3d secondary" onclick="window.saveBuku('KIV')">⏳ Simpan KIV</button>
+            <button type="button" class="btn-3d secondary" style="border-bottom: 2px solid var(--warning); color: var(--warning);" onclick="window.saveBuku('KIV')">⏳ Simpan KIV</button>
             <button type="button" class="btn-3d" style="padding-left: 24px; padding-right: 24px;" onclick="window.saveBuku('Aktif')">💾 Simpan</button>
         </div>
     </div>
@@ -1100,6 +1115,7 @@
         if (tabId === 'ulasan' && typeof window.renderUlasanTable === 'function') window.renderUlasanTable(); 
         if (tabId === 'senarai') { if(typeof window.renderSenaraiCalendar === 'function') window.renderSenaraiCalendar(); if(typeof window.renderTable === 'function') window.renderTable(); }
         if (tabId === 'buku' && typeof window.renderBukuTable === 'function') window.renderBukuTable();
+        if (tabId === 'kelab' && typeof window.renderKelabTable === 'function') window.renderKelabTable();
     }
     
     window.setFilter = function(type) {
@@ -1202,6 +1218,55 @@
         window.renderTable();
     }
 
+    window.printBukuReport = function() {
+        const mEl = document.getElementById('printBukuMonth'); const month = mEl ? mEl.value : 'all';
+        const yEl = document.getElementById('printBukuYear'); const year = yEl ? parseInt(yEl.value) : new Date().getFullYear();
+        
+        const filtered = window.dbBuku.filter(b => {
+            const d = new Date(b.tarikh);
+            if (d.getFullYear() !== year) return false;
+            if (month !== 'all' && d.getMonth() !== parseInt(month)) return false;
+            return true;
+        });
+        filtered.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
+        
+        let reportTitle = `LAPORAN BAHAN BAHARU (${year})`;
+        if (month !== 'all') {
+            const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+            reportTitle = `LAPORAN BAHAN BAHARU (${monthNames[parseInt(month)]} ${year})`;
+        }
+        
+        const today = new Date().toLocaleDateString('ms-MY');
+        let html = `<html><head><title>${reportTitle}</title><style>@page { size: A4 landscape; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:12px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 6px; text-align: left; } th { background-color: #f2f2f2; text-transform:uppercase; }</style></head><body><h3>${reportTitle}</h3><p>Tarikh Cetakan: ${today}</p><table><thead><tr><th width="5%">Bil</th><th width="15%">Tarikh</th><th width="35%">Tajuk & Edisi</th><th width="15%">Kategori</th><th width="15%">Penerima/Sumber</th><th width="15%">Terbitan</th></tr></thead><tbody>`;
+        if(filtered.length === 0) html += `<tr><td colspan="6" style="text-align:center; padding:15px;">Tiada rekod.</td></tr>`;
+        else filtered.forEach((item, idx) => html += `<tr><td style="text-align:center;">${idx+1}</td><td>${window.formatDate(item.tarikh)}</td><td><strong>${item.tajuk}</strong><br><span style="font-size:10px;">${item.isbn||'-'}</span></td><td>${item.kategori}<br><span style="font-size:10px;">${item.jenis}</span></td><td>${item.penerima}<br><span style="font-size:10px;">${item.sumber}</span></td><td>${item.penerbitan}</td></tr>`);
+        html += `</tbody></table></body></html>`;
+        const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
+    }
+
+    window.printMonthlyReport = function() {
+        const mEl = document.getElementById('reportMonth'); const yEl = document.getElementById('reportYear');
+        if(!mEl || !yEl) return;
+        const month = parseInt(mEl.value); const year = parseInt(yEl.value);
+        const filtered = window.dbData.filter(item => { const d = new Date(item.tPinjam); return d.getMonth() === month && d.getFullYear() === year; });
+        filtered.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
+        const monthNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+        let html = `<html><head><title>Laporan Pinjaman ${monthNames[month]} ${year}</title><style>@page { size: A4 landscape; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:12px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 6px; text-align: left; } th { background-color: #f2f2f2; text-transform:uppercase; }</style></head><body><h3>LAPORAN PINJAMAN BULANAN (${monthNames[month]} ${year})</h3><table><thead><tr><th>Bil</th><th>Peminjam</th><th>Bahan</th><th>Pinjam</th><th>Pulang</th><th>Status</th></tr></thead><tbody>`;
+        if(filtered.length === 0) html += `<tr><td colspan="6" style="text-align:center; padding:15px;">Tiada rekod.</td></tr>`;
+        else filtered.forEach((item, idx) => { let stat = item.status; if(stat && stat.includes('Selesai')) stat = 'Selesai'; html += `<tr><td style="text-align:center;">${idx+1}</td><td><strong>${item.nama}</strong><br><span style="font-size:10px;">${item.noPekerja}</span></td><td>${item.tajuk}</td><td style="text-align:center;">${window.formatDate(item.tPinjam)}</td><td style="text-align:center;">${window.formatDate(item.tPulang)}</td><td style="text-align:center;">${stat}</td></tr>`; });
+        html += `</tbody></table></body></html>`;
+        const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
+    }
+
+    window.printScoreboard = function() {
+        const periodEl = document.getElementById('scorePeriod'); const period = periodEl ? periodEl.options[periodEl.selectedIndex].text : '';
+        const tbody = document.getElementById('scoreboardTableBody');
+        const rowsHtml = tbody ? tbody.innerHTML : '';
+        const today = new Date().toLocaleDateString('ms-MY');
+        let html = `<html><head><title>Papan Mata - ${period}</title><style>@page { size: A4 portrait; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:12px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 8px; text-align: left; } th { background-color: #f2f2f2; text-transform:uppercase; }</style></head><body><h3>PAPAN SENARAI MATA</h3><p>Sistem Pustakawan Digital | Tapisan: ${period}</p><table><thead><tr><th width="10%" style="text-align:center;">Kedudukan</th><th width="40%">Maklumat Peminjam</th><th width="30%">Bahagian</th><th width="20%" style="text-align:center;">Mata</th></tr></thead><tbody>${rowsHtml.replace(/<div class="font-size:2rem[^>]*>.*?<\/div>/g, '').replace(/<div style="display:inline-flex[^>]*>/g, '').replace(/<\/div><\/td>/g, '</td>')}</tbody></table></body></html>`;
+        const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
+    }
+
     window.updateDailyWidget = function(dateStr) {
         if(!dateStr) dateStr = window.dashSelectedDate || new Date().toISOString().split('T')[0];
         const labelEl = document.getElementById('selectedDateLabel'); if(labelEl) labelEl.innerText = window.formatDate(dateStr);
@@ -1216,9 +1281,9 @@
         let html = '';
         activities.forEach(act => {
             let color = '', bg = '', actionText = '';
-            if(act.type === 'pinjam') { color = 'var(--primary)'; bg = 'var(--primary-light)'; actionText = act.item.status === 'Bacaan Harian' ? 'Pinjam Harian' : 'Pinjaman Baru'; if(act.item.status === 'Bacaan Harian') { color = 'var(--warning)'; bg = 'rgba(249, 171, 0, 0.15)'; } }
+            if(act.type === 'pinjam') { color = 'var(--success)'; bg = 'var(--badge-done-bg)'; actionText = act.item.status === 'Bacaan Harian' ? 'Pinjam Harian' : 'Pinjaman Baru'; if(act.item.status === 'Bacaan Harian') { color = 'var(--warning)'; bg = 'rgba(255, 149, 0, 0.15)'; } }
             else if(act.type === 'pulang') { color = 'var(--danger)'; bg = 'var(--danger-light)'; actionText = 'Perlu Pulang'; }
-            else if(act.type === 'selesai') { color = 'var(--success)'; bg = '#DFF6DD'; actionText = 'Telah Dipulangkan'; }
+            else if(act.type === 'selesai') { color = 'var(--primary)'; bg = 'var(--primary-light)'; actionText = 'Telah Dipulangkan'; }
             const clickAction = window.userRole === 'admin' ? `onclick="window.prepareEdit('${act.item.id}')"` : '';
             const cursorStyle = window.userRole === 'admin' ? 'cursor:pointer;' : '';
             html += `<div class="widget-item" style="border-left-color: ${color}; ${cursorStyle}" ${clickAction} title="Klik untuk urus pinjaman dan hantar WhatsApp"><div style="display: flex; flex-direction: column; width: 100%;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom:4px;"><div style="font-weight: 700; font-size: 0.95rem; color: var(--text-main); line-height: 1.2;">${act.item.tajuk}</div><span style="font-size: 0.7rem; font-weight: 700; color: ${color}; background: ${bg}; padding: 2px 6px; border-radius: 4px; border: 1px solid ${color}; white-space:nowrap; margin-left:8px;">${actionText}</span></div><div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">👤 ${act.item.nama}</div></div></div>`;
