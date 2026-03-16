@@ -282,8 +282,7 @@
             <span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
         </div>
         <h3 style="color:var(--primary); margin-top:0; margin-bottom:16px; font-size:1.2rem;">🔐 Akses Pentadbir</h3>
-        <input type="text" id="username" class="login-input" placeholder="ID Pengguna" value="admin">
-        <input type="password" id="password" class="login-input" placeholder="Kata Laluan" value="admin123">
+        <input type="password" id="password" class="login-input" placeholder="Kata Laluan" onkeyup="if(event.key === 'Enter') window.attemptLogin()">
         <button class="btn-3d" style="width:100%; margin-top:10px; padding:10px;" onclick="window.attemptLogin()">Masuk Sistem</button>
     </div>
 </div>
@@ -1060,15 +1059,16 @@
     window.closeAdminLoginModal = function() { const m = document.getElementById('adminLoginModal'); if(m){ m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } }
 
     window.attemptLogin = function() {
-        const uInput = document.getElementById('username'); const pInput = document.getElementById('password');
-        const u = uInput ? uInput.value : ''; const p = pInput ? pInput.value : '';
-        if(u === 'admin' && p === 'admin123' || u === 'pustakawan' && p === 'pustakaMTIB') {
+        const pInput = document.getElementById('password');
+        const p = pInput ? pInput.value : '';
+        if(p === 'pustakaMtib') {
             window.userRole = 'admin';
             const lView = document.getElementById('loginView'); if (lView) lView.style.display = 'none';
             const aModal = document.getElementById('adminLoginModal'); if (aModal) aModal.style.display = 'none';
             const dView = document.getElementById('dashboardView'); if (dView) dView.style.display = 'block';
             window.setupTabsForRole(); window.switchTab('dashboard');
-        } else { window.showCustomAlert("ID pengguna atau Kata Laluan salah."); }
+            if(pInput) pInput.value = ''; // Kosongkan semula kata laluan selepas log masuk berjaya
+        } else { window.showCustomAlert("Kata Laluan pentadbir salah."); }
     }
 
     // --- 7. ANTARA MUKA TABS (UI TABS) ---
