@@ -445,10 +445,10 @@
                     </div>
                     <div class="filter-chips">
                         <button id="chip-all" class="chip active" onclick="window.setFilter('all')">Semua Rekod</button>
-                        <button id="chip-aktif" class="chip" onclick="window.setFilter('aktif')">Belum Pulang</button>
-                        <button id="chip-ok" class="chip" onclick="window.setFilter('ok')">Dalam Tempoh</button>
-                        <button id="chip-lewat" class="chip" onclick="window.setFilter('lewat')">Lewat Pulang</button>
                         <button id="chip-harian" class="chip" onclick="window.setFilter('harian')">Bacaan Harian</button>
+                        <button id="chip-aktif" class="chip" onclick="window.setFilter('aktif')">Sedang Dipinjam</button>
+                        <button id="chip-selesai" class="chip" onclick="window.setFilter('selesai')">Sudah Dipulangkan</button>
+                        <button id="chip-lewat" class="chip" onclick="window.setFilter('lewat')">Lewat Pulang</button>
                     </div>
                     <div class="table-wrap" style="max-height:60vh; overflow-y:auto;"> 
                         <table id="mainTable">
@@ -555,7 +555,7 @@
                     </div>
                     <div style="margin-bottom: 16px; padding-top: 16px; border-top: 1px dashed var(--border);">
                         <label class="form-label" style="font-size: 0.9rem; color:var(--text-main); font-weight:600;">Versi Aplikasi</label>
-                        <p style="font-size:0.9rem; color:var(--primary); margin: 4px 0 0 0; font-family: monospace;">PUSTAKA-V19.1 (Gaya Butang Baru & Penapis Harian)</p>
+                        <p style="font-size:0.9rem; color:var(--primary); margin: 4px 0 0 0; font-family: monospace;">PUSTAKA-V19.5 (Penambahan 80+ Avatar & Papan Mata Pengguna)</p>
                     </div>
                 </div>
             </div>
@@ -916,8 +916,18 @@
         let deptHtml = '<option value="">-- Sila Pilih Bahagian --</option>'; depts.forEach(d => { deptHtml += `<option value="${d}">${d}</option>`; });
         document.querySelectorAll('.dept-select').forEach(sel => { sel.innerHTML = deptHtml; });
         
-        // 30 IKON AVATAR BERBEZA
-        const avatars = ['👤','👨‍💻','👩‍💻','🧑‍🎓','🧑‍🏫','🧑‍🚀','🕵️','🦸','🥷','🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐦','🦉','🦄','🐝'];
+        // 80 IKON AVATAR BERBEZA
+        const avatars = [
+            '👤','👨‍💻','👩‍💻','🧑‍🎓','🧑‍🏫','🧑‍🚀','🕵️','🦸','🥷',
+            '🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯',
+            '🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐦','🦉','🦄','🐝',
+            '🦖','🦕','🐙','🦑','🦞','🦀','🐡','🐠','🐬','🐳',
+            '🦈','🐊','🐅','🐆','🦓','🦍','🐘','🦛','🦏','🐪',
+            '🦒','🦘','🐃','🐎','🐏','🦙','🐐','🦌','🐕','🐩',
+            '🐈','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡',
+            '🦫','🦦','🦥','🐿️','🦔','🐉','🐲','🧚','🧜','🧞',
+            '🧙','🧛','🧟','🧝','👼','🍔','🍕','🍟','🍦','🍩'
+        ];
         
         let avHtml = ''; avatars.forEach(a => { avHtml += `<span class="avatar-opt" onclick="window.selectAvatar('${a}')">${a}</span>`; });
         const avList = document.getElementById('avatar_selection_list'); if(avList) avList.innerHTML = avHtml;
@@ -1067,7 +1077,7 @@
             const aModal = document.getElementById('adminLoginModal'); if (aModal) aModal.style.display = 'none';
             const dView = document.getElementById('dashboardView'); if (dView) dView.style.display = 'block';
             window.setupTabsForRole(); window.switchTab('dashboard');
-            if(pInput) pInput.value = ''; // Kosongkan semula kata laluan selepas log masuk berjaya
+            if(pInput) pInput.value = ''; // Kosongkan semula kotak input selepas berjaya
         } else { window.showCustomAlert("Kata Laluan pentadbir salah."); }
     }
 
@@ -1083,7 +1093,7 @@
         safeSetDisplay('btn-buku', 'inline-block'); 
         safeSetDisplay('btn-senarai', (isAdmin || isUser) ? 'inline-block' : 'none'); 
         safeSetDisplay('btn-kelab', isAdmin ? 'inline-block' : 'none'); 
-        safeSetDisplay('btn-scoreboard', (isAdmin || isVisitor) ? 'inline-block' : 'none'); 
+        safeSetDisplay('btn-scoreboard', (isAdmin || isVisitor || isUser) ? 'inline-block' : 'none'); 
         safeSetDisplay('btn-ulasan', (isAdmin || isVisitor || isUser) ? 'inline-block' : 'none'); 
         safeSetDisplay('btn-tetapan-header', isAdmin ? 'inline-flex' : 'none'); 
         safeSetDisplay('btn-login-admin-header', !isAdmin ? 'inline-flex' : 'none'); 
@@ -1120,7 +1130,7 @@
     
     window.setFilter = function(type) {
         window.currentFilter = type; document.querySelectorAll('.chip').forEach(el => el.classList.remove('active'));
-        let chipId = 'chip-' + type; if (type === 'active') chipId = 'chip-aktif'; if (type === 'late') chipId = 'chip-lewat';
+        let chipId = 'chip-' + type;
         const chip = document.getElementById(chipId); if(chip) chip.classList.add('active'); window.renderTable();
     }
     
@@ -1596,10 +1606,10 @@
             const isSelesai = item.status && item.status.includes('Selesai'); const isHarian = item.status === 'Bacaan Harian';
             const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null)); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const isLate = dur > limit && !isSelesai && !isHarian;
             
-            if(window.currentFilter === 'active' || window.currentFilter === 'aktif') { if(isSelesai || isHarian) return false; }
-            if(window.currentFilter === 'ok' && (isSelesai || isHarian || isLate)) return false; 
-            if(window.currentFilter === 'late' || window.currentFilter === 'lewat') { if(isSelesai || isHarian || !isLate) return false; }
             if(window.currentFilter === 'harian' && !isHarian) return false;
+            if(window.currentFilter === 'aktif' && (isSelesai || isHarian)) return false;
+            if(window.currentFilter === 'selesai' && !isSelesai) return false;
+            if(window.currentFilter === 'lewat' && (isSelesai || isHarian || !isLate)) return false;
             
             return true;
         });
