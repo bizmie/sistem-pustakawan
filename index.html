@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Pustakawan Digital</title>
     
-    <!-- FIREBASE SDK v8 (Versi Stabil Untuk HTML) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
@@ -13,103 +12,101 @@
         :root {
             /* TEMA MAC OS (CERAH) */
             --bg-body: #F0F2F5;         
-            --surface: rgba(255, 255, 255, 0.98); 
+            --surface: rgba(255, 255, 255, 0.96); 
             --surface-solid: #FFFFFF;
-            --primary: #007AFF; /* Mac OS Blue */
+            --primary: #0066CC; /* Mac OS Blue */
             --primary-hover: #0056b3;
-            --primary-light: rgba(0, 122, 255, 0.15);
-            --primary-ring: rgba(0, 122, 255, 0.4);
-            --success: #34C759;
+            --primary-light: rgba(0, 102, 204, 0.1);
+            --primary-ring: rgba(0, 102, 204, 0.4);
+            --success: #28CD41;
             --danger: #FF3B30;
-            --danger-light: rgba(255, 59, 48, 0.15);
+            --danger-light: rgba(255, 59, 48, 0.1);
             --warning: #FF9500;
             --text-main: #1D1D1F;       
-            --text-muted: #86868B;      
-            --border: rgba(0, 0, 0, 0.15); /* Stroke Jelas */          
-            --radius-card: 16px;
+            --text-muted: #8E8E93;      
+            --border: rgba(0, 0, 0, 0.18);          
+            --radius-card: 12px;
             --radius-btn: 8px;
-            --shadow-sm: 0 4px 8px rgba(0,0,0,0.08); /* Shadow dipertajam */
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --shadow-sm: 0 2px 6px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0,0,0,0.04);
             --bg-weekend: rgba(0,0,0,0.02); 
             --bg-weekday: transparent; 
             
-            --badge-active-bg: rgba(0, 122, 255, 0.1); --badge-active-text: #007AFF;
+            --badge-active-bg: rgba(0, 102, 204, 0.1); --badge-active-text: #0066CC;
             --badge-late-bg: rgba(255, 59, 48, 0.1); --badge-late-text: #FF3B30;
-            --badge-done-bg: rgba(52, 199, 89, 0.1); --badge-done-text: #34C759;
+            --badge-done-bg: rgba(40, 205, 65, 0.1); --badge-done-text: #28CD41;
             
             --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --widget-border: rgba(0, 0, 0, 0.12);
-            --blur-effect: blur(24px) saturate(180%);
+            --widget-border: rgba(0, 0, 0, 0.15);
+            --blur-effect: blur(20px) saturate(180%);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-body: #1C1C1E;         
-                --surface: rgba(44, 44, 46, 0.98); 
+                --surface: rgba(44, 44, 46, 0.95); 
                 --surface-solid: #2C2C2E;
                 --primary: #0A84FF;         
                 --primary-hover: #409CFF;
-                --primary-light: rgba(10, 132, 255, 0.2);
+                --primary-light: rgba(10, 132, 255, 0.15);
                 --primary-ring: rgba(10, 132, 255, 0.5);
                 --success: #32D74B;
                 --danger: #FF453A;
-                --danger-light: rgba(255, 69, 58, 0.2);
+                --danger-light: rgba(255, 69, 58, 0.15);
                 --warning: #FF9F0A;
                 --text-main: #F5F5F7;       
                 --text-muted: #98989D;      
                 --border: rgba(255, 255, 255, 0.2);          
-                --shadow-sm: 0 4px 8px rgba(0,0,0,0.3);
-                --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
+                --shadow-sm: 0 2px 6px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
+                --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.1);
                 --bg-weekend: rgba(255,255,255,0.02); 
-                --badge-active-bg: rgba(10, 132, 255, 0.15); --badge-active-text: #0A84FF;
-                --badge-late-bg: rgba(255, 69, 58, 0.15); --badge-late-text: #FF453A;
-                --badge-done-bg: rgba(50, 215, 75, 0.15); --badge-done-text: #32D74B;
                 --widget-border: rgba(255, 255, 255, 0.15);
             }
         }
 
         /* --- KAWALAN MAC (TRAFFIC LIGHTS) --- */
-        .mac-controls { display: flex; gap: 8px; margin-bottom: 16px; align-items: center; }
-        .mac-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
-        .mac-red { background-color: #FF5F56; }
-        .mac-yellow { background-color: #FFBD2E; }
-        .mac-green { background-color: #27C93F; }
+        .mac-controls { display: flex; gap: 6px; align-items: center; justify-content: flex-end; }
+        .mac-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; box-shadow: inset 0 1px 2px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.1); }
+        .mac-red { background-color: #FF5F56; cursor: pointer; transition: all 0.2s ease; }
+        .mac-red:hover { filter: brightness(0.9); transform: scale(1.1); box-shadow: 0 2px 4px rgba(255, 95, 86, 0.4); }
+        .mac-yellow { background-color: #FFBD2E; opacity: 0.3; cursor: default; }
+        .mac-green { background-color: #27C93F; opacity: 0.3; cursor: default; }
 
         /* Rekaan Kompak & Tipografi */
-        body { font-family: var(--font-family); background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 12px; line-height: 1.4; font-weight: 500; -webkit-font-smoothing: antialiased; font-size: 0.85rem; letter-spacing: -0.01em; }
+        body { font-family: var(--font-family); background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 10px; line-height: 1.4; font-weight: 500; -webkit-font-smoothing: antialiased; font-size: 0.85rem; letter-spacing: -0.01em; }
         input, select, textarea, button, table, td, th, span, div, p, label { font-family: inherit; font-size: inherit; }
-        strong, h1, h2, h3, h4, h5, h6, b { font-weight: 600 !important; letter-spacing: -0.02em; }
+        strong, h1, h2, h3, h4, h5, h6, b { font-weight: 600 !important; letter-spacing: -0.01em; }
         #loadingBar { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--success)); z-index: 9999; display: none; }
 
-        /* Scrollbar Halus (Ala Mac) */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        /* Scrollbar Halus */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(134, 134, 139, 0.3); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(134, 134, 139, 0.6); }
 
         /* Skrin Login */
         #loginView { display: flex; justify-content: center; align-items: center; min-height: 90vh; flex-direction: column; }
-        .login-card { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 24px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-md); width: 100%; max-width: 320px; text-align: center; }
+        .login-card { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 24px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-md); width: 100%; max-width: 320px; text-align: center; position: relative; }
         
         /* Input Teks (Animasi Outline) */
-        .login-input, .search-input, .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; margin-bottom: 12px; border: 1.5px solid var(--border); border-radius: var(--radius-btn); background: rgba(255,255,255,0.4); color: var(--text-main); box-sizing: border-box; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); outline: none; }
+        .login-input, .search-input, .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 6px 10px; margin-bottom: 8px; border: 1.5px solid var(--border); border-radius: var(--radius-btn); background: rgba(255,255,255,0.6); color: var(--text-main); box-sizing: border-box; transition: all 0.2s ease; outline: none; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02); }
         @media (prefers-color-scheme: dark) { .login-input, .search-input, .form-group input, .form-group select, .form-group textarea { background: rgba(0,0,0,0.2); } }
-        .login-input:focus, .search-input:focus, .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); background: var(--surface-solid); box-shadow: 0 0 0 3px var(--primary-ring); transform: translateY(-1px); }
+        .login-input:focus, .search-input:focus, .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); background: var(--surface-solid); box-shadow: 0 0 0 3px var(--primary-ring); }
 
-        /* Butang Mac OS (Outline & Shadow Diperjelas) */
-        .btn-3d { background: var(--primary); color: white; border: 2px solid var(--primary-hover); padding: 8px 16px; border-radius: var(--radius-btn); cursor: pointer; box-shadow: 0 4px 8px rgba(0, 122, 255, 0.3), inset 0 1px 1px rgba(255,255,255,0.3); transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; }
-        .btn-3d:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 12px rgba(0, 122, 255, 0.4), inset 0 1px 1px rgba(255,255,255,0.4); }
-        .btn-3d:active { transform: scale(0.96); box-shadow: 0 1px 2px rgba(0, 122, 255, 0.2); }
-        .btn-3d.secondary { background: var(--surface-solid); color: var(--text-main); border: 2px solid #b0b0b0; box-shadow: 0 2px 6px rgba(0,0,0,0.08); text-shadow: none; }
-        .btn-3d.secondary:hover { background: var(--bg-body); border-color: var(--text-muted); }
-        .btn-3d.danger { background: var(--danger); border: 2px solid #A80000; box-shadow: 0 4px 8px rgba(255, 59, 48, 0.3); }
-        .btn-3d.danger:hover { background: #E3342F; box-shadow: 0 6px 12px rgba(255, 59, 48, 0.4); }
+        /* Butang Mac OS */
+        .btn-3d { background: var(--primary); color: white; border: 1.5px solid rgba(0,0,0,0.1); padding: 6px 14px; border-radius: var(--radius-btn); cursor: pointer; box-shadow: 0 2px 4px rgba(0, 102, 204, 0.3), inset 0 1px 1px rgba(255,255,255,0.2); transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 0.85rem;}
+        .btn-3d:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0, 102, 204, 0.4), inset 0 1px 1px rgba(255,255,255,0.3); }
+        .btn-3d:active { transform: scale(0.97); box-shadow: 0 1px 2px rgba(0, 102, 204, 0.2); }
+        .btn-3d.secondary { background: var(--surface-solid); color: var(--primary); border: 1.5px solid var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .btn-3d.secondary:hover { background: var(--primary-light); }
+        .btn-3d.danger { background: var(--danger); border: 1.5px solid rgba(0,0,0,0.1); box-shadow: 0 2px 4px rgba(255, 59, 48, 0.3); }
+        .btn-3d.danger:hover { background: #E3342F; box-shadow: 0 4px 8px rgba(255, 59, 48, 0.4); }
         
-        .btn-clear { background: transparent; border: 2px solid #b0b0b0; color: var(--text-muted); cursor: pointer; padding: 6px 12px; border-radius: var(--radius-btn); transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .btn-clear { background: transparent; border: 1.5px solid var(--text-muted); color: var(--text-muted); cursor: pointer; padding: 6px 14px; border-radius: var(--radius-btn); transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
         .btn-clear:hover { background: var(--border); color: var(--text-main); border-color: var(--text-main); }
 
         /* Lencana */
-        .badge-btn { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; display: inline-block; font-weight:600; border: 1px solid rgba(0,0,0,0.05); }
+        .badge-btn { padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; display: inline-block; font-weight:700; border: 1px solid rgba(0,0,0,0.05); }
         .badge-active { background: var(--badge-active-bg); color: var(--badge-active-text); }
         .badge-late { background: var(--badge-late-bg); color: var(--badge-late-text); }
         .badge-done { background: var(--badge-done-bg); color: var(--badge-done-text); }
@@ -118,110 +115,136 @@
         #dashboardView { display: none; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0; }
         header, .content-card, .calendar-card, .widget-card, .stat-card, .modal { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-        header { padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-radius: 20px; }
-        .logo-section { display: flex; flex-direction: column; }
-        .logo-section h1 { margin: 0; font-size: 1.15rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-        .header-right { text-align: right; }
-        #headerDate { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 4px; font-weight:600; letter-spacing: 0.5px;}
-        .header-actions { display: flex; gap: 8px; align-items: center;}
+        
+        /* HEADER REKAAN BARU */
+        header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-radius: 16px; }
+        .header-left { display: flex; flex-direction: column; gap: 4px; }
+        .header-left-title { display: flex; align-items: center; gap: 12px; }
+        .header-left h1 { margin: 0; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; font-weight:800; text-transform: uppercase; letter-spacing: 0.5px;}
+        .header-subtitle { font-size: 0.95rem; font-weight: 600; color: var(--text-main); opacity: 0.75; margin-left: 76px; }
+        
+        .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+        #headerDate { color: var(--primary); font-size: 1.4rem; font-weight:800; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; text-align: right; line-height: 1.2; padding-top: 2px;}
 
-        /* Tab Navigasi Segmen (Mac OS Style) */
-        .nav-tabs { display: flex; gap: 2px; margin-bottom: 16px; background: rgba(0,0,0,0.05); padding: 4px; border-radius: 12px; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--border); }
+        /* Tab Navigasi Segmen */
+        .nav-tabs { display: flex; gap: 4px; margin-bottom: 12px; background: rgba(0,0,0,0.04); padding: 4px; border-radius: 10px; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--border); align-items:center;}
         @media (prefers-color-scheme: dark) { .nav-tabs { background: rgba(255,255,255,0.05); } }
-        .nav-btn { background: transparent; color: var(--text-muted); border: none; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; border-radius: 8px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); white-space: nowrap; font-weight:600;}
-        .nav-btn:hover { color: var(--text-main); }
-        .nav-btn.active { background: var(--surface-solid); color: var(--text-main); box-shadow: 0 2px 6px rgba(0,0,0,0.1); border: 1px solid var(--border); }
-        .tab-content { display: none; animation: blurFade 0.3s ease-out; }
+        .nav-btn { background: transparent; color: var(--text-main); opacity: 0.9; border: none; padding: 8px 16px; font-size: 0.95rem; cursor: pointer; border-radius: 8px; transition: all 0.2s ease; white-space: nowrap; font-weight:700;}
+        .nav-btn:hover { opacity: 1; color: var(--primary); background: rgba(0,0,0,0.05); }
+        .nav-btn.active { background: var(--surface-solid); color: var(--primary); opacity: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+        .tab-content { display: none; animation: blurFade 0.2s ease-out; }
         .tab-content.active { display: block; }
-        @keyframes blurFade { from { opacity: 0; filter: blur(4px); transform: translateY(5px); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+        @keyframes blurFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Grid Kompak & Kad Animasi */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px; }
-        .stat-card { padding: 14px; display: flex; align-items: center; gap: 12px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .stat-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; background: var(--bg-body); border: 1px solid var(--border); }
-        .stat-info h3 { margin: 0; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-info .value { font-size: 1.4rem; color: var(--text-main); margin-top: 2px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 12px; }
+        .stat-card { padding: 12px; display: flex; align-items: center; gap: 10px; transition: all 0.2s ease; }
+        .stat-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; background: var(--bg-body); border: 1px solid var(--border); }
+        .stat-info h3 { margin: 0; font-size: 0.7rem; color: var(--primary); text-transform: uppercase; font-weight: 700; }
+        .stat-info .value { font-size: 1.3rem; color: var(--text-main); margin-top: 2px; }
         .stat-card.clickable { cursor: pointer; }
-        .stat-card.clickable:hover { transform: translateY(-4px) scale(1.02); border-color: var(--primary-light); box-shadow: var(--shadow-md); }
+        .stat-card.clickable:hover { transform: translateY(-2px); border-color: var(--primary-light); box-shadow: var(--shadow-md); }
 
-        .dashboard-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .calendar-card, .widget-card { padding: 16px; }
-        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .dashboard-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .calendar-card, .widget-card { padding: 12px; }
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .cal-header h3 { margin:0; font-size:1rem; color:var(--primary); font-weight:700;}
         .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-        .cal-grid-headers { text-align: center; color: var(--text-muted); font-size: 0.7rem; margin-bottom: 6px; font-weight:700;}
-        .cal-day { background: var(--bg-weekday); border: 1px solid transparent; border-radius: 8px; padding: 4px; min-height: 48px; text-align: center; font-size: 0.85rem; display: flex; flex-direction: column; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; position: relative;}
+        .cal-grid-headers { text-align: center; color: var(--primary); font-size: 0.7rem; margin-bottom: 4px; font-weight:700;}
+        .cal-day { background: var(--bg-weekday); border: 1px solid transparent; border-radius: 6px; padding: 4px; min-height: 44px; text-align: center; font-size: 0.85rem; display: flex; flex-direction: column; transition: all 0.2s ease; cursor: pointer; position: relative;}
         .cal-day * { pointer-events: none; } 
         .cal-day.weekend { background-color: var(--bg-weekend); }
         .cal-day.today { border-color: var(--primary); font-weight:700; color: var(--primary); }
-        .cal-day.selected-day { background: var(--primary); color: white !important; border-color: var(--primary); transform: scale(1.05); z-index: 2; box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
+        .cal-day.selected-day { background: var(--primary); color: white !important; border-color: var(--primary); transform: scale(1.05); z-index: 2; box-shadow: 0 4px 8px rgba(0,102,204,0.3); }
         .cal-day.selected-day .cal-info { color: rgba(255,255,255,0.9) !important; }
-        .cal-day:hover:not(.selected-day) { background: var(--primary-light); z-index: 10; transform: scale(1.05); }
+        .cal-day:hover:not(.selected-day) { background: var(--primary-light); z-index: 10; }
         .cal-info { font-size:0.65rem; font-weight:700; line-height:1.2; margin-top:2px;}
         
-        .widget-item { background: var(--surface-solid); border: 1px solid var(--widget-border); border-left: 4px solid var(--primary); padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; transition: all 0.2s; box-shadow: var(--shadow-sm); }
+        .widget-item { background: var(--surface-solid); border: 1px solid var(--widget-border); border-left: 4px solid var(--primary); padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; transition: all 0.2s; box-shadow: var(--shadow-sm); }
         .widget-item:hover { transform: translateX(2px); box-shadow: var(--shadow-md); border-color: var(--border); }
+        .widget-card h3, .content-card h3 { color: var(--primary); font-weight: 700; }
 
-        /* Jadual Finder Style */
+        /* Tables & Filter Chips */
         .content-card { overflow: hidden; padding: 0; }
-        .toolbar { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; justify-content: space-between; flex-wrap: wrap; align-items: center; background: rgba(0,0,0,0.02); }
+        .toolbar { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; align-items: center; background: rgba(0,0,0,0.02); }
         .search-container { flex: 1; display: flex; gap: 8px; min-width: 200px; align-items: center; }
         .action-wrapper { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
         table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { background: transparent; text-align: left; padding: 10px 16px; color: var(--text-muted); border-bottom: 1px solid var(--border); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--text-main); }
+        th { background: rgba(0,102,204,0.05); text-align: left; padding: 8px 12px; color: var(--primary); border-bottom: 1.5px solid var(--border); font-size: 0.75rem; text-transform: uppercase; font-weight:700; letter-spacing: 0.02em; }
+        td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--text-main); }
         tr { transition: background-color 0.15s; }
         tr:hover td { background-color: var(--primary-light); }
 
-        .filter-chips { display: flex; gap: 6px; padding: 10px 16px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; background: transparent;}
-        .chip { background: var(--bg-body); border: 1.5px solid var(--border); padding: 4px 14px; border-radius: 16px; cursor: pointer; color: var(--text-muted); font-size: 0.75rem; transition: all 0.3s; white-space: nowrap; font-weight:600; box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
-        .chip:hover { border-color: var(--text-muted); color: var(--text-main); }
-        .chip.active { background: var(--text-main); color: var(--bg-body); border-color: var(--text-main); font-weight:700;}
+        .filter-chips { display: flex; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; background: transparent;}
+        .chip { background: var(--bg-body); border: 1.5px solid var(--border); padding: 4px 12px; border-radius: 12px; cursor: pointer; color: var(--text-muted); font-size: 0.75rem; transition: all 0.2s; white-space: nowrap; font-weight:600; box-shadow: 0 1px 2px rgba(0,0,0,0.04);}
+        .chip:hover { border-color: var(--primary-light); color: var(--primary); }
+        .chip.active { background: var(--primary); color: white; border-color: var(--primary); font-weight:700;}
 
         /* Modal Custom (Dialog) */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.2s ease; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
         .modal-overlay.open { opacity: 1; visibility: visible; }
-        .modal { padding: 20px; max-height: 90vh; overflow-y: auto; width:100%; max-width:550px; transform: scale(0.95) translateY(10px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); opacity: 0; border-radius: 16px;}
+        .modal { background: var(--surface); padding: 16px; max-height: 90vh; overflow-y: auto; width:100%; max-width:550px; transform: scale(0.98) translateY(10px); transition: all 0.3s ease; opacity: 0; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-md);}
         .modal-overlay.open .modal { transform: scale(1) translateY(0); opacity: 1; }
         
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 12px; }
+        .modal-header h3 { margin: 0; font-size: 1.1rem; color: var(--primary); font-weight: 700; }
+        
         .custom-dialog { max-width: 320px; text-align: center; }
-        .grid-compact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .grid-cols-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .grid-compact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .grid-cols-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .col-span-1 { grid-column: span 1; } .col-span-2 { grid-column: span 2; } .col-span-4 { grid-column: span 4; }
         .form-group label { display: block; margin-bottom: 4px; font-size: 0.75rem; color: var(--text-muted); font-weight:600;}
 
         /* Ulasan Cards & Avatars */
-        .ulasan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 16px; }
-        .ulasan-card { background: var(--surface-solid); border: 1px solid var(--border); border-radius: 12px; padding: 16px; position: relative; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: var(--shadow-sm);}
-        .ulasan-card:hover { transform: translateY(-4px); border-color: var(--primary-light); box-shadow: var(--shadow-md); }
-        .uc-header { display: flex; gap: 12px; margin-bottom: 10px; align-items: center; }
-        .uc-avatar { font-size: 2rem; background: var(--bg-body); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);}
-        .uc-nama { font-weight: 600; color: var(--text-main); font-size: 0.95rem; line-height:1.2;}
-        .uc-book { font-size: 0.75rem; color: var(--primary); margin-top:2px; font-weight:700;}
-        .uc-stars { color: #F9AB00; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 8px; }
-        .uc-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; font-style: italic; }
+        .ulasan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; padding: 12px; }
+        .ulasan-card { background: var(--surface-solid); border: 1px solid var(--border); border-radius: 10px; padding: 12px; position: relative; transition: all 0.2s ease; box-shadow: var(--shadow-sm);}
+        .ulasan-card:hover { transform: translateY(-2px); border-color: var(--primary-light); box-shadow: var(--shadow-md); }
+        .uc-header { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
+        .uc-avatar { font-size: 1.8rem; background: var(--bg-body); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);}
+        
+        /* Font Styles updated based on request */
+        .uc-book { font-size: 1.05rem; color: var(--primary); font-weight:800; line-height:1.2; }
+        .uc-nama { font-weight: 600; color: var(--text-muted); font-size: 0.75rem; line-height:1.2; margin-top:2px;}
+        
+        .uc-stars { color: #F9AB00; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 6px; }
+        .uc-text { font-size: 0.85rem; color: var(--text-main); line-height: 1.4; font-style: italic; }
         
         .avatar-opt { font-size: 1.8rem; cursor: pointer; padding: 6px; border-radius: 50%; border: 2px solid transparent; display: inline-flex; justify-content: center; align-items: center; transition: all 0.2s;}
-        .avatar-opt.selected { border-color: var(--primary); background: var(--primary-light); transform: scale(1.15); box-shadow: 0 4px 10px rgba(0,122,255,0.2);}
+        .avatar-opt.selected { border-color: var(--primary); background: var(--primary-light); transform: scale(1.15); box-shadow: 0 2px 8px rgba(0,102,204,0.2);}
         .avatar-opt:hover:not(.selected) { background: var(--border); transform: scale(1.1);}
         
         .star-rating { display: flex; gap: 4px; font-size: 1.8rem; cursor: pointer; justify-content: center; margin-bottom: 12px; }
         .star-rating span { color: var(--border); transition: 0.2s; text-shadow: 0 1px 2px rgba(0,0,0,0.1);}
         .star-rating span.active { color: #F9AB00; text-shadow: 0 0 8px rgba(249,171,0,0.4); }
-        #autosave-indicator { position: fixed; top: 16px; right: 16px; background: var(--surface); color: var(--text-main); padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; opacity: 0; transform: translateY(-20px); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 9999; border: 1px solid var(--border); box-shadow: var(--shadow-md); pointer-events: none; backdrop-filter: var(--blur-effect);}
+        #autosave-indicator { position: fixed; top: 12px; right: 12px; background: var(--surface); color: var(--text-main); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease; z-index: 9999; border: 1px solid var(--border); box-shadow: var(--shadow-md); pointer-events: none; backdrop-filter: var(--blur-effect); font-weight:600;}
+
+        /* CHATBOX STYLES */
+        .chat-container { display: flex; flex-direction: column; gap: 10px; max-height: 350px; overflow-y: auto; padding: 12px; background: var(--bg-body); border-radius: 8px; border: 1px solid var(--border); }
+        .chat-bubble { padding: 10px 14px; border-radius: 16px; font-size: 0.85rem; max-width: 80%; word-wrap: break-word; line-height: 1.4; box-shadow: var(--shadow-sm); position:relative;}
+        .chat-sent { background: var(--primary); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-received { background: var(--surface-solid); color: var(--text-main); border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .chat-time { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
+        
+        .inbox-item { background: var(--surface-solid); border: 1px solid var(--border); padding: 10px 14px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+        .inbox-item:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); transform: translateX(2px); }
 
         @media (max-width: 768px) {
             .dashboard-layout, .grid-compact, .grid-cols-4 { grid-template-columns: 1fr !important; }
             .col-span-1, .col-span-2, .col-span-4 { grid-column: span 1; }
-            header { flex-direction: column; text-align: center; gap: 12px; padding: 16px;}
-            .header-right { align-items: center; justify-content: center; width: 100%;}
+            header { flex-direction: column; align-items: center; text-align: center; gap: 16px; padding: 16px;}
+            .header-left, .header-right { align-items: center; width: 100%; }
+            .header-left-title { justify-content: center; }
+            .header-subtitle { margin-left: 0; margin-top: 4px; text-align: center; }
+            #headerDate { text-align: center; margin-top: 4px; }
+            .mac-controls { display:none !important; } /* Hide mac controls on mobile */
             .toolbar { flex-direction: column; align-items: stretch; }
             .action-wrapper, .search-container { width: 100%; justify-content: space-between; }
             table, thead, tbody, th, td, tr { display: block; width: 100%; box-sizing: border-box; }
             thead tr { display: none; }
-            tr { margin-bottom: 12px; border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-card); background: var(--surface-solid); box-shadow: var(--shadow-sm);}
-            td { display: flex; flex-direction: column; text-align: left; padding: 6px 0; border-bottom: 1px dashed var(--border); }
+            tr { margin-bottom: 10px; border: 1px solid var(--border); padding: 10px; border-radius: var(--radius-card); background: var(--surface-solid); box-shadow: var(--shadow-sm);}
+            td { display: flex; flex-direction: column; text-align: left; padding: 4px 0; border-bottom: 1px dashed var(--border); }
             td:last-child { border-bottom: none; }
-            td::before { content: attr(data-label); font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; font-weight:700;}
+            td::before { content: attr(data-label); font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-bottom: 2px; font-weight:700;}
         }
     </style>
 </head>
@@ -229,44 +252,44 @@
 
 <div id="loadingBar"></div>
 
-<!-- Login Screen -->
 <div id="loginView">
     <div class="login-card">
-        <div class="mac-controls">
-            <span class="mac-dot mac-red"></span>
-            <span class="mac-dot mac-yellow"></span>
+        <div class="mac-controls" style="position:absolute; top:12px; right:16px; margin:0;">
             <span class="mac-dot mac-green"></span>
+            <span class="mac-dot mac-yellow"></span>
+            <span class="mac-dot mac-red"></span>
         </div>
-        <div style="font-size: 3rem; margin-bottom: 8px; line-height:1; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">📚</div>
-        <h1 style="color: var(--text-main); margin-bottom: 2px; font-size: 1.4rem;">PUSTAKA MTIB</h1>
+        <div style="font-size: 3rem; margin-bottom: 8px; line-height:1; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); margin-top:16px;">📚</div>
+        <h1 style="color: var(--primary); margin-bottom: 2px; font-size: 1.4rem;">PUSTAKA MTIB</h1>
         <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.8rem;" class="login-subtitle-display">Pengurusan Pinjaman Digital</p>
         
-        <button class="btn-3d" type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 16px; background: var(--success); border-color: #27C93F;" onclick="window.visitorLogin()">👤 Masuk Sebagai Pelawat</button>
+        <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 16px; background: var(--success); border-color: #27C93F;" onclick="window.visitorLogin()">👤 Masuk Sebagai Pelawat</button>
 
         <div id="login_form_user" style="border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px;">
             <p style="color: var(--primary); margin-top: 0; margin-bottom: 10px; font-size: 0.85rem; font-weight: 700; text-align: left;">Log Masuk Ahli</p>
             <div style="text-align: left;">
                 <input type="text" id="login_u_id" class="login-input" placeholder="No. Pekerja (Cth: A001)" onkeyup="window.checkUserLogin()">
                 <div id="login_u_info" style="min-height: 24px; margin-bottom: 8px; display:flex; flex-direction:column; justify-content:center;"></div>
-                <input type="password" id="login_u_pwd" class="login-input" placeholder="Kata Laluan (Lalai: 1234)">
+                <input type="password" id="login_u_pwd" class="login-input" placeholder="Kata Laluan (Lalai: 1234)" onkeyup="if(event.key === 'Enter') window.attemptUserLogin()">
             </div>
-            <button class="btn-3d" type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 8px;" onclick="window.attemptUserLogin()">Masuk Profil Peminjam</button>
+            <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 8px;" onclick="window.attemptUserLogin()">Masuk Profil Peminjam</button>
         </div>
 
         <div style="margin-top: 12px;">
-            <button type="button" class="btn-clear" style="border-radius: 50px; padding: 4px 12px; font-size: 0.7rem;" onclick="window.openAdminLoginModal()">⚙️ Log Pentadbir</button>
+            <button type="button" class="btn-clear" style="border-radius: 50px; font-size: 0.75rem;" onclick="window.openAdminLoginModal()">⚙️ Log Pentadbir</button>
         </div>
     </div>
 </div>
 
-<!-- Modal Custom Alert & Confirm -->
 <div class="modal-overlay" id="customDialogModal" style="z-index: 10005;">
     <div class="modal custom-dialog">
-        <div class="mac-controls" style="margin-bottom:8px;">
-            <span class="mac-dot mac-red"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
+        <div class="modal-header" style="border-bottom:none; margin-bottom:0;">
+            <h3 id="customDialogTitle">Makluman</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red"></span>
+            </div>
         </div>
-        <h3 id="customDialogTitle" style="margin-top:0; margin-bottom:12px; font-size:1.1rem; color:var(--text-main);">Makluman</h3>
-        <p id="customDialogMessage" style="margin-bottom:20px; color:var(--text-muted); font-size:0.85rem; line-height:1.5;"></p>
+        <p id="customDialogMessage" style="margin-bottom:20px; color:var(--text-main); font-size:0.9rem; line-height:1.5;"></p>
         <div style="display:flex; gap:10px; justify-content:center;">
             <button id="btnDialogCancel" class="btn-clear" style="display:none; flex:1;">Batal</button>
             <button id="btnDialogOk" class="btn-3d" style="flex:1;">OK</button>
@@ -274,45 +297,47 @@
     </div>
 </div>
 
-<!-- Modal Login Admin -->
 <div class="modal-overlay" id="adminLoginModal">
     <div class="modal" style="max-width: 300px; text-align: center;">
-        <div class="mac-controls">
-            <span class="mac-dot mac-red" onclick="window.closeAdminLoginModal()" style="cursor:pointer;"></span>
-            <span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
+        <div class="modal-header" style="border-bottom:none; margin-bottom:0;">
+            <h3>🔐 Akses Pentadbir</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeAdminLoginModal()" style="cursor:pointer;"></span>
+            </div>
         </div>
-        <h3 style="color:var(--primary); margin-top:0; margin-bottom:16px; font-size:1.2rem;">🔐 Akses Pentadbir</h3>
-        <input type="password" id="password" class="login-input" placeholder="Kata Laluan" onkeyup="if(event.key === 'Enter') window.attemptLogin()">
-        <button class="btn-3d" style="width:100%; margin-top:10px; padding:10px;" onclick="window.attemptLogin()">Masuk Sistem</button>
+        <div style="padding-top:10px;">
+            <input type="password" id="password" class="login-input" placeholder="Kata Laluan Pentadbir" onkeyup="if(event.key === 'Enter') window.attemptLogin()">
+            <button class="btn-3d" style="width:100%; margin-top:6px; padding:8px;" onclick="window.attemptLogin()">Masuk Sistem</button>
+        </div>
     </div>
 </div>
 
-<!-- Dashboard View -->
 <div id="dashboardView">
     <div id="autosave-indicator"><span id="autosave-icon" style="font-size: 1.2rem;">☁️</span> <span id="autosave-text">Tersimpan di Awan</span></div>
 
     <div class="container">
-        <!-- Header -->
         <header>
-            <div class="logo-section">
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span></div>
-                    <h1 style="margin:0;"><span style="font-size: 1.4rem; margin-right:6px;">📚</span> PUSTAKA PUSAT SUMBER MTIB</h1>
+            <div class="header-left">
+                <div class="header-left-title">
+                    <div class="mac-controls" style="margin:0; padding-top:2px;"><span class="mac-dot mac-red"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span></div>
+                    <h1><span style="font-size: 1.6rem; margin-right:8px;">📚</span> PUSTAKA PUSAT SUMBER MTIB</h1>
                 </div>
+                <div id="headerSubtitle" class="header-subtitle">Sistem Pengurusan Perpustakaan Digital</div>
             </div>
+            
             <div class="header-right">
                 <div id="headerDate"></div>
-                <div class="header-actions">
-                    <small id="statusText" style="color:var(--success); margin-right:8px; display: flex; align-items: center; background: var(--badge-done-bg); padding: 4px 10px; border-radius: 16px; border: 1px solid var(--success); font-size: 0.7rem; font-weight:700;">🌐 Dalam Talian</small>
-                    <button class="btn-clear" id="btn-tetapan-header" type="button" onclick="window.switchTab('tetapan')">⚙️ Tetapan</button>
-                    <button class="btn-clear" style="color:var(--danger); border-color:var(--danger);" id="btn-logout-header" type="button" onclick="location.reload()">Keluar</button>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                    <small id="statusText" style="color:var(--success); display: inline-flex; align-items: center; background: var(--badge-done-bg); padding: 4px 10px; border-radius: 12px; border: none; font-size: 0.75rem; font-weight:700;">🌐 Dalam Talian</small>
+                    <button class="btn-clear" id="btn-tetapan-header" type="button" onclick="window.switchTab('tetapan')" style="padding:4px 10px; font-size:0.75rem; border-color:var(--border);">⚙️ Tetapan</button>
+                    <button class="btn-clear" style="color:var(--danger); border-color:var(--danger-light); padding:4px 10px; font-size:0.75rem; background:var(--danger-light);" id="btn-logout-header" type="button" onclick="location.reload()">Keluar</button>
                 </div>
             </div>
         </header>
 
         <div class="nav-tabs" id="main_nav_tabs">
             <button class="nav-btn active" id="btn-dashboard" onclick="window.switchTab('dashboard')" style="display:none;">📊 Dashboard Utama</button>
-            <button class="nav-btn" id="btn-myprofile" onclick="window.switchTab('myprofile')" style="display:none; color:var(--primary);">👤 Dashboard Saya</button>
+            <button class="nav-btn" id="btn-myprofile" onclick="window.switchTab('myprofile')" style="display:none;">👤 Dashboard Saya</button>
             <button class="nav-btn" id="btn-buku" onclick="window.switchTab('buku')">📚 Bahan Baru</button>
             <button class="nav-btn" id="btn-senarai" onclick="window.switchTab('senarai')">📖 Rekod Pinjaman</button>
             <button class="nav-btn" id="btn-kelab" onclick="window.switchTab('kelab')">🏆 Senarai Peminjam</button>
@@ -320,7 +345,6 @@
             <button class="nav-btn" id="btn-ulasan" onclick="window.switchTab('ulasan')">⭐ Ulasan & Review</button>
         </div>
 
-        <!-- Tab 1: Dashboard (Admin Only) -->
         <div id="tab-dashboard" class="tab-content">
             <div class="stats-grid">
                 <div class="stat-card clickable" onclick="window.gotoSenaraiFiltered('aktif')">
@@ -335,16 +359,22 @@
                     <div class="stat-icon" style="color: var(--warning); background: rgba(255, 149, 0, 0.15); border: none;">💰</div>
                     <div class="stat-info"><h3 style="text-transform:none;">Denda Semasa</h3><div class="value" style="color: var(--warning);" id="statFine">RM 0.00</div></div>
                 </div>
+                
+                <div class="stat-card clickable" onclick="window.openAdminInbox()">
+                    <div class="stat-icon" style="color: var(--primary); background: var(--primary-light); border: none; position:relative;">
+                        💬 <span id="adminInboxBadgeDot" style="display:none; position:absolute; top:-2px; right:-2px; width:10px; height:10px; background:var(--danger); border-radius:50%; border:2px solid var(--surface);"></span>
+                    </div>
+                    <div class="stat-info"><h3 style="text-transform:none;">Peti Pertanyaan</h3><div class="value" style="color: var(--primary); font-size:1rem; font-weight:700;" id="adminInboxCount">0 Mesej Baru</div></div>
+                </div>
             </div>
-            <div class="dashboard-layout" style="grid-template-columns: 340px 1fr;">
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <!-- Mini Calendar Admin Dashboard -->
-                    <div class="calendar-card" style="padding:16px;">
+            <div class="dashboard-layout" style="grid-template-columns: 320px 1fr;">
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="calendar-card" style="padding:12px;">
                         <div class="cal-header">
-                            <h3 id="dashCalMonthYear" style="font-size:1rem; margin:0;">Bulan Tahun</h3>
-                            <div class="cal-nav" style="display: flex; gap: 6px;">
-                                <button class="btn-clear" style="padding:4px 8px; border-radius:6px;" onclick="window.changeDashMonth(-1)">◀</button>
-                                <button class="btn-clear" style="padding:4px 8px; border-radius:6px;" onclick="window.changeDashMonth(1)">▶</button>
+                            <h3 id="dashCalMonthYear">Bulan Tahun</h3>
+                            <div class="cal-nav" style="display: flex; gap: 4px;">
+                                <button class="btn-clear" style="padding:2px 8px; border-radius:6px;" onclick="window.changeDashMonth(-1)">◀</button>
+                                <button class="btn-clear" style="padding:2px 8px; border-radius:6px;" onclick="window.changeDashMonth(1)">▶</button>
                             </div>
                         </div>
                         <div class="cal-grid-headers"><div>Isn</div><div>Sel</div><div>Rab</div><div>Kha</div><div>Jum</div><div style="color:var(--danger)">Sab</div><div style="color:var(--danger)">Ahd</div></div>
@@ -352,86 +382,95 @@
                     </div>
                 </div>
                 
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <div class="widget-card" style="padding:16px; padding-bottom:4px;">
-                        <h3 style="color: var(--text-main); margin:0; margin-bottom:12px; font-size: 1rem; border-bottom:1px solid var(--border); padding-bottom:10px;">Buku Sedang Dipinjam</h3>
-                        <div id="borrowedBooksWidgetList" style="display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 4px; margin-bottom:12px;"></div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="widget-card" style="padding:12px;">
+                        <h3 style="margin:0; margin-bottom:8px; border-bottom:1px solid var(--border); padding-bottom:8px;">Buku Sedang Dipinjam</h3>
+                        <div id="borrowedBooksWidgetList" style="display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; padding-right: 4px;"></div>
                     </div>
-                    <!-- Senarai Aktiviti Diletakkan di Bawah -->
-                    <div class="widget-card" style="padding:16px; padding-bottom:4px; flex:1;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
-                            <h3 style="color: var(--text-main); margin:0; font-size: 1rem;">Rekod Pinjaman Buku</h3>
+                    <div class="widget-card" style="padding:12px; flex:1;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px;">
+                            <h3 style="margin:0;">Rekod Pinjaman Buku</h3>
                             <span id="selectedDateLabel" style="font-size:0.75rem; color:var(--primary); background:var(--primary-light); padding:4px 10px; border-radius:12px; font-weight:700;">Pilih Tarikh</span>
                         </div>
-                        <div id="dailyActivityList" style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px; max-height: 250px; overflow-y: auto; padding-right: 4px; margin-bottom:12px;"></div>
+                        <div id="dailyActivityList" style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 200px; overflow-y: auto; padding-right: 4px;"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab: Profil Saya (User Dashboard) -->
         <div id="tab-myprofile" class="tab-content">
-            <div class="dashboard-layout" style="grid-template-columns: 320px 1fr;">
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <div class="content-card" style="padding: 24px; text-align:center;">
-                        <div id="my_avatar_display" style="font-size:4rem; margin-bottom:12px; cursor:pointer; display:inline-block; transition:0.3s; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));" onclick="window.openMyProfileModal()" title="Klik untuk tukar Avatar">👤</div>
-                        <h3 style="color:var(--text-main); margin:0; font-size: 1.2rem; text-transform:uppercase; letter-spacing:0.5px;" id="my_display_nama">Pengguna</h3>
-                        <div style="font-size:0.85rem; color:var(--primary); font-weight:700; margin-top:6px; background:var(--primary-light); display:inline-block; padding:4px 12px; border-radius:6px; border:1px solid var(--primary);" id="my_display_id">-</div>
-                        
-                        <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
-                            <div class="stat-card" style="padding:12px; flex:1; flex-direction:column; gap:6px; border:1px solid var(--border); background:var(--surface-solid);">
-                                <h3 style="font-size:0.65rem; margin:0; text-transform:uppercase;">Buku Dipinjam</h3>
-                                <div style="color: var(--primary); font-weight:700; font-size:1.4rem;" id="my_total_books">0</div>
-                            </div>
-                            <div class="stat-card" style="padding:12px; flex:1; flex-direction:column; gap:6px; border:1px solid var(--border); background:var(--surface-solid);">
-                                <h3 style="font-size:0.65rem; margin:0; text-transform:uppercase;">Mata Aktiviti</h3>
-                                <div style="color: var(--warning); font-weight:700; font-size:1.4rem;" id="my_total_points">0 pt</div>
+            <div class="dashboard-layout" style="grid-template-columns: 300px 1fr;">
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    
+                    <div class="content-card clickable" style="padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; background: var(--primary-light); border: 1.5px solid var(--primary); transition:all 0.2s ease;" onclick="window.openChatUser()">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 1.8rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">💬</span>
+                            <div>
+                                <h4 style="margin: 0; color: var(--primary); font-size: 1rem; font-weight:800;">Tanya Pustakawan</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: var(--text-main); opacity:0.8;">Bantuan & Pertanyaan</p>
                             </div>
                         </div>
-                        <button class="btn-3d secondary" style="width:100%; margin-top:16px; padding:10px;" onclick="window.openMyProfileModal()">✏️ Kemaskini Profil</button>
+                        <span class="badge-btn" id="userUnreadBadge" style="display:none; background:var(--danger); color:white; border-color:var(--danger); box-shadow:0 2px 4px rgba(255,0,0,0.3);">Baru</span>
+                    </div>
+
+                    <div class="content-card" style="padding: 16px; text-align:center;">
+                        <div id="my_avatar_display" style="font-size:4rem; margin-bottom:10px; cursor:pointer; display:inline-block; transition:0.3s; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));" onclick="window.openMyProfileModal()" title="Klik untuk tukar Avatar">👤</div>
+                        <h3 style="color:var(--text-main); margin:0; font-size: 1.1rem; text-transform:uppercase;" id="my_display_nama">Pengguna</h3>
+                        <div style="font-size:0.85rem; color:var(--primary); font-weight:700; margin-top:4px; background:var(--primary-light); display:inline-block; padding:2px 10px; border-radius:6px; border:1px solid var(--primary);" id="my_display_id">-</div>
+                        
+                        <div style="display:flex; gap:8px; justify-content:center; margin-top:16px;">
+                            <div class="stat-card" style="padding:10px; flex:1; flex-direction:column; gap:4px; border:1px solid var(--border); background:var(--surface-solid);">
+                                <h3 style="font-size:0.6rem; margin:0;">Buku Dipinjam</h3>
+                                <div style="color: var(--primary); font-weight:700; font-size:1.3rem;" id="my_total_books">0</div>
+                            </div>
+                            <div class="stat-card" style="padding:10px; flex:1; flex-direction:column; gap:4px; border:1px solid var(--border); background:var(--surface-solid);">
+                                <h3 style="font-size:0.6rem; margin:0;">Mata Aktiviti</h3>
+                                <div style="color: var(--warning); font-weight:700; font-size:1.3rem;" id="my_total_points">0 pt</div>
+                            </div>
+                        </div>
+                        <button class="btn-3d secondary" style="width:100%; margin-top:12px; padding:8px;" onclick="window.openMyProfileModal()">✏️ Kemaskini Profil</button>
                     </div>
                 </div>
                 
-                <div class="content-card" style="padding: 20px; display:flex; flex-direction:column; max-height: 80vh;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:12px;">
-                        <h3 style="margin:0; font-size:1.1rem; color:var(--text-main);">📌 Ulasan Saya</h3>
-                        <span style="font-size:0.8rem; background:var(--success); color:white; padding:4px 12px; border-radius:16px; font-weight:700; box-shadow:0 2px 6px rgba(52,199,89,0.3);">Setiap Reviu = +10 Mata</span>
+                <div class="content-card" style="padding: 16px; display:flex; flex-direction:column; max-height: 80vh;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:10px;">
+                        <h3 style="margin:0; font-size:1rem;">📌 Ulasan Saya</h3>
+                        <span style="font-size:0.75rem; background:var(--success); color:white; padding:4px 10px; border-radius:12px; font-weight:700; box-shadow:var(--shadow-sm);">Setiap Reviu = +10 Mata</span>
                     </div>
                     <div id="myPinnedReviews" style="overflow-y:auto; flex:1; padding-right:4px;"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab: Senarai Pinjaman + Widget Kalendar -->
         <div id="tab-senarai" class="tab-content">
             <div class="dashboard-layout" style="grid-template-columns: 280px 1fr;">
                 <div>
-                    <div class="calendar-card" style="padding:16px;">
+                    <div class="calendar-card" style="padding:12px;">
                         <div class="cal-header">
-                            <h3 id="senaraiCalMonthYear" style="font-size:0.95rem; margin:0;">Bulan Tahun</h3>
-                            <div class="cal-nav" style="display: flex; gap: 6px;">
-                                <button class="btn-clear" style="padding:4px 8px; border-radius:6px;" onclick="window.changeSenaraiMonth(-1)">◀</button>
-                                <button class="btn-clear" style="padding:4px 8px; border-radius:6px;" onclick="window.changeSenaraiMonth(1)">▶</button>
+                            <h3 id="senaraiCalMonthYear" style="margin:0;">Bulan Tahun</h3>
+                            <div class="cal-nav" style="display: flex; gap: 4px;">
+                                <button class="btn-clear" style="padding:2px 8px; border-radius:6px;" onclick="window.changeSenaraiMonth(-1)">◀</button>
+                                <button class="btn-clear" style="padding:2px 8px; border-radius:6px;" onclick="window.changeSenaraiMonth(1)">▶</button>
                             </div>
                         </div>
                         <div class="cal-grid-headers"><div>Isn</div><div>Sel</div><div>Rab</div><div>Kha</div><div>Jum</div><div style="color:var(--danger)">Sab</div><div style="color:var(--danger)">Ahd</div></div>
                         <div class="cal-grid" id="senaraiCalGrid"></div>
-                        <div style="margin-top:16px; font-size:0.75rem; color:var(--text-muted); display:flex; gap:12px; justify-content:center;">
+                        <div style="margin-top:12px; font-size:0.75rem; color:var(--text-muted); display:flex; gap:10px; justify-content:center;">
                             <span style="display:flex; align-items:center; gap:4px;"><span class="cal-dot green" style="width:8px;height:8px; background:var(--success); border-radius:50%;"></span> Pinjam</span>
                             <span style="display:flex; align-items:center; gap:4px;"><span class="cal-dot blue" style="width:8px;height:8px; background:var(--primary); border-radius:50%;"></span> Pulang</span>
                             <span style="display:flex; align-items:center; gap:4px;"><span class="cal-dot red" style="width:8px;height:8px; background:var(--danger); border-radius:50%;"></span> Lewat</span>
                         </div>
                     </div>
-                    <div id="senaraiCalFilterStatus" style="display:none; text-align:center; padding:12px; background:var(--surface-solid); border:1px solid var(--border); border-radius:var(--radius-card); margin-top:12px; box-shadow:var(--shadow-sm);">
+                    <div id="senaraiCalFilterStatus" style="display:none; text-align:center; padding:10px; background:var(--surface-solid); border:1px solid var(--border); border-radius:var(--radius-card); margin-top:10px; box-shadow:var(--shadow-sm);">
                         <div style="font-size:0.75rem; color:var(--text-muted);">Menapis Tarikh:</div>
-                        <div id="senaraiCalFilterDateText" style="font-weight:700; color:var(--primary); font-size:1rem; margin-bottom:8px;"></div>
+                        <div id="senaraiCalFilterDateText" style="font-weight:700; color:var(--primary); font-size:1rem; margin-bottom:6px;"></div>
                         <button class="btn-clear" style="font-size:0.8rem; padding:4px 12px; width:100%; border-color:var(--danger); color:var(--danger);" onclick="window.clearSenaraiCalFilter()">❌ Padam Tapisan</button>
                     </div>
                 </div>
                 
                 <div class="content-card" style="padding:0;">
                     <div class="toolbar">
-                        <div class="search-container"><input type="text" id="searchInput" class="search-input" style="margin:0; padding:8px 12px;" placeholder="Cari peminjam, ID, tajuk..." onkeyup="window.renderTable()"><button class="btn-clear" style="padding:8px 12px;" onclick="window.clearSearch()">❌</button></div>
+                        <div class="search-container"><input type="text" id="searchInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari peminjam, ID, tajuk..." onkeyup="window.renderTable()"><button class="btn-clear" style="padding:6px 10px;" onclick="window.clearSearch()">❌</button></div>
                         <div class="action-wrapper" id="action-wrapper-senarai">
                             <div style="display:flex; align-items:center; gap:4px; background:var(--bg-body); padding:2px 6px; border-radius:var(--radius-btn); border:1px solid var(--border);">
                                 <select id="reportMonth" class="form-group select" style="margin:0; padding:4px; width:auto; border:none; background:transparent;">
@@ -440,7 +479,7 @@
                                 <input type="number" id="reportYear" value="2026" style="width:60px; margin:0; padding:4px; border:none; background:transparent;">
                                 <button class="btn-clear" style="padding:4px 10px; border-radius:4px;" onclick="window.printMonthlyReport()">🖨️ Cetak</button>
                             </div>
-                            <button class="btn-3d" onclick="window.openModal()" style="padding:8px 16px; background:var(--success); border-color:#27C93F;">➕ Pinjaman Baru</button>
+                            <button class="btn-3d" onclick="window.openModal()" style="padding:6px 14px; background:var(--success); border-color:#27C93F;">➕ Pinjaman Baru</button>
                         </div>
                     </div>
                     <div class="filter-chips">
@@ -460,32 +499,20 @@
             </div>
         </div>
 
-        <!-- Tab: Bahan Rujukan Baharu -->
         <div id="tab-buku" class="tab-content">
             <div class="content-card" style="padding:0;">
                 <div class="toolbar">
-                    <div class="search-container"><input type="text" id="searchBukuInput" class="search-input" style="margin:0; padding:8px 12px;" placeholder="Cari tajuk buku, penerbit..." onkeyup="window.renderBukuTable()"><button class="btn-clear" style="padding:8px 12px;" onclick="document.getElementById('searchBukuInput').value=''; window.renderBukuTable();">❌</button></div>
+                    <div class="search-container"><input type="text" id="searchBukuInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari tajuk buku, penerbit..." onkeyup="window.renderBukuTable()"><button class="btn-clear" style="padding:6px 10px;" onclick="document.getElementById('searchBukuInput').value=''; window.renderBukuTable();">❌</button></div>
                     <div class="action-wrapper" id="action-wrapper-buku">
-                        <div style="display:flex; align-items:center; gap:8px; background:var(--bg-body); padding:6px 12px; border-radius:var(--radius-btn); border:1px solid var(--border);">
+                        <div style="display:flex; align-items:center; gap:6px; background:var(--bg-body); padding:4px 8px; border-radius:var(--radius-btn); border:1px solid var(--border);">
                             <select id="printBukuMonth" class="form-group select" style="margin:0; padding:4px; width:auto; border:1px solid var(--border); border-radius:4px; background:var(--surface-solid);">
                                 <option value="all">Semua Bulan</option>
-                                <option value="0">Januari</option>
-                                <option value="1">Februari</option>
-                                <option value="2">Mac</option>
-                                <option value="3">April</option>
-                                <option value="4">Mei</option>
-                                <option value="5">Jun</option>
-                                <option value="6">Julai</option>
-                                <option value="7">Ogos</option>
-                                <option value="8">September</option>
-                                <option value="9">Oktober</option>
-                                <option value="10">November</option>
-                                <option value="11">Disember</option>
+                                <option value="0">Januari</option><option value="1">Februari</option><option value="2">Mac</option><option value="3">April</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Julai</option><option value="7">Ogos</option><option value="8">September</option><option value="9">Oktober</option><option value="10">November</option><option value="11">Disember</option>
                             </select>
-                            <input type="number" id="printBukuYear" value="2026" style="width:70px; margin:0; padding:4px 8px; border:1px solid var(--border); border-radius:4px; background:var(--surface-solid);">
-                            <button class="btn-3d secondary" style="padding:4px 12px;" onclick="window.printBukuReport()">🖨️ Cetak Laporan</button>
+                            <input type="number" id="printBukuYear" value="2026" style="width:60px; margin:0; padding:4px 8px; border:1px solid var(--border); border-radius:4px; background:var(--surface-solid);">
+                            <button class="btn-3d secondary" style="padding:4px 10px;" onclick="window.printBukuReport()">🖨️ Cetak</button>
                         </div>
-                        <button class="btn-3d" style="padding:8px 16px;" onclick="window.openBukuModal()">➕ Rekod Buku Baru</button>
+                        <button class="btn-3d" style="padding:6px 14px;" onclick="window.openBukuModal()">➕ Rekod Buku Baru</button>
                     </div>
                 </div>
                 <div class="table-wrap" style="max-height:70vh; overflow-y:auto;">
@@ -497,10 +524,9 @@
             </div>
         </div>
 
-        <!-- Tab: Senarai Peminjam -->
         <div id="tab-kelab" class="tab-content">
             <div class="content-card" style="padding:0;">
-                <div class="toolbar"><div class="search-container"><input type="text" id="searchKelabInput" class="search-input" style="margin:0; padding:8px 12px;" placeholder="Cari nama atau ID peminjam..." onkeyup="window.renderKelabTable()"><button class="btn-clear" style="padding:8px 12px;" onclick="document.getElementById('searchKelabInput').value=''; window.renderKelabTable();">❌</button></div></div>
+                <div class="toolbar"><div class="search-container"><input type="text" id="searchKelabInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari nama atau ID peminjam..." onkeyup="window.renderKelabTable()"><button class="btn-clear" style="padding:6px 10px;" onclick="document.getElementById('searchKelabInput').value=''; window.renderKelabTable();">❌</button></div></div>
                 <div class="table-wrap" style="max-height:70vh; overflow-y:auto;">
                     <table>
                         <thead><tr><th style="width:30%">Maklumat Ahli</th><th style="width:20%">Jabatan / Bahagian</th><th style="width:20%; text-align:center;">Point Aktiviti</th><th style="width:15%">Status Semasa</th><th style="text-align:right; width:15%">Tindakan</th></tr></thead>
@@ -510,14 +536,13 @@
             </div>
         </div>
 
-        <!-- Tab: Scoreboard -->
         <div id="tab-scoreboard" class="tab-content">
             <div class="content-card" style="padding:0;">
                 <div class="toolbar">
                     <div class="search-container"><span id="scoreboardTitleLabel" style="font-weight:700; font-size:1.1rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">🏅 Papan Senarai Mata</span></div>
                     <div class="action-wrapper">
-                        <select id="scoreLimit" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:6px 12px; margin:0;"><option value="3">Top 3</option><option value="5">Top 5</option><option value="10" selected>Top 10</option><option value="20">Top 20</option></select>
-                        <select id="scorePeriod" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:6px 12px; margin:0;"><option value="mingguan">Minggu Ini</option><option value="bulanan">Bulan Ini</option><option value="tahunan">Tahun Ini</option><option value="semua" selected>Keseluruhan Masa</option></select>
+                        <select id="scoreLimit" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="3">Top 3</option><option value="5">Top 5</option><option value="10" selected>Top 10</option><option value="20">Top 20</option></select>
+                        <select id="scorePeriod" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="mingguan">Minggu Ini</option><option value="bulanan">Bulan Ini</option><option value="tahunan">Tahun Ini</option><option value="semua" selected>Keseluruhan Masa</option></select>
                         <button class="btn-3d secondary" onclick="window.printScoreboard()">🖨️ Cetak</button>
                     </div>
                 </div>
@@ -530,7 +555,6 @@
             </div>
         </div>
 
-        <!-- Tab: Ulasan -->
         <div id="tab-ulasan" class="tab-content">
             <div class="content-card">
                 <div class="toolbar" style="border-bottom:none; background:transparent; padding-bottom:0;">
@@ -540,22 +564,29 @@
             </div>
         </div>
 
-        <!-- Tab: Tetapan -->
         <div id="tab-tetapan" class="tab-content">
-            <div class="content-card" style="padding: 24px;">
-                <h2 style="margin-top:0; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; font-size: 1.1rem; color:var(--text-main);">⚙️ Tetapan Sistem Aplikasi</h2>
-                <div style="max-width: 450px;">
-                    <div style="margin-bottom: 20px;">
-                        <label class="form-label" style="font-size: 0.9rem; color:var(--text-main); font-weight:600;">Tajuk Skrin Log Masuk</label>
-                        <p style="font-size:0.8rem; color:var(--text-muted); margin: 4px 0 10px 0;">Ubah baris kedua teks penerangan pada skrin log masuk.</p>
+            <div class="content-card" style="padding: 20px;">
+                <h2 style="margin-top:0; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 16px; font-size: 1rem; color:var(--primary);">⚙️ Tetapan Sistem Aplikasi</h2>
+                <div style="max-width: 400px;">
+                    <div style="margin-bottom: 16px;">
+                        <label class="form-label" style="font-size: 0.85rem; color:var(--text-main); font-weight:600;">Tajuk Skrin Log Masuk</label>
+                        <p style="font-size:0.75rem; color:var(--text-muted); margin: 2px 0 8px 0;">Ubah baris kedua teks penerangan pada skrin log masuk.</p>
                         <div style="display:flex; gap:8px;">
                             <input type="text" id="setting_login_title" class="login-input" style="margin:0; flex:1;" placeholder="Pengurusan Pinjaman Digital">
                             <button class="btn-3d" onclick="window.saveLoginTitle()">💾 Simpan</button>
                         </div>
                     </div>
-                    <div style="margin-bottom: 16px; padding-top: 16px; border-top: 1px dashed var(--border);">
-                        <label class="form-label" style="font-size: 0.9rem; color:var(--text-main); font-weight:600;">Versi Aplikasi</label>
-                        <p style="font-size:0.9rem; color:var(--primary); margin: 4px 0 0 0; font-family: monospace;">PUSTAKA-V19.5 (Penambahan 80+ Avatar & Papan Mata Pengguna)</p>
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label" style="font-size: 0.85rem; color:var(--text-main); font-weight:600;">Tajuk Kecil Aplikasi (Header)</label>
+                        <p style="font-size:0.75rem; color:var(--text-muted); margin: 2px 0 8px 0;">Ubah tajuk kecil di bawah tajuk utama dashboard.</p>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="setting_header_subtitle" class="login-input" style="margin:0; flex:1;" placeholder="Sistem Pengurusan Perpustakaan Digital">
+                            <button class="btn-3d" onclick="window.saveHeaderSubtitle()">💾 Simpan</button>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 12px; padding-top: 12px; border-top: 1px dashed var(--border);">
+                        <label class="form-label" style="font-size: 0.85rem; color:var(--text-main); font-weight:600;">Versi Aplikasi</label>
+                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">PUSTAKA-V21.1 (Kestabilan Penuh & Susun Atur Baru)</p>
                     </div>
                 </div>
             </div>
@@ -563,15 +594,46 @@
     </div>
 </div>
 
-<!-- Modal Urus Pinjaman -->
+<div class="modal-overlay" id="chatModal" style="z-index: 10006;">
+    <div class="modal" style="max-width: 450px; padding:0; overflow:hidden; display:flex; flex-direction:column; height: 80vh;">
+        <div class="modal-header" style="padding: 16px; background: var(--surface-solid); margin:0; border-bottom: 1px solid var(--border);">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <button class="btn-clear" id="btnBackInbox" style="display:none; padding:4px 8px; border:none; background:var(--primary-light); color:var(--primary);" onclick="window.openAdminInbox()">◀</button>
+                <h3 style="margin:0; color:var(--primary);" id="chatTitle">💬 Bantuan & Pertanyaan</h3>
+            </div>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeChatModal()" style="cursor:pointer;"></span>
+            </div>
+        </div>
+        <div id="chatMessagesArea" class="chat-container" style="flex:1; border:none; border-radius:0;">
+            </div>
+        <div style="padding:12px; background: var(--bg-body); border-top: 1px solid var(--border); display:flex; gap:8px; align-items:center;">
+            <input type="text" id="chatInput" class="login-input" style="margin:0; flex:1; border-color:var(--border);" placeholder="Taip mesej anda di sini..." onkeyup="if(event.key==='Enter') window.sendChatMessage()">
+            <button class="btn-3d" style="padding:8px 16px; border:none;" onclick="window.sendChatMessage()">Hantar</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="adminInboxModal" style="z-index: 10005;">
+    <div class="modal" style="max-width: 500px; padding:0; overflow:hidden; display:flex; flex-direction:column; max-height: 80vh;">
+        <div class="modal-header" style="padding: 16px; background: var(--surface-solid); margin:0; border-bottom: 1px solid var(--border);">
+            <h3 style="margin:0; color:var(--primary);">💬 Peti Pertanyaan Pengguna</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeAdminInbox()" style="cursor:pointer;"></span>
+            </div>
+        </div>
+        <div id="adminInboxList" style="flex:1; overflow-y:auto; padding:16px; background:var(--bg-body); display:flex; flex-direction:column; gap:8px;">
+            </div>
+    </div>
+</div>
+
 <div class="modal-overlay" id="statusModal" style="z-index: 1001;">
     <div class="modal">
         <div class="modal-header">
-            <div class="mac-controls" style="margin-bottom:12px;">
-                <span class="mac-dot mac-red" onclick="window.closeModal()" style="cursor:pointer;"></span>
-                <span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
+            <h3 id="sm_title">Urus Pinjaman</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeModal()" style="cursor:pointer;"></span>
             </div>
-            <h3 id="sm_title" style="margin:0; margin-bottom:16px; font-size:1.15rem; color:var(--text-main);">Urus Pinjaman</h3>
         </div>
         <input type="hidden" id="docId">
         <div class="grid-compact">
@@ -589,7 +651,7 @@
                 <div class="form-group" style="margin-bottom:0;"><label style="color: var(--primary);">Jangkaan Pulang</label><input type="date" id="f_tPulang" style="border-color: var(--primary); margin-bottom:0;" oninput="window.recalcModalCalc()"></div>
             </div>
         </div>
-        <div style="background: var(--bg-body); padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 12px;">
+        <div style="background: var(--bg-body); padding: 10px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 10px;">
             <div class="form-group" style="margin-bottom: 0;">
                 <label style="margin-bottom: 8px;">Status Pemulangan</label>
                 <div style="display: flex; gap: 16px; flex-wrap: wrap;">
@@ -598,52 +660,52 @@
                     <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--success); font-size:0.85rem;"><input type="radio" name="sm_status_pulang" value="sudah" id="radio_sudah" onchange="window.toggleReturnDateInput()" style="margin:0;"> Telah Dipulangkan</label>
                 </div>
             </div>
-            <div class="form-group" id="div_actual_return_date" style="display:none; margin-top: 12px;"><label style="color:var(--success);">Tarikh Pulang Sebenar</label><input type="date" id="f_tDipulangkan" oninput="window.recalcModalCalc()" onchange="window.recalcModalCalc()" style="border-color: var(--success); margin-bottom:0;"></div>
+            <div class="form-group" id="div_actual_return_date" style="display:none; margin-top: 10px;"><label style="color:var(--success);">Tarikh Pulang Sebenar</label><input type="date" id="f_tDipulangkan" oninput="window.recalcModalCalc()" onchange="window.recalcModalCalc()" style="border-color: var(--success); margin-bottom:0;"></div>
         </div>
-        <div class="form-group" style="margin-top: 12px;"><label>Catatan</label><textarea id="f_catatan" rows="2" style="margin-bottom:0;"></textarea></div>
-        <div id="sm_duration_info" style="background: var(--bg-body); padding: 8px; border-radius: var(--radius-btn); text-align:center; font-weight: 700; border:1px solid var(--border); margin-top:12px; font-size:0.9rem;"></div>
-        <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px;">
+        <div class="form-group" style="margin-top: 10px;"><label>Catatan</label><textarea id="f_catatan" rows="2" style="margin-bottom:0;"></textarea></div>
+        <div id="sm_duration_info" style="background: var(--bg-body); padding: 8px; border-radius: var(--radius-btn); text-align:center; font-size: 0.85rem; border:1px solid var(--border); margin-top:10px;"></div>
+        <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px; align-items:center;">
             <button onclick="window.deleteRecord()" id="btnDelete" class="btn-3d danger" type="button" style="display:none; margin-right:auto;">🗑️ Hapus</button>
-            <button onclick="window.closeModal()" class="btn-clear" style="margin-right:auto;">❌ Tutup</button>
-            <button onclick="window.saveData()" class="btn-3d" type="button" style="padding-left: 24px; padding-right: 24px;">💾 Simpan Rekod</button>
+            <div style="flex:1;"></div>
+            <button onclick="window.saveData()" class="btn-3d" type="button" style="padding-left: 20px; padding-right: 20px;">💾 Simpan</button>
+            <button onclick="window.closeModal()" class="btn-clear">❌ Tutup</button>
         </div>
     </div>
 </div>
 
-<!-- Modal Profil Edit Saya (Dalam Popup) -->
 <div class="modal-overlay" id="myProfileModal">
-    <div class="modal" style="max-width: 480px;">
+    <div class="modal" style="max-width: 450px;">
         <div class="modal-header">
-            <div class="mac-controls" style="margin-bottom:12px;">
-                <span class="mac-dot mac-red" onclick="window.closeMyProfileModal()" style="cursor:pointer;"></span>
-                <span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
+            <h3 style="margin:0;">✏️ Kemaskini Profil Lanjut</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeMyProfileModal()" style="cursor:pointer;"></span>
             </div>
-            <h3 style="margin:0; margin-bottom:16px; font-size:1.15rem; color:var(--text-main);">✏️ Kemaskini Profil Lanjut</h3>
         </div>
         <div class="grid-compact" style="grid-template-columns: 1fr;">
             <div class="form-group">
                 <label style="color:var(--primary); font-weight:700;">Pilih Ikon Profil (Avatar)</label>
                 <input type="hidden" id="f_my_avatar" value="👤">
-                <div id="modal_avatar_selection_list" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; max-height:160px; overflow-y:auto; padding:12px; border:1px solid var(--border); border-radius:var(--radius-btn); background:var(--bg-body);"></div>
+                <div id="modal_avatar_selection_list" style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap; max-height:160px; overflow-y:auto; padding:10px; border:1px solid var(--border); border-radius:var(--radius-btn); background:var(--bg-body);"></div>
             </div>
             <div class="form-group"><label>Nama Penuh (Boleh Dipinda)</label><input type="text" id="f_my_nama" style="border-color:var(--primary); background:var(--surface-solid);"></div>
             <div class="form-group"><label>Bahagian / Jabatan</label><select id="f_my_bahagian" class="dept-select" style="border-color:var(--primary); background:var(--surface-solid);"></select></div>
             <div class="form-group"><label>No. Telefon (WhatsApp)</label><input type="text" id="f_my_whatsapp" placeholder="Cth: 601..." style="border-color:var(--primary); background:var(--surface-solid);"></div>
             <div class="form-group"><label style="color:var(--danger);">Kunci Kata Laluan Baru</label><input type="text" id="f_my_password" placeholder="Taip kata laluan baru" style="border-color:var(--danger); background:var(--danger-light);"></div>
         </div>
-        <button class="btn-3d" style="width:100%; padding:10px; margin-top:16px; font-size:1rem;" onclick="window.saveMyProfile(false)">💾 Simpan Profil</button>
+        <div style="display:flex; gap:10px; margin-top:16px; justify-content:flex-end;">
+            <button class="btn-3d" style="padding:8px 20px;" onclick="window.saveMyProfile(false)">💾 Simpan Profil</button>
+            <button class="btn-clear" onclick="window.closeMyProfileModal()">Tutup</button>
+        </div>
     </div>
 </div>
 
-<!-- Modal Profil Ahli (Admin) -->
 <div class="modal-overlay" id="kelabModal">
-    <div class="modal" style="max-width: 550px;">
+    <div class="modal" style="max-width: 500px;">
         <div class="modal-header">
-            <div class="mac-controls" style="margin-bottom:12px;">
-                <span class="mac-dot mac-red" onclick="window.closeKelabModal()" style="cursor:pointer;"></span>
-                <span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
+            <h3 id="kelabModalTitleText">✏️ Kemaskini Profil Ahli</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeKelabModal()" style="cursor:pointer;"></span>
             </div>
-            <h3 id="kelabModalTitleText" style="margin:0; margin-bottom:16px; font-size:1.15rem; color:var(--text-main);">✏️ Kemaskini Profil Ahli</h3>
         </div>
         <input type="hidden" id="k_key">
         <div class="grid-compact">
@@ -656,107 +718,105 @@
             <div class="form-group"><label>Kategori Bahan Semasa</label><input type="text" id="k_jenis" readonly style="background:var(--bg-body);"></div>
             <div class="form-group col-span-2"><label>Tajuk Bahan Semasa</label><input type="text" id="k_tajuk" readonly style="background:var(--bg-body);"></div>
         </div>
-        <div style="background: var(--bg-body); padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 12px;">
+        <div style="background: var(--bg-body); padding: 10px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 10px;">
             <div class="grid-compact">
                 <div class="form-group" style="margin-bottom:0;"><label style="color: var(--primary);">Tarikh Pinjam</label><input type="date" id="k_tPinjam" readonly style="background:var(--surface-solid); margin-bottom:0;"></div>
                 <div class="form-group" style="margin-bottom:0;"><label style="color: var(--primary);">Jangkaan Pulang</label><input type="date" id="k_tPulang" readonly style="background:var(--surface-solid); border-color:var(--primary); margin-bottom:0;"></div>
             </div>
         </div>
-        <div style="background: var(--bg-body); padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 12px;">
+        <div style="background: var(--bg-body); padding: 10px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 10px;">
             <div class="form-group" style="margin-bottom: 0;"><label style="margin-bottom: 4px;">Status Pemulangan</label><div style="display: flex; gap: 12px;" id="k_status_container"></div></div>
-            <div class="form-group" id="k_div_actual_return_date" style="display:none; margin-top: 10px;"><label style="color:var(--success);">Tarikh Pemulangan Sebenar</label><input type="date" id="k_tDipulangkan" readonly style="background:var(--surface-solid); border-color: var(--success); margin-bottom:0;"></div>
+            <div class="form-group" id="k_div_actual_return_date" style="display:none; margin-top: 8px;"><label style="color:var(--success);">Tarikh Pemulangan Sebenar</label><input type="date" id="k_tDipulangkan" readonly style="background:var(--surface-solid); border-color: var(--success); margin-bottom:0;"></div>
         </div>
-        <div class="form-group" style="margin-top: 12px;"><label>Catatan</label><textarea id="k_catatan" rows="2" readonly style="background:var(--bg-body); margin-bottom:0;"></textarea></div>
-        <div id="k_duration_info" style="background: var(--bg-body); padding: 8px; border-radius: var(--radius-btn); text-align:center; font-size: 0.85rem; border:1px solid var(--border); margin-top:12px;"></div>
-        <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px;">
-            <button onclick="window.closeKelabModal()" class="btn-clear" style="margin-right:auto;">❌ Tutup</button>
-            <button class="btn-3d secondary" onclick="window.viewKelabHistory(document.getElementById('k_key').value)">📚 Sejarah</button>
+        <div class="form-group" style="margin-top: 10px;"><label>Catatan</label><textarea id="k_catatan" rows="2" readonly style="background:var(--bg-body); margin-bottom:0;"></textarea></div>
+        <div id="k_duration_info" style="background: var(--bg-body); padding: 6px; border-radius: var(--radius-btn); text-align:center; font-size: 0.8rem; border:1px solid var(--border); margin-top:10px;"></div>
+        <div style="display:flex; gap:8px; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; align-items:center;">
+            <button class="btn-3d secondary" style="margin-right:auto;" onclick="window.viewKelabHistory(document.getElementById('k_key').value)">📚 Sejarah</button>
+            <div style="flex:1;"></div>
             <button class="btn-3d" id="btn-save-kelab" onclick="window.updateKelabProfile()">💾 Simpan Pindaan</button>
+            <button onclick="window.closeKelabModal()" class="btn-clear">❌ Tutup</button>
         </div>
     </div>
 </div>
 
-<!-- Modal Sejarah Bacaan -->
 <div class="modal-overlay" id="historyModal" style="z-index: 1000;">
-    <div class="modal" style="max-width: 750px;">
+    <div class="modal" style="max-width: 700px;">
         <div class="modal-header">
-            <div class="mac-controls" style="margin-bottom:12px;">
-                <span class="mac-dot mac-red" onclick="window.closeHistoryModal()" style="cursor:pointer;"></span>
-                <span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
+            <h3 style="margin:0;">📚 Rekod Sejarah Bacaan</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeHistoryModal()" style="cursor:pointer;"></span>
             </div>
-            <h3 style="margin:0; margin-bottom:16px; font-size:1.15rem; color:var(--text-main);">📚 Rekod Sejarah Bacaan</h3>
         </div>
-        <div id="h_userInfo" style="background: var(--bg-body); padding: 12px 16px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-bottom: 16px; display:flex; justify-content:space-between; align-items:center;">
-            <div><h4 id="h_nama" style="margin:0 0 4px 0; font-size:1rem;">Nama Ahli</h4><div id="h_jabatan" style="color:var(--text-muted); font-size:0.8rem;">Jabatan</div></div>
-            <div style="text-align:right;"><div style="color:var(--text-muted); font-size:0.75rem; margin-bottom:4px;">Mata Terkumpul</div><div id="h_totalMata" style="display:inline-block; background:rgba(255, 149, 0, 0.15); border:1px solid rgba(255, 149, 0, 0.4); color:var(--warning); padding:4px 12px; border-radius:20px; font-size:0.95rem; font-weight:700;">🏆 0 pt</div></div>
+        <div id="h_userInfo" style="background: var(--bg-body); padding: 10px 14px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+            <div><h4 id="h_nama" style="margin:0 0 2px 0; font-size:0.95rem; color:var(--primary);">Nama Ahli</h4><div id="h_jabatan" style="color:var(--text-muted); font-size:0.8rem;">Jabatan</div></div>
+            <div style="text-align:right;"><div style="color:var(--text-muted); font-size:0.7rem; margin-bottom:2px;">Mata Terkumpul</div><div id="h_totalMata" style="display:inline-block; background:rgba(255, 149, 0, 0.15); border:1px solid rgba(255, 149, 0, 0.4); color:var(--warning); padding:2px 10px; border-radius:16px; font-size:0.9rem; font-weight:700;">🏆 0 pt</div></div>
         </div>
-        <div style="display:flex; gap:8px; margin-bottom: 12px; align-items:center; background:var(--surface-solid); padding:10px; border-radius:var(--radius-btn); border:1px solid var(--border);">
-            <span style="font-size:0.85rem; font-weight:600;">Tapis:</span>
-            <select id="h_filter_year" class="form-input" style="width:auto; padding:4px 8px; margin:0;" onchange="window.renderHistoryTable()"><option value="all">Semua Tahun</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option></select>
-            <select id="h_filter_month" class="form-input" style="width:auto; padding:4px 8px; margin:0;" onchange="window.renderHistoryTable()"><option value="all">Semua Bulan</option><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option></select>
+        <div style="display:flex; gap:8px; margin-bottom: 10px; align-items:center; background:var(--surface-solid); padding:8px; border-radius:var(--radius-btn); border:1px solid var(--border);">
+            <span style="font-size:0.8rem; font-weight:600;">Tapis:</span>
+            <select id="h_filter_year" class="form-input" style="width:auto; padding:2px 6px; margin:0;" onchange="window.renderHistoryTable()"><option value="all">Semua Tahun</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option></select>
+            <select id="h_filter_month" class="form-input" style="width:auto; padding:2px 6px; margin:0;" onchange="window.renderHistoryTable()"><option value="all">Semua Bulan</option><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option></select>
         </div>
-        <div class="table-wrap" style="max-height: 45vh; overflow-y: auto;">
+        <div class="table-wrap" style="max-height: 40vh; overflow-y: auto;">
             <table>
                 <thead><tr><th style="width:5%; text-align:center;">Bil</th><th style="width:15%;">Tarikh</th><th style="width:40%;">Tajuk Bahan</th><th style="width:15%;">Kategori</th><th style="width:10%; text-align:center;">Status</th><th style="width:15%; text-align:center;">Mata</th></tr></thead>
                 <tbody id="historyTableBody"><tr><td colspan="6" style="text-align:center;">Memuatkan...</td></tr></tbody>
             </table>
         </div>
-        <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px; justify-content: flex-end;">
+        <div style="display:flex; gap:8px; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; align-items:center;">
             <input type="hidden" id="h_key">
-            <button class="btn-clear" style="margin-right:auto;" onclick="window.closeHistoryModal()">❌ Tutup</button>
-            <button class="btn-3d secondary" onclick="window.printKelabHistory()">🖨️ Cetak PDF</button>
+            <button class="btn-3d secondary" style="margin-right:auto;" onclick="window.printKelabHistory()">🖨️ Cetak PDF</button>
+            <div style="flex:1;"></div>
+            <button class="btn-clear" onclick="window.closeHistoryModal()">❌ Tutup</button>
         </div>
     </div>
 </div>
 
-<!-- Modal Denda -->
 <div class="modal-overlay" id="fineModal">
-    <div class="modal" style="max-width: 750px;">
+    <div class="modal" style="max-width: 700px;">
         <div class="modal-header">
-            <div class="mac-controls" style="margin-bottom:12px;">
-                <span class="mac-dot mac-red" onclick="window.closeFineModal()" style="cursor:pointer;"></span>
-                <span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
+            <h3 style="margin:0;">💰 Laporan Denda</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeFineModal()" style="cursor:pointer;"></span>
             </div>
-            <h3 style="margin:0; margin-bottom:16px; font-size:1.15rem; color:var(--text-main);">💰 Laporan Denda</h3>
         </div>
-        <div class="table-wrap" style="max-height: 55vh; overflow-y: auto;">
+        <div class="table-wrap" style="max-height: 50vh; overflow-y: auto;">
             <table>
                 <thead><tr><th style="width:5%; text-align:center;">No</th><th style="width:25%;">Peminjam</th><th style="width:30%;">Tajuk</th><th style="width:15%; text-align:center;">Hari Lewat</th><th style="width:15%; text-align:right;">Caj Denda</th><th style="width:10%; text-align:center;">Status</th></tr></thead>
                 <tbody id="fineTableBody"><tr><td colspan="6" style="text-align:center;">Memuatkan...</td></tr></tbody>
             </table>
         </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px;">
-            <div style="font-size:1rem; font-weight:700;">Jumlah Keseluruhan: <span id="totalFineAmount" style="color:var(--danger); font-size:1.15rem; margin-left:8px;">RM 0.00</span></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px;">
+            <div style="font-size:0.95rem; font-weight:700;">Jumlah Keseluruhan: <span id="totalFineAmount" style="color:var(--danger); font-size:1.1rem; margin-left:6px;">RM 0.00</span></div>
             <button onclick="window.closeFineModal()" class="btn-clear">❌ Tutup</button>
         </div>
     </div>
 </div>
 
-<!-- Modal Pilihan Avatar (Untuk Klik Langsung pada Skrin) -->
 <div class="modal-overlay" id="avatarModal" style="z-index: 10006;">
-    <div class="modal" style="max-width: 450px; text-align: center;">
-        <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
-            <h3 style="margin:0; font-size:1.1rem; color:var(--text-main);">Pilih Ikon Avatar</h3><button onclick="window.closeAvatarModal()" class="btn-clear" style="background:transparent; border:none; font-size:1.4rem; padding:0 6px;">&times;</button>
+    <div class="modal" style="max-width: 420px; text-align: center;">
+        <div class="modal-header">
+            <h3 style="margin:0;">Pilih Ikon Avatar</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeAvatarModal()" style="cursor:pointer;"></span>
+            </div>
         </div>
-        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; max-height:400px; overflow-y:auto; padding:12px;" id="avatar_selection_list"></div>
+        <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; max-height:350px; overflow-y:auto; padding:10px;" id="avatar_selection_list"></div>
     </div>
 </div>
 
-<!-- Modal Beri Ulasan -->
 <div class="modal-overlay" id="reviewModal">
-    <div class="modal" style="max-width: 480px; text-align:center;">
+    <div class="modal" style="max-width: 450px; text-align:center;">
         <div class="modal-header">
-            <div class="mac-controls" style="margin-bottom:12px; justify-content:center;">
-                <span class="mac-dot mac-red" onclick="window.closeReviewModal()" style="cursor:pointer;"></span>
-                <span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span>
+            <h3 style="margin:0;">Tulis Ulasan Buku</h3>
+            <div class="mac-controls" style="margin:0;">
+                <span class="mac-dot mac-green"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-red" onclick="window.closeReviewModal()" style="cursor:pointer;"></span>
             </div>
-            <h3 style="margin:0; margin-bottom:12px; font-size:1.15rem; color:var(--text-main);">Tulis Ulasan Buku</h3>
         </div>
         <input type="hidden" id="r_bookId"><input type="hidden" id="r_reviewId">
-        <p style="font-weight:700; color:var(--primary); font-size:1.05rem; margin-bottom:8px;" id="r_bookTitle">Tajuk Buku</p>
+        <p style="font-weight:700; color:var(--primary); font-size:1rem; margin-bottom:8px;" id="r_bookTitle">Tajuk Buku</p>
         
-        <div style="margin-bottom:16px;">
-            <p style="margin:0 0 8px 0; font-size:0.85rem; color:var(--text-muted);">Berapa bintang untuk buku ini?</p>
+        <div style="margin-bottom:12px;">
+            <p style="margin:0 0 6px 0; font-size:0.8rem; color:var(--text-muted);">Berapa bintang untuk buku ini?</p>
             <div class="star-rating" id="r_stars_container">
                 <span onclick="window.setStarRating(1)">★</span><span onclick="window.setStarRating(2)">★</span><span onclick="window.setStarRating(3)">★</span><span onclick="window.setStarRating(4)">★</span><span onclick="window.setStarRating(5)">★</span>
             </div>
@@ -764,56 +824,26 @@
         </div>
         <div class="form-group" style="text-align:left;">
             <label>Pendapat anda:</label>
-            <textarea id="r_teks" rows="4" style="margin-bottom:0; font-size:0.9rem;"></textarea>
+            <textarea id="r_teks" rows="3" style="margin-bottom:0; font-size:0.85rem;"></textarea>
         </div>
-        <div style="display:flex; gap:10px; margin-top:16px;">
-            <button class="btn-clear" style="flex:1; padding:10px; font-size:1rem;" onclick="window.closeReviewModal()">Tutup</button>
-            <button class="btn-3d" style="flex:2; padding:10px; font-size:1rem;" onclick="window.submitReview()">🚀 Simpan Ulasan</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL BAHAN RUJUKAN BAHARU -->
-<div class="modal-overlay" id="bukuModal">
-    <div class="modal" style="max-width: 680px;">
-        <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
-            <h3 style="margin:0; font-size:1.15rem; color:var(--text-main);">📚 Daftar Buku/Bahan Baru</h3><button onclick="window.closeBukuModal()" class="btn-clear" style="background:transparent; border:none; font-size:1.4rem; padding:0 6px;">&times;</button>
-        </div>
-        <input type="hidden" id="bukuId">
-        <div class="grid-cols-4">
-            <div class="form-group col-span-2"><label class="form-label" style="color:var(--primary);">Kategori Penerimaan</label><select id="b_kategori" class="form-input" style="border-color:var(--primary); background:var(--primary-light);"><option value="Buku Percuma">🎁 Bahan / Buku Percuma</option><option value="Pembelian Baru">🛒 Pembelian Baru</option></select></div>
-            <div class="form-group col-span-2"><label class="form-label">Tarikh Diterima</label><input type="date" id="b_tarikh" class="form-input"></div>
-            <div class="form-group col-span-4"><label class="form-label">Tajuk Bahan</label><input type="text" id="b_tajuk" class="form-input"></div>
-            <div class="form-group col-span-2"><label class="form-label">Edisi / Isu</label><input type="text" id="b_edisi" class="form-input"></div>
-            <div class="form-group col-span-2"><label class="form-label">ISSN / ISBN</label><input type="text" id="b_isbn" class="form-input"></div>
-            <div class="form-group col-span-1"><label class="form-label">Jenis Bahan</label><select id="b_jenis" class="form-input"><option value="Buku">Buku</option><option value="Laporan">Laporan</option><option value="Majalah">Majalah</option><option value="Jurnal">Jurnal</option><option value="Lain-lain">Lain-lain</option></select></div>
-            <div class="form-group col-span-1"><label class="form-label">Bilangan</label><input type="number" id="b_bilangan" class="form-input" value="1" min="1"></div>
-            <div class="form-group col-span-1"><label class="form-label">Bidang</label><select id="b_bidang" class="form-input"><option value="Perusahaan Kayu" selected>Perusahaan Kayu</option><option value="Bukan Perusahaan Kayu">Bukan Perusahaan Kayu</option></select></div>
-            <div class="form-group col-span-1"><label class="form-label">Penerbitan</label><select id="b_penerbitan" class="form-input"><option value="Dalam Negara">Dalam Negara</option><option value="Luar Negara">Luar Negara</option></select></div>
-            <div class="form-group col-span-2"><label class="form-label">Penerima</label><input type="text" id="b_penerima" class="form-input"></div>
-            <div class="form-group col-span-2"><label class="form-label">Perolehan (Sumber)</label><input type="text" id="b_sumber" class="form-input"></div>
-        </div>
-        <div style="display:flex; gap:10px; margin-top:16px; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 16px;">
-            <button type="button" id="btnDeleteBuku" class="btn-3d danger" style="display:none; margin-right:auto;" onclick="window.deleteBuku()">🗑️ Hapus</button>
-            <button type="button" class="btn-clear" style="margin-right:auto;" onclick="window.closeBukuModal()">❌ Tutup</button>
-            <button type="button" class="btn-3d secondary" style="border-bottom: 2px solid var(--warning); color: var(--warning);" onclick="window.saveBuku('KIV')">⏳ Simpan KIV</button>
-            <button type="button" class="btn-3d" style="padding-left: 24px; padding-right: 24px;" onclick="window.saveBuku('Aktif')">💾 Simpan</button>
+        <div style="display:flex; gap:8px; margin-top:12px; align-items:center;">
+            <div style="flex:1;"></div>
+            <button class="btn-3d" style="padding:8px 20px;" onclick="window.submitReview()">🚀 Simpan Ulasan</button>
+            <button class="btn-clear" onclick="window.closeReviewModal()">Tutup</button>
         </div>
     </div>
 </div>
 
-<!-- ==============================================
-     PENYATUAN SKRIP & LOGIK SISTEM (SINGLE BLOCK) 
-=============================================== -->
 <script>
     // --- 1. PEMBOLEH UBAH GLOBAL & STATE ---
-    window.dbData = []; window.dbBuku = []; window.dbUsers = {}; window.dbUlasan = []; window.kelabMapData = {}; 
+    window.dbData = []; window.dbBuku = []; window.dbUsers = {}; window.dbUlasan = []; window.dbMesej = []; window.kelabMapData = {}; 
     window.currentFilter = 'all'; window.currentHistoryKey = null; window.userRole = null; window.currentUserKey = null; window.dbInstance = null; 
+    window.currentChatUserId = null;
     let calDateGlobal = new Date(); let dashCalDateGlobal = new Date(); let myCalDateGlobal = new Date(); let currId = null; 
     window.dashSelectedDate = new Date().toISOString().split('T')[0];
     window.senaraiFilterDate = null;
     const DB_KEY = 'pustakawan_db_v4.0_no_import'; const DB_BUKU_KEY = 'pustakawan_buku_db_v1';
-    const DB_USERS_KEY = 'pustakawan_users_db_v1'; const DB_ULASAN_KEY = 'pustakawan_ulasan_db_v1'; const DENDA_PER_HARI = 0.20; 
+    const DB_USERS_KEY = 'pustakawan_users_db_v1'; const DB_ULASAN_KEY = 'pustakawan_ulasan_db_v1'; const DB_MESEJ_KEY = 'pustakawan_mesej_db_v1'; const DENDA_PER_HARI = 0.20; 
 
     // --- 2. FUNGSI UTILITI & EKSTRAK SELAMAT ---
     window.safeJSONParse = function(key, defaultVal) {
@@ -881,12 +911,22 @@
         const loginTitle = localStorage.getItem('pustakawan_login_title') || 'Pengurusan Pinjaman Digital';
         document.querySelectorAll('.login-subtitle-display').forEach(el => { el.innerText = loginTitle; });
         const inputLoginSet = document.getElementById('setting_login_title'); if(inputLoginSet) inputLoginSet.value = loginTitle;
+
+        const headerSub = localStorage.getItem('pustakawan_header_subtitle') || 'Sistem Pengurusan Perpustakaan Digital';
+        const hSubEl = document.getElementById('headerSubtitle'); if(hSubEl) hSubEl.innerText = headerSub;
+        const inputHSubSet = document.getElementById('setting_header_subtitle'); if(inputHSubSet) inputHSubSet.value = headerSub;
     }
     window.saveLoginTitle = function() {
         const newTitle = document.getElementById('setting_login_title').value.trim() || 'Pengurusan Pinjaman Digital'; 
         localStorage.setItem('pustakawan_login_title', newTitle); 
         window.loadAppTitle(); 
         window.showCustomAlert("Tajuk skrin log masuk berjaya dikemaskini."); 
+    }
+    window.saveHeaderSubtitle = function() {
+        const newTitle = document.getElementById('setting_header_subtitle').value.trim() || 'Sistem Pengurusan Perpustakaan Digital'; 
+        localStorage.setItem('pustakawan_header_subtitle', newTitle); 
+        window.loadAppTitle(); 
+        window.showCustomAlert("Tajuk kecil aplikasi berjaya dikemaskini."); 
     }
 
     window.formatDate = function(d) { return !d ? '-' : String(d).split('-').reverse().join('/'); }
@@ -903,12 +943,6 @@
             if(tPulang) tPulang.value = pinjamDate.toISOString().split('T')[0];
         }
     }
-
-    // --- 3. INIT LOKAL ---
-    window.dbData = window.safeJSONParse(DB_KEY, []); if (!Array.isArray(window.dbData)) window.dbData = [];
-    window.dbBuku = window.safeJSONParse(DB_BUKU_KEY, []); if (!Array.isArray(window.dbBuku)) window.dbBuku = [];
-    window.dbUsers = window.safeJSONParse(DB_USERS_KEY, {}); if (typeof window.dbUsers !== 'object' || Array.isArray(window.dbUsers) || window.dbUsers === null) window.dbUsers = {};
-    window.dbUlasan = window.safeJSONParse(DB_ULASAN_KEY, []); if (!Array.isArray(window.dbUlasan)) window.dbUlasan = [];
 
     // --- 4. PEMBINA UI ASAS (BUILDERS) ---
     window.generateStaticUI = function() {
@@ -1055,6 +1089,7 @@
             const lView = document.getElementById('loginView'); if(lView) lView.style.display = 'none';
             const dView = document.getElementById('dashboardView'); if(dView) dView.style.display = 'block';
             window.setupTabsForRole(); window.switchTab('myprofile'); 
+            window.updateUnreadBadges();
         } else { window.showCustomAlert('Kata laluan tidak tepat. (Lalai: 1234)'); }
     }
 
@@ -1077,15 +1112,15 @@
             const aModal = document.getElementById('adminLoginModal'); if (aModal) aModal.style.display = 'none';
             const dView = document.getElementById('dashboardView'); if (dView) dView.style.display = 'block';
             window.setupTabsForRole(); window.switchTab('dashboard');
-            if(pInput) pInput.value = ''; // Kosongkan semula kotak input selepas berjaya
+            window.updateUnreadBadges();
+            if(pInput) pInput.value = ''; 
         } else { window.showCustomAlert("Kata Laluan pentadbir salah."); }
     }
 
     // --- 7. ANTARA MUKA TABS (UI TABS) ---
     window.setupTabsForRole = function() {
         const isAdmin = window.userRole === 'admin'; const isUser = window.userRole === 'user'; const isVisitor = window.userRole === 'visitor';
-        const headerName = document.getElementById('headerUserName');
-        if (headerName) { if (isAdmin) headerName.innerText = "- Pentadbir Sistem"; else if (isUser && window.loginTempUser) headerName.innerText = `- Hai, ${window.loginTempUser.nama}`; else headerName.innerText = "- Mod Pelawat"; }
+        
         const safeSetDisplay = (id, displayVal) => { const el = document.getElementById(id); if(el) el.style.display = displayVal; };
         
         safeSetDisplay('btn-dashboard', isAdmin ? 'inline-block' : 'none'); 
@@ -1261,11 +1296,78 @@
         const filtered = window.dbData.filter(item => { const d = new Date(item.tPinjam); return d.getMonth() === month && d.getFullYear() === year; });
         filtered.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
         const monthNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
-        let html = `<html><head><title>Laporan Pinjaman ${monthNames[month]} ${year}</title><style>@page { size: A4 landscape; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:12px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 6px; text-align: left; } th { background-color: #f2f2f2; text-transform:uppercase; }</style></head><body><h3>LAPORAN PINJAMAN BULANAN (${monthNames[month]} ${year})</h3><table><thead><tr><th>Bil</th><th>Peminjam</th><th>Bahan</th><th>Pinjam</th><th>Pulang</th><th>Status</th></tr></thead><tbody>`;
-        if(filtered.length === 0) html += `<tr><td colspan="6" style="text-align:center; padding:15px;">Tiada rekod.</td></tr>`;
-        else filtered.forEach((item, idx) => { let stat = item.status; if(stat && stat.includes('Selesai')) stat = 'Selesai'; html += `<tr><td style="text-align:center;">${idx+1}</td><td><strong>${item.nama}</strong><br><span style="font-size:10px;">${item.noPekerja}</span></td><td>${item.tajuk}</td><td style="text-align:center;">${window.formatDate(item.tPinjam)}</td><td style="text-align:center;">${window.formatDate(item.tPulang)}</td><td style="text-align:center;">${stat}</td></tr>`; });
+        
+        const today = new Date().toLocaleDateString('ms-MY');
+        let html = `<html><head><title>Laporan Pinjaman - ${monthNames[month]} ${year}</title>
+        <style>
+            @page { size: A4 landscape; margin: 15mm; } 
+            body { font-family: Arial, sans-serif; font-size:11px; color: #333; } 
+            h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; color: #000; }
+            p { text-align: center; color: #555; margin-top: 0; margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10px; } 
+            th, td { border: 1px solid #000; padding: 6px 8px; text-align: left; vertical-align: top; } 
+            th { background-color: #f2f2f2; text-transform:uppercase; font-weight: bold; font-size: 10px; }
+            .text-center { text-align: center; }
+            .date-print { position: absolute; top: 0px; right: 0px; font-size: 10px; color: #999; }
+        </style></head>
+        <body>
+        <div class="date-print">Tarikh Cetakan: ${today}</div>
+        <h2>LAPORAN REKOD PINJAMAN BULANAN</h2>
+        <p>Bulan: <strong>${monthNames[month]} ${year}</strong> | Sistem Pustakawan Digital</p>
+        <table>
+            <thead>
+                <tr>
+                    <th width="3%" class="text-center">Bil</th>
+                    <th width="20%">Maklumat Peminjam</th>
+                    <th width="25%">Maklumat Bahan</th>
+                    <th width="10%" class="text-center">Tarikh Pinjam</th>
+                    <th width="10%" class="text-center">Jangka Pulang</th>
+                    <th width="10%" class="text-center">Tarikh Pulang</th>
+                    <th width="12%" class="text-center">Status & Kelewatan</th>
+                    <th width="10%">Catatan</th>
+                </tr>
+            </thead>
+            <tbody>`;
+            
+        if(filtered.length === 0) {
+            html += `<tr><td colspan="8" style="text-align:center; padding:20px;">Tiada rekod pinjaman bagi bulan ini.</td></tr>`;
+        } else {
+            filtered.forEach((item, idx) => { 
+                let stat = item.status || 'Dipinjam'; 
+                let actualReturn = '-';
+                
+                const isSelesai = stat.includes('Selesai');
+                const isHarian = stat === 'Bacaan Harian';
+                
+                if(isSelesai) {
+                    stat = 'Telah Dipulangkan';
+                    actualReturn = window.formatDate(item.tDipulangkan);
+                } else if (isHarian) {
+                    actualReturn = window.formatDate(item.tPinjam);
+                }
+                
+                const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null)); 
+                const limit = window.calculateDuration(item.tPinjam, item.tPulang); 
+                const isLate = dur > limit && !isSelesai && !isHarian;
+                
+                let lateText = '';
+                if(isLate) lateText = `<br><span style="color:red; font-size:10px; font-weight:bold;">(Lewat ${dur - limit} Hari)</span>`;
+                if(item.denda && parseFloat(item.denda) > 0) lateText += `<br><span style="color:red; font-size:10px;">Denda: RM${parseFloat(item.denda).toFixed(2)}</span>`;
+
+                html += `<tr>
+                    <td class="text-center">${idx+1}</td>
+                    <td><strong>${item.nama}</strong><br><span style="font-size:10px; color:#555;">ID: ${item.noPekerja || '-'} | Bahagian: ${item.bahagian || '-'}</span><br><span style="font-size:10px; color:#555;">Tel: ${item.whatsapp || '-'}</span></td>
+                    <td><strong>${item.tajuk}</strong><br><span style="font-size:10px; color:#555;">Kategori: ${item.jenis || '-'}</span></td>
+                    <td class="text-center">${window.formatDate(item.tPinjam)}</td>
+                    <td class="text-center">${window.formatDate(item.tPulang)}</td>
+                    <td class="text-center">${actualReturn}</td>
+                    <td class="text-center"><strong>${stat}</strong>${lateText}</td>
+                    <td style="font-size:10px;">${item.catatan || '-'}</td>
+                </tr>`; 
+            });
+        }
         html += `</tbody></table></body></html>`;
-        const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
+        const win = window.open('', '', 'width=1000,height=700'); win.document.write(html); win.document.close(); win.print();
     }
 
     window.printScoreboard = function() {
@@ -1291,7 +1393,7 @@
         let html = '';
         activities.forEach(act => {
             let color = '', bg = '', actionText = '';
-            if(act.type === 'pinjam') { color = 'var(--success)'; bg = 'var(--badge-done-bg)'; actionText = act.item.status === 'Bacaan Harian' ? 'Pinjam Harian' : 'Pinjaman Baru'; if(act.item.status === 'Bacaan Harian') { color = 'var(--warning)'; bg = 'rgba(255, 149, 0, 0.15)'; } }
+            if(act.type === 'pinjam') { color = 'var(--success)'; bg = 'var(--badge-done-bg)'; actionText = act.item.status === 'Bacaan Harian' ? 'Pinjam Harian' : 'Pinjaman Baru'; if(act.item.status === 'Bacaan Harian') { color = 'var(--warning)'; bg = 'rgba(249, 171, 0, 0.15)'; } }
             else if(act.type === 'pulang') { color = 'var(--danger)'; bg = 'var(--danger-light)'; actionText = 'Perlu Pulang'; }
             else if(act.type === 'selesai') { color = 'var(--primary)'; bg = 'var(--primary-light)'; actionText = 'Telah Dipulangkan'; }
             const clickAction = window.userRole === 'admin' ? `onclick="window.prepareEdit('${act.item.id}')"` : '';
@@ -1445,7 +1547,8 @@
         dataToRender.forEach(item => {
             const badgeColor = item.kategori === 'Buku Percuma' ? 'var(--success)' : '#9D5D00'; 
             const badgeBg = item.kategori === 'Buku Percuma' ? '#DFF6DD' : '#FFFBEB';
-            const rowBgStyle = item.bidang === 'Perusahaan Kayu' ? 'background: var(--bg-kayu);' : 'background: var(--bg-bukan-kayu);';
+            let rowBgStyle = item.bidang === 'Perusahaan Kayu' ? 'background: var(--bg-kayu);' : 'background: var(--bg-bukan-kayu);';
+            if (item.status_rekod === 'KIV') rowBgStyle = 'background: var(--danger-light);';
             const kivBadge = item.status_rekod === 'KIV' ? `<span style="background:var(--danger-light); color:var(--danger); padding:2px 6px; border-radius:6px; font-size:0.7rem; font-weight:700; margin-left:6px;">⏳ KIV</span>` : '';
             let actionTd = isAdmin ? `<td data-label="Tindakan" style="text-align:right;"><button class="btn-3d secondary" onclick="window.prepareEditBuku('${item.id}')">✏️ Pinda</button></td>` : '';
             tbody.innerHTML += `<tr style="${rowBgStyle}"><td data-label="Tarikh"><strong>${window.formatDate(item.tarikh)}</strong></td><td data-label="Tajuk"><div style="font-weight:700; font-size:1rem;">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem;">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div><div style="color:var(--primary); font-size:0.85rem; font-family:monospace; margin-top:2px;">${item.isbn || '-'}</div></td><td data-label="Penerima / Sumber"><div style="font-size:0.9rem;">${item.penerima}</div><div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">Sumber: ${item.sumber}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan}</div></td><td data-label="Kategori"><span style="color:${badgeColor}; background:${badgeBg}; padding:4px 8px; border-radius:6px; border: 1px solid ${badgeColor}; font-size:0.8rem; display:inline-block;">${item.kategori}</span></td>${actionTd}</tr>`;
@@ -1763,6 +1866,7 @@
         document.querySelectorAll('.avatar-opt').forEach(el => { el.classList.remove('selected'); if(el.innerText === (userRec.avatar || '👤')) el.classList.add('selected'); });
         
         window.renderMyReviews();
+        window.updateUnreadBadges();
     }
     
     window.renderMyReviews = function() {
@@ -1775,7 +1879,7 @@
         let html = '<div class="ulasan-grid" style="grid-template-columns: 1fr;">';
         myReviews.forEach(u => {
             let starsHtml = ''; for(let i=0; i<5; i++) { starsHtml += i < u.stars ? '★' : '☆'; }
-            html += `<div class="ulasan-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;"><div><div class="uc-book" style="font-size:0.9rem; font-weight:700;">${u.tajuk}</div><div class="uc-stars" style="font-size:0.8rem;">${starsHtml}</div></div><div><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; margin-right:4px;" onclick="window.editReview('${u.id}')">✏️ Pinda</button><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light);" onclick="window.deleteReview('${u.id}')">🗑️</button></div></div><div class="uc-text" style="font-size:0.85rem;">"${u.teks}"</div></div>`;
+            html += `<div class="ulasan-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;"><div><div class="uc-book">${u.tajuk}</div><div class="uc-stars" style="font-size:0.8rem; display:inline-block; margin-right:8px;">${starsHtml}</div><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+10 pt</span></div><div><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; margin-right:4px;" onclick="window.editReview('${u.id}')">✏️ Pinda</button><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light);" onclick="window.deleteReview('${u.id}')">🗑️</button></div></div><div class="uc-text" style="font-size:0.85rem;">"${u.teks}"</div></div>`;
         });
         html += '</div>';
         container.innerHTML = html;
@@ -1963,9 +2067,9 @@
         }
         
         // Add User Review Points to History Display dynamically
-        let revPoints = 0;
-        window.dbUlasan.forEach(u => { if(u.userKey === key) revPoints += 10; });
-        filteredMata += revPoints;
+        window.dbUlasan.forEach(u => { 
+            if(u.userKey === key) filteredMata += 10; 
+        });
         
         const totMata = document.getElementById('h_totalMata'); if(totMata) totMata.innerText = `🏆 ${filteredMata} pt`;
     }
@@ -1983,7 +2087,7 @@
         
         let tapisanTeks = "Keseluruhan Masa"; if(yFilter !== 'all' && mFilter === 'all') tapisanTeks = `Tahun ${yFilter}`; else if(yFilter !== 'all' && mFilter !== 'all') { const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; tapisanTeks = `Bulan ${monthNames[parseInt(mFilter)]} ${yFilter}`; } else if(yFilter === 'all' && mFilter !== 'all') { const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; tapisanTeks = `Setiap Bulan ${monthNames[parseInt(mFilter)]}`; }
         const today = new Date().toLocaleDateString('ms-MY');
-        let html = `<html><head><title>Senarai Bacaan - ${k.nama}</title><style>@page { size: A4 portrait; margin: 20mm; } body { font-family: Arial, sans-serif; padding: 20px; font-size:12px; color:#333; } h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; color:#000; } p { text-align: center; color: #555; margin-top: 0; margin-bottom:20px; } .profile-box { background: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 8px; display: flex; justify-content: space-between; } .profile-box h3 { margin: 0 0 5px 0; font-size:16px; color:#000; } .profile-box .info { font-size: 13px; color: #555; } .point-box { text-align:right; } .point-value { font-size: 24px; font-weight: bold; color: #d97706; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 10px 8px; text-align: left; font-size: 12px; } th { background-color: #f2f2f2; text-transform: uppercase; font-weight: bold; } .text-center { text-align: center; } .date-print { position: absolute; top: 0px; right: 0px; font-size: 10px; color: #999; }</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>REKOD BACAAN AHLI KELAB</h2><p>Sistem Pustakawan Digital</p><div class="profile-box"><div><h3>${k.nama}</h3><div class="info">ID / No. Pekerja: <strong>${k.noPekerja || '-'}</strong></div><div class="info">Jabatan/Bahagian: <strong>${k.bahagian || '-'}</strong></div><div class="info" style="margin-top:8px; color:#1A73E8; font-weight:bold;">Tapisan Paparan: ${tapisanTeks}</div></div><div class="point-box"><div style="font-size:12px; color:#666; font-weight:bold; margin-bottom:4px;">MATA TERKUMPUL (TAPISAN)</div><div class="point-value">${filteredMata} pt</div></div></div><table><thead><tr><th width="5%" class="text-center">Bil</th><th width="15%" class="text-center">Tarikh Pinjam</th><th width="45%">Tajuk Bahan / Buku</th><th width="15%" class="text-center">Kategori</th><th width="10%" class="text-center">Mata</th></tr></thead><tbody>`;
+        let html = `<html><head><title>Senarai Bacaan - ${k.nama}</title><style>@page { size: A4 portrait; margin: 20mm; } body { font-family: Arial, sans-serif; padding: 20px; font-size:12px; color:#333; } h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; color:#000; } p { text-align: center; color: #555; margin-top: 0; margin-bottom:20px; } .profile-box { background: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 8px; display: flex; justify-content: space-between; } .profile-box h3 { margin: 0 0 5px 0; font-size:16px; color:#000; } .profile-box .info { font-size: 13px; color: #555; } .point-box { text-align:right; } .point-value { font-size: 24px; font-weight: bold; color: #d97706; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 10px 8px; text-align: left; font-size: 12px; } th { background-color: #f2f2f2; text-transform: uppercase; font-weight: bold; } .text-center { text-align: center; } .date-print { position: absolute; top: 0px; right: 0px; font-size: 10px; color: #999; }</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>REKOD BACAAN AHLI KELAB MEMBACA</h2><p>Sistem Pustakawan Digital</p><div class="profile-box"><div><h3>${k.nama}</h3><div class="info">ID / No. Pekerja: <strong>${k.noPekerja || '-'}</strong></div><div class="info">Jabatan/Bahagian: <strong>${k.bahagian || '-'}</strong></div><div class="info" style="margin-top:8px; color:#1A73E8; font-weight:bold;">Tapisan Paparan: ${tapisanTeks}</div></div><div class="point-box"><div style="font-size:12px; color:#666; font-weight:bold; margin-bottom:4px;">MATA TERKUMPUL (TAPISAN)</div><div class="point-value">${filteredMata} pt</div></div></div><table><thead><tr><th width="5%" class="text-center">Bil</th><th width="15%" class="text-center">Tarikh Pinjam</th><th width="45%">Tajuk Bahan / Buku</th><th width="15%" class="text-center">Kategori</th><th width="10%" class="text-center">Mata</th></tr></thead><tbody>`;
         if(userHistory.length === 0) { html += `<tr><td colspan="5" class="text-center" style="padding:20px;">Tiada rekod bacaan untuk tempoh ini.</td></tr>`; } else { userHistory.forEach((item, idx) => { html += `<tr><td class="text-center">${idx + 1}</td><td class="text-center">${window.formatDate(item.tPinjam)}</td><td><strong>${item.tajuk}</strong></td><td class="text-center">${item.jenis}</td><td class="text-center" style="font-weight:bold; color:#d97706;">+${item.mata || 0}</td></tr>`; }); }
         html += `</tbody></table></body></html>`; const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
     }
@@ -2010,7 +2114,7 @@
             }
         });
         
-        // Add Review Points (+10) to Scoreboard
+        // Add Review Points to Scoreboard
         window.dbUlasan.forEach(u => {
             const safeKey = u.userKey;
             if(safeKey && safeKey !== 'unknown') {
@@ -2033,6 +2137,199 @@
             html += `<tr><td style="text-align:center; font-weight:bold; font-size:1.1rem; color:var(--primary);">${rankBadge}</td><td><div style="display:flex; align-items:center; gap:12px;"><div style="font-size:2rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">${s.avatar}</div><div><strong style="color:var(--text-main); font-size:0.95rem; cursor:pointer; text-decoration:underline;" onclick="window.viewKelabHistory('${safeKey}')" title="Lihat Sejarah & Pinda Rekod">${s.nama}</strong><br><span style="background:var(--bg-body); padding:2px 6px; border-radius:6px; font-size:0.75rem; border:1px solid var(--border); margin-top:2px; display:inline-block;">${s.noPekerja || '-'}</span></div></div></td><td style="font-size:0.85rem;">${s.bahagian || '-'}</td><td style="text-align:center;"><div style="display:inline-flex; align-items:center; background:var(--primary-light); border:1px solid var(--primary); color:var(--primary); padding:6px 16px; border-radius:20px; font-weight:700; font-size:1rem; box-shadow:0 2px 4px rgba(0,103,192,0.15);">${s.mata} pt</div></td></tr>`;
         });
         tbody.innerHTML = html;
+    }
+
+    // --- FUNGSI CHATBOX BARU (PENGGUNA & ADMIN) ---
+    window.updateUnreadBadges = function() {
+        const uBadge = document.getElementById('userUnreadBadge');
+        const aBadge = document.getElementById('adminUnreadBadge');
+        const aDot = document.getElementById('adminInboxBadgeDot');
+        const aCount = document.getElementById('adminInboxCount');
+        
+        if (window.userRole === 'user' && window.currentUserKey) {
+            const unread = window.dbMesej.filter(m => m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead).length;
+            if(uBadge) { uBadge.style.display = unread > 0 ? 'inline-block' : 'none'; uBadge.innerText = `${unread} Baru`; }
+        }
+        
+        if (window.userRole === 'admin') {
+            const unread = window.dbMesej.filter(m => m.sender === 'user' && !m.isRead).length;
+            if(aBadge) { aBadge.style.display = unread > 0 ? 'inline-block' : 'none'; aBadge.innerText = `${unread} Baru`; }
+            if(aDot) { aDot.style.display = unread > 0 ? 'block' : 'none'; }
+            if(aCount) { 
+                aCount.innerText = `${unread} Mesej Baru`; 
+                aCount.style.color = unread > 0 ? 'var(--danger)' : 'var(--primary)';
+            }
+        }
+    }
+
+    window.openChatUser = function() {
+        window.currentChatUserId = window.currentUserKey;
+        const btnBack = document.getElementById('btnBackInbox'); if(btnBack) btnBack.style.display = 'none';
+        const title = document.getElementById('chatTitle'); if(title) title.innerText = '💬 Bantuan & Pertanyaan';
+        
+        // Mark admin messages as read
+        let updated = false;
+        window.dbMesej.forEach(m => {
+            if(m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead) {
+                m.isRead = true; updated = true;
+                if(window.dbInstance) window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn);
+            }
+        });
+        if(updated) localStorage.setItem(DB_MESEJ_KEY, JSON.stringify(window.dbMesej));
+        
+        window.renderChatMessages();
+        const m = document.getElementById('chatModal'); if(m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
+    }
+
+    window.openAdminInbox = function() {
+        const mChat = document.getElementById('chatModal'); if(mChat) mChat.classList.remove('open');
+        
+        const listDiv = document.getElementById('adminInboxList'); if(!listDiv) return;
+        let usersMap = {};
+        
+        // Group by user
+        window.dbMesej.forEach(m => {
+            if(!usersMap[m.userId]) usersMap[m.userId] = { userId: m.userId, nama: m.nama, lastMsg: m, unreadCount: 0 };
+            else if (new Date(m.tarikh) > new Date(usersMap[m.userId].lastMsg.tarikh)) usersMap[m.userId].lastMsg = m;
+            
+            if(m.sender === 'user' && !m.isRead) usersMap[m.userId].unreadCount++;
+        });
+        
+        let usersArr = Object.values(usersMap).sort((a,b) => new Date(b.lastMsg.tarikh) - new Date(a.lastMsg.tarikh));
+        
+        if(usersArr.length === 0) {
+            listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Tiada mesej daripada pengguna.</p>';
+        } else {
+            let html = '';
+            usersArr.forEach(u => {
+                let badge = u.unreadCount > 0 ? `<span class="badge-btn badge-active" style="background:var(--danger); color:white; border-color:var(--danger);">${u.unreadCount}</span>` : '';
+                let timeStr = new Date(u.lastMsg.tarikh).toLocaleTimeString('ms-MY', {hour: '2-digit', minute:'2-digit'});
+                html += `<div class="inbox-item" onclick="window.openChatAdmin('${u.userId}', '${u.nama.replace(/'/g, "\\'")}')">
+                    <div style="flex:1; overflow:hidden;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                            <strong style="color:var(--primary); font-size:0.9rem;">${u.nama}</strong>
+                            <span style="font-size:0.7rem; color:var(--text-muted);">${timeStr}</span>
+                        </div>
+                        <div style="font-size:0.8rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.8;">${u.lastMsg.sender === 'admin' ? 'Anda: ' : ''}${u.lastMsg.teks}</div>
+                    </div>
+                    <div style="margin-left:12px;">${badge}</div>
+                </div>`;
+            });
+            listDiv.innerHTML = html;
+        }
+        
+        window.updateUnreadBadges();
+        
+        setTimeout(() => {
+            if(mChat) mChat.style.display = 'none';
+            const m = document.getElementById('adminInboxModal'); if(m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
+        }, 200);
+    }
+
+    window.openChatAdmin = function(userId, userName) {
+        window.currentChatUserId = userId;
+        const mInbox = document.getElementById('adminInboxModal'); if(mInbox) mInbox.classList.remove('open');
+        
+        const btnBack = document.getElementById('btnBackInbox'); if(btnBack) btnBack.style.display = 'inline-block';
+        const title = document.getElementById('chatTitle'); if(title) title.innerText = `💬 ${userName}`;
+        
+        // Mark user messages as read
+        let updated = false;
+        window.dbMesej.forEach(m => {
+            if(m.userId === userId && m.sender === 'user' && !m.isRead) {
+                m.isRead = true; updated = true;
+                if(window.dbInstance) window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn);
+            }
+        });
+        if(updated) localStorage.setItem(DB_MESEJ_KEY, JSON.stringify(window.dbMesej));
+        
+        window.renderChatMessages();
+        setTimeout(() => {
+            if(mInbox) mInbox.style.display = 'none';
+            const m = document.getElementById('chatModal'); if(m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
+        }, 200);
+    }
+
+    window.closeChatModal = function() { 
+        const m = document.getElementById('chatModal'); if(m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); }
+        window.currentChatUserId = null;
+        window.updateUnreadBadges();
+    }
+    
+    window.closeAdminInbox = function() { 
+        const m = document.getElementById('adminInboxModal'); if(m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); }
+        window.updateUnreadBadges();
+    }
+
+    window.sendChatMessage = async function() {
+        const input = document.getElementById('chatInput');
+        const teks = input ? input.value.trim() : '';
+        if(!teks || !window.currentChatUserId) return;
+        
+        let namaSender = 'Admin';
+        if(window.userRole === 'user') {
+            const userInfo = window.kelabMapData[window.currentUserKey] || window.dbUsers[window.currentUserKey];
+            namaSender = userInfo ? (userInfo.nama || window.currentUserKey) : window.currentUserKey;
+        } else {
+            // For admin sending, we need the user's name for the inbox grouping
+            const userInfo = window.kelabMapData[window.currentChatUserId] || window.dbUsers[window.currentChatUserId];
+            namaSender = userInfo ? (userInfo.nama || window.currentChatUserId) : window.currentChatUserId;
+        }
+        
+        const newMsg = {
+            id: Date.now().toString(),
+            userId: window.currentChatUserId,
+            nama: namaSender,
+            teks: teks,
+            sender: window.userRole,
+            tarikh: new Date().toISOString(),
+            isRead: false
+        };
+        
+        window.dbMesej.push(newMsg);
+        localStorage.setItem(DB_MESEJ_KEY, JSON.stringify(window.dbMesej));
+        input.value = '';
+        window.renderChatMessages();
+        
+        if(window.dbInstance) {
+            try { await window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg); } catch(e) { console.warn(e); }
+        }
+    }
+
+    window.renderChatMessages = function() {
+        const area = document.getElementById('chatMessagesArea'); if(!area) return;
+        const msgs = window.dbMesej.filter(m => m.userId === window.currentChatUserId).sort((a,b) => new Date(a.tarikh) - new Date(b.tarikh));
+        
+        if(msgs.length === 0) {
+            area.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem; margin-top:auto; margin-bottom:auto;">Mulakan perbualan anda di sini...</div>';
+            return;
+        }
+        
+        let html = '';
+        let lastDate = '';
+
+        msgs.forEach(m => {
+            const isMe = m.sender === window.userRole;
+            const bubbleClass = isMe ? 'chat-sent' : 'chat-received';
+            const msgDateObj = new Date(m.tarikh);
+            const timeStr = msgDateObj.toLocaleTimeString('ms-MY', {hour: '2-digit', minute:'2-digit'});
+            const dateStr = msgDateObj.toLocaleDateString('ms-MY', {day: 'numeric', month: 'long', year: 'numeric'});
+            
+            // Pemisah Tarikh
+            if (dateStr !== lastDate) {
+                html += `<div style="text-align:center; margin: 12px 0 6px 0;"><span style="background:rgba(0,0,0,0.05); color:var(--text-muted); font-size:0.65rem; padding:4px 10px; border-radius:12px; font-weight:600;">${dateStr}</span></div>`;
+                lastDate = dateStr;
+            }
+
+            html += `<div class="chat-bubble ${bubbleClass}">
+                <div>${m.teks}</div>
+                <span class="chat-time" style="color: ${isMe ? 'rgba(255,255,255,0.8)' : 'var(--text-muted)'}">${timeStr}</span>
+            </div>`;
+        });
+        
+        area.innerHTML = html;
+        setTimeout(() => { area.scrollTop = area.scrollHeight; }, 50);
+        if(typeof window.updateUnreadBadges === 'function') window.updateUnreadBadges();
     }
 
     // Ulasan Handlers
@@ -2061,23 +2358,19 @@
         
         const revData = { id: finalId, bookId: bookId, userKey: window.currentUserKey || 'unknown', nama: myName, avatar: myAvatar, tajuk: tajuk, stars: stars, teks: teks, tarikh: new Date().toISOString() };
         
-        // Remove incentive text for an update action
-        const successMsg = isUpdate ? "Terima kasih! Ulasan anda telah dipinda." : "Terima kasih! Ulasan anda dihantar ke awan.<br><br><span style='color:var(--success); font-weight:700;'>🎉 Anda menerima +10 Mata Ganjaran!</span>";
-        const offlineMsg = isUpdate ? "Terima kasih! Ulasan dipinda (Luar Talian)." : "Terima kasih! Ulasan direkodkan (Luar Talian).<br><br><span style='color:var(--success); font-weight:700;'>🎉 Anda menerima +10 Mata Ganjaran!</span>";
-
         const doLocalRevUpdate = () => { 
             if(isUpdate) { const idx = window.dbUlasan.findIndex(u => String(u.id) === String(finalId)); if(idx > -1) window.dbUlasan[idx] = revData; } else { window.dbUlasan.unshift(revData); }
             localStorage.setItem(DB_ULASAN_KEY, JSON.stringify(window.dbUlasan)); 
             window.buildKelabData();
             if(typeof window.renderTable === 'function') window.renderTable(); if(typeof window.renderUlasanTable === 'function') window.renderUlasanTable(); if(typeof window.renderMyReviews === 'function') window.renderMyReviews(); if(typeof window.renderScoreboard === 'function') window.renderScoreboard(); if(typeof window.renderMyProfile === 'function') window.renderMyProfile();
         };
-        if(!window.dbInstance) { doLocalRevUpdate(); window.showCustomAlert(offlineMsg); window.closeReviewModal(); return; }
+        if(!window.dbInstance) { doLocalRevUpdate(); window.closeReviewModal(); return; }
         
         const loader = document.getElementById('loadingBar'); if(loader) loader.style.display = 'block';
         try { 
             if(typeof window.dbInstance.collection === 'function') { await window.dbInstance.collection("ulasan").doc(revData.id).set(revData); } 
-            window.showCustomAlert(successMsg); if(typeof window.renderTable === 'function') window.renderTable(); if(typeof window.renderUlasanTable === 'function') window.renderUlasanTable(); if(typeof window.renderMyReviews === 'function') window.renderMyReviews(); window.closeReviewModal();
-        } catch(e) { if(typeof window.disableFirebaseAndFallback === 'function') window.disableFirebaseAndFallback(e.message); doLocalRevUpdate(); window.showCustomAlert(offlineMsg); window.closeReviewModal(); }
+            window.closeReviewModal();
+        } catch(e) { if(typeof window.disableFirebaseAndFallback === 'function') window.disableFirebaseAndFallback(e.message); doLocalRevUpdate(); window.closeReviewModal(); }
         if(loader) loader.style.display = 'none';
     }
     
@@ -2104,14 +2397,20 @@
         const isAdmin = window.userRole === 'admin';
         sorted.forEach(u => {
             let starsHtml = ''; for(let i=0; i<5; i++) { starsHtml += i < u.stars ? '★' : '☆'; }
-            let delBtn = isAdmin ? `<button onclick="window.deleteReview('${u.id}')" class="btn-clear" style="position:absolute; top:8px; right:8px; padding:2px 6px; color:var(--danger); border-color:var(--danger-light); font-size:0.7rem;" title="Padam Ulasan">🗑️ Padam</button>` : '';
-            html += `<div class="ulasan-card"><div class="uc-header"><div class="uc-avatar">${u.avatar || '👤'}</div><div><div class="uc-nama">${u.nama}</div><div class="uc-book">${u.tajuk}</div></div></div><div class="uc-stars">${starsHtml}</div><div class="uc-text">"${u.teks}"</div>${delBtn}</div>`;
+            let delBtn = isAdmin ? `<button onclick="window.deleteReview('${u.id}')" class="btn-clear" style="position:absolute; top:8px; right:8px; padding:4px 6px; color:var(--danger); border-color:var(--danger-light); font-size:0.85rem;" title="Padam Ulasan">🗑️</button>` : '';
+            html += `<div class="ulasan-card"><div class="uc-header"><div class="uc-avatar">${u.avatar || '👤'}</div><div><div class="uc-book">${u.tajuk}</div><div class="uc-nama">${u.nama}</div></div></div><div class="uc-stars">${starsHtml}</div><div class="uc-text">"${u.teks}"</div>${delBtn}</div>`;
         });
         grid.innerHTML = html;
     }
 
     // --- SETUP ONLOAD ---
     window.onload = function() {
+        window.dbData = window.safeJSONParse(DB_KEY, []);
+        window.dbBuku = window.safeJSONParse(DB_BUKU_KEY, []);
+        window.dbUsers = window.safeJSONParse(DB_USERS_KEY, {});
+        window.dbUlasan = window.safeJSONParse(DB_ULASAN_KEY, []);
+        window.dbMesej = window.safeJSONParse(DB_MESEJ_KEY, []);
+        
         window.setupDateDisplay();
         window.loadAppTitle();
         window.initTheme();
@@ -2133,18 +2432,18 @@
       measurementId: "G-FX9CH5QG92"
     };
 
-    window.unsubPengguna = null; window.unsubPinjaman = null; window.unsubBuku = null; window.unsubUlasan = null;
+    window.unsubPengguna = null; window.unsubPinjaman = null; window.unsubBuku = null; window.unsubUlasan = null; window.unsubMesej = null;
 
     window.disableFirebaseAndFallback = function(errorMsg) {
         console.warn("Firebase Alert: Bertukar ke Mod Luar Talian (" + errorMsg + ")");
-        if(window.unsubPengguna) window.unsubPengguna(); if(window.unsubPinjaman) window.unsubPinjaman(); if(window.unsubBuku) window.unsubBuku(); if(window.unsubUlasan) window.unsubUlasan(); window.dbInstance = null;
+        if(window.unsubPengguna) window.unsubPengguna(); if(window.unsubPinjaman) window.unsubPinjaman(); if(window.unsubBuku) window.unsubBuku(); if(window.unsubUlasan) window.unsubUlasan(); if(window.unsubMesej) window.unsubMesej(); window.dbInstance = null;
         const status = document.getElementById('statusText'); if(status) { status.innerHTML = "🔴 Mod Luar Talian"; status.style.color = "var(--danger)"; }
         
-        window.dbData = window.safeJSONParse(DB_KEY, []); window.dbBuku = window.safeJSONParse(DB_BUKU_KEY, []); window.dbUsers = window.safeJSONParse(DB_USERS_KEY, {}); window.dbUlasan = window.safeJSONParse(DB_ULASAN_KEY, []);
+        window.dbData = window.safeJSONParse(DB_KEY, []); window.dbBuku = window.safeJSONParse(DB_BUKU_KEY, []); window.dbUsers = window.safeJSONParse(DB_USERS_KEY, {}); window.dbUlasan = window.safeJSONParse(DB_ULASAN_KEY, []); window.dbMesej = window.safeJSONParse(DB_MESEJ_KEY, []);
         if(typeof window.buildKelabData === 'function') window.buildKelabData();
         
         if (document.getElementById('dashboardView') && document.getElementById('dashboardView').style.display === 'block') {
-            if(typeof window.renderTable === 'function') window.renderTable(); if(typeof window.renderDashCalendar === 'function') window.renderDashCalendar(); if(typeof window.renderSenaraiCalendar === 'function') window.renderSenaraiCalendar(); if(typeof window.renderBukuTable === 'function') window.renderBukuTable(); if(typeof window.renderKelabTable === 'function') window.renderKelabTable(); if(typeof window.renderScoreboard === 'function') window.renderScoreboard(); if(typeof window.updateCountUI === 'function') window.updateCountUI(); if(typeof window.renderUlasanTable === 'function') window.renderUlasanTable(); if(window.userRole === 'user' && typeof window.renderMyProfile === 'function') window.renderMyProfile();
+            if(typeof window.renderTable === 'function') window.renderTable(); if(typeof window.renderDashCalendar === 'function') window.renderDashCalendar(); if(typeof window.renderSenaraiCalendar === 'function') window.renderSenaraiCalendar(); if(typeof window.renderBukuTable === 'function') window.renderBukuTable(); if(typeof window.renderKelabTable === 'function') window.renderKelabTable(); if(typeof window.renderScoreboard === 'function') window.renderScoreboard(); if(typeof window.updateCountUI === 'function') window.updateCountUI(); if(typeof window.renderUlasanTable === 'function') window.renderUlasanTable(); if(window.userRole === 'user' && typeof window.renderMyProfile === 'function') window.renderMyProfile(); if(typeof window.updateUnreadBadges === 'function') window.updateUnreadBadges();
         }
     }
 
@@ -2152,6 +2451,7 @@
         try {
             if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
             window.dbInstance = firebase.firestore();
+            window.dbInstance.settings({ experimentalForceLongPolling: true, merge: true });
             window.dbInstance.enablePersistence().catch(function(err) { console.warn("Offline persistence not enabled: ", err.code); });
             const status = document.getElementById('statusText'); if(status) { status.innerHTML = "🌐 Dalam Talian"; status.style.color = "var(--success)"; }
             window.startListening();
@@ -2189,6 +2489,15 @@
             const dv = document.getElementById('dashboardView');
             if (dv && dv.style.display === 'block') { if(typeof window.renderUlasanTable === 'function') window.renderUlasanTable(); if(window.userRole === 'user' && typeof window.renderMyProfile === 'function') window.renderMyProfile(); if(typeof window.renderScoreboard === 'function') window.renderScoreboard(); }
         }, (error) => { console.error("Gagal baca ulasan: ", error); });
+
+        window.unsubMesej = window.dbInstance.collection("mesej_bantuan").onSnapshot((snapshot) => {
+            window.dbMesej = []; snapshot.forEach(doc => { window.dbMesej.push({ id: doc.id, ...doc.data() }); });
+            if(typeof window.updateUnreadBadges === 'function') window.updateUnreadBadges();
+            const chatModal = document.getElementById('chatModal');
+            if (chatModal && chatModal.classList.contains('open') && typeof window.renderChatMessages === 'function') window.renderChatMessages();
+            const inboxModal = document.getElementById('adminInboxModal');
+            if (inboxModal && inboxModal.classList.contains('open') && typeof window.openAdminInbox === 'function') window.openAdminInbox();
+        }, (error) => { console.error("Gagal baca mesej: ", error); });
     }
 </script>
 </body>
