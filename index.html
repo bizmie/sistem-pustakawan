@@ -105,15 +105,14 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0; }
         header, .content-card, .calendar-card, .widget-card, .stat-card, .modal { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
         
-        header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-radius: 16px; background: rgba(230, 233, 238, 0.75); backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); }
-        @media (prefers-color-scheme: dark) { header { background: rgba(50, 50, 55, 0.65); border: 1px solid rgba(255,255,255,0.1); } }
+        header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-radius: 16px; }
         .header-left { display: flex; flex-direction: column; gap: 4px; }
         .header-left-title { display: flex; align-items: center; gap: 12px; }
-        .header-left h1 { margin: 0; font-size: 1.9rem; color: var(--primary); display: flex; align-items: center; font-weight:900; text-transform: uppercase; letter-spacing: 0.8px; text-shadow: 0 2px 4px rgba(0,102,204,0.15);}
-        .header-subtitle { font-size: 0.95rem; font-weight: 600; color: var(--text-main); opacity: 0.75; margin-left: 104px; }
+        .header-left h1 { margin: 0; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; font-weight:800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .header-subtitle { font-size: 0.9rem; font-weight: 600; color: var(--text-main); opacity: 0.75; margin-left: 48px; }
         
         .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-        #headerDate { color: var(--primary); font-size: 1.4rem; font-weight:800; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; text-align: right; line-height: 1.2; padding-top: 2px;}
+        #headerDate { color: var(--primary); font-size: 1.1rem; font-weight:800; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; text-align: right; line-height: 1.2; padding-top: 2px;}
 
         .nav-tabs { display: flex; gap: 4px; margin-bottom: 12px; background: rgba(0,0,0,0.04); padding: 4px; border-radius: 10px; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--border); align-items:center;}
         @media (prefers-color-scheme: dark) { .nav-tabs { background: rgba(255,255,255,0.05); } }
@@ -243,8 +242,8 @@
             <span class="mac-dot mac-red"></span>
         </div>
         <div style="font-size: 3rem; margin-bottom: 8px; line-height:1; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); margin-top:16px;">📚</div>
-        <h1 style="color: var(--primary); margin-bottom: 2px; font-size: 1.4rem;">PUSTAKA MTIB</h1>
-        <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.8rem;" class="login-subtitle-display">Pengurusan Pinjaman Digital</p>
+        <h1 id="loginMainTitle" style="color: var(--primary); margin-bottom: 2px; font-size: 1.4rem;">PUSTAKA MTIB</h1>
+        <p id="loginSubTitle" style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.8rem;">Pengurusan Pinjaman Digital</p>
         
         <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 16px; background: var(--success); border-color: #27C93F;" onclick="window.visitorLogin()">👤 Masuk Sebagai Pelawat</button>
 
@@ -311,7 +310,7 @@
             <div class="header-left">
                 <div class="header-left-title">
                     <div class="mac-controls" style="margin:0; padding-top:2px;"><span class="mac-dot mac-red"></span><span class="mac-dot mac-yellow"></span><span class="mac-dot mac-green"></span></div>
-                    <h1><span style="font-size: 2.2rem; margin-right:10px;">📚</span> PUSTAKA PUSAT SUMBER MTIB</h1>
+                    <h1><span style="font-size: 1.8rem; margin-right:10px;">📚</span> <span id="headerTitleText">PUSTAKA PUSAT SUMBER MTIB</span></h1>
                 </div>
                 <div id="headerSubtitle" class="header-subtitle">Sistem Pengurusan Perpustakaan Digital</div>
             </div>
@@ -575,12 +574,19 @@
             <div class="content-card" style="padding: 20px;">
                 <h2 style="margin-top:0; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 16px; font-size: 1rem; color:var(--primary);">⚙️ Tetapan Sistem Aplikasi</h2>
                 <div style="max-width: 400px;">
-                    <p style="font-size:0.8rem; color:var(--text-muted); line-height: 1.4; margin-bottom:16px;">
-                        Tetapan antaramuka (seperti tajuk utama) telah dimalarkan untuk tujuan kestabilan di dalam persekitaran Sandbox Canvas dan Firebase-Sahaja.
-                    </p>
+                    <div class="form-group">
+                        <label>Tajuk Utama Sistem</label>
+                        <input type="text" id="set_main_title" class="login-input" placeholder="Cth: PUSTAKA MTIB">
+                    </div>
+                    <div class="form-group">
+                        <label>Subtajuk Sistem</label>
+                        <input type="text" id="set_sub_title" class="login-input" placeholder="Cth: Pengurusan Pinjaman Digital">
+                    </div>
+                    <button class="btn-3d" style="margin-top: 8px; margin-bottom: 16px;" onclick="window.saveSettings()">💾 Simpan Tetapan</button>
+                    
                     <div style="margin-bottom: 12px; padding-top: 12px; border-top: 1px dashed var(--border);">
                         <label class="form-label" style="font-size: 0.85rem; color:var(--text-main); font-weight:600;">Versi Aplikasi</label>
-                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">PUSTAKA-V22.3 (Stabil Penuh + Firebase Sahaja + Reviu 2 Mata)</p>
+                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">PUSTAKA-V22.4 (Custom Title + Firebase Sahaja)</p>
                     </div>
                 </div>
             </div>
@@ -596,12 +602,29 @@
                 <button class="btn-clear" id="btnBackInbox" style="display:none; padding:4px 8px; border:none; background:var(--primary-light); color:var(--primary);" onclick="window.openAdminInbox()">◀</button>
                 <h3 style="margin:0; color:var(--primary);" id="chatTitle">💬 Bantuan & Pertanyaan</h3>
             </div>
-            <div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red" onclick="window.closeChatModal()" style="cursor:pointer;"></span></div>
+            <div class="mac-controls" style="margin:0;">
+                <button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light); margin-right:8px;" onclick="window.clearChatHistory()" title="Padam Sejarah Sembang">🗑️ Padam</button>
+                <span class="mac-dot mac-red" onclick="window.closeChatModal()" style="cursor:pointer;"></span>
+            </div>
         </div>
         <div id="chatMessagesArea" class="chat-container" style="flex:1; border:none; border-radius:0;"></div>
-        <div style="padding:12px; background: var(--bg-body); border-top: 1px solid var(--border); display:flex; gap:8px; align-items:center;">
-            <input type="text" id="chatInput" class="login-input" style="margin:0; flex:1; border-color:var(--border);" placeholder="Taip mesej anda di sini..." onkeyup="if(event.key==='Enter') window.sendChatMessage()">
-            <button class="btn-3d" style="padding:8px 16px; border:none;" onclick="window.sendChatMessage()">Hantar</button>
+        <div style="padding:12px; background: var(--bg-body); border-top: 1px solid var(--border); display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; gap:8px; align-items:center;">
+                <input type="text" id="chatInput" class="login-input" style="margin:0; flex:1; border-color:var(--border);" placeholder="Taip mesej anda di sini..." onkeyup="if(event.key==='Enter') window.sendChatMessage()">
+                <button class="btn-3d" style="padding:8px 16px; border:none;" onclick="window.sendChatMessage()">Hantar</button>
+            </div>
+            <div style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; user-select:none;">
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('👍')">👍</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('🙏')">🙏</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('😊')">😊</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('📚')">📚</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('❓')">❓</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('💡')">💡</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('✅')">✅</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('😅')">😅</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('😢')">😢</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('🎉')">🎉</span>
+            </div>
         </div>
     </div>
 </div>
@@ -846,6 +869,7 @@ window.dbUsers = {};
 window.dbUlasan = [];
 window.dbMesej = [];
 window.kelabMapData = {};
+window.appSettings = { title: "PUSTAKA MTIB", subtitle: "Sistem Pengurusan Perpustakaan Digital" };
 window.currentFilter = 'all';
 window.currentHistoryKey = null;
 window.userRole = null;
@@ -927,10 +951,46 @@ window.setupDateDisplay = function() {
   if (el) el.innerText = new Date().toLocaleDateString('ms-MY', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase();
 };
 
+window.applySettingsUI = function() {
+  const t = window.appSettings.title || "PUSTAKA MTIB";
+  const s = window.appSettings.subtitle || "Sistem Pengurusan Perpustakaan Digital";
+  
+  const lTitle = document.getElementById('loginMainTitle'); if(lTitle) lTitle.innerText = t;
+  const lSub = document.getElementById('loginSubTitle'); if(lSub) lSub.innerText = s;
+  
+  const hTitle = document.getElementById('headerTitleText'); if(hTitle) hTitle.innerText = t;
+  const hSub = document.getElementById('headerSubtitle'); if(hSub) hSub.innerText = s;
+  
+  const iTitle = document.getElementById('set_main_title'); if(iTitle) iTitle.value = t;
+  const iSub = document.getElementById('set_sub_title'); if(iSub) iSub.value = s;
+};
+
+window.saveSettings = async function() {
+  const newT = document.getElementById('set_main_title').value.trim();
+  const newS = document.getElementById('set_sub_title').value.trim();
+  if(!newT) return window.showCustomAlert('Sila masukkan tajuk utama.');
+  
+  window.appSettings.title = newT;
+  window.appSettings.subtitle = newS;
+  window.applySettingsUI();
+  
+  if(window.dbInstance) {
+      const loader = document.getElementById('loadingBar'); if(loader) loader.style.display = 'block';
+      try {
+          await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings);
+          window.showCustomAlert('Tetapan tajuk berjaya disimpan ke Awan.');
+      } catch(e) {
+          console.warn(e);
+          window.showCustomAlert('Luar Talian: Tetapan tajuk disimpan secara tempatan.');
+      }
+      if(loader) loader.style.display = 'none';
+  } else {
+      window.showCustomAlert('Tetapan tajuk disimpan secara tempatan (Luar Talian).');
+  }
+};
+
 window.loadAppTitle = function() {
-  document.querySelectorAll('.login-subtitle-display').forEach(el => { el.innerText = 'Pengurusan Pinjaman Digital'; });
-  const hSubEl = document.getElementById('headerSubtitle');
-  if (hSubEl) hSubEl.innerText = 'Sistem Pengurusan Perpustakaan Digital';
+  window.applySettingsUI();
 };
 
 window.formatDate = function(d) { return !d ? '-' : String(d).split('-').reverse().join('/'); };
@@ -2190,7 +2250,7 @@ window.renderAdminInboxTab = function(tab) {
   if (tab === 'inbox') {
     let usersMap = {};
     window.dbMesej.forEach(m => {
-      if (!usersMap[m.userId]) { usersMap[m.userId] = { userId: m.userId, nama: m.nama, lastMsg: m, unreadCount: 0 }; } 
+      if (!usersMap[m.userId]) { usersMap[m.userId] = { userId: m.userId, lastMsg: m, unreadCount: 0 }; } 
       else if (new Date(m.tarikh) > new Date(usersMap[m.userId].lastMsg.tarikh)) { usersMap[m.userId].lastMsg = m; }
       if (m.sender === 'user' && !m.isRead) { usersMap[m.userId].unreadCount++; }
     });
@@ -2199,9 +2259,14 @@ window.renderAdminInboxTab = function(tab) {
     else {
       let html = '';
       usersArr.forEach(u => {
+        // Dapatkan nama sebenar peminjam
+        let dispNama = u.userId;
+        const userInfo = window.kelabMapData[u.userId] || (window.dbUsers && window.dbUsers[u.userId]);
+        if (userInfo && userInfo.nama) dispNama = userInfo.nama;
+
         let badge = u.unreadCount > 0 ? `<span class="badge-btn badge-active" style="background:var(--danger); color:white; border-color:var(--danger);">${u.unreadCount}</span>` : '';
         let timeStr = new Date(u.lastMsg.tarikh).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' });
-        html += `<div class="inbox-item" onclick="window.openChatAdmin('${u.userId}', '${u.nama.replace(/'/g, "\\'")}')"><div style="flex:1; overflow:hidden;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong style="color:var(--primary); font-size:0.9rem;">${u.nama}</strong><span style="font-size:0.7rem; color:var(--text-muted);">${timeStr}</span></div><div style="font-size:0.8rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.8;">${u.lastMsg.sender === 'admin' ? 'Anda: ' : ''}${u.lastMsg.teks}</div></div><div style="margin-left:12px;">${badge}</div></div>`;
+        html += `<div class="inbox-item" onclick="window.openChatAdmin('${u.userId}', '${dispNama.replace(/'/g, "\\'")}')"><div style="flex:1; overflow:hidden;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong style="color:var(--primary); font-size:0.9rem;">${dispNama}</strong><span style="font-size:0.7rem; color:var(--text-muted);">${timeStr}</span></div><div style="font-size:0.8rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.8;">${u.lastMsg.sender === 'admin' ? 'Anda: ' : ''}${u.lastMsg.teks}</div></div><div style="margin-left:12px;">${badge}</div></div>`;
       });
       listDiv.innerHTML = html;
     }
@@ -2229,6 +2294,32 @@ window.openChatAdmin = function(userId, userName) {
 
 window.closeChatModal = function() { const m = document.getElementById('chatModal'); if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } window.currentChatUserId = null; window.updateUnreadBadges(); };
 window.closeAdminInbox = function() { const m = document.getElementById('adminInboxModal'); if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } window.updateUnreadBadges(); };
+
+window.clearChatHistory = function() {
+  if (!window.currentChatUserId) return;
+  window.showCustomConfirm("Adakah anda pasti mahu memadam sejarah sembang ini secara KEKAL?", async () => {
+    const msgsToDelete = window.dbMesej.filter(m => m.userId === window.currentChatUserId);
+    window.dbMesej = window.dbMesej.filter(m => m.userId !== window.currentChatUserId);
+    window.renderChatMessages();
+    if (window.userRole === 'admin') window.renderAdminInboxTab('inbox');
+    window.updateUnreadBadges();
+    
+    if (window.dbInstance) {
+      try {
+        const promises = msgsToDelete.map(m => window.dbInstance.collection("mesej_bantuan").doc(m.id).delete());
+        await Promise.all(promises);
+      } catch (e) { console.warn("Gagal padam mesej: ", e); }
+    }
+  });
+};
+
+window.insertEmoji = function(emoji) {
+  const input = document.getElementById('chatInput');
+  if (input) {
+    input.value += emoji;
+    input.focus();
+  }
+};
 
 window.sendChatMessage = async function() {
   const input = document.getElementById('chatInput'); const teks = input ? input.value.trim() : ''; if (!teks || !window.currentChatUserId) return;
@@ -2304,11 +2395,11 @@ const firebaseConfig = {
   apiKey: "AIzaSyAfEJBFMTX1HOo5SMpfDf4Cx61HhbtiAWE", authDomain: "pustakawan-digital.firebaseapp.com", projectId: "pustakawan-digital", storageBucket: "pustakawan-digital.firebasestorage.app", messagingSenderId: "811520945210", appId: "1:811520945210:web:667f2d12138c7db4dc1903", measurementId: "G-FX9CH5QG92"
 };
 
-window.unsubPengguna = null; window.unsubPinjaman = null; window.unsubBuku = null; window.unsubUlasan = null; window.unsubMesej = null;
+window.unsubPengguna = null; window.unsubPinjaman = null; window.unsubBuku = null; window.unsubUlasan = null; window.unsubMesej = null; window.unsubTetapan = null;
 
 window.disableFirebaseAndFallback = function(errorMsg) {
   console.warn("Firebase Alert: Bertukar ke Mod Luar Talian (" + errorMsg + ")");
-  if (window.unsubPengguna) window.unsubPengguna(); if (window.unsubPinjaman) window.unsubPinjaman(); if (window.unsubBuku) window.unsubBuku(); if (window.unsubUlasan) window.unsubUlasan(); if (window.unsubMesej) window.unsubMesej();
+  if (window.unsubPengguna) window.unsubPengguna(); if (window.unsubPinjaman) window.unsubPinjaman(); if (window.unsubBuku) window.unsubBuku(); if (window.unsubUlasan) window.unsubUlasan(); if (window.unsubMesej) window.unsubMesej(); if (window.unsubTetapan) window.unsubTetapan();
   window.dbInstance = null;
   const status = document.getElementById('statusText'); if (status) { status.innerHTML = "🔴 Mod Luar Talian Memori"; status.style.color = "var(--danger)"; }
   if (typeof window.buildKelabData === 'function') window.buildKelabData();
@@ -2326,6 +2417,14 @@ window.initFirebase = function() {
 
 window.startListening = function() {
   if (!window.dbInstance) return;
+  
+  window.unsubTetapan = window.dbInstance.collection("tetapan").doc("utama").onSnapshot((doc) => {
+      if(doc.exists) {
+          window.appSettings = doc.data();
+          window.applySettingsUI();
+      }
+  }, (error) => console.warn(error));
+
   window.unsubPengguna = window.dbInstance.collection("pengguna").onSnapshot((snapshot) => {
     snapshot.forEach(doc => { if (!window.dbUsers) window.dbUsers = {}; window.dbUsers[doc.id] = doc.data(); });
     if (document.getElementById('dashboardView') && document.getElementById('dashboardView').style.display === 'block') {
