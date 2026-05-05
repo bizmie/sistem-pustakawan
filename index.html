@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" data-theme="xp">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,56 +9,33 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <style>
-        :root {
-            --bg-body: #F0F2F5;         
-            --surface: rgba(255, 255, 255, 0.96); 
+        :root, :root[data-theme="xp"] {
+            --bg-body: #ECE9D8;         
+            --surface: rgba(255, 255, 255, 0.95); 
             --surface-solid: #FFFFFF;
-            --primary: #0066CC; 
-            --primary-hover: #0056b3;
-            --primary-light: rgba(0, 102, 204, 0.1);
-            --primary-ring: rgba(0, 102, 204, 0.4);
-            --success: #28CD41;
-            --danger: #FF3B30;
-            --danger-light: rgba(255, 59, 48, 0.1);
-            --warning: #FF9500;
+            --primary: #245EDC;         
+            --primary-hover: #1941A5;
+            --primary-light: rgba(36, 94, 220, 0.15);
+            --primary-ring: rgba(36, 94, 220, 0.5);
+            --success: #3E9D23;
+            --danger: #E53935;
+            --danger-light: rgba(229, 57, 53, 0.15);
+            --warning: #FF8C00;
             --text-main: #1D1D1F;       
-            --text-muted: #8E8E93;      
-            --border: rgba(0, 0, 0, 0.18);          
+            --text-muted: #555555;      
+            --border: rgba(36, 94, 220, 0.25);          
             --radius-card: 12px;
             --radius-btn: 8px;
-            --shadow-sm: 0 2px 6px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0,0,0,0.04);
-            --bg-weekend: rgba(0,0,0,0.02); 
+            --shadow-sm: 0 2px 4px rgba(36,94,220,0.15), 0 0 0 1px rgba(36,94,220,0.1);
+            --shadow-md: 0 8px 16px rgba(36,94,220,0.2), 0 0 0 1px rgba(36,94,220,0.1);
+            --bg-weekend: rgba(36,94,220,0.04); 
             --bg-weekday: transparent; 
-            --badge-active-bg: rgba(0, 102, 204, 0.1); --badge-active-text: #0066CC;
-            --badge-late-bg: rgba(255, 59, 48, 0.1); --badge-late-text: #FF3B30;
-            --badge-done-bg: rgba(40, 205, 65, 0.1); --badge-done-text: #28CD41;
+            --badge-active-bg: rgba(36, 94, 220, 0.1); --badge-active-text: #245EDC;
+            --badge-late-bg: rgba(229, 57, 53, 0.1); --badge-late-text: #E53935;
+            --badge-done-bg: rgba(62, 157, 35, 0.1); --badge-done-text: #3E9D23;
             --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --widget-border: rgba(0, 0, 0, 0.15);
+            --widget-border: rgba(36, 94, 220, 0.2);
             --blur-effect: blur(20px) saturate(180%);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) {
-                --bg-body: #06111F;         
-                --surface: rgba(13, 31, 54, 0.95); 
-                --surface-solid: #0D1F36;
-                --primary: #4DA3FF;         
-                --primary-hover: #73BBFF;
-                --primary-light: rgba(77, 163, 255, 0.15);
-                --primary-ring: rgba(77, 163, 255, 0.5);
-                --success: #32D74B;
-                --danger: #FF453A;
-                --danger-light: rgba(255, 69, 58, 0.15);
-                --warning: #FF9F0A;
-                --text-main: #F5F5F7;       
-                --text-muted: #8CA3BA;      
-                --border: rgba(255, 255, 255, 0.15);          
-                --shadow-sm: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
-                --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.05);
-                --bg-weekend: rgba(255,255,255,0.03); 
-                --widget-border: rgba(255, 255, 255, 0.1);
-            }
         }
 
         :root[data-theme="dark"] {
@@ -103,7 +80,6 @@
         .login-card { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 24px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-md); width: 100%; max-width: 320px; text-align: center; position: relative; }
         
         .login-input, .search-input, .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 6px 10px; margin-bottom: 8px; border: 1.5px solid var(--border); border-radius: var(--radius-btn); background: rgba(255,255,255,0.6); color: var(--text-main); box-sizing: border-box; transition: all 0.2s ease; outline: none; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02); }
-        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .login-input, :root:not([data-theme="light"]) .search-input, :root:not([data-theme="light"]) .form-group input, :root:not([data-theme="light"]) .form-group select, :root:not([data-theme="light"]) .form-group textarea { background: rgba(0,0,0,0.2); } }
         :root[data-theme="dark"] .login-input, :root[data-theme="dark"] .search-input, :root[data-theme="dark"] .form-group input, :root[data-theme="dark"] .form-group select, :root[data-theme="dark"] .form-group textarea { background: rgba(0,0,0,0.2); }
         .login-input:focus, .search-input:focus, .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); background: var(--surface-solid); box-shadow: 0 0 0 3px var(--primary-ring); }
 
@@ -137,7 +113,6 @@
         #headerDate { color: var(--primary); font-size: 1.1rem; font-weight:800; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; text-align: right; line-height: 1.2; padding-top: 2px;}
 
         .nav-tabs { display: flex; gap: 4px; margin-bottom: 12px; background: rgba(0,0,0,0.04); padding: 4px; border-radius: 10px; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--border); align-items:center;}
-        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .nav-tabs { background: rgba(255,255,255,0.05); } }
         :root[data-theme="dark"] .nav-tabs { background: rgba(255,255,255,0.05); }
         .nav-btn { background: transparent; color: var(--text-main); opacity: 0.9; border: none; padding: 8px 16px; font-size: 0.95rem; cursor: pointer; border-radius: 8px; transition: all 0.2s ease; white-space: nowrap; font-weight:700;}
         .nav-btn:hover { opacity: 1; color: var(--primary); background: rgba(0,0,0,0.05); }
@@ -232,6 +207,10 @@
         .inbox-item { background: var(--surface-solid); border: 1px solid var(--border); padding: 10px 14px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
         .inbox-item:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); transform: translateX(2px); }
 
+        .react-btn { background:transparent; border:1px solid transparent; border-radius:12px; padding:2px 6px; cursor:pointer; font-size:0.85rem; display:inline-flex; align-items:center; gap:4px; transition:0.2s; color:var(--text-muted); }
+        .react-btn:hover { background:var(--bg-body); transform:scale(1.1); }
+        .react-btn.active { background:var(--primary-light); border-color:var(--primary-ring); color:var(--primary); font-weight:700; }
+
         @media (max-width: 768px) {
             .dashboard-layout, .grid-compact, .grid-cols-4 { grid-template-columns: 1fr !important; }
             .col-span-1, .col-span-2, .col-span-4 { grid-column: span 1; }
@@ -260,7 +239,7 @@
 <div id="loginView">
     <div class="login-card">
         <button class="btn-clear" onclick="window.toggleTheme()" style="position:absolute; top:16px; right:16px; border:none; padding:4px 8px; box-shadow:none; cursor:pointer; color:var(--text-main);" title="Tukar Tema Terang/Gelap">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
         </button>
         <div style="font-size: 3rem; margin-bottom: 8px; line-height:1; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); margin-top:16px;">📚</div>
         <h1 id="loginMainTitle" style="color: var(--primary); margin-bottom: 2px; font-size: 1.4rem;">PUSTAKA MTIB</h1>
@@ -280,7 +259,7 @@
 
         <div style="margin-top: 12px;">
             <button type="button" class="btn-clear" style="border-radius: 50px; font-size: 0.75rem;" onclick="window.openAdminLoginModal()">⚙️ Log Pentadbir</button>
-            <div style="margin-top: 8px; font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">V22.6</div>
+            <div style="margin-top: 8px; font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">V22.9</div>
         </div>
     </div>
 </div>
@@ -341,7 +320,7 @@
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center;">
                     <small id="statusText" style="color:var(--success); display: inline-flex; align-items: center; background: var(--badge-done-bg); padding: 4px 10px; border-radius: 12px; border: none; font-size: 0.75rem; font-weight:700;">🌐 Dalam Talian</small>
                     <button class="btn-clear" onclick="window.toggleTheme()" style="padding:4px 8px; border:none; box-shadow:none; color:var(--text-main);" title="Tukar Tema Terang/Gelap">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                     </button>
                     <button class="btn-clear" id="btn-tetapan-header" type="button" onclick="window.switchTab('tetapan')" style="padding:4px 10px; font-size:0.75rem; border-color:var(--border);">⚙️ Tetapan</button>
                     <button class="btn-clear" style="color:var(--danger); border-color:var(--danger-light); padding:4px 10px; font-size:0.75rem; background:var(--danger-light);" id="btn-logout-header" type="button" onclick="location.reload()">Keluar</button>
@@ -503,9 +482,8 @@
                     </div>
                     <div class="filter-chips">
                         <button id="chip-all" class="chip active" onclick="window.setFilter('all')">Semua Rekod</button>
+                        <button id="chip-biasa" class="chip" onclick="window.setFilter('biasa')">Pinjaman Biasa</button>
                         <button id="chip-harian" class="chip" onclick="window.setFilter('harian')">Bacaan Harian</button>
-                        <button id="chip-aktif" class="chip" onclick="window.setFilter('aktif')">Sedang Dipinjam</button>
-                        <button id="chip-selesai" class="chip" onclick="window.setFilter('selesai')">Sudah Dipulangkan</button>
                         <button id="chip-lewat" class="chip" onclick="window.setFilter('lewat')">Lewat Pulang</button>
                     </div>
                     <div class="table-wrap" style="max-height:60vh; overflow-y:auto;"> 
@@ -614,7 +592,7 @@
                     
                     <div style="margin-bottom: 12px; padding-top: 12px; border-top: 1px dashed var(--border);">
                         <label class="form-label" style="font-size: 0.85rem; color:var(--text-main); font-weight:600;">Versi Aplikasi</label>
-                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">V22.6 (Dark Blue Aero, Latar Baris Status, Logik Sembang Peminjam)</p>
+                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">V22.9 (Ciri Interaksi Reaksi Ulasan)</p>
                     </div>
                 </div>
             </div>
@@ -641,38 +619,17 @@
                 <input type="text" id="chatInput" class="login-input" style="margin:0; flex:1; border-color:var(--border);" placeholder="Taip mesej anda di sini..." onkeyup="if(event.key==='Enter') window.sendChatMessage()">
                 <button class="btn-3d" style="padding:8px 16px; border:none;" onclick="window.sendChatMessage()">Hantar</button>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 6px; padding-bottom: 4px; user-select:none; width: 100%;">
-                <div style="display:flex; justify-content:space-between; background:rgba(0,0,0,0.03); padding:6px 12px; border-radius:12px; width:100%; box-sizing:border-box;">
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('😊')">😊</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('😂')">😂</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('😢')">😢</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('😍')">😍</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('😡')">😡</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('😅')">😅</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('🙏')">🙏</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('👍')">👍</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('👎')">👎</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; background:rgba(0,102,204,0.05); padding:6px 12px; border-radius:12px; width:100%; box-sizing:border-box;">
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('✅')">✅</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('❌')">❌</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('❓')">❓</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('💡')">💡</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📚')">📚</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('💻')">💻</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📁')">📁</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📊')">📊</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; background:rgba(255,149,0,0.05); padding:6px 12px; border-radius:12px; width:100%; box-sizing:border-box;">
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('🗓️')">🗓️</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('⏰')">⏰</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📌')">📌</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('✏️')">✏️</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('🖨️')">🖨️</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📑')">📑</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('☕')">☕</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('🏢')">🏢</span>
-                </div>
+            <div style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; user-select:none;">
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('👍')">👍</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('🙏')">🙏</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('😊')">😊</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('📚')">📚</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('❓')">❓</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('💡')">💡</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('✅')">✅</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('😅')">😅</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('😢')">😢</span>
+                <span style="cursor:pointer; font-size:1.25rem; transition: transform 0.1s;" onclick="window.insertEmoji('🎉')">🎉</span>
             </div>
         </div>
     </div>
@@ -916,6 +873,7 @@ window.dbData = [];
 window.dbBuku = [];
 window.dbUsers = {};
 window.dbUlasan = [];
+window.dbKomen = [];
 window.dbMesej = [];
 window.kelabMapData = {};
 window.appSettings = { title: "PUSTAKA MTIB", subtitle: "Sistem Pengurusan Perpustakaan Digital" };
@@ -925,6 +883,7 @@ window.userRole = null;
 window.currentUserKey = null;
 window.dbInstance = null;
 window.currentChatUserId = null;
+window.currentReviewViewId = null;
 let calDateGlobal = new Date();
 let dashCalDateGlobal = new Date();
 let myCalDateGlobal = new Date();
@@ -935,21 +894,19 @@ const DENDA_PER_HARI = 0.20;
 
 window.toggleTheme = function() {
   const root = document.documentElement;
-  const currentTheme = root.getAttribute('data-theme');
-  let newTheme = 'light';
+  const currentTheme = root.getAttribute('data-theme') || 'xp';
+  const newTheme = currentTheme === 'xp' ? 'dark' : 'xp';
   
-  if (currentTheme === 'dark') {
-      newTheme = 'light';
-  } else if (currentTheme === 'light') {
-      newTheme = 'dark';
-  } else {
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          newTheme = 'light';
-      } else {
-          newTheme = 'dark';
-      }
-  }
   root.setAttribute('data-theme', newTheme);
+  
+  const iconPaths = {
+      'dark': '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>',
+      'xp': '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>'
+  };
+  
+  document.querySelectorAll('button[title="Tukar Tema Terang/Gelap"] svg').forEach(svg => {
+      svg.innerHTML = iconPaths[newTheme];
+  });
 };
 
 window.refreshAllViews = function() {
@@ -1188,7 +1145,6 @@ window.updateBorrowedBooksWidget = function() {
         statusText = `<span style="color:var(--success); font-size:0.65rem; font-weight:bold; background:rgba(40,205,65,0.1); padding:2px 6px; border-radius:10px;">Baki ${left} Hari</span>`;
     }
     
-    // Buka popup butiran apabila diklik (hanya admin yang dibenarkan)
     const clickAction = window.userRole === 'admin' ? `onclick="window.prepareEdit('${item.id}')"` : '';
     const cursorStyle = window.userRole === 'admin' ? 'cursor:pointer;' : '';
     
@@ -1270,7 +1226,6 @@ window.buildKelabData = function() {
       if (!window.kelabMapData[safeKey]) {
         window.kelabMapData[safeKey] = { key: safeKey, nama: item.nama || '', noPekerja: item.noPekerja || '', bahagian: item.bahagian || '', whatsapp: item.whatsapp || '', totalMata: 0, latestLoan: item };
       } else {
-        // AMBIL NAMA YANG PALING PANJANG / LENGKAP
         const currentName = window.kelabMapData[safeKey].nama || '';
         const incomingName = item.nama || '';
         if (incomingName.length > currentName.length) {
@@ -1297,7 +1252,6 @@ window.buildKelabData = function() {
         if (!window.kelabMapData[safeKey]) {
           window.kelabMapData[safeKey] = { key: safeKey, nama: u.nama || '', noPekerja: '', bahagian: '', whatsapp: '', totalMata: 0, latestLoan: null };
         } else {
-          // KEMASKINI JIKA NAMA REVIU LEBIH LENGKAP
           const currentName = window.kelabMapData[safeKey].nama || '';
           const incomingName = u.nama || '';
           if (incomingName.length > currentName.length) {
@@ -1309,7 +1263,6 @@ window.buildKelabData = function() {
     });
   }
 
-  // JIKA NAMA MASIH KOSONG, GUNAKAN ID SEBAGAI NAMA
   Object.keys(window.kelabMapData).forEach(k => {
       if (!window.kelabMapData[k].nama || window.kelabMapData[k].nama.trim() === '') {
           window.kelabMapData[k].nama = k.toUpperCase();
@@ -1342,6 +1295,7 @@ window.checkUserLogin = function() {
 };
 
 window.attemptUserLogin = function() {
+  window.checkUserLogin();
   if (!window.loginTempUser) return window.showCustomAlert('Sila masukkan No Pekerja yang sah atau rujuk Pustakawan untuk pendaftaran baru.');
   const pwdInput = document.getElementById('login_u_pwd'); let pwd = pwdInput ? pwdInput.value : '';
   if (pwd.trim() === '') pwd = '1234';
@@ -1510,12 +1464,21 @@ window.renderMyReviews = function() {
   const container = document.getElementById('myPinnedReviews'); if(!container) return;
   const myReviews = window.dbUlasan.filter(u => u.userKey === window.currentUserKey);
   if(myReviews.length === 0){ container.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem;">Belum ada ulasan dipinkan.</p>'; return; }
-  myReviews.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
-  let html = '<div class="ulasan-grid" style="grid-template-columns: 1fr;">';
+  myReviews.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh)); let html = '<div class="ulasan-grid" style="grid-template-columns: 1fr;">';
   myReviews.forEach(u => {
     let starsHtml = ''; for(let i = 0; i < 5; i++){ starsHtml += i < u.stars ? '★' : '☆'; }
     let bonusBadge = u.bonusMata > 0 ? `<span style="color:var(--warning); font-size:0.7rem; font-weight:bold; background:rgba(255,149,0,0.1); padding:2px 6px; border-radius:10px; margin-left:4px;">+${u.bonusMata} Bonus</span>` : '';
-    html += `<div class="ulasan-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;"><div><div class="uc-book">${u.tajuk}</div><div class="uc-stars" style="font-size:0.8rem; display:inline-block; margin-right:8px;">${starsHtml}</div><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; margin-right:4px;" onclick="window.editReview('${u.id}')">✏️ Pinda</button><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light);" onclick="window.deleteReview('${u.id}')">🗑️</button></div></div><div class="uc-text" style="font-size:0.85rem;">"${u.teks}"</div></div>`;
+    
+    let reactions = u.reactions || {};
+    let reactionHtml = '<div style="display:flex; justify-content:flex-end; gap:4px; margin-top:8px; border-top:1px dashed var(--border); padding-top:8px;">';
+    [{id:'like',i:'👍'},{id:'smile',i:'😊'},{id:'laugh',i:'😂'},{id:'sad',i:'😢'},{id:'surprised',i:'😲'}].forEach(rt => {
+        let count = reactions[rt.id] ? reactions[rt.id].length : 0;
+        let isActive = reactions[rt.id] && reactions[rt.id].includes(window.userRole === 'admin' ? 'admin' : window.currentUserKey);
+        reactionHtml += `<button class="react-btn ${isActive ? 'active' : ''}" onclick="window.toggleReaction('${u.id}', '${rt.id}')">${rt.i} ${count > 0 ? `<span style="font-size:0.7rem; margin-left:2px;">${count}</span>` : ''}</button>`;
+    });
+    reactionHtml += '</div>';
+
+    html += `<div class="ulasan-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;"><div><div class="uc-book">${u.tajuk}</div><div class="uc-stars" style="font-size:0.8rem; display:inline-block; margin-right:8px;">${starsHtml}</div><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; margin-right:4px;" onclick="window.editReview('${u.id}')">✏️ Pinda</button><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light);" onclick="window.deleteReview('${u.id}')">🗑️</button></div></div><div class="uc-text" style="font-size:0.85rem;">"${u.teks}"</div>${reactionHtml}</div>`;
   });
   html += '</div>'; container.innerHTML = html;
 };
@@ -1548,7 +1511,6 @@ window.openPointsModal = function(targetKey) {
   
   let pointsHistory = []; let total = 0;
   
-  // Dapatkan nama pengguna untuk diletakkan pada tajuk popup
   const userInfo = window.kelabMapData[safeKey] || (window.dbUsers && window.dbUsers[safeKey]);
   const dispNama = userInfo ? (userInfo.nama || safeKey) : safeKey;
   
@@ -1611,7 +1573,6 @@ window.removePoints = async function(jenis, id, userKey) {
         }
     }
     
-    // Refresh & Kemaskini semula Modal
     window.refreshAllViews();
     window.openPointsModal(userKey);
   });
@@ -2252,16 +2213,12 @@ window.printMonthlyReport = function() {
 };
 
 window.printScoreboard = function() {
-  const limitEl = document.getElementById('scoreLimit'); 
-  const limitValRaw = limitEl ? limitEl.value : '10';
-  const isAll = limitValRaw === 'all';
-  const limitVal = isAll ? 'Semua' : (parseInt(limitValRaw) || 10);
-  
-  const yearEl = document.getElementById('scoreYear'); const yearVal = yearEl ? yearEl.value : 'all';
-  const startMEl = document.getElementById('scoreStartMonth'); const startM = startMEl ? parseInt(startMEl.value) : 0;
-  const endMEl = document.getElementById('scoreEndMonth'); const endM = endMEl ? parseInt(endMEl.value) : 11;
+  const limitEl = document.getElementById('scoreLimit'); const limitValRaw = limitEl ? limitEl.value : '10'; const isAll = limitValRaw === 'all'; const limitVal = isAll ? 'Semua' : (parseInt(limitValRaw) || 10);
+  const searchEl = document.getElementById('searchScoreboardInput'); const searchQ = searchEl ? searchEl.value.toLowerCase() : '';
+  const yearEl = document.getElementById('scoreYear'); const yearVal = yearEl ? yearEl.value : 'all'; const startMEl = document.getElementById('scoreStartMonth'); const startM = startMEl ? parseInt(startMEl.value) : 0; const endMEl = document.getElementById('scoreEndMonth'); const endM = endMEl ? parseInt(endMEl.value) : 11;
   const monthNames = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
   let periodText = "Keseluruhan Masa"; if (yearVal !== 'all') periodText = `Tahun ${yearVal} (Bulan ${monthNames[startM]} - ${monthNames[endM]})`;
+  if (searchQ) periodText += ` | Carian: "${searchQ}"`;
   const tbody = document.getElementById('scoreboardTableBody'); const rowsHtml = tbody ? tbody.innerHTML : ''; const today = new Date().toLocaleDateString('ms-MY');
   let html = `<html><head><title>Papan Mata - ${periodText}</title><style>@page { size: A4 portrait; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:12px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 8px; text-align: left; } th { background-color: #f2f2f2; text-transform:uppercase; }</style></head><body><h3>PAPAN SENARAI MATA</h3><p>Sistem Pustakawan Digital | Tapisan: ${periodText}</p><table><thead><tr><th width="10%" style="text-align:center;">Kedudukan</th><th width="40%">Maklumat Peminjam</th><th width="30%">Bahagian</th><th width="20%" style="text-align:center;">Mata</th></tr></thead><tbody>${rowsHtml.replace(/<div class="font-size:2rem[^>]*>.*?<\/div>/g, '').replace(/<div style="display:inline-flex[^>]*>/g, '').replace(/<\/div><\/td>/g, '</td>')}</tbody></table></body></html>`;
   const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
@@ -2269,8 +2226,7 @@ window.printScoreboard = function() {
 
 window.printKelabHistory = function() {
   const key = window.currentHistoryKey; if (!key) return; const k = window.kelabMapData[key]; if (!k) return;
-  const mFilterEl = document.getElementById('h_filter_month'); const mFilter = mFilterEl ? mFilterEl.value : 'all';
-  const yFilterEl = document.getElementById('h_filter_year'); const yFilter = yFilterEl ? yFilterEl.value : 'all';
+  const mFilterEl = document.getElementById('h_filter_month'); const mFilter = mFilterEl ? mFilterEl.value : 'all'; const yFilterEl = document.getElementById('h_filter_year'); const yFilter = yFilterEl ? yFilterEl.value : 'all';
   let filteredMata = 0;
   const userHistory = window.dbData.filter(item => {
     const itemKey = window.getItemUserKey(item); if (window.getSafeKey(itemKey) !== key) return false;
@@ -2291,262 +2247,104 @@ window.printKelabHistory = function() {
 };
 
 window.openReviewModal = function(bookId, bookTitle) {
-  document.getElementById('r_bookId').value = bookId; document.getElementById('r_reviewId').value = '';
-  document.getElementById('r_bookTitle').innerText = bookTitle; document.getElementById('r_teks').value = '';
+  document.getElementById('r_bookId').value = bookId; document.getElementById('r_reviewId').value = ''; document.getElementById('r_bookTitle').innerText = bookTitle; document.getElementById('r_teks').value = '';
   window.setStarRating(5); const modal = document.getElementById('reviewModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
 window.editReview = function(revId) {
   const rev = window.dbUlasan.find(u => String(u.id) === String(revId)); if (!rev) return;
-  document.getElementById('r_reviewId').value = rev.id; document.getElementById('r_bookId').value = rev.bookId;
-  document.getElementById('r_bookTitle').innerText = rev.tajuk; document.getElementById('r_teks').value = rev.teks;
+  document.getElementById('r_reviewId').value = rev.id; document.getElementById('r_bookId').value = rev.bookId; document.getElementById('r_bookTitle').innerText = rev.tajuk; document.getElementById('r_teks').value = rev.teks;
   window.setStarRating(rev.stars); const modal = document.getElementById('reviewModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
 window.closeReviewModal = function() { const rModal = document.getElementById('reviewModal'); if (rModal) { rModal.classList.remove('open'); setTimeout(() => { rModal.style.display = 'none'; }, 200); } };
-
 window.setStarRating = function(n) {
-  const rStarsVal = document.getElementById('r_stars_val'); if (rStarsVal) rStarsVal.value = n;
-  const rContainer = document.getElementById('r_stars_container');
+  const rStarsVal = document.getElementById('r_stars_val'); if (rStarsVal) rStarsVal.value = n; const rContainer = document.getElementById('r_stars_container');
   if (rContainer) { const spans = rContainer.children; for (let i = 0; i < 5; i++) { if (i < n) spans[i].classList.add('active'); else spans[i].classList.remove('active'); } }
 };
 
 window.submitReview = async function() {
-  const bookId = document.getElementById('r_bookId').value; const revId = document.getElementById('r_reviewId').value;
-  const isUpdate = !!revId; const finalId = isUpdate ? revId : Date.now().toString();
-  const tajuk = document.getElementById('r_bookTitle').innerText; const stars = parseInt(document.getElementById('r_stars_val').value);
-  const teks = document.getElementById('r_teks').value.trim(); if (!teks) return window.showCustomAlert("Sila taipkan ulasan anda.");
-  let myName = document.getElementById('my_display_nama') ? document.getElementById('my_display_nama').innerText : "Pengguna";
-  let myAvatar = '👤'; if (window.currentUserKey && window.dbUsers && window.dbUsers[window.currentUserKey]) { myAvatar = window.dbUsers[window.currentUserKey].avatar || '👤'; }
+  const bookId = document.getElementById('r_bookId').value; const revId = document.getElementById('r_reviewId').value; const isUpdate = !!revId; const finalId = isUpdate ? revId : Date.now().toString();
+  const tajuk = document.getElementById('r_bookTitle').innerText; const stars = parseInt(document.getElementById('r_stars_val').value); const teks = document.getElementById('r_teks').value.trim(); if (!teks) return window.showCustomAlert("Sila taipkan ulasan anda.");
+  let myName = document.getElementById('my_display_nama') ? document.getElementById('my_display_nama').innerText : "Pengguna"; let myAvatar = '👤'; if (window.currentUserKey && window.dbUsers && window.dbUsers[window.currentUserKey]) { myAvatar = window.dbUsers[window.currentUserKey].avatar || '👤'; }
   const revData = { id: finalId, bookId: bookId, userKey: window.currentUserKey || 'unknown', nama: myName, avatar: myAvatar, tajuk: tajuk, stars: stars, teks: teks, tarikh: new Date().toISOString() };
   if (isUpdate) { const idx = window.dbUlasan.findIndex(u => String(u.id) === String(finalId)); if (idx > -1) window.dbUlasan[idx] = revData; } else { window.dbUlasan.unshift(revData); }
-  window.buildKelabData(); window.refreshAllViews(); window.closeReviewModal();
-  if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(revData.id).set(revData); } catch (e) { console.warn(e); } }
+  window.refreshAllViews(); window.closeReviewModal(); if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(revData.id).set(revData); } catch (e) { console.warn(e); } }
 };
 
 window.deleteReview = async function(id) {
   window.showCustomConfirm("Adakah anda pasti mahu memadam ulasan ini?<br><small style='color:var(--danger); font-weight:700;'>Mata ganjaran reviu dan markah bonus (sekiranya ada) akan turut dipadamkan.</small>", async () => {
-    window.dbUlasan = window.dbUlasan.filter(u => String(u.id) !== String(id)); window.buildKelabData(); window.refreshAllViews();
+    window.dbUlasan = window.dbUlasan.filter(u => String(u.id) !== String(id)); window.refreshAllViews();
     if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(id).delete(); } catch (e) { console.warn(e); } }
   });
 };
 
-window.openBonusModal = function(id, currentBonus) {
-  document.getElementById('b_reviewId').value = id; document.getElementById('b_bonusMata').value = currentBonus || 0;
-  const modal = document.getElementById('bonusModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
+window.openBonusModal = function(id, currentBonus) { document.getElementById('b_reviewId').value = id; document.getElementById('b_bonusMata').value = currentBonus || 0; const modal = document.getElementById('bonusModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); } };
+window.closeBonusModal = function() { const modal = document.getElementById('bonusModal'); if (modal) { modal.classList.remove('open'); setTimeout(() => { modal.style.display = 'none'; }, 200); } };
+window.saveBonusReview = async function() {
+  const id = document.getElementById('b_reviewId').value; const bonusMata = parseInt(document.getElementById('b_bonusMata').value) || 0; const idx = window.dbUlasan.findIndex(u => String(u.id) === String(id));
+  if (idx > -1) { window.dbUlasan[idx].bonusMata = bonusMata; window.refreshAllViews(); if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(id).update({ bonusMata: bonusMata }); } catch (e) { console.warn("Gagal simpan bonus", e); } } }
+  window.closeBonusModal();
 };
 
-window.closeBonusModal = function() { const modal = document.getElementById('bonusModal'); if (modal) { modal.classList.remove('open'); setTimeout(() => { modal.style.display = 'none'; }, 200); } };
-
-window.saveBonusReview = async function() {
-  const id = document.getElementById('b_reviewId').value; const bonusMata = parseInt(document.getElementById('b_bonusMata').value) || 0;
-  const idx = window.dbUlasan.findIndex(u => String(u.id) === String(id));
-  if (idx > -1) { window.dbUlasan[idx].bonusMata = bonusMata; window.buildKelabData(); window.refreshAllViews();
-    if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(id).update({ bonusMata: bonusMata }); } catch (e) { console.warn("Gagal simpan bonus", e); } }
-  }
-  window.closeBonusModal();
+window.toggleReaction = async function(revId, type) {
+    if (window.userRole === 'visitor' || (!window.currentUserKey && window.userRole !== 'admin')) {
+        return window.showCustomAlert("Sila log masuk sebagai ahli kelab atau pentadbir untuk memberikan reaksi.");
+    }
+    const safeUserKey = window.userRole === 'admin' ? 'admin' : window.currentUserKey;
+    const idx = window.dbUlasan.findIndex(u => String(u.id) === String(revId));
+    if (idx === -1) return;
+    
+    let u = window.dbUlasan[idx];
+    if (!u.reactions) u.reactions = {};
+    if (!u.reactions[type]) u.reactions[type] = [];
+    
+    const userIndex = u.reactions[type].indexOf(safeUserKey);
+    if (userIndex > -1) { u.reactions[type].splice(userIndex, 1); } 
+    else { u.reactions[type].push(safeUserKey); }
+    
+    window.dbUlasan[idx] = u;
+    
+    if (document.getElementById('tab-ulasan').classList.contains('active')) window.renderUlasanTable();
+    if (document.getElementById('tab-myprofile').classList.contains('active')) window.renderMyReviews();
+    
+    if (window.dbInstance) {
+        try { await window.dbInstance.collection("ulasan").doc(revId).update({ reactions: u.reactions }); } 
+        catch(e) { console.warn(e); }
+    }
 };
 
 window.renderUlasanTable = function() {
   const grid = document.getElementById('ulasanGrid'); if (!grid) return; grid.innerHTML = '';
   if (window.dbUlasan.length === 0) { grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding:30px; color:var(--text-muted);">Belum ada ulasan.</div>'; return; }
-  const sorted = [...window.dbUlasan].sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh));
-  let html = ''; const isAdmin = window.userRole === 'admin';
+  const sorted = [...window.dbUlasan].sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh)); let html = ''; const isAdmin = window.userRole === 'admin';
   sorted.forEach(u => {
     let starsHtml = ''; for (let i = 0; i < 5; i++) { starsHtml += i < u.stars ? '★' : '☆'; }
     let delBtn = isAdmin ? `<button onclick="window.deleteReview('${u.id}')" class="btn-clear" style="position:absolute; top:8px; right:8px; padding:4px 6px; color:var(--danger); border-color:var(--danger-light); font-size:0.85rem;" title="Padam Ulasan">🗑️</button>` : '';
     let bonusBadge = u.bonusMata > 0 ? `<span style="color:var(--warning); font-size:0.7rem; font-weight:bold; background:rgba(255,149,0,0.1); padding:2px 6px; border-radius:10px; margin-left:4px;">+${u.bonusMata} Bonus</span>` : '';
     let bonusBtn = isAdmin ? `<button class="btn-clear" style="padding:2px 8px; font-size:0.7rem; margin-right:4px; color:var(--warning); border-color:rgba(255,149,0,0.3);" onclick="window.openBonusModal('${u.id}', '${u.bonusMata || 0}')">🎁 Bonus</button>` : '';
-    html += `<div class="ulasan-card"><div class="uc-header"><div class="uc-avatar">${u.avatar || '👤'}</div><div><div class="uc-book">${u.tajuk}</div><div class="uc-nama">${u.nama}</div></div></div><div class="uc-stars" style="margin-bottom:2px;">${starsHtml}</div><div style="margin-bottom:8px;"><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div class="uc-text" style="margin-bottom:12px;">"${u.teks}"</div><div>${bonusBtn}</div>${delBtn}</div>`;
+    
+    let reactions = u.reactions || {};
+    let reactionHtml = '<div style="display:flex; justify-content:flex-end; gap:4px; margin-top:8px; border-top:1px dashed var(--border); padding-top:8px; flex:1;">';
+    [{id:'like',i:'👍'},{id:'smile',i:'😊'},{id:'laugh',i:'😂'},{id:'sad',i:'😢'},{id:'surprised',i:'😲'}].forEach(rt => {
+        let count = reactions[rt.id] ? reactions[rt.id].length : 0;
+        let isActive = reactions[rt.id] && reactions[rt.id].includes(window.userRole === 'admin' ? 'admin' : window.currentUserKey);
+        reactionHtml += `<button class="react-btn ${isActive ? 'active' : ''}" onclick="window.toggleReaction('${u.id}', '${rt.id}')">${rt.i} ${count > 0 ? `<span style="font-size:0.7rem; margin-left:2px;">${count}</span>` : ''}</button>`;
+    });
+    reactionHtml += '</div>';
+
+    html += `<div class="ulasan-card"><div class="uc-header"><div class="uc-avatar">${u.avatar || '👤'}</div><div><div class="uc-book">${u.tajuk}</div><div class="uc-nama">${u.nama}</div></div></div><div class="uc-stars" style="margin-bottom:2px;">${starsHtml}</div><div style="margin-bottom:8px;"><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div class="uc-text" style="margin-bottom:12px;">"${u.teks}"</div><div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%;"><div>${bonusBtn}</div>${reactionHtml}</div>${delBtn}</div>`;
   });
   grid.innerHTML = html;
 };
 
 window.updateUnreadBadges = function() {
-  const uBadge = document.getElementById('userUnreadBadge'); const aBadge = document.getElementById('adminUnreadBadge');
-  const aDot = document.getElementById('adminInboxBadgeDot'); const aCount = document.getElementById('adminInboxCount');
-  if (window.userRole === 'user' && window.currentUserKey) {
-    const unread = window.dbMesej.filter(m => m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead).length;
-    if (uBadge) { uBadge.style.display = unread > 0 ? 'inline-block' : 'none'; uBadge.innerText = `${unread} Baru`; }
-  }
+  const uBadge = document.getElementById('userUnreadBadge'); const aBadge = document.getElementById('adminUnreadBadge'); const aDot = document.getElementById('adminInboxBadgeDot'); const aCount = document.getElementById('adminInboxCount');
+  if (window.userRole === 'user' && window.currentUserKey) { const unread = window.dbMesej.filter(m => m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead).length; if (uBadge) { uBadge.style.display = unread > 0 ? 'inline-block' : 'none'; uBadge.innerText = `${unread} Baru`; } }
   if (window.userRole === 'admin') {
-    const unread = window.dbMesej.filter(m => m.sender === 'user' && !m.isRead).length;
-    if (aBadge) { aBadge.style.display = unread > 0 ? 'inline-block' : 'none'; aBadge.innerText = `${unread} Baru`; }
-    if (aDot) { aDot.style.display = unread > 0 ? 'block' : 'none'; }
-    if (aCount) { aCount.innerText = `${unread} Mesej Baru`; aCount.style.color = unread > 0 ? 'var(--danger)' : 'var(--primary)'; }
+    const unread = window.dbMesej.filter(m => m.sender === 'user' && !m.isRead).length; if (aBadge) { aBadge.style.display = unread > 0 ? 'inline-block' : 'none'; aBadge.innerText = `${unread} Baru`; }
+    if (aDot) { aDot.style.display = unread > 0 ? 'block' : 'none'; } if (aCount) { aCount.innerText = `${unread} Mesej Baru`; aCount.style.color = unread > 0 ? 'var(--danger)' : 'var(--primary)'; }
   }
-};
-
-window.openChatUser = function() {
-  window.currentChatUserId = window.currentUserKey; const btnBack = document.getElementById('btnBackInbox'); if (btnBack) btnBack.style.display = 'none';
-  const title = document.getElementById('chatTitle'); if (title) title.innerText = '💬 Bantuan & Pertanyaan';
-  let updated = false;
-  window.dbMesej.forEach(m => {
-    if (m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead) {
-      m.isRead = true; updated = true;
-      if (window.dbInstance) { window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn); }
-    }
-  });
-  window.renderChatMessages(); const m = document.getElementById('chatModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
-};
-
-window.openAdminInbox = function() {
-  const mChat = document.getElementById('chatModal'); if (mChat) mChat.classList.remove('open'); window.renderAdminInboxTab('inbox');
-  setTimeout(() => { if (mChat) mChat.style.display = 'none'; const m = document.getElementById('adminInboxModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } }, 200);
-};
-
-window.renderAdminInboxTab = function(tab) {
-  ['inbox', 'announce', 'reminder'].forEach(t => { const btn = document.getElementById(`tab-${t}-btn`); if (btn) { if (t === tab) { btn.style.borderBottom = '2px solid var(--primary)'; btn.style.color = 'var(--primary)'; } else { btn.style.borderBottom = '2px solid transparent'; btn.style.color = 'var(--text-main)'; } } });
-  const listDiv = document.getElementById('adminInboxList'); if (!listDiv) return;
-  if (tab === 'inbox') {
-    let usersMap = {};
-    window.dbMesej.forEach(m => {
-      if (!usersMap[m.userId]) { usersMap[m.userId] = { userId: m.userId, lastMsg: m, unreadCount: 0 }; } 
-      else if (new Date(m.tarikh) > new Date(usersMap[m.userId].lastMsg.tarikh)) { usersMap[m.userId].lastMsg = m; }
-      if (m.sender === 'user' && !m.isRead) { usersMap[m.userId].unreadCount++; }
-    });
-    let usersArr = Object.values(usersMap).sort((a, b) => new Date(b.lastMsg.tarikh) - new Date(a.lastMsg.tarikh));
-    if (usersArr.length === 0) { listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Tiada mesej daripada pengguna.</p>'; } 
-    else {
-      let html = '';
-      usersArr.forEach(u => {
-        let dispNama = u.userId;
-        const userInfo = window.kelabMapData[u.userId] || (window.dbUsers && window.dbUsers[u.userId]);
-        if (userInfo && userInfo.nama) dispNama = userInfo.nama;
-
-        let badge = u.unreadCount > 0 ? `<span class="badge-btn badge-active" style="background:var(--danger); color:white; border-color:var(--danger);">${u.unreadCount}</span>` : '';
-        let timeStr = new Date(u.lastMsg.tarikh).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' });
-        html += `<div class="inbox-item" onclick="window.openChatAdmin('${u.userId}', '${dispNama.replace(/'/g, "\\'")}')"><div style="flex:1; overflow:hidden;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong style="color:var(--primary); font-size:0.9rem;">${dispNama}</strong><span style="font-size:0.7rem; color:var(--text-muted);">${timeStr}</span></div><div style="font-size:0.8rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.8;">${u.lastMsg.sender === 'admin' ? 'Anda: ' : ''}${u.lastMsg.teks}</div></div><div style="margin-left:12px;">${badge}</div></div>`;
-      });
-      listDiv.innerHTML = html;
-    }
-    window.updateUnreadBadges();
-  } else if (tab === 'announce') {
-    listDiv.innerHTML = `<div style="background:var(--surface-solid); padding:16px; border-radius:8px; border:1px solid var(--border);"><h4 style="margin-top:0; color:var(--primary);">Hebahan Pengumuman</h4><p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Mesej ini akan dihantar ke dalam ruangan sembang semua ahli kelab yang telah log masuk dan berdaftar di dalam sistem.</p><textarea id="broadcastInput" rows="4" class="login-input" style="width:100%; margin-bottom:12px; resize:none;" placeholder="Taip mesej pengumuman di sini..."></textarea><button class="btn-3d" style="width:100%;" onclick="window.sendBroadcastMessage()">📢 Hantar Ke Semua Ahli</button></div>`;
-  } else if (tab === 'reminder') {
-    const lateUsers = window.dbData.filter(i => { const isSelesai = i.status && i.status.includes('Selesai'); const isHarian = i.status === 'Bacaan Harian'; if (isSelesai || isHarian) return false; const limit = window.calculateDuration(i.tPinjam, i.tPulang); return window.calculateDuration(i.tPinjam, null) > limit; });
-    if (lateUsers.length === 0) { listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Tiada peminjam lewat dikesan setakat ini.</p>'; } 
-    else {
-      let html = `<div style="background:var(--danger-light); padding:12px; border-radius:8px; border:1px solid var(--danger); margin-bottom:12px;"><h4 style="margin:0 0 6px 0; color:var(--danger);">Peringatan Automatik</h4><p style="font-size:0.8rem; color:var(--text-main); margin:0 0 10px 0;">Terdapat <b>${lateUsers.length}</b> rekod peminjaman lewat dikesan. Tekan butang di bawah untuk menghantar notis peringatan automatik berserta caj denda ke peti sembang mereka.</p><button class="btn-3d danger" style="width:100%;" onclick="window.sendAutoReminders()">⚠️ Hantar Peringatan Pukal</button></div><h4 style="margin:0; font-size:0.85rem; color:var(--text-muted);">Senarai Terlibat:</h4>`;
-      lateUsers.forEach(item => { const dur = window.calculateDuration(item.tPinjam, null); const limit = window.calculateDuration(item.tPinjam, item.tPulang); html += `<div style="background:var(--surface-solid); padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.8rem; margin-bottom:6px;"><strong>${item.nama}</strong> <span style="color:var(--danger); font-weight:bold;">(Lewat ${dur - limit} Hari)</span><br><span style="color:var(--text-muted);">${item.tajuk}</span></div>`; });
-      listDiv.innerHTML = html;
-    }
-  }
-};
-
-window.openChatAdmin = function(userId, userName) {
-  window.currentChatUserId = userId; const mInbox = document.getElementById('adminInboxModal'); if (mInbox) mInbox.classList.remove('open');
-  const btnBack = document.getElementById('btnBackInbox'); if (btnBack) btnBack.style.display = 'inline-block'; const title = document.getElementById('chatTitle'); if (title) title.innerText = `💬 ${userName}`;
-  let updated = false;
-  window.dbMesej.forEach(m => { if (m.userId === userId && m.sender === 'user' && !m.isRead) { m.isRead = true; updated = true; if (window.dbInstance) { window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn); } } });
-  window.renderChatMessages(); setTimeout(() => { if (mInbox) mInbox.style.display = 'none'; const m = document.getElementById('chatModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } }, 200);
-};
-
-window.closeChatModal = function() { const m = document.getElementById('chatModal'); if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } window.currentChatUserId = null; window.updateUnreadBadges(); };
-window.closeAdminInbox = function() { const m = document.getElementById('adminInboxModal'); if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } window.updateUnreadBadges(); };
-
-window.clearChatHistory = function() {
-  if (!window.currentChatUserId) return;
-  
-  let confirmMsg = "Adakah anda pasti mahu memadam sejarah sembang ini secara KEKAL?";
-  if (window.userRole === 'user') {
-      confirmMsg = "Adakah anda pasti mahu memadam mesej tulisan anda?<br><small style='color:var(--danger);'>Mesej pemakluman daripada Admin akan kekal disimpan.</small>";
-  }
-  
-  window.showCustomConfirm(confirmMsg, async () => {
-    let msgsToDelete = [];
-    
-    if (window.userRole === 'admin') {
-        msgsToDelete = window.dbMesej.filter(m => m.userId === window.currentChatUserId);
-        window.dbMesej = window.dbMesej.filter(m => m.userId !== window.currentChatUserId);
-    } else {
-        msgsToDelete = window.dbMesej.filter(m => m.userId === window.currentChatUserId && m.sender === 'user');
-        window.dbMesej = window.dbMesej.filter(m => !(m.userId === window.currentChatUserId && m.sender === 'user'));
-    }
-    
-    window.renderChatMessages();
-    if (window.userRole === 'admin') window.renderAdminInboxTab('inbox');
-    window.updateUnreadBadges();
-    
-    if (window.dbInstance) {
-      try {
-        const promises = msgsToDelete.map(m => window.dbInstance.collection("mesej_bantuan").doc(m.id).delete());
-        await Promise.all(promises);
-      } catch (e) { console.warn("Gagal padam mesej: ", e); }
-    }
-  });
-};
-
-window.insertEmoji = function(emoji) {
-  const input = document.getElementById('chatInput');
-  if (input) {
-    input.value += emoji;
-    input.focus();
-  }
-};
-
-window.sendChatMessage = async function() {
-  const input = document.getElementById('chatInput'); const teks = input ? input.value.trim() : ''; if (!teks || !window.currentChatUserId) return;
-  let namaSender = 'Admin';
-  if (window.userRole === 'user') { const userInfo = window.kelabMapData[window.currentUserKey] || window.dbUsers[window.currentUserKey]; namaSender = userInfo ? (userInfo.nama || window.currentUserKey) : window.currentUserKey; } 
-  else { const userInfo = window.kelabMapData[window.currentChatUserId] || window.dbUsers[window.currentChatUserId]; namaSender = userInfo ? (userInfo.nama || window.currentChatUserId) : window.currentChatUserId; }
-  const newMsg = { id: Date.now().toString(), userId: window.currentChatUserId, nama: namaSender, teks: teks, sender: window.userRole, tarikh: new Date().toISOString(), isRead: false };
-  window.dbMesej.push(newMsg); input.value = ''; window.renderChatMessages();
-  if (window.dbInstance) { try { await window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg); } catch (e) { console.warn(e); } }
-};
-
-window.renderChatMessages = function() {
-  const area = document.getElementById('chatMessagesArea'); if (!area) return;
-  const msgs = window.dbMesej.filter(m => m.userId === window.currentChatUserId).sort((a, b) => new Date(a.tarikh) - new Date(b.tarikh));
-  if (msgs.length === 0) { area.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem; margin-top:auto; margin-bottom:auto;">Mulakan perbualan anda di sini...</div>'; return; }
-  let html = ''; let lastDate = '';
-  msgs.forEach(m => {
-    const isMe = m.sender === window.userRole; const bubbleClass = isMe ? 'chat-sent' : 'chat-received';
-    const msgDateObj = new Date(m.tarikh); const timeStr = msgDateObj.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' }); const dateStr = msgDateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
-    if (dateStr !== lastDate) { html += `<div style="text-align:center; margin: 12px 0 6px 0;"><span style="background:rgba(0,0,0,0.05); color:var(--text-muted); font-size:0.65rem; padding:4px 10px; border-radius:12px; font-weight:600;">${dateStr}</span></div>`; lastDate = dateStr; }
-    html += `<div class="chat-bubble ${bubbleClass}"><div>${m.teks}</div><span class="chat-time" style="color: ${isMe ? 'rgba(255,255,255,0.8)' : 'var(--text-muted)'}">${timeStr}</span></div>`;
-  });
-  area.innerHTML = html; setTimeout(() => { area.scrollTop = area.scrollHeight; }, 50); if (typeof window.updateUnreadBadges === 'function') window.updateUnreadBadges();
-};
-
-window.sendBroadcastMessage = async function() {
-  const input = document.getElementById('broadcastInput'); const teks = input ? input.value.trim() : '';
-  if (!teks) return window.showCustomAlert('Sila taip pengumuman terlebih dahulu.');
-  const userKeys = Object.keys(window.dbUsers);
-  if (userKeys.length === 0) return window.showCustomAlert('Tiada pengguna berdaftar di dalam pangkalan data sistem.');
-  const loader = document.getElementById('loadingBar'); if (loader) loader.style.display = 'block';
-  let promises = []; let count = 0; const batchId = Date.now();
-  userKeys.forEach((uid, idx) => {
-    if (uid && uid !== 'unknown') {
-      const newMsg = { id: batchId.toString() + '_' + idx, userId: uid, nama: 'Pustakawan Pusat Sumber', teks: "📢 PENGUMUMAN PUSTAKA:\n\n" + teks, sender: 'admin', tarikh: new Date().toISOString(), isRead: false };
-      window.dbMesej.push(newMsg);
-      if (window.dbInstance) { promises.push(window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg)); }
-      count++;
-    }
-  });
-  if (window.dbInstance && promises.length > 0) { try { await Promise.all(promises); } catch (e) { console.warn(e); } }
-  if (loader) loader.style.display = 'none'; window.showCustomAlert(`Pengumuman berjaya dihantar kepada ${count} ahli.`, "Hebahan Berjaya");
-  if (input) input.value = ''; window.renderAdminInboxTab('inbox');
-};
-
-window.sendAutoReminders = async function() {
-  const lateUsers = window.dbData.filter(i => { const isSelesai = i.status && i.status.includes('Selesai'); const isHarian = i.status === 'Bacaan Harian'; if (isSelesai || isHarian) return false; const limit = window.calculateDuration(i.tPinjam, i.tPulang); return window.calculateDuration(i.tPinjam, null) > limit; });
-  if (lateUsers.length === 0) return;
-  const loader = document.getElementById('loadingBar'); if (loader) loader.style.display = 'block';
-  let promises = []; let count = 0; const batchId = Date.now();
-  lateUsers.forEach((item, idx) => {
-    const rawKey = window.getItemUserKey(item); const uid = window.getSafeKey(rawKey);
-    if (uid && uid !== 'unknown') {
-      const dur = window.calculateDuration(item.tPinjam, null); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const overdue = dur - limit; const fine = (overdue * DENDA_PER_HARI).toFixed(2);
-      const teks = `⚠️ PERINGATAN MESRA (SISTEM AUTOMATIK):\n\nBahan bacaan anda yang bertajuk "${item.tajuk}" telah lewat dipulangkan selama ${overdue} hari daripada tarikh akhir yang dibenarkan.\n\nSila pulangkan ke perpustakaan dengan segera. Caj denda terkini anda: RM${fine}.`;
-      const newMsg = { id: batchId.toString() + '_rem_' + idx, userId: uid, nama: 'Pustakawan Pusat Sumber', teks: teks, sender: 'admin', tarikh: new Date().toISOString(), isRead: false };
-      window.dbMesej.push(newMsg);
-      if (window.dbInstance) { promises.push(window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg)); }
-      count++;
-    }
-  });
-  if (window.dbInstance && promises.length > 0) { try { await Promise.all(promises); } catch (e) { console.warn(e); } }
-  if (loader) loader.style.display = 'none'; window.showCustomAlert(`Peringatan automatik dihantar kepada ${count} peminjam.`, "Notis Selesai"); window.renderAdminInboxTab('inbox');
 };
 
 window.onload = function() {
