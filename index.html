@@ -208,8 +208,8 @@
         .uc-header { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
         .uc-avatar { font-size: 1.8rem; background: var(--bg-body); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);}
         
-        .uc-book { font-size: 1.05rem; color: var(--primary); font-weight:800; line-height:1.2; }
-        .uc-nama { font-weight: 600; color: var(--text-muted); font-size: 0.75rem; line-height:1.2; margin-top:2px;}
+        .uc-book { font-size: 0.95rem; color: var(--primary); font-weight:800; line-height:1.2; }
+        .uc-nama { font-weight: 700; color: var(--text-main); font-size: 0.8rem; line-height:1.2; margin-top:2px; opacity:0.9;}
         
         .uc-stars { color: #F9AB00; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 6px; }
         .uc-text { font-size: 0.85rem; color: var(--text-main); line-height: 1.4; font-style: italic; white-space: pre-wrap; word-break: break-word; }
@@ -280,7 +280,7 @@
 
         <div style="margin-top: 12px;">
             <button type="button" class="btn-clear" style="border-radius: 50px; font-size: 0.75rem;" onclick="window.openAdminLoginModal()">⚙️ Log Pentadbir</button>
-            <div style="margin-top: 8px; font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">V22.6</div>
+            <div style="margin-top: 8px; font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">V23</div>
         </div>
     </div>
 </div>
@@ -489,7 +489,7 @@
                 
                 <div class="content-card" style="padding:0;">
                     <div class="toolbar">
-                        <div class="search-container"><input type="text" id="searchInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari peminjam, ID, tajuk..." onkeyup="window.renderTable()"><button class="btn-clear" style="padding:6px 10px;" onclick="window.clearSearch()">❌</button></div>
+                        <div class="search-container"><input type="text" id="searchInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari peminjam, ID, tajuk..." onkeyup="window.senaraiCurrentPage=1; window.renderTable()"><button class="btn-clear" style="padding:6px 10px;" onclick="window.clearSearch()">❌</button></div>
                         <div class="action-wrapper" id="action-wrapper-senarai">
                             <div style="display:flex; align-items:center; gap:4px; background:var(--bg-body); padding:2px 6px; border-radius:var(--radius-btn); border:1px solid var(--border);">
                                 <select id="reportMonth" class="form-group select" style="margin:0; padding:4px; width:auto; border:none; background:transparent;">
@@ -503,16 +503,26 @@
                     </div>
                     <div class="filter-chips">
                         <button id="chip-all" class="chip active" onclick="window.setFilter('all')">Semua Rekod</button>
+                        <button id="chip-biasa" class="chip" onclick="window.setFilter('biasa')">Pinjaman Biasa</button>
                         <button id="chip-harian" class="chip" onclick="window.setFilter('harian')">Bacaan Harian</button>
-                        <button id="chip-aktif" class="chip" onclick="window.setFilter('aktif')">Sedang Dipinjam</button>
-                        <button id="chip-selesai" class="chip" onclick="window.setFilter('selesai')">Sudah Dipulangkan</button>
                         <button id="chip-lewat" class="chip" onclick="window.setFilter('lewat')">Lewat Pulang</button>
                     </div>
                     <div class="table-wrap" style="max-height:60vh; overflow-y:auto;"> 
                         <table id="mainTable">
-                            <thead><tr><th style="width: 25%;">Maklumat Peminjam</th><th style="width: 30%;">Bahan / Tajuk</th><th style="width: 25%;">Tarikh & Tempoh</th><th style="width: 10%;">Status</th><th id="senarai-th-tindakan" style="text-align: right; width: 10%;">Tindakan</th></tr></thead>
+                            <thead><tr>
+                                <th style="width: 15%; text-align:center;">Tarikh Daftar</th>
+                                <th style="width: 25%;">Maklumat Peminjam</th>
+                                <th style="width: 25%;">Bahan / Tajuk</th>
+                                <th style="width: 20%;">Tarikh & Tempoh</th>
+                                <th id="senarai-th-tindakan" style="text-align: center; width: 15%;">Status & Tindakan</th>
+                            </tr></thead>
                             <tbody id="tableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan data...</td></tr></tbody>
                         </table>
+                    </div>
+                    <div id="senaraiPagination" style="display:flex; justify-content:center; gap:15px; margin-top:12px; padding:10px; align-items:center;">
+                        <button class="btn-clear" onclick="window.changeSenaraiPage(-1)">« Sebelumnya</button>
+                        <span id="senaraiPageInfo" style="font-size:0.85rem; font-weight:700;">Halaman 1 / 1</span>
+                        <button class="btn-clear" onclick="window.changeSenaraiPage(1)">Seterusnya »</button>
                     </div>
                 </div>
             </div>
@@ -592,7 +602,19 @@
         <div id="tab-ulasan" class="tab-content">
             <div class="content-card">
                 <div class="toolbar" style="border-bottom:none; background:transparent; padding-bottom:0;">
-                    <div class="search-container"><span style="font-weight:700; font-size:1.2rem; color:var(--text-main);">⭐ Ulasan & Penilaian Buku</span></div>
+                    <div class="search-container" style="flex-wrap: wrap;">
+                        <span style="font-weight:700; font-size:1.2rem; color:var(--text-main); margin-right:10px;">⭐ Ulasan & Penilaian Buku</span>
+                        <input type="text" id="searchUlasanName" class="search-input" style="margin:0; padding:4px 10px; max-width: 250px;" placeholder="Cari nama pengulas atau tajuk..." onkeyup="window.renderUlasanTable()">
+                        <select id="filterUlasanMonth" class="form-group select" style="width:auto; padding:4px 10px; margin:0;" onchange="window.renderUlasanTable()">
+                            <option value="all">Semua Bulan</option>
+                            <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option>
+                        </select>
+                        <select id="filterUlasanYear" class="form-group select" style="width:auto; padding:4px 10px; margin:0;" onchange="window.renderUlasanTable()">
+                            <option value="all">Semua Tahun</option>
+                            <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option>
+                        </select>
+                        <button class="btn-clear" style="padding:4px 10px;" onclick="document.getElementById('searchUlasanName').value=''; document.getElementById('filterUlasanMonth').value='all'; document.getElementById('filterUlasanYear').value='all'; window.renderUlasanTable();">❌</button>
+                    </div>
                 </div>
                 <div id="ulasanGrid" class="ulasan-grid"></div>
             </div>
@@ -614,7 +636,7 @@
                     
                     <div style="margin-bottom: 12px; padding-top: 12px; border-top: 1px dashed var(--border);">
                         <label class="form-label" style="font-size: 0.85rem; color:var(--text-main); font-weight:600;">Versi Aplikasi</label>
-                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">V22.6 (Dark Blue Aero, Latar Baris Status, Logik Sembang Peminjam)</p>
+                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">V23</p>
                     </div>
                 </div>
             </div>
@@ -912,6 +934,8 @@
 </div>
 
 <script>
+window.senaraiCurrentPage = 1;
+
 window.dbData = [];
 window.dbBuku = [];
 window.dbUsers = {};
@@ -1188,7 +1212,6 @@ window.updateBorrowedBooksWidget = function() {
         statusText = `<span style="color:var(--success); font-size:0.65rem; font-weight:bold; background:rgba(40,205,65,0.1); padding:2px 6px; border-radius:10px;">Baki ${left} Hari</span>`;
     }
     
-    // Buka popup butiran apabila diklik (hanya admin yang dibenarkan)
     const clickAction = window.userRole === 'admin' ? `onclick="window.prepareEdit('${item.id}')"` : '';
     const cursorStyle = window.userRole === 'admin' ? 'cursor:pointer;' : '';
     
@@ -1270,7 +1293,6 @@ window.buildKelabData = function() {
       if (!window.kelabMapData[safeKey]) {
         window.kelabMapData[safeKey] = { key: safeKey, nama: item.nama || '', noPekerja: item.noPekerja || '', bahagian: item.bahagian || '', whatsapp: item.whatsapp || '', totalMata: 0, latestLoan: item };
       } else {
-        // AMBIL NAMA YANG PALING PANJANG / LENGKAP
         const currentName = window.kelabMapData[safeKey].nama || '';
         const incomingName = item.nama || '';
         if (incomingName.length > currentName.length) {
@@ -1297,7 +1319,6 @@ window.buildKelabData = function() {
         if (!window.kelabMapData[safeKey]) {
           window.kelabMapData[safeKey] = { key: safeKey, nama: u.nama || '', noPekerja: '', bahagian: '', whatsapp: '', totalMata: 0, latestLoan: null };
         } else {
-          // KEMASKINI JIKA NAMA REVIU LEBIH LENGKAP
           const currentName = window.kelabMapData[safeKey].nama || '';
           const incomingName = u.nama || '';
           if (incomingName.length > currentName.length) {
@@ -1309,7 +1330,6 @@ window.buildKelabData = function() {
     });
   }
 
-  // JIKA NAMA MASIH KOSONG, GUNAKAN ID SEBAGAI NAMA
   Object.keys(window.kelabMapData).forEach(k => {
       if (!window.kelabMapData[k].nama || window.kelabMapData[k].nama.trim() === '') {
           window.kelabMapData[k].nama = k.toUpperCase();
@@ -1400,7 +1420,11 @@ window.setupTabsForRole = function() {
   safeSetDisplay('buku-th-tindakan', isAdmin ? 'table-cell' : 'none');
   
   const filterChips = document.querySelector('.filter-chips'); if (filterChips) filterChips.style.display = isAdmin ? 'flex' : 'none';
-  const thTindakanSenarai = document.getElementById('senarai-th-tindakan'); if (thTindakanSenarai) { thTindakanSenarai.style.display = 'table-cell'; thTindakanSenarai.innerText = isAdmin ? 'Tindakan' : 'Ulasan & Mata'; }
+  const thTindakanSenarai = document.getElementById('senarai-th-tindakan'); 
+  if (thTindakanSenarai) { 
+      thTindakanSenarai.style.display = 'table-cell'; 
+      thTindakanSenarai.innerText = isAdmin ? 'Status & Tindakan' : 'Status & Ulasan'; 
+  }
   window.refreshAllViews();
 };
 
@@ -1513,9 +1537,10 @@ window.renderMyReviews = function() {
   myReviews.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
   let html = '<div class="ulasan-grid" style="grid-template-columns: 1fr;">';
   myReviews.forEach(u => {
+    let dateStr = u.tarikh ? window.formatDate(u.tarikh.split('T')[0]) : '';
     let starsHtml = ''; for(let i = 0; i < 5; i++){ starsHtml += i < u.stars ? '★' : '☆'; }
     let bonusBadge = u.bonusMata > 0 ? `<span style="color:var(--warning); font-size:0.7rem; font-weight:bold; background:rgba(255,149,0,0.1); padding:2px 6px; border-radius:10px; margin-left:4px;">+${u.bonusMata} Bonus</span>` : '';
-    html += `<div class="ulasan-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;"><div><div class="uc-book">${u.tajuk}</div><div class="uc-stars" style="font-size:0.8rem; display:inline-block; margin-right:8px;">${starsHtml}</div><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; margin-right:4px;" onclick="window.editReview('${u.id}')">✏️ Pinda</button><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light);" onclick="window.deleteReview('${u.id}')">🗑️</button></div></div><div class="uc-text" style="font-size:0.85rem;">"${u.teks}"</div></div>`;
+    html += `<div class="ulasan-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;"><div><div class="uc-book">${u.tajuk}</div><div style="font-size:0.75rem; color:var(--text-main); font-weight:600; opacity:0.85; margin:2px 0;">🗓️ ${dateStr}</div><div class="uc-stars" style="font-size:0.8rem; display:inline-block; margin-right:8px;">${starsHtml}</div><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; margin-right:4px;" onclick="window.editReview('${u.id}')">✏️ Pinda</button><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light);" onclick="window.deleteReview('${u.id}')">🗑️</button></div></div><div class="uc-text" style="font-size:0.85rem;">"${u.teks}"</div></div>`;
   });
   html += '</div>'; container.innerHTML = html;
 };
@@ -1543,12 +1568,11 @@ window.openMyProfileModal = function() {
 window.closeMyProfileModal = function() { const m = document.getElementById('myProfileModal'); if(m){ m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } };
 
 window.openPointsModal = function(targetKey) {
-  const safeKey = targetKey || window.currentUserKey;
+  const safeKey = (typeof targetKey === 'string') ? targetKey : window.currentUserKey;
   if(!safeKey) return;
   
   let pointsHistory = []; let total = 0;
   
-  // Dapatkan nama pengguna untuk diletakkan pada tajuk popup
   const userInfo = window.kelabMapData[safeKey] || (window.dbUsers && window.dbUsers[safeKey]);
   const dispNama = userInfo ? (userInfo.nama || safeKey) : safeKey;
   
@@ -1569,23 +1593,27 @@ window.openPointsModal = function(targetKey) {
     }
   });
   pointsHistory.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
+  
   const tbody = document.getElementById('pointsModalBody');
-  if(pointsHistory.length === 0){ tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem;">Tiada rekod pemerolehan mata aktiviti dijumpai.</td></tr>'; } 
-  else {
-    let html = '';
-    const isAdmin = window.userRole === 'admin';
-    pointsHistory.forEach(p => {
-      let badgeColor = 'var(--primary)'; let badgeBg = 'var(--primary-light)';
-      if (p.jenis === 'Bacaan Harian') { badgeColor = 'var(--warning)'; badgeBg = 'rgba(255, 149, 0, 0.15)'; }
-      else if (p.jenis === 'Markah Reviu') { badgeColor = 'var(--success)'; badgeBg = 'rgba(40, 205, 65, 0.15)'; }
-      else if (p.jenis === 'Markah Reviu Yang Menarik') { badgeColor = '#9D5D00'; badgeBg = '#FFFBEB'; }
-      
-      let delBtn = isAdmin ? `<button class="btn-clear" style="padding:2px 6px; font-size:0.7rem; color:var(--danger); border-color:var(--danger-light); margin-left:8px; vertical-align: middle;" onclick="window.removePoints('${p.jenis}', '${p.id}', '${safeKey}')" title="Padam Mata Ini">🗑️</button>` : '';
-      
-      html += `<tr style="border-bottom:1px dashed var(--border);"><td style="font-size:0.8rem; color:var(--text-muted);">${window.formatDate(p.tarikh)}</td><td><strong style="font-size:0.85rem; color:var(--text-main);">${p.tajuk}</strong></td><td style="text-align:center;"><span style="font-size:0.65rem; font-weight:700; color:${badgeColor}; background:${badgeBg}; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid ${badgeColor}; white-space:nowrap;">${p.jenis}</span></td><td style="text-align:right; font-weight:800; color:var(--warning); font-size:1.1rem; vertical-align: middle;">+${p.mata} ${delBtn}</td></tr>`;
-    });
-    tbody.innerHTML = html;
+  if (tbody) {
+      if(pointsHistory.length === 0){ tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem;">Tiada rekod pemerolehan mata aktiviti dijumpai.</td></tr>'; } 
+      else {
+        let html = '';
+        const isAdmin = window.userRole === 'admin';
+        pointsHistory.forEach(p => {
+          let badgeColor = 'var(--primary)'; let badgeBg = 'var(--primary-light)';
+          if (p.jenis === 'Bacaan Harian') { badgeColor = 'var(--warning)'; badgeBg = 'rgba(255, 149, 0, 0.15)'; }
+          else if (p.jenis === 'Markah Reviu') { badgeColor = 'var(--success)'; badgeBg = 'rgba(40, 205, 65, 0.15)'; }
+          else if (p.jenis === 'Markah Reviu Yang Menarik') { badgeColor = '#9D5D00'; badgeBg = '#FFFBEB'; }
+          
+          let delBtn = isAdmin ? `<button class="btn-clear" style="padding:2px 6px; font-size:0.7rem; color:var(--danger); border-color:var(--danger-light); margin-left:8px; vertical-align: middle;" onclick="window.removePoints('${p.jenis}', '${p.id}', '${safeKey}')" title="Padam Mata Ini">🗑️</button>` : '';
+          
+          html += `<tr style="border-bottom:1px dashed var(--border);"><td style="font-size:0.8rem; color:var(--text-muted);">${window.formatDate(p.tarikh)}</td><td><strong style="font-size:0.85rem; color:var(--text-main);">${p.tajuk}</strong></td><td style="text-align:center;"><span style="font-size:0.65rem; font-weight:700; color:${badgeColor}; background:${badgeBg}; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid ${badgeColor}; white-space:nowrap;">${p.jenis}</span></td><td style="text-align:right; font-weight:800; color:var(--warning); font-size:1.1rem; vertical-align: middle;">+${p.mata} ${delBtn}</td></tr>`;
+        });
+        tbody.innerHTML = html;
+      }
   }
+  
   const elTot = document.getElementById('pointsModalTotal'); if(elTot) elTot.innerText = `${total} pt`;
   const m = document.getElementById('pointsModal'); if(m){ m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
 };
@@ -1611,7 +1639,6 @@ window.removePoints = async function(jenis, id, userKey) {
         }
     }
     
-    // Refresh & Kemaskini semula Modal
     window.refreshAllViews();
     window.openPointsModal(userKey);
   });
@@ -1733,16 +1760,11 @@ window.updateKelabProfile = async function() {
 };
 
 window.viewKelabHistory = function(key) {
-  window.currentHistoryKey = key; const safeKey = window.getSafeKey(key); const k = window.kelabMapData[safeKey];
-  let dispNama = '-'; let dispJab = 'Tiada Maklumat Jabatan';
+  window.currentHistoryKey = key; const safeKey = window.getSafeKey(key); const k = window.kelabMapData[safeKey]; let dispNama = '-'; let dispJab = 'Tiada Maklumat Jabatan';
   if(k){ dispNama = k.nama; dispJab = k.bahagian || dispJab; } else if(window.dbUsers[safeKey]){ dispNama = window.dbUsers[safeKey].nama || safeKey; dispJab = window.dbUsers[safeKey].bahagian || dispJab; }
-  const hKey = document.getElementById('h_key'); if(hKey) hKey.value = safeKey;
-  const hNama = document.getElementById('h_nama'); if(hNama) hNama.innerText = dispNama;
-  const hJab = document.getElementById('h_jabatan'); if(hJab) hJab.innerText = dispJab;
-  const hMth = document.getElementById('h_filter_month'); if(hMth) hMth.value = 'all';
-  const hYr = document.getElementById('h_filter_year'); if(hYr) hYr.value = 'all';
-  if(typeof window.renderHistoryTable === 'function') window.renderHistoryTable();
-  const modal = document.getElementById('historyModal'); if(modal){ modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
+  const hKey = document.getElementById('h_key'); if(hKey) hKey.value = safeKey; const hNama = document.getElementById('h_nama'); if(hNama) hNama.innerText = dispNama; const hJab = document.getElementById('h_jabatan'); if(hJab) hJab.innerText = dispJab;
+  const hMth = document.getElementById('h_filter_month'); if(hMth) hMth.value = 'all'; const hYr = document.getElementById('h_filter_year'); if(hYr) hYr.value = 'all';
+  if(typeof window.renderHistoryTable === 'function') window.renderHistoryTable(); const modal = document.getElementById('historyModal'); if(modal){ modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
 window.renderHistoryTable = function() {
@@ -1858,11 +1880,28 @@ window.clearSenaraiCalFilter = function() {
   window.renderSenaraiCalendar(); window.renderTable();
 };
 
+window.senaraiCurrentPage = 1;
+
 window.setFilter = function(type) {
-  window.currentFilter = type; document.querySelectorAll('.chip').forEach(el => el.classList.remove('active'));
-  let chipId = 'chip-' + type; const chip = document.getElementById(chipId); if (chip) chip.classList.add('active'); window.renderTable();
+  window.currentFilter = type; 
+  window.senaraiCurrentPage = 1; 
+  document.querySelectorAll('.chip').forEach(el => el.classList.remove('active'));
+  let chipId = 'chip-' + type; const chip = document.getElementById(chipId); if (chip) chip.classList.add('active'); 
+  window.renderTable();
 };
-window.clearSearch = function() { const input = document.getElementById('searchInput'); if (input) input.value = ''; window.renderTable(); };
+
+window.clearSearch = function() { 
+    const input = document.getElementById('searchInput'); 
+    if (input) input.value = ''; 
+    window.senaraiCurrentPage = 1; 
+    window.renderTable(); 
+};
+
+window.changeSenaraiPage = function(dir) {
+    window.senaraiCurrentPage += dir;
+    window.renderTable();
+};
+
 window.gotoSenaraiFiltered = function(filter) { if (window.userRole === 'visitor') return; window.switchTab('senarai'); window.setFilter(filter); };
 
 window.openBukuModal = function() {
@@ -2047,6 +2086,7 @@ window.deleteRecord = async function() {
 window.renderTable = function() {
   const tbody = document.getElementById('tableBody'); if (!tbody) return;
   const searchEl = document.getElementById('searchInput'); const search = searchEl ? searchEl.value.toLowerCase() : ''; tbody.innerHTML = '';
+  
   const dataToRender = window.dbData.filter(item => {
     if (window.userRole === 'user') { const itemKey = window.getItemUserKey(item); if (window.getSafeKey(itemKey) !== window.currentUserKey) return false; }
     const text = (String(item.nama || '') + String(item.tajuk || '') + String(item.noPekerja || '') + String(item.tPinjam || '') + String(item.tPulang || '')).toLowerCase();
@@ -2062,10 +2102,30 @@ window.renderTable = function() {
     return true;
   });
   
+  // Susunan Tarikh Daftar Terkini Ke Atas
+  dataToRender.sort((a,b) => {
+     let aVal = parseInt(a.id); let bVal = parseInt(b.id);
+     if(isNaN(aVal)) aVal = new Date(a.tPinjam).getTime();
+     if(isNaN(bVal)) bVal = new Date(b.tPinjam).getTime();
+     return bVal - aVal;
+  });
+
+  // Logik Paginasi
+  const itemsPerPage = 25;
+  const totalPages = Math.ceil(dataToRender.length / itemsPerPage) || 1;
+  if (window.senaraiCurrentPage > totalPages) window.senaraiCurrentPage = totalPages;
+  if (window.senaraiCurrentPage < 1) window.senaraiCurrentPage = 1;
+  
+  const pageInfo = document.getElementById('senaraiPageInfo');
+  if (pageInfo) pageInfo.innerText = `Halaman ${window.senaraiCurrentPage} / ${totalPages}`;
+  
+  const startIdx = (window.senaraiCurrentPage - 1) * itemsPerPage;
+  const pagedData = dataToRender.slice(startIdx, startIdx + itemsPerPage);
+
   if (dataToRender.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod dijumpai.</td></tr>'; return; }
   const isAdmin = window.userRole === 'admin'; const isUser = window.userRole === 'user'; let html = '';
   
-  dataToRender.forEach(item => {
+  pagedData.forEach(item => {
     const isSelesai = item.status && item.status.includes('Selesai'); const isHarian = item.status === 'Bacaan Harian';
     const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null)); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const isLate = dur > limit && !isSelesai && !isHarian;
     
@@ -2083,15 +2143,30 @@ window.renderTable = function() {
     let statusBadge = '';
     if (isSelesai) statusBadge = `<span class="badge-btn badge-done">✅ Dipulangkan</span>`; else if (isLate) statusBadge = `<span class="badge-btn badge-late">⚠️ Lewat Pulang</span>`; else if (isHarian) statusBadge = `<span class="badge-btn badge-active" style="background:#FFFBEB; color:#9D5D00; border-color:#9D5D00;">📙 Bacaan Harian</span>`; else statusBadge = `<span class="badge-btn badge-active">🟢 Dipinjam</span>`;
     const bhg = item.bahagian ? `<br><small style="color:var(--primary); font-weight:700;">[ ${item.bahagian} ]</small>` : '';
+    
+    // Gabungan Tindakan
     let actionTd = '';
-    if (isAdmin) { actionTd = `<td data-label="Tindakan" style="text-align:right;"><button class="btn-3d secondary" onclick="window.prepareEdit('${item.id}')">✏️ Pinda</button></td>`; } 
+    if (isAdmin) { 
+        actionTd = `<div style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--border);"><button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 8px; width:100%;" onclick="window.prepareEdit('${item.id}')">✏️ Pinda Maklumat</button></div>`; 
+    } 
     else if (isUser) {
       const safeId = String(item.id).replace(/'/g, "\\'"); const safeTajuk = String(item.tajuk).replace(/'/g, "\\'");
       const isReviewed = window.dbUlasan.find(u => u.bookId === item.id);
-      let ulasanBtn = isReviewed ? `<button class="btn-clear" style="font-size:0.7rem; color:var(--success); border-color:var(--success); cursor:default;">Telah Diulas</button>` : `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 8px;" onclick="window.openReviewModal('${safeId}', '${safeTajuk}')">⭐ Beri Ulasan</button>`;
-      actionTd = `<td data-label="Ulasan" style="text-align:right;"><div style="font-weight:900; color:var(--warning); font-size:1.1rem; margin-bottom:4px;">+${item.mata || 0} pt</div>${ulasanBtn}</td>`;
+      let ulasanBtn = isReviewed ? `<button class="btn-clear" style="font-size:0.7rem; color:var(--success); border-color:var(--success); cursor:default; width:100%; margin-top:4px;">Telah Diulas</button>` : `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 8px; width:100%; margin-top:4px;" onclick="window.openReviewModal('${safeId}', '${safeTajuk}')">⭐ Beri Ulasan</button>`;
+      actionTd = `<div style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); text-align:center;"><div style="font-weight:900; color:var(--warning); font-size:1.1rem; margin-bottom:4px;">+${item.mata || 0} pt</div>${ulasanBtn}</div>`;
     }
-    html += `<tr style="${rowStyle}"><td data-label="Peminjam"><strong style="color:var(--text-main); font-size:1rem;">${item.nama}</strong><br><small style="color:var(--text-muted);">${item.noPekerja}</small>${bhg}</td><td data-label="Bahan"><div style="font-size:0.95rem; color:var(--text-main);">${item.tajuk}</div><small style="background:var(--bg-body); padding:2px 6px; border-radius:4px; border:1px solid var(--border); font-size:0.75rem; margin-top:4px; display:inline-block;">${item.jenis}</small></td><td data-label="Tarikh"><div style="font-size:0.85rem; color:var(--text-muted);">Pinjam: <strong style="color:var(--text-main);">${window.formatDate(item.tPinjam)}</strong></div><div style="font-size:0.85rem; color:var(--text-muted);">Jangka Pulang: <strong style="color:var(--text-main);">${window.formatDate(item.tPulang)}</strong></div><div style="font-weight:700; color:${isLate ? 'var(--danger)' : 'var(--primary)'}; font-size:0.8rem; margin-top:6px; background: ${isLate ? 'var(--danger-light)' : 'var(--primary-light)'}; padding:2px 6px; border-radius:6px; width:max-content; border: 1px solid ${isLate ? 'var(--danger)' : 'var(--primary)'};">⌛ Tempoh: ${dur} Hari</div></td><td data-label="Status">${statusBadge}</td>${actionTd}</tr>`;
+
+    // Pemprosesan Tarikh Daftar
+    let tarikhDaftar = '-'; 
+    let idNum = parseInt(item.id);
+    if (!isNaN(idNum) && idNum > 1000000000000) { 
+        let d = new Date(idNum); 
+        tarikhDaftar = `<strong style="color:var(--primary);">${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}</strong><br><small style="color:var(--text-muted);">${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}</small>`; 
+    } else { 
+        tarikhDaftar = `<strong style="color:var(--primary);">${window.formatDate(item.tPinjam)}</strong>`; 
+    }
+
+    html += `<tr style="${rowStyle}"><td data-label="Tarikh Daftar" style="text-align:center; vertical-align:middle;">${tarikhDaftar}</td><td data-label="Peminjam"><strong style="color:var(--text-main); font-size:1rem;">${item.nama}</strong><br><small style="color:var(--text-muted);">${item.noPekerja}</small>${bhg}</td><td data-label="Bahan"><div style="font-size:0.95rem; color:var(--text-main);">${item.tajuk}</div><small style="background:var(--bg-body); padding:2px 6px; border-radius:4px; border:1px solid var(--border); font-size:0.75rem; margin-top:4px; display:inline-block;">${item.jenis}</small></td><td data-label="Tarikh & Tempoh"><div style="font-size:0.85rem; color:var(--text-muted);">Pinjam: <strong style="color:var(--text-main);">${window.formatDate(item.tPinjam)}</strong></div><div style="font-size:0.85rem; color:var(--text-muted);">Jangka Pulang: <strong style="color:var(--text-main);">${window.formatDate(item.tPulang)}</strong></div><div style="font-weight:700; color:${isLate ? 'var(--danger)' : 'var(--primary)'}; font-size:0.8rem; margin-top:6px; background: ${isLate ? 'var(--danger-light)' : 'var(--primary-light)'}; padding:2px 6px; border-radius:6px; width:max-content; border: 1px solid ${isLate ? 'var(--danger)' : 'var(--primary)'};">⌛ Tempoh: ${dur} Hari</div></td><td data-label="Status & Tindakan" style="text-align:center; vertical-align:middle;"><div>${statusBadge}</div>${actionTd}</td></tr>`;
   });
   tbody.innerHTML = html; window.updateCountUI();
 };
@@ -2100,7 +2175,8 @@ window.renderKelabTable = function() {
   const tbody = document.getElementById('kelabTableBody'); if (!tbody) return;
   const searchEl = document.getElementById('searchKelabInput'); const search = searchEl ? searchEl.value.toLowerCase() : '';
   window.buildKelabData();
-  let kelabArr = Object.values(window.kelabMapData); kelabArr.sort((a, b) => b.totalMata - a.totalMata);
+  let kelabArr = Object.values(window.kelabMapData);
+  kelabArr.sort((a, b) => b.totalMata - a.totalMata);
   const filtered = kelabArr.filter(k => { const searchStr = (String(k.nama || '') + String(k.noPekerja || '')).toLowerCase(); return searchStr.includes(search); });
   if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada data profil ahli kelab dijumpai.</td></tr>'; return; }
   let html = '';
@@ -2119,380 +2195,222 @@ window.renderKelabTable = function() {
 
 window.renderScoreboard = function() {
   const tbody = document.getElementById('scoreboardTableBody'); if (!tbody) return;
-  const limitEl = document.getElementById('scoreLimit'); 
-  const limitValRaw = limitEl ? limitEl.value : '10';
-  const isAll = limitValRaw === 'all';
-  const limitVal = isAll ? 'Semua' : (parseInt(limitValRaw) || 10);
-  
-  const searchEl = document.getElementById('searchScoreboardInput');
-  const searchQ = searchEl ? searchEl.value.toLowerCase() : '';
-  
-  const yearEl = document.getElementById('scoreYear'); const yearVal = yearEl ? yearEl.value : 'all';
-  const startMEl = document.getElementById('scoreStartMonth'); const startM = startMEl ? parseInt(startMEl.value) : 0;
-  const endMEl = document.getElementById('scoreEndMonth'); const endM = endMEl ? parseInt(endMEl.value) : 11;
-  const titleLabel = document.getElementById('scoreboardTitleLabel'); 
-  if (titleLabel) titleLabel.innerText = isAll ? `🏅 Papan Mata (Semua)` : `🏅 Papan Mata (Top ${limitVal})`;
+  const limitValRaw = document.getElementById('scoreLimit').value; const isAll = limitValRaw === 'all'; const limitVal = isAll ? 'Semua' : parseInt(limitValRaw);
+  const searchQ = document.getElementById('searchScoreboardInput').value.toLowerCase();
+  const yearVal = document.getElementById('scoreYear').value; const startM = parseInt(document.getElementById('scoreStartMonth').value); const endM = parseInt(document.getElementById('scoreEndMonth').value);
+  document.getElementById('scoreboardTitleLabel').innerText = isAll ? `🏅 Papan Mata (Semua)` : `🏅 Papan Mata (Top ${limitVal})`;
 
   let scoreMap = {};
-  
   const updateScoreMap = (key, data, mataTambah) => {
       if (!scoreMap[key]) {
           let av = '👤'; let bestName = data.nama || '';
-          if (window.kelabMapData && window.kelabMapData[key]) {
-              if (window.kelabMapData[key].nama && window.kelabMapData[key].nama.length > bestName.length) {
-                  bestName = window.kelabMapData[key].nama;
-              }
-          }
-          if (window.dbUsers && window.dbUsers[key]) { 
-              av = window.dbUsers[key].avatar || av; 
-              if (window.dbUsers[key].nama && window.dbUsers[key].nama.length > bestName.length) {
-                  bestName = window.dbUsers[key].nama;
-              }
-          }
+          if (window.kelabMapData && window.kelabMapData[key]) { if (window.kelabMapData[key].nama && window.kelabMapData[key].nama.length > bestName.length) bestName = window.kelabMapData[key].nama; }
+          if (window.dbUsers && window.dbUsers[key]) { av = window.dbUsers[key].avatar || av; if (window.dbUsers[key].nama && window.dbUsers[key].nama.length > bestName.length) bestName = window.dbUsers[key].nama; }
           if (!bestName || bestName.trim() === '') bestName = key.toUpperCase();
-          
-          scoreMap[key] = { 
-              nama: bestName, 
-              noPekerja: data.noPekerja || '', 
-              bahagian: data.bahagian || '', 
-              mata: 0, 
-              avatar: av 
-          };
+          scoreMap[key] = { nama: bestName, noPekerja: data.noPekerja || '', bahagian: data.bahagian || '', mata: 0, avatar: av };
       } else {
-          if (data.nama && data.nama.length > scoreMap[key].nama.length) {
-              scoreMap[key].nama = data.nama;
-          }
-          if (!scoreMap[key].noPekerja && data.noPekerja) scoreMap[key].noPekerja = data.noPekerja;
-          if (!scoreMap[key].bahagian && data.bahagian) scoreMap[key].bahagian = data.bahagian;
+          if (data.nama && data.nama.length > scoreMap[key].nama.length) scoreMap[key].nama = data.nama;
+          if (!scoreMap[key].noPekerja && data.noPekerja) scoreMap[key].noPekerja = data.noPekerja; if (!scoreMap[key].bahagian && data.bahagian) scoreMap[key].bahagian = data.bahagian;
       }
       scoreMap[key].mata += mataTambah;
   };
 
-  window.dbData.forEach(item => {
-    const d = new Date(item.tPinjam); let include = false;
-    if (yearVal === 'all') include = true; else if (d.getFullYear() === parseInt(yearVal) && d.getMonth() >= startM && d.getMonth() <= endM) include = true;
-    if (include) {
-      const keyRaw = window.getItemUserKey(item); const key = window.getSafeKey(keyRaw);
-      updateScoreMap(key, item, parseInt(item.mata || 0));
-    }
-  });
-  
-  window.dbUlasan.forEach(u => {
-    const d = new Date(u.tarikh); let include = false;
-    if (yearVal === 'all') include = true; else if (d.getFullYear() === parseInt(yearVal) && d.getMonth() >= startM && d.getMonth() <= endM) include = true;
-    if (include) {
-      const safeKey = u.userKey;
-      if (safeKey && safeKey !== 'unknown') {
-        updateScoreMap(safeKey, u, 2 + (parseInt(u.bonusMata) || 0));
-      }
-    }
-  });
+  window.dbData.forEach(item => { const d = new Date(item.tPinjam); let include = false; if (yearVal === 'all') include = true; else if (d.getFullYear() === parseInt(yearVal) && d.getMonth() >= startM && d.getMonth() <= endM) include = true; if (include) updateScoreMap(window.getSafeKey(window.getItemUserKey(item)), item, parseInt(item.mata || 0)); });
+  window.dbUlasan.forEach(u => { const d = new Date(u.tarikh); let include = false; if (yearVal === 'all') include = true; else if (d.getFullYear() === parseInt(yearVal) && d.getMonth() >= startM && d.getMonth() <= endM) include = true; if (include) { const safeKey = u.userKey; if (safeKey && safeKey !== 'unknown') updateScoreMap(safeKey, u, 2 + (parseInt(u.bonusMata) || 0)); } });
 
-  let scoreArr = Object.values(scoreMap); scoreArr.sort((a, b) => b.mata - a.mata); 
-  scoreArr = scoreArr.filter(s => s.mata > 0);
-  
-  // Tapis menggunakan carian (Jika ada)
-  if (searchQ) {
-      scoreArr = scoreArr.filter(s => 
-          s.nama.toLowerCase().includes(searchQ) || 
-          (s.noPekerja && s.noPekerja.toLowerCase().includes(searchQ))
-      );
-  }
-  
-  // Tapis menggunakan had Limit (Jika bukan "Semua")
-  if (!isAll) {
-      scoreArr = scoreArr.slice(0, limitVal);
-  }
-
+  let scoreArr = Object.values(scoreMap); scoreArr.sort((a, b) => b.mata - a.mata); scoreArr = scoreArr.filter(s => s.mata > 0);
+  if (searchQ) scoreArr = scoreArr.filter(s => s.nama.toLowerCase().includes(searchQ) || (s.noPekerja && s.noPekerja.toLowerCase().includes(searchQ)) );
+  if (!isAll) scoreArr = scoreArr.slice(0, limitVal);
   if (scoreArr.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod mata dijumpai untuk carian/tempoh ini.</td></tr>'; return; }
   
   let html = '';
   scoreArr.forEach((s, idx) => {
-    let rankBadge = '';
-    if (idx === 0) rankBadge = '🥇 1'; else if (idx === 1) rankBadge = '🥈 2'; else if (idx === 2) rankBadge = '🥉 3'; else rankBadge = `🏅 ${idx + 1}`;
+    let rankBadge = ''; if (idx === 0) rankBadge = '🥇 1'; else if (idx === 1) rankBadge = '🥈 2'; else if (idx === 2) rankBadge = '🥉 3'; else rankBadge = `🏅 ${idx + 1}`;
     const keyRaw = (s.noPekerja && s.noPekerja.trim() !== '') ? s.noPekerja.trim().toLowerCase() : s.nama.trim().toLowerCase(); const safeKey = window.getSafeKey(keyRaw);
-    html += `<tr><td style="text-align:center; font-weight:bold; font-size:1.1rem; color:var(--primary);">${rankBadge}</td><td><div style="display:flex; align-items:center; gap:12px;"><div style="font-size:2rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">${s.avatar}</div><div><strong style="color:var(--text-main); font-size:0.95rem; cursor:pointer; text-decoration:underline;" onclick="window.openPointsModal('${safeKey}')" title="Lihat Perincian Mata">${s.nama}</strong><br><span style="background:var(--bg-body); padding:2px 6px; border-radius:6px; font-size:0.75rem; border:1px solid var(--border); margin-top:2px; display:inline-block;">${s.noPekerja || '-'}</span></div></div></td><td style="font-size:0.85rem;">${s.bahagian || '-'}</td><td style="text-align:center;"><div style="display:inline-flex; align-items:center; background:var(--primary-light); border:1px solid var(--primary); color:var(--primary); padding:6px 16px; border-radius:20px; font-weight:700; font-size:1rem; box-shadow:0 2px 4px rgba(0,103,192,0.15);">${s.mata} pt</div></td></tr>`;
+    
+    let pekerjaBadge = window.userRole === 'admin' ? `<br><span style="background:var(--bg-body); padding:2px 6px; border-radius:6px; font-size:0.75rem; border:1px solid var(--border); margin-top:2px; display:inline-block;">${s.noPekerja || '-'}</span>` : '';
+    
+    html += `<tr><td style="text-align:center; font-weight:bold; font-size:1.1rem; color:var(--primary);">${rankBadge}</td><td><div style="display:flex; align-items:center; gap:12px;"><div style="font-size:2rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">${s.avatar}</div><div><strong style="color:var(--text-main); font-size:0.95rem; cursor:pointer; text-decoration:underline;" onclick="window.openPointsModal('${safeKey}')" title="Lihat Perincian Mata">${s.nama}</strong>${pekerjaBadge}</div></div></td><td style="font-size:0.85rem;">${s.bahagian || '-'}</td><td style="text-align:center;"><div style="display:inline-flex; align-items:center; background:var(--primary-light); border:1px solid var(--primary); color:var(--primary); padding:6px 16px; border-radius:20px; font-weight:700; font-size:1rem; box-shadow:0 2px 4px rgba(0,103,192,0.15);">${s.mata} pt</div></td></tr>`;
   });
   tbody.innerHTML = html;
 };
 
-// --- Cetakan ---
+window.renderUlasanTable = function() {
+  const grid = document.getElementById('ulasanGrid'); if (!grid) return; grid.innerHTML = '';
+  
+  const searchName = document.getElementById('searchUlasanName') ? document.getElementById('searchUlasanName').value.toLowerCase() : '';
+  const filterMonth = document.getElementById('filterUlasanMonth') ? document.getElementById('filterUlasanMonth').value : 'all';
+  const filterYear = document.getElementById('filterUlasanYear') ? document.getElementById('filterUlasanYear').value : 'all';
+
+  let filteredUlasan = window.dbUlasan.filter(u => {
+      let matchName = true;
+      let matchDate = true;
+      
+      if (searchName) {
+          matchName = (u.nama && u.nama.toLowerCase().includes(searchName)) || (u.tajuk && u.tajuk.toLowerCase().includes(searchName));
+      }
+      
+      if (filterMonth !== 'all' || filterYear !== 'all') {
+          if (u.tarikh) {
+              const d = new Date(u.tarikh);
+              if (filterYear !== 'all' && d.getFullYear() !== parseInt(filterYear)) matchDate = false;
+              if (filterMonth !== 'all' && d.getMonth() !== parseInt(filterMonth)) matchDate = false;
+          } else {
+              matchDate = false;
+          }
+      }
+      
+      return matchName && matchDate;
+  });
+
+  if (filteredUlasan.length === 0) { grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding:30px; color:var(--text-muted);">Tiada ulasan ditemui berdasarkan tapisan carian.</div>'; return; }
+  
+  const sorted = [...filteredUlasan].sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh)); let html = ''; const isAdmin = window.userRole === 'admin';
+  sorted.forEach(u => {
+    let dateStr = u.tarikh ? window.formatDate(u.tarikh.split('T')[0]) : '';
+    let starsHtml = ''; for (let i = 0; i < 5; i++) { starsHtml += i < u.stars ? '★' : '☆'; }
+    
+    let delBtn = isAdmin ? `<button onclick="window.deleteReview('${u.id}')" class="btn-clear" style="padding:2px 8px; color:var(--danger); border-color:var(--danger-light); font-size:0.7rem;" title="Padam Ulasan">🗑️ Padam</button>` : '';
+    let bonusBadge = u.bonusMata > 0 ? `<span style="color:var(--warning); font-size:0.7rem; font-weight:bold; background:rgba(255,149,0,0.1); padding:2px 6px; border-radius:10px; margin-left:4px;">+${u.bonusMata} Bonus</span>` : '';
+    let bonusBtn = isAdmin ? `<button class="btn-clear" style="padding:2px 8px; font-size:0.7rem; color:var(--warning); border-color:rgba(255,149,0,0.3);" onclick="window.openBonusModal('${u.id}', '${u.bonusMata || 0}')">🎁 Bonus</button>` : '';
+    
+    let actionsHtml = isAdmin ? `<div style="display:flex; justify-content:flex-end; gap:6px; margin-top:8px;">${bonusBtn}${delBtn}</div>` : '';
+    
+    html += `<div class="ulasan-card"><div class="uc-header"><div class="uc-avatar">${u.avatar || '👤'}</div><div><div class="uc-book">${u.tajuk}</div><div style="font-size:0.75rem; color:var(--text-main); font-weight:600; opacity:0.85; margin:2px 0;">🗓️ ${dateStr}</div><div class="uc-nama">${u.nama}</div></div></div><div class="uc-stars" style="margin-bottom:2px;">${starsHtml}</div><div style="margin-bottom:8px;"><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div class="uc-text" style="margin-bottom:4px;">"${u.teks}"</div>${actionsHtml}</div>`;
+  });
+  grid.innerHTML = html;
+};
+
 window.printBukuReport = function() {
-  const mEl = document.getElementById('printBukuMonth'); const month = mEl ? mEl.value : 'all';
-  const yEl = document.getElementById('printBukuYear'); const year = yEl ? parseInt(yEl.value) : new Date().getFullYear();
+  const month = document.getElementById('printBukuMonth').value; const year = parseInt(document.getElementById('printBukuYear').value);
   const filtered = window.dbBuku.filter(b => { const d = new Date(b.tarikh); if (d.getFullYear() !== year) return false; if (month !== 'all' && d.getMonth() !== parseInt(month)) return false; return true; });
-  filtered.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh));
-  let reportTitle = `LAPORAN BAHAN BAHARU (${year})`;
+  filtered.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh)); let reportTitle = `LAPORAN BAHAN BAHARU (${year})`;
   if (month !== 'all') { const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; reportTitle = `LAPORAN BAHAN BAHARU (${monthNames[parseInt(month)]} ${year})`; }
   const today = new Date().toLocaleDateString('ms-MY');
   let html = `<html><head><title>${reportTitle}</title><style>@page { size: A4 landscape; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:12px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 6px; text-align: left; } th { background-color: #f2f2f2; text-transform:uppercase; }</style></head><body><h3>${reportTitle}</h3><p>Tarikh Cetakan: ${today}</p><table><thead><tr><th width="5%">Bil</th><th width="15%">Tarikh</th><th width="35%">Tajuk & Edisi</th><th width="15%">Kategori</th><th width="15%">Penerima/Sumber</th><th width="15%">Terbitan</th></tr></thead><tbody>`;
-  if (filtered.length === 0) html += `<tr><td colspan="6" style="text-align:center; padding:15px;">Tiada rekod.</td></tr>`;
-  else filtered.forEach((item, idx) => html += `<tr><td style="text-align:center;">${idx + 1}</td><td>${window.formatDate(item.tarikh)}</td><td><strong>${item.tajuk}</strong><br><span style="font-size:10px;">${item.isbn || '-'}</span></td><td>${item.kategori}<br><span style="font-size:10px;">${item.jenis}</span></td><td>${item.penerima}<br><span style="font-size:10px;">${item.sumber}</span></td><td>${item.penerbitan}</td></tr>`);
+  if (filtered.length === 0) html += `<tr><td colspan="6" style="text-align:center; padding:15px;">Tiada rekod.</td></tr>`; else filtered.forEach((item, idx) => html += `<tr><td style="text-align:center;">${idx + 1}</td><td>${window.formatDate(item.tarikh)}</td><td><strong>${item.tajuk}</strong><br><span style="font-size:10px;">${item.isbn || '-'}</span></td><td>${item.kategori}<br><span style="font-size:10px;">${item.jenis}</span></td><td>${item.penerima}<br><span style="font-size:10px;">${item.sumber}</span></td><td>${item.penerbitan}</td></tr>`);
   html += `</tbody></table></body></html>`; const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
 };
 
 window.printMonthlyReport = function() {
-  const mEl = document.getElementById('reportMonth'); const yEl = document.getElementById('reportYear'); if (!mEl || !yEl) return;
-  const month = parseInt(mEl.value); const year = parseInt(yEl.value);
-  const filtered = window.dbData.filter(item => { const d = new Date(item.tPinjam); return d.getMonth() === month && d.getFullYear() === year; });
-  filtered.sort((a, b) => new Date(b.tPinjam) - new Date(a.tPinjam));
+  const month = parseInt(document.getElementById('reportMonth').value); const year = parseInt(document.getElementById('reportYear').value);
+  const filtered = window.dbData.filter(item => { const d = new Date(item.tPinjam); return d.getMonth() === month && d.getFullYear() === year; }); filtered.sort((a, b) => new Date(b.tPinjam) - new Date(a.tPinjam));
   const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; const today = new Date().toLocaleDateString('ms-MY');
   let html = `<html><head><title>Laporan Pinjaman - ${monthNames[month]} ${year}</title><style>@page { size: A4 landscape; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:11px; color: #333; } h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; color: #000; } p { text-align: center; color: #555; margin-top: 0; margin-bottom: 20px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 6px 8px; text-align: left; vertical-align: top; } th { background-color: #f2f2f2; text-transform:uppercase; font-weight: bold; font-size: 10px; } .text-center { text-align: center; } .date-print { position: absolute; top: 0px; right: 0px; font-size: 10px; color: #999; }</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>LAPORAN REKOD PINJAMAN BULANAN</h2><p>Bulan: <strong>${monthNames[month]} ${year}</strong> | Sistem Pustakawan Digital</p><table><thead><tr><th width="3%" class="text-center">Bil</th><th width="20%">Maklumat Peminjam</th><th width="25%">Maklumat Bahan</th><th width="10%" class="text-center">Tarikh Pinjam</th><th width="10%" class="text-center">Jangka Pulang</th><th width="10%" class="text-center">Tarikh Pulang</th><th width="12%" class="text-center">Status & Kelewatan</th><th width="10%">Catatan</th></tr></thead><tbody>`;
-  if (filtered.length === 0) { html += `<tr><td colspan="8" style="text-align:center; padding:20px;">Tiada rekod pinjaman bagi bulan ini.</td></tr>`; } 
-  else {
-    filtered.forEach((item, idx) => {
-      let stat = item.status || 'Dipinjam'; let actualReturn = '-'; const isSelesai = stat.includes('Selesai'); const isHarian = stat === 'Bacaan Harian';
-      if (isSelesai) { stat = 'Telah Dipulangkan'; actualReturn = window.formatDate(item.tDipulangkan); } else if (isHarian) { actualReturn = window.formatDate(item.tPinjam); }
-      const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null)); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const isLate = dur > limit && !isSelesai && !isHarian;
-      let lateText = ''; if (isLate) lateText = `<br><span style="color:red; font-size:10px; font-weight:bold;">(Lewat ${dur - limit} Hari)</span>`; if (item.denda && parseFloat(item.denda) > 0) lateText += `<br><span style="color:red; font-size:10px;">Denda: RM${parseFloat(item.denda).toFixed(2)}</span>`;
-      html += `<tr><td class="text-center">${idx + 1}</td><td><strong>${item.nama}</strong><br><span style="font-size:10px; color:#555;">ID: ${item.noPekerja || '-'} | Bahagian: ${item.bahagian || '-'}</span><br><span style="font-size:10px; color:#555;">Tel: ${item.whatsapp || '-'}</span></td><td><strong>${item.tajuk}</strong><br><span style="font-size:10px; color:#555;">Kategori: ${item.jenis || '-'}</span></td><td class="text-center">${window.formatDate(item.tPinjam)}</td><td class="text-center">${window.formatDate(item.tPulang)}</td><td class="text-center">${actualReturn}</td><td class="text-center"><strong>${stat}</strong>${lateText}</td><td style="font-size:10px;">${item.catatan || '-'}</td></tr>`;
-    });
-  }
+  if (filtered.length === 0) { html += `<tr><td colspan="8" style="text-align:center; padding:20px;">Tiada rekod pinjaman bagi bulan ini.</td></tr>`; } else { filtered.forEach((item, idx) => { let stat = item.status || 'Dipinjam'; let actualReturn = '-'; const isSelesai = stat.includes('Selesai'); const isHarian = stat === 'Bacaan Harian'; if (isSelesai) { stat = 'Telah Dipulangkan'; actualReturn = window.formatDate(item.tDipulangkan); } else if (isHarian) { actualReturn = window.formatDate(item.tPinjam); } const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null)); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const isLate = dur > limit && !isSelesai && !isHarian; let lateText = ''; if (isLate) lateText = `<br><span style="color:red; font-size:10px; font-weight:bold;">(Lewat ${dur - limit} Hari)</span>`; if (item.denda && parseFloat(item.denda) > 0) lateText += `<br><span style="color:red; font-size:10px;">Denda: RM${parseFloat(item.denda).toFixed(2)}</span>`; html += `<tr><td class="text-center">${idx + 1}</td><td><strong>${item.nama}</strong><br><span style="font-size:10px; color:#555;">ID: ${item.noPekerja || '-'} | Bahagian: ${item.bahagian || '-'}</span><br><span style="font-size:10px; color:#555;">Tel: ${item.whatsapp || '-'}</span></td><td><strong>${item.tajuk}</strong><br><span style="font-size:10px; color:#555;">Kategori: ${item.jenis || '-'}</span></td><td class="text-center">${window.formatDate(item.tPinjam)}</td><td class="text-center">${window.formatDate(item.tPulang)}</td><td class="text-center">${actualReturn}</td><td class="text-center"><strong>${stat}</strong>${lateText}</td><td style="font-size:10px;">${item.catatan || '-'}</td></tr>`; }); }
   html += `</tbody></table></body></html>`; const win = window.open('', '', 'width=1000,height=700'); win.document.write(html); win.document.close(); win.print();
 };
 
 window.printScoreboard = function() {
-  const limitEl = document.getElementById('scoreLimit'); 
-  const limitValRaw = limitEl ? limitEl.value : '10';
-  const isAll = limitValRaw === 'all';
-  const limitVal = isAll ? 'Semua' : (parseInt(limitValRaw) || 10);
-  
-  const yearEl = document.getElementById('scoreYear'); const yearVal = yearEl ? yearEl.value : 'all';
-  const startMEl = document.getElementById('scoreStartMonth'); const startM = startMEl ? parseInt(startMEl.value) : 0;
-  const endMEl = document.getElementById('scoreEndMonth'); const endM = endMEl ? parseInt(endMEl.value) : 11;
-  const monthNames = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
-  let periodText = "Keseluruhan Masa"; if (yearVal !== 'all') periodText = `Tahun ${yearVal} (Bulan ${monthNames[startM]} - ${monthNames[endM]})`;
-  const tbody = document.getElementById('scoreboardTableBody'); const rowsHtml = tbody ? tbody.innerHTML : ''; const today = new Date().toLocaleDateString('ms-MY');
+  const limitValRaw = document.getElementById('scoreLimit').value; const isAll = limitValRaw === 'all'; const searchQ = document.getElementById('searchScoreboardInput').value.toLowerCase(); const yearVal = document.getElementById('scoreYear').value; const startM = parseInt(document.getElementById('scoreStartMonth').value); const endM = parseInt(document.getElementById('scoreEndMonth').value); const monthNames = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
+  let periodText = "Keseluruhan Masa"; if (yearVal !== 'all') periodText = `Tahun ${yearVal} (Bulan ${monthNames[startM]} - ${monthNames[endM]})`; if (searchQ) periodText += ` | Carian: "${searchQ}"`;
+  const rowsHtml = document.getElementById('scoreboardTableBody').innerHTML; const today = new Date().toLocaleDateString('ms-MY');
   let html = `<html><head><title>Papan Mata - ${periodText}</title><style>@page { size: A4 portrait; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:12px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 8px; text-align: left; } th { background-color: #f2f2f2; text-transform:uppercase; }</style></head><body><h3>PAPAN SENARAI MATA</h3><p>Sistem Pustakawan Digital | Tapisan: ${periodText}</p><table><thead><tr><th width="10%" style="text-align:center;">Kedudukan</th><th width="40%">Maklumat Peminjam</th><th width="30%">Bahagian</th><th width="20%" style="text-align:center;">Mata</th></tr></thead><tbody>${rowsHtml.replace(/<div class="font-size:2rem[^>]*>.*?<\/div>/g, '').replace(/<div style="display:inline-flex[^>]*>/g, '').replace(/<\/div><\/td>/g, '</td>')}</tbody></table></body></html>`;
   const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
 };
 
 window.printKelabHistory = function() {
   const key = window.currentHistoryKey; if (!key) return; const k = window.kelabMapData[key]; if (!k) return;
-  const mFilterEl = document.getElementById('h_filter_month'); const mFilter = mFilterEl ? mFilterEl.value : 'all';
-  const yFilterEl = document.getElementById('h_filter_year'); const yFilter = yFilterEl ? yFilterEl.value : 'all';
-  let filteredMata = 0;
-  const userHistory = window.dbData.filter(item => {
-    const itemKey = window.getItemUserKey(item); if (window.getSafeKey(itemKey) !== key) return false;
-    const d = new Date(item.tPinjam); if (yFilter !== 'all' && d.getFullYear() !== parseInt(yFilter)) return false; if (mFilter !== 'all' && d.getMonth() !== parseInt(mFilter)) return false; return true;
-  });
-  userHistory.sort((a, b) => new Date(b.tPinjam) - new Date(a.tPinjam));
-  userHistory.forEach(item => { filteredMata += parseInt(item.mata || 0); });
+  const mFilter = document.getElementById('h_filter_month').value; const yFilter = document.getElementById('h_filter_year').value; let filteredMata = 0;
+  const userHistory = window.dbData.filter(item => { const itemKey = window.getItemUserKey(item); if (window.getSafeKey(itemKey) !== key) return false; const d = new Date(item.tPinjam); if (yFilter !== 'all' && d.getFullYear() !== parseInt(yFilter)) return false; if (mFilter !== 'all' && d.getMonth() !== parseInt(mFilter)) return false; return true; });
+  userHistory.sort((a, b) => new Date(b.tPinjam) - new Date(a.tPinjam)); userHistory.forEach(item => { filteredMata += parseInt(item.mata || 0); });
   window.dbUlasan.forEach(u => { if (u.userKey === key) filteredMata += (2 + (parseInt(u.bonusMata) || 0)); });
-  let tapisanTeks = "Keseluruhan Masa";
-  if (yFilter !== 'all' && mFilter === 'all') tapisanTeks = `Tahun ${yFilter}`;
-  else if (yFilter !== 'all' && mFilter !== 'all') { const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; tapisanTeks = `Bulan ${monthNames[parseInt(mFilter)]} ${yFilter}`; }
-  else if (yFilter === 'all' && mFilter !== 'all') { const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; tapisanTeks = `Setiap Bulan ${monthNames[parseInt(mFilter)]}`; }
+  let tapisanTeks = "Keseluruhan Masa"; if (yFilter !== 'all' && mFilter === 'all') tapisanTeks = `Tahun ${yFilter}`; else if (yFilter !== 'all' && mFilter !== 'all') { const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; tapisanTeks = `Bulan ${monthNames[parseInt(mFilter)]} ${yFilter}`; } else if (yFilter === 'all' && mFilter !== 'all') { const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; tapisanTeks = `Setiap Bulan ${monthNames[parseInt(mFilter)]}`; }
   const today = new Date().toLocaleDateString('ms-MY');
   let html = `<html><head><title>Senarai Bacaan - ${k.nama}</title><style>@page{size:A4 portrait;margin:20mm;}body{font-family:Arial,sans-serif;padding:20px;font-size:12px;color:#333;}h2{text-align:center;margin-bottom:5px;text-transform:uppercase;color:#000;}p{text-align:center;color:#555;margin-top:0;margin-bottom:20px;}.profile-box{background:#f9f9f9;border:1px solid #ddd;padding:15px;margin-bottom:20px;border-radius:8px;display:flex;justify-content:space-between;}.profile-box h3{margin:0 0 5px 0;font-size:16px;color:#000;}.profile-box .info{font-size:13px;color:#555;}.point-box{text-align:right;}.point-value{font-size:24px;font-weight:bold;color:#d97706;}table{width:100%;border-collapse:collapse;margin-top:10px;}th,td{border:1px solid #000;padding:10px 8px;text-align:left;font-size:12px;}th{background-color:#f2f2f2;text-transform:uppercase;font-weight:bold;}.text-center{text-align:center;}.date-print{position:absolute;top:0px;right:0px;font-size:10px;color:#999;}</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>REKOD BACAAN AHLI KELAB MEMBACA</h2><p>Sistem Pustakawan Digital</p><div class="profile-box"><div><h3>${k.nama}</h3><div class="info">ID / No. Pekerja: <strong>${k.noPekerja || '-'}</strong></div><div class="info">Jabatan/Bahagian: <strong>${k.bahagian || '-'}</strong></div><div class="info" style="margin-top:8px;color:#1A73E8;font-weight:bold;">Tapisan Paparan: ${tapisanTeks}</div></div><div class="point-box"><div style="font-size:12px;color:#666;font-weight:bold;margin-bottom:4px;">MATA TERKUMPUL (TAPISAN)</div><div class="point-value">${filteredMata} pt</div></div></div><table><thead><tr><th width="5%" class="text-center">Bil</th><th width="15%" class="text-center">Tarikh Pinjam</th><th width="45%">Tajuk Bahan / Buku</th><th width="15%" class="text-center">Kategori</th><th width="10%" class="text-center">Mata</th></tr></thead><tbody>`;
-  if (userHistory.length === 0) { html += `<tr><td colspan="5" class="text-center" style="padding:20px;">Tiada rekod bacaan untuk tempoh ini.</td></tr>`; } 
-  else { userHistory.forEach((item, idx) => { html += `<tr><td class="text-center">${idx + 1}</td><td class="text-center">${window.formatDate(item.tPinjam)}</td><td><strong>${item.tajuk}</strong></td><td class="text-center">${item.jenis}</td><td class="text-center" style="font-weight:bold;color:#d97706;">+${item.mata || 0}</td></tr>`; }); }
+  if (userHistory.length === 0) { html += `<tr><td colspan="5" class="text-center" style="padding:20px;">Tiada rekod bacaan untuk tempoh ini.</td></tr>`; } else { userHistory.forEach((item, idx) => { html += `<tr><td class="text-center">${idx + 1}</td><td class="text-center">${window.formatDate(item.tPinjam)}</td><td><strong>${item.tajuk}</strong></td><td class="text-center">${item.jenis}</td><td class="text-center" style="font-weight:bold;color:#d97706;">+${item.mata || 0}</td></tr>`; }); }
   html += `</tbody></table></body></html>`; const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
 };
 
 window.openReviewModal = function(bookId, bookTitle) {
-  document.getElementById('r_bookId').value = bookId; document.getElementById('r_reviewId').value = '';
-  document.getElementById('r_bookTitle').innerText = bookTitle; document.getElementById('r_teks').value = '';
-  window.setStarRating(5); const modal = document.getElementById('reviewModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
+  document.getElementById('r_bookId').value = bookId; document.getElementById('r_reviewId').value = ''; document.getElementById('r_bookTitle').innerText = bookTitle; document.getElementById('r_teks').value = ''; window.setStarRating(5);
+  const modal = document.getElementById('reviewModal'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10);
 };
 
 window.editReview = function(revId) {
   const rev = window.dbUlasan.find(u => String(u.id) === String(revId)); if (!rev) return;
-  document.getElementById('r_reviewId').value = rev.id; document.getElementById('r_bookId').value = rev.bookId;
-  document.getElementById('r_bookTitle').innerText = rev.tajuk; document.getElementById('r_teks').value = rev.teks;
-  window.setStarRating(rev.stars); const modal = document.getElementById('reviewModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
+  document.getElementById('r_reviewId').value = rev.id; document.getElementById('r_bookId').value = rev.bookId; document.getElementById('r_bookTitle').innerText = rev.tajuk; document.getElementById('r_teks').value = rev.teks; window.setStarRating(rev.stars);
+  const modal = document.getElementById('reviewModal'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10);
 };
 
-window.closeReviewModal = function() { const rModal = document.getElementById('reviewModal'); if (rModal) { rModal.classList.remove('open'); setTimeout(() => { rModal.style.display = 'none'; }, 200); } };
-
-window.setStarRating = function(n) {
-  const rStarsVal = document.getElementById('r_stars_val'); if (rStarsVal) rStarsVal.value = n;
-  const rContainer = document.getElementById('r_stars_container');
-  if (rContainer) { const spans = rContainer.children; for (let i = 0; i < 5; i++) { if (i < n) spans[i].classList.add('active'); else spans[i].classList.remove('active'); } }
-};
+window.closeReviewModal = function() { const rModal = document.getElementById('reviewModal'); rModal.classList.remove('open'); setTimeout(() => { rModal.style.display = 'none'; }, 200); };
+window.setStarRating = function(n) { document.getElementById('r_stars_val').value = n; const spans = document.getElementById('r_stars_container').children; for (let i = 0; i < 5; i++) { if (i < n) spans[i].classList.add('active'); else spans[i].classList.remove('active'); } };
 
 window.submitReview = async function() {
-  const bookId = document.getElementById('r_bookId').value; const revId = document.getElementById('r_reviewId').value;
-  const isUpdate = !!revId; const finalId = isUpdate ? revId : Date.now().toString();
-  const tajuk = document.getElementById('r_bookTitle').innerText; const stars = parseInt(document.getElementById('r_stars_val').value);
-  const teks = document.getElementById('r_teks').value.trim(); if (!teks) return window.showCustomAlert("Sila taipkan ulasan anda.");
-  let myName = document.getElementById('my_display_nama') ? document.getElementById('my_display_nama').innerText : "Pengguna";
-  let myAvatar = '👤'; if (window.currentUserKey && window.dbUsers && window.dbUsers[window.currentUserKey]) { myAvatar = window.dbUsers[window.currentUserKey].avatar || '👤'; }
+  const bookId = document.getElementById('r_bookId').value; const revId = document.getElementById('r_reviewId').value; const isUpdate = !!revId; const finalId = isUpdate ? revId : Date.now().toString();
+  const tajuk = document.getElementById('r_bookTitle').innerText; const stars = parseInt(document.getElementById('r_stars_val').value); const teks = document.getElementById('r_teks').value.trim(); if (!teks) return window.showCustomAlert("Sila taipkan ulasan anda.");
+  let myName = document.getElementById('my_display_nama') ? document.getElementById('my_display_nama').innerText : "Pengguna"; let myAvatar = '👤'; if (window.currentUserKey && window.dbUsers && window.dbUsers[window.currentUserKey]) { myAvatar = window.dbUsers[window.currentUserKey].avatar || '👤'; }
   const revData = { id: finalId, bookId: bookId, userKey: window.currentUserKey || 'unknown', nama: myName, avatar: myAvatar, tajuk: tajuk, stars: stars, teks: teks, tarikh: new Date().toISOString() };
   if (isUpdate) { const idx = window.dbUlasan.findIndex(u => String(u.id) === String(finalId)); if (idx > -1) window.dbUlasan[idx] = revData; } else { window.dbUlasan.unshift(revData); }
-  window.buildKelabData(); window.refreshAllViews(); window.closeReviewModal();
-  if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(revData.id).set(revData); } catch (e) { console.warn(e); } }
+  window.buildKelabData(); window.refreshAllViews(); window.closeReviewModal(); if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(revData.id).set(revData); } catch (e) { console.warn(e); } }
 };
 
 window.deleteReview = async function(id) {
-  window.showCustomConfirm("Adakah anda pasti mahu memadam ulasan ini?<br><small style='color:var(--danger); font-weight:700;'>Mata ganjaran reviu dan markah bonus (sekiranya ada) akan turut dipadamkan.</small>", async () => {
-    window.dbUlasan = window.dbUlasan.filter(u => String(u.id) !== String(id)); window.buildKelabData(); window.refreshAllViews();
-    if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(id).delete(); } catch (e) { console.warn(e); } }
-  });
+  window.showCustomConfirm("Adakah anda pasti mahu memadam ulasan ini?<br><small style='color:var(--danger); font-weight:700;'>Mata ganjaran reviu dan markah bonus (sekiranya ada) akan turut dipadamkan.</small>", async () => { window.dbUlasan = window.dbUlasan.filter(u => String(u.id) !== String(id)); window.refreshAllViews(); if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(id).delete(); } catch (e) { console.warn(e); } } });
 };
 
-window.openBonusModal = function(id, currentBonus) {
-  document.getElementById('b_reviewId').value = id; document.getElementById('b_bonusMata').value = currentBonus || 0;
-  const modal = document.getElementById('bonusModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
-};
-
-window.closeBonusModal = function() { const modal = document.getElementById('bonusModal'); if (modal) { modal.classList.remove('open'); setTimeout(() => { modal.style.display = 'none'; }, 200); } };
-
-window.saveBonusReview = async function() {
-  const id = document.getElementById('b_reviewId').value; const bonusMata = parseInt(document.getElementById('b_bonusMata').value) || 0;
-  const idx = window.dbUlasan.findIndex(u => String(u.id) === String(id));
-  if (idx > -1) { window.dbUlasan[idx].bonusMata = bonusMata; window.buildKelabData(); window.refreshAllViews();
-    if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(id).update({ bonusMata: bonusMata }); } catch (e) { console.warn("Gagal simpan bonus", e); } }
-  }
-  window.closeBonusModal();
-};
-
-window.renderUlasanTable = function() {
-  const grid = document.getElementById('ulasanGrid'); if (!grid) return; grid.innerHTML = '';
-  if (window.dbUlasan.length === 0) { grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding:30px; color:var(--text-muted);">Belum ada ulasan.</div>'; return; }
-  const sorted = [...window.dbUlasan].sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh));
-  let html = ''; const isAdmin = window.userRole === 'admin';
-  sorted.forEach(u => {
-    let starsHtml = ''; for (let i = 0; i < 5; i++) { starsHtml += i < u.stars ? '★' : '☆'; }
-    let delBtn = isAdmin ? `<button onclick="window.deleteReview('${u.id}')" class="btn-clear" style="position:absolute; top:8px; right:8px; padding:4px 6px; color:var(--danger); border-color:var(--danger-light); font-size:0.85rem;" title="Padam Ulasan">🗑️</button>` : '';
-    let bonusBadge = u.bonusMata > 0 ? `<span style="color:var(--warning); font-size:0.7rem; font-weight:bold; background:rgba(255,149,0,0.1); padding:2px 6px; border-radius:10px; margin-left:4px;">+${u.bonusMata} Bonus</span>` : '';
-    let bonusBtn = isAdmin ? `<button class="btn-clear" style="padding:2px 8px; font-size:0.7rem; margin-right:4px; color:var(--warning); border-color:rgba(255,149,0,0.3);" onclick="window.openBonusModal('${u.id}', '${u.bonusMata || 0}')">🎁 Bonus</button>` : '';
-    html += `<div class="ulasan-card"><div class="uc-header"><div class="uc-avatar">${u.avatar || '👤'}</div><div><div class="uc-book">${u.tajuk}</div><div class="uc-nama">${u.nama}</div></div></div><div class="uc-stars" style="margin-bottom:2px;">${starsHtml}</div><div style="margin-bottom:8px;"><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div class="uc-text" style="margin-bottom:12px;">"${u.teks}"</div><div>${bonusBtn}</div>${delBtn}</div>`;
-  });
-  grid.innerHTML = html;
-};
+window.openBonusModal = function(id, currentBonus) { document.getElementById('b_reviewId').value = id; document.getElementById('b_bonusMata').value = currentBonus || 0; const modal = document.getElementById('bonusModal'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); };
+window.closeBonusModal = function() { const modal = document.getElementById('bonusModal'); modal.classList.remove('open'); setTimeout(() => { modal.style.display = 'none'; }, 200); };
+window.saveBonusReview = async function() { const id = document.getElementById('b_reviewId').value; const bonusMata = parseInt(document.getElementById('b_bonusMata').value) || 0; const idx = window.dbUlasan.findIndex(u => String(u.id) === String(id)); if (idx > -1) { window.dbUlasan[idx].bonusMata = bonusMata; window.refreshAllViews(); if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(id).update({ bonusMata: bonusMata }); } catch (e) { console.warn("Gagal simpan bonus", e); } } } window.closeBonusModal(); };
 
 window.updateUnreadBadges = function() {
-  const uBadge = document.getElementById('userUnreadBadge'); const aBadge = document.getElementById('adminUnreadBadge');
-  const aDot = document.getElementById('adminInboxBadgeDot'); const aCount = document.getElementById('adminInboxCount');
-  if (window.userRole === 'user' && window.currentUserKey) {
-    const unread = window.dbMesej.filter(m => m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead).length;
-    if (uBadge) { uBadge.style.display = unread > 0 ? 'inline-block' : 'none'; uBadge.innerText = `${unread} Baru`; }
-  }
-  if (window.userRole === 'admin') {
-    const unread = window.dbMesej.filter(m => m.sender === 'user' && !m.isRead).length;
-    if (aBadge) { aBadge.style.display = unread > 0 ? 'inline-block' : 'none'; aBadge.innerText = `${unread} Baru`; }
-    if (aDot) { aDot.style.display = unread > 0 ? 'block' : 'none'; }
-    if (aCount) { aCount.innerText = `${unread} Mesej Baru`; aCount.style.color = unread > 0 ? 'var(--danger)' : 'var(--primary)'; }
-  }
+  if (window.userRole === 'user' && window.currentUserKey) { const unread = window.dbMesej.filter(m => m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead).length; const uBadge = document.getElementById('userUnreadBadge'); if (uBadge) { uBadge.style.display = unread > 0 ? 'inline-block' : 'none'; uBadge.innerText = `${unread} Baru`; } }
+  if (window.userRole === 'admin') { const unread = window.dbMesej.filter(m => m.sender === 'user' && !m.isRead).length; const aBadge = document.getElementById('adminUnreadBadge'); const aDot = document.getElementById('adminInboxBadgeDot'); const aCount = document.getElementById('adminInboxCount'); if (aBadge) { aBadge.style.display = unread > 0 ? 'inline-block' : 'none'; aBadge.innerText = `${unread} Baru`; } if (aDot) { aDot.style.display = unread > 0 ? 'block' : 'none'; } if (aCount) { aCount.innerText = `${unread} Mesej Baru`; aCount.style.color = unread > 0 ? 'var(--danger)' : 'var(--primary)'; } }
 };
 
 window.openChatUser = function() {
-  window.currentChatUserId = window.currentUserKey; const btnBack = document.getElementById('btnBackInbox'); if (btnBack) btnBack.style.display = 'none';
-  const title = document.getElementById('chatTitle'); if (title) title.innerText = '💬 Bantuan & Pertanyaan';
-  let updated = false;
-  window.dbMesej.forEach(m => {
-    if (m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead) {
-      m.isRead = true; updated = true;
-      if (window.dbInstance) { window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn); }
-    }
-  });
-  window.renderChatMessages(); const m = document.getElementById('chatModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
+  window.currentChatUserId = window.currentUserKey; document.getElementById('btnBackInbox').style.display = 'none'; document.getElementById('chatTitle').innerText = '💬 Bantuan & Pertanyaan';
+  window.dbMesej.forEach(m => { if (m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead) { m.isRead = true; if (window.dbInstance) { window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn); } } });
+  window.renderChatMessages(); const m = document.getElementById('chatModal'); m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10);
 };
 
 window.openAdminInbox = function() {
-  const mChat = document.getElementById('chatModal'); if (mChat) mChat.classList.remove('open'); window.renderAdminInboxTab('inbox');
-  setTimeout(() => { if (mChat) mChat.style.display = 'none'; const m = document.getElementById('adminInboxModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } }, 200);
+  document.getElementById('chatModal').classList.remove('open'); window.renderAdminInboxTab('inbox'); setTimeout(() => { document.getElementById('chatModal').style.display = 'none'; const m = document.getElementById('adminInboxModal'); m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }, 200);
 };
 
 window.renderAdminInboxTab = function(tab) {
   ['inbox', 'announce', 'reminder'].forEach(t => { const btn = document.getElementById(`tab-${t}-btn`); if (btn) { if (t === tab) { btn.style.borderBottom = '2px solid var(--primary)'; btn.style.color = 'var(--primary)'; } else { btn.style.borderBottom = '2px solid transparent'; btn.style.color = 'var(--text-main)'; } } });
   const listDiv = document.getElementById('adminInboxList'); if (!listDiv) return;
   if (tab === 'inbox') {
-    let usersMap = {};
-    window.dbMesej.forEach(m => {
-      if (!usersMap[m.userId]) { usersMap[m.userId] = { userId: m.userId, lastMsg: m, unreadCount: 0 }; } 
-      else if (new Date(m.tarikh) > new Date(usersMap[m.userId].lastMsg.tarikh)) { usersMap[m.userId].lastMsg = m; }
-      if (m.sender === 'user' && !m.isRead) { usersMap[m.userId].unreadCount++; }
-    });
+    let usersMap = {}; window.dbMesej.forEach(m => { if (!usersMap[m.userId]) { usersMap[m.userId] = { userId: m.userId, lastMsg: m, unreadCount: 0 }; } else if (new Date(m.tarikh) > new Date(usersMap[m.userId].lastMsg.tarikh)) { usersMap[m.userId].lastMsg = m; } if (m.sender === 'user' && !m.isRead) { usersMap[m.userId].unreadCount++; } });
     let usersArr = Object.values(usersMap).sort((a, b) => new Date(b.lastMsg.tarikh) - new Date(a.lastMsg.tarikh));
-    if (usersArr.length === 0) { listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Tiada mesej daripada pengguna.</p>'; } 
-    else {
-      let html = '';
-      usersArr.forEach(u => {
-        let dispNama = u.userId;
-        const userInfo = window.kelabMapData[u.userId] || (window.dbUsers && window.dbUsers[u.userId]);
-        if (userInfo && userInfo.nama) dispNama = userInfo.nama;
-
-        let badge = u.unreadCount > 0 ? `<span class="badge-btn badge-active" style="background:var(--danger); color:white; border-color:var(--danger);">${u.unreadCount}</span>` : '';
-        let timeStr = new Date(u.lastMsg.tarikh).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' });
-        html += `<div class="inbox-item" onclick="window.openChatAdmin('${u.userId}', '${dispNama.replace(/'/g, "\\'")}')"><div style="flex:1; overflow:hidden;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong style="color:var(--primary); font-size:0.9rem;">${dispNama}</strong><span style="font-size:0.7rem; color:var(--text-muted);">${timeStr}</span></div><div style="font-size:0.8rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.8;">${u.lastMsg.sender === 'admin' ? 'Anda: ' : ''}${u.lastMsg.teks}</div></div><div style="margin-left:12px;">${badge}</div></div>`;
-      });
-      listDiv.innerHTML = html;
-    }
-    window.updateUnreadBadges();
-  } else if (tab === 'announce') {
-    listDiv.innerHTML = `<div style="background:var(--surface-solid); padding:16px; border-radius:8px; border:1px solid var(--border);"><h4 style="margin-top:0; color:var(--primary);">Hebahan Pengumuman</h4><p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Mesej ini akan dihantar ke dalam ruangan sembang semua ahli kelab yang telah log masuk dan berdaftar di dalam sistem.</p><textarea id="broadcastInput" rows="4" class="login-input" style="width:100%; margin-bottom:12px; resize:none;" placeholder="Taip mesej pengumuman di sini..."></textarea><button class="btn-3d" style="width:100%;" onclick="window.sendBroadcastMessage()">📢 Hantar Ke Semua Ahli</button></div>`;
-  } else if (tab === 'reminder') {
+    if (usersArr.length === 0) { listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Tiada mesej daripada pengguna.</p>'; } else {
+      let html = ''; usersArr.forEach(u => { let dispNama = u.userId; const userInfo = window.kelabMapData[u.userId] || (window.dbUsers && window.dbUsers[u.userId]); if (userInfo && userInfo.nama) dispNama = userInfo.nama; let badge = u.unreadCount > 0 ? `<span class="badge-btn badge-active" style="background:var(--danger); color:white; border-color:var(--danger);">${u.unreadCount}</span>` : ''; let timeStr = new Date(u.lastMsg.tarikh).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' }); html += `<div class="inbox-item" onclick="window.openChatAdmin('${u.userId}', '${dispNama.replace(/'/g, "\\'")}')"><div style="flex:1; overflow:hidden;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong style="color:var(--primary); font-size:0.9rem;">${dispNama}</strong><span style="font-size:0.7rem; color:var(--text-muted);">${timeStr}</span></div><div style="font-size:0.8rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.8;">${u.lastMsg.sender === 'admin' ? 'Anda: ' : ''}${u.lastMsg.teks}</div></div><div style="margin-left:12px;">${badge}</div></div>`; }); listDiv.innerHTML = html;
+    } window.updateUnreadBadges();
+  } else if (tab === 'announce') { listDiv.innerHTML = `<div style="background:var(--surface-solid); padding:16px; border-radius:8px; border:1px solid var(--border);"><h4 style="margin-top:0; color:var(--primary);">Hebahan Pengumuman</h4><p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Mesej ini akan dihantar ke dalam ruangan sembang semua ahli kelab yang telah log masuk dan berdaftar di dalam sistem.</p><textarea id="broadcastInput" rows="4" class="login-input" style="width:100%; margin-bottom:12px; resize:none;" placeholder="Taip mesej pengumuman di sini..."></textarea><button class="btn-3d" style="width:100%;" onclick="window.sendBroadcastMessage()">📢 Hantar Ke Semua Ahli</button></div>`; } else if (tab === 'reminder') {
     const lateUsers = window.dbData.filter(i => { const isSelesai = i.status && i.status.includes('Selesai'); const isHarian = i.status === 'Bacaan Harian'; if (isSelesai || isHarian) return false; const limit = window.calculateDuration(i.tPinjam, i.tPulang); return window.calculateDuration(i.tPinjam, null) > limit; });
-    if (lateUsers.length === 0) { listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Tiada peminjam lewat dikesan setakat ini.</p>'; } 
-    else {
-      let html = `<div style="background:var(--danger-light); padding:12px; border-radius:8px; border:1px solid var(--danger); margin-bottom:12px;"><h4 style="margin:0 0 6px 0; color:var(--danger);">Peringatan Automatik</h4><p style="font-size:0.8rem; color:var(--text-main); margin:0 0 10px 0;">Terdapat <b>${lateUsers.length}</b> rekod peminjaman lewat dikesan. Tekan butang di bawah untuk menghantar notis peringatan automatik berserta caj denda ke peti sembang mereka.</p><button class="btn-3d danger" style="width:100%;" onclick="window.sendAutoReminders()">⚠️ Hantar Peringatan Pukal</button></div><h4 style="margin:0; font-size:0.85rem; color:var(--text-muted);">Senarai Terlibat:</h4>`;
-      lateUsers.forEach(item => { const dur = window.calculateDuration(item.tPinjam, null); const limit = window.calculateDuration(item.tPinjam, item.tPulang); html += `<div style="background:var(--surface-solid); padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.8rem; margin-bottom:6px;"><strong>${item.nama}</strong> <span style="color:var(--danger); font-weight:bold;">(Lewat ${dur - limit} Hari)</span><br><span style="color:var(--text-muted);">${item.tajuk}</span></div>`; });
-      listDiv.innerHTML = html;
-    }
+    if (lateUsers.length === 0) { listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Tiada peminjam lewat dikesan setakat ini.</p>'; } else { let html = `<div style="background:var(--danger-light); padding:12px; border-radius:8px; border:1px solid var(--danger); margin-bottom:12px;"><h4 style="margin:0 0 6px 0; color:var(--danger);">Peringatan Automatik</h4><p style="font-size:0.8rem; color:var(--text-main); margin:0 0 10px 0;">Terdapat <b>${lateUsers.length}</b> rekod peminjaman lewat dikesan. Tekan butang di bawah untuk menghantar notis peringatan automatik berserta caj denda ke peti sembang mereka.</p><button class="btn-3d danger" style="width:100%;" onclick="window.sendAutoReminders()">⚠️ Hantar Peringatan Pukal</button></div><h4 style="margin:0; font-size:0.85rem; color:var(--text-muted);">Senarai Terlibat:</h4>`; lateUsers.forEach(item => { const dur = window.calculateDuration(item.tPinjam, null); const limit = window.calculateDuration(item.tPinjam, item.tPulang); html += `<div style="background:var(--surface-solid); padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.8rem; margin-bottom:6px;"><strong>${item.nama}</strong> <span style="color:var(--danger); font-weight:bold;">(Lewat ${dur - limit} Hari)</span><br><span style="color:var(--text-muted);">${item.tajuk}</span></div>`; }); listDiv.innerHTML = html; }
   }
 };
 
 window.openChatAdmin = function(userId, userName) {
-  window.currentChatUserId = userId; const mInbox = document.getElementById('adminInboxModal'); if (mInbox) mInbox.classList.remove('open');
-  const btnBack = document.getElementById('btnBackInbox'); if (btnBack) btnBack.style.display = 'inline-block'; const title = document.getElementById('chatTitle'); if (title) title.innerText = `💬 ${userName}`;
-  let updated = false;
-  window.dbMesej.forEach(m => { if (m.userId === userId && m.sender === 'user' && !m.isRead) { m.isRead = true; updated = true; if (window.dbInstance) { window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn); } } });
-  window.renderChatMessages(); setTimeout(() => { if (mInbox) mInbox.style.display = 'none'; const m = document.getElementById('chatModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } }, 200);
+  window.currentChatUserId = userId; document.getElementById('adminInboxModal').classList.remove('open'); document.getElementById('btnBackInbox').style.display = 'inline-block'; document.getElementById('chatTitle').innerText = `💬 ${userName}`;
+  window.dbMesej.forEach(m => { if (m.userId === userId && m.sender === 'user' && !m.isRead) { m.isRead = true; if (window.dbInstance) { window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn); } } }); window.renderChatMessages(); setTimeout(() => { document.getElementById('adminInboxModal').style.display = 'none'; const m = document.getElementById('chatModal'); m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }, 200);
 };
 
-window.closeChatModal = function() { const m = document.getElementById('chatModal'); if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } window.currentChatUserId = null; window.updateUnreadBadges(); };
-window.closeAdminInbox = function() { const m = document.getElementById('adminInboxModal'); if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } window.updateUnreadBadges(); };
+window.closeChatModal = function() { const m = document.getElementById('chatModal'); m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); window.currentChatUserId = null; window.updateUnreadBadges(); };
+window.closeAdminInbox = function() { const m = document.getElementById('adminInboxModal'); m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); window.updateUnreadBadges(); };
 
 window.clearChatHistory = function() {
   if (!window.currentChatUserId) return;
-  
   let confirmMsg = "Adakah anda pasti mahu memadam sejarah sembang ini secara KEKAL?";
-  if (window.userRole === 'user') {
-      confirmMsg = "Adakah anda pasti mahu memadam mesej tulisan anda?<br><small style='color:var(--danger);'>Mesej pemakluman daripada Admin akan kekal disimpan.</small>";
-  }
-  
+  if (window.userRole === 'user') confirmMsg = "Adakah anda pasti mahu memadam mesej tulisan anda?<br><small style='color:var(--danger);'>Mesej pemakluman daripada Admin akan kekal disimpan.</small>";
   window.showCustomConfirm(confirmMsg, async () => {
     let msgsToDelete = [];
-    
-    if (window.userRole === 'admin') {
-        msgsToDelete = window.dbMesej.filter(m => m.userId === window.currentChatUserId);
-        window.dbMesej = window.dbMesej.filter(m => m.userId !== window.currentChatUserId);
-    } else {
-        msgsToDelete = window.dbMesej.filter(m => m.userId === window.currentChatUserId && m.sender === 'user');
-        window.dbMesej = window.dbMesej.filter(m => !(m.userId === window.currentChatUserId && m.sender === 'user'));
-    }
-    
-    window.renderChatMessages();
-    if (window.userRole === 'admin') window.renderAdminInboxTab('inbox');
-    window.updateUnreadBadges();
-    
-    if (window.dbInstance) {
-      try {
-        const promises = msgsToDelete.map(m => window.dbInstance.collection("mesej_bantuan").doc(m.id).delete());
-        await Promise.all(promises);
-      } catch (e) { console.warn("Gagal padam mesej: ", e); }
-    }
+    if (window.userRole === 'admin') { msgsToDelete = window.dbMesej.filter(m => m.userId === window.currentChatUserId); window.dbMesej = window.dbMesej.filter(m => m.userId !== window.currentChatUserId); } else { msgsToDelete = window.dbMesej.filter(m => m.userId === window.currentChatUserId && m.sender === 'user'); window.dbMesej = window.dbMesej.filter(m => !(m.userId === window.currentChatUserId && m.sender === 'user')); }
+    window.renderChatMessages(); if (window.userRole === 'admin') window.renderAdminInboxTab('inbox'); window.updateUnreadBadges();
+    if (window.dbInstance) { try { const promises = msgsToDelete.map(m => window.dbInstance.collection("mesej_bantuan").doc(m.id).delete()); await Promise.all(promises); } catch (e) { console.warn("Gagal padam mesej: ", e); } }
   });
 };
 
-window.insertEmoji = function(emoji) {
-  const input = document.getElementById('chatInput');
-  if (input) {
-    input.value += emoji;
-    input.focus();
-  }
-};
+window.insertEmoji = function(emoji) { const input = document.getElementById('chatInput'); if (input) { input.value += emoji; input.focus(); } };
 
 window.sendChatMessage = async function() {
   const input = document.getElementById('chatInput'); const teks = input ? input.value.trim() : ''; if (!teks || !window.currentChatUserId) return;
   let namaSender = 'Admin';
-  if (window.userRole === 'user') { const userInfo = window.kelabMapData[window.currentUserKey] || window.dbUsers[window.currentUserKey]; namaSender = userInfo ? (userInfo.nama || window.currentUserKey) : window.currentUserKey; } 
-  else { const userInfo = window.kelabMapData[window.currentChatUserId] || window.dbUsers[window.currentChatUserId]; namaSender = userInfo ? (userInfo.nama || window.currentChatUserId) : window.currentChatUserId; }
+  if (window.userRole === 'user') { const userInfo = window.kelabMapData[window.currentUserKey] || window.dbUsers[window.currentUserKey]; namaSender = userInfo ? (userInfo.nama || window.currentUserKey) : window.currentUserKey; } else { const userInfo = window.kelabMapData[window.currentChatUserId] || window.dbUsers[window.currentChatUserId]; namaSender = userInfo ? (userInfo.nama || window.currentChatUserId) : window.currentChatUserId; }
   const newMsg = { id: Date.now().toString(), userId: window.currentChatUserId, nama: namaSender, teks: teks, sender: window.userRole, tarikh: new Date().toISOString(), isRead: false };
-  window.dbMesej.push(newMsg); input.value = ''; window.renderChatMessages();
-  if (window.dbInstance) { try { await window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg); } catch (e) { console.warn(e); } }
+  window.dbMesej.push(newMsg); input.value = ''; window.renderChatMessages(); if (window.dbInstance) { try { await window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg); } catch (e) { console.warn(e); } }
 };
 
 window.renderChatMessages = function() {
@@ -2506,47 +2424,28 @@ window.renderChatMessages = function() {
     if (dateStr !== lastDate) { html += `<div style="text-align:center; margin: 12px 0 6px 0;"><span style="background:rgba(0,0,0,0.05); color:var(--text-muted); font-size:0.65rem; padding:4px 10px; border-radius:12px; font-weight:600;">${dateStr}</span></div>`; lastDate = dateStr; }
     html += `<div class="chat-bubble ${bubbleClass}"><div>${m.teks}</div><span class="chat-time" style="color: ${isMe ? 'rgba(255,255,255,0.8)' : 'var(--text-muted)'}">${timeStr}</span></div>`;
   });
-  area.innerHTML = html; setTimeout(() => { area.scrollTop = area.scrollHeight; }, 50); if (typeof window.updateUnreadBadges === 'function') window.updateUnreadBadges();
+  area.innerHTML = html; setTimeout(() => { area.scrollTop = area.scrollHeight; }, 50); window.updateUnreadBadges();
 };
 
 window.sendBroadcastMessage = async function() {
-  const input = document.getElementById('broadcastInput'); const teks = input ? input.value.trim() : '';
-  if (!teks) return window.showCustomAlert('Sila taip pengumuman terlebih dahulu.');
-  const userKeys = Object.keys(window.dbUsers);
-  if (userKeys.length === 0) return window.showCustomAlert('Tiada pengguna berdaftar di dalam pangkalan data sistem.');
-  const loader = document.getElementById('loadingBar'); if (loader) loader.style.display = 'block';
-  let promises = []; let count = 0; const batchId = Date.now();
-  userKeys.forEach((uid, idx) => {
-    if (uid && uid !== 'unknown') {
-      const newMsg = { id: batchId.toString() + '_' + idx, userId: uid, nama: 'Pustakawan Pusat Sumber', teks: "📢 PENGUMUMAN PUSTAKA:\n\n" + teks, sender: 'admin', tarikh: new Date().toISOString(), isRead: false };
-      window.dbMesej.push(newMsg);
-      if (window.dbInstance) { promises.push(window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg)); }
-      count++;
-    }
-  });
+  const input = document.getElementById('broadcastInput'); const teks = input ? input.value.trim() : ''; if (!teks) return window.showCustomAlert('Sila taip pengumuman terlebih dahulu.');
+  const userKeys = Object.keys(window.dbUsers); if (userKeys.length === 0) return window.showCustomAlert('Tiada pengguna berdaftar di dalam pangkalan data sistem.');
+  const loader = document.getElementById('loadingBar'); loader.style.display = 'block'; let promises = []; let count = 0; const batchId = Date.now();
+  userKeys.forEach((uid, idx) => { if (uid && uid !== 'unknown') { const newMsg = { id: batchId.toString() + '_' + idx, userId: uid, nama: 'Pustakawan Pusat Sumber', teks: "📢 PENGUMUMAN PUSTAKA:\n\n" + teks, sender: 'admin', tarikh: new Date().toISOString(), isRead: false }; window.dbMesej.push(newMsg); if (window.dbInstance) { promises.push(window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg)); } count++; } });
   if (window.dbInstance && promises.length > 0) { try { await Promise.all(promises); } catch (e) { console.warn(e); } }
-  if (loader) loader.style.display = 'none'; window.showCustomAlert(`Pengumuman berjaya dihantar kepada ${count} ahli.`, "Hebahan Berjaya");
-  if (input) input.value = ''; window.renderAdminInboxTab('inbox');
+  loader.style.display = 'none'; window.showCustomAlert(`Pengumuman berjaya dihantar kepada ${count} ahli.`, "Hebahan Berjaya"); if (input) input.value = ''; window.renderAdminInboxTab('inbox');
 };
 
 window.sendAutoReminders = async function() {
   const lateUsers = window.dbData.filter(i => { const isSelesai = i.status && i.status.includes('Selesai'); const isHarian = i.status === 'Bacaan Harian'; if (isSelesai || isHarian) return false; const limit = window.calculateDuration(i.tPinjam, i.tPulang); return window.calculateDuration(i.tPinjam, null) > limit; });
   if (lateUsers.length === 0) return;
-  const loader = document.getElementById('loadingBar'); if (loader) loader.style.display = 'block';
-  let promises = []; let count = 0; const batchId = Date.now();
+  const loader = document.getElementById('loadingBar'); loader.style.display = 'block'; let promises = []; let count = 0; const batchId = Date.now();
   lateUsers.forEach((item, idx) => {
     const rawKey = window.getItemUserKey(item); const uid = window.getSafeKey(rawKey);
-    if (uid && uid !== 'unknown') {
-      const dur = window.calculateDuration(item.tPinjam, null); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const overdue = dur - limit; const fine = (overdue * DENDA_PER_HARI).toFixed(2);
-      const teks = `⚠️ PERINGATAN MESRA (SISTEM AUTOMATIK):\n\nBahan bacaan anda yang bertajuk "${item.tajuk}" telah lewat dipulangkan selama ${overdue} hari daripada tarikh akhir yang dibenarkan.\n\nSila pulangkan ke perpustakaan dengan segera. Caj denda terkini anda: RM${fine}.`;
-      const newMsg = { id: batchId.toString() + '_rem_' + idx, userId: uid, nama: 'Pustakawan Pusat Sumber', teks: teks, sender: 'admin', tarikh: new Date().toISOString(), isRead: false };
-      window.dbMesej.push(newMsg);
-      if (window.dbInstance) { promises.push(window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg)); }
-      count++;
-    }
+    if (uid && uid !== 'unknown') { const dur = window.calculateDuration(item.tPinjam, null); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const overdue = dur - limit; const fine = (overdue * DENDA_PER_HARI).toFixed(2); const teks = `⚠️ PERINGATAN MESRA (SISTEM AUTOMATIK):\n\nBahan bacaan anda yang bertajuk "${item.tajuk}" telah lewat dipulangkan selama ${overdue} hari daripada tarikh akhir yang dibenarkan.\n\nSila pulangkan ke perpustakaan dengan segera. Caj denda terkini anda: RM${fine}.`; const newMsg = { id: batchId.toString() + '_rem_' + idx, userId: uid, nama: 'Pustakawan Pusat Sumber', teks: teks, sender: 'admin', tarikh: new Date().toISOString(), isRead: false }; window.dbMesej.push(newMsg); if (window.dbInstance) { promises.push(window.dbInstance.collection("mesej_bantuan").doc(newMsg.id).set(newMsg)); } count++; }
   });
   if (window.dbInstance && promises.length > 0) { try { await Promise.all(promises); } catch (e) { console.warn(e); } }
-  if (loader) loader.style.display = 'none'; window.showCustomAlert(`Peringatan automatik dihantar kepada ${count} peminjam.`, "Notis Selesai"); window.renderAdminInboxTab('inbox');
+  loader.style.display = 'none'; window.showCustomAlert(`Peringatan automatik dihantar kepada ${count} peminjam.`, "Notis Selesai"); window.renderAdminInboxTab('inbox');
 };
 
 window.onload = function() {
@@ -2555,10 +2454,7 @@ window.onload = function() {
   if (typeof window.initFirebase === 'function') window.initFirebase();
 };
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAfEJBFMTX1HOo5SMpfDf4Cx61HhbtiAWE", authDomain: "pustakawan-digital.firebaseapp.com", projectId: "pustakawan-digital", storageBucket: "pustakawan-digital.firebasestorage.app", messagingSenderId: "811520945210", appId: "1:811520945210:web:667f2d12138c7db4dc1903", measurementId: "G-FX9CH5QG92"
-};
-
+const firebaseConfig = { apiKey: "AIzaSyAfEJBFMTX1HOo5SMpfDf4Cx61HhbtiAWE", authDomain: "pustakawan-digital.firebaseapp.com", projectId: "pustakawan-digital", storageBucket: "pustakawan-digital.firebasestorage.app", messagingSenderId: "811520945210", appId: "1:811520945210:web:667f2d12138c7db4dc1903", measurementId: "G-FX9CH5QG92" };
 window.unsubPengguna = null; window.unsubPinjaman = null; window.unsubBuku = null; window.unsubUlasan = null; window.unsubMesej = null; window.unsubTetapan = null;
 
 window.disableFirebaseAndFallback = function(errorMsg) {
@@ -2566,50 +2462,24 @@ window.disableFirebaseAndFallback = function(errorMsg) {
   if (window.unsubPengguna) window.unsubPengguna(); if (window.unsubPinjaman) window.unsubPinjaman(); if (window.unsubBuku) window.unsubBuku(); if (window.unsubUlasan) window.unsubUlasan(); if (window.unsubMesej) window.unsubMesej(); if (window.unsubTetapan) window.unsubTetapan();
   window.dbInstance = null;
   const status = document.getElementById('statusText'); if (status) { status.innerHTML = "🔴 Mod Luar Talian Memori"; status.style.color = "var(--danger)"; }
-  if (typeof window.buildKelabData === 'function') window.buildKelabData();
-  if (document.getElementById('dashboardView') && document.getElementById('dashboardView').style.display === 'block') { window.refreshAllViews(); }
+  window.buildKelabData(); if (document.getElementById('dashboardView') && document.getElementById('dashboardView').style.display === 'block') window.refreshAllViews();
 };
 
 window.initFirebase = function() {
   try {
-    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
-    window.dbInstance = firebase.firestore(); 
-    window.dbInstance.settings({ merge: true });
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    window.dbInstance = firebase.firestore(); window.dbInstance.settings({ merge: true });
     const status = document.getElementById('statusText'); if (status) { status.innerHTML = "🌐 Dalam Talian"; status.style.color = "var(--success)"; }
     window.startListening();
-  } catch (e) { if (typeof window.disableFirebaseAndFallback === 'function') window.disableFirebaseAndFallback(e.message); }
+  } catch (e) { window.disableFirebaseAndFallback(e.message); }
 };
 
 window.startListening = function() {
   if (!window.dbInstance) return;
-  
-  window.unsubTetapan = window.dbInstance.collection("tetapan").doc("utama").onSnapshot((doc) => {
-      if(doc.exists) { window.appSettings = doc.data(); window.applySettingsUI(); }
-  }, (error) => console.warn(error));
-
-  window.unsubPengguna = window.dbInstance.collection("pengguna").onSnapshot((snapshot) => {
-    snapshot.forEach(doc => { if (!window.dbUsers) window.dbUsers = {}; window.dbUsers[doc.id] = doc.data(); });
-    if (document.getElementById('dashboardView') && document.getElementById('dashboardView').style.display === 'block') {
-      if (typeof window.renderScoreboard === 'function') window.renderScoreboard();
-      if (window.userRole === 'user' && typeof window.renderMyProfile === 'function') window.renderMyProfile();
-    }
-  }, (error) => { if (typeof window.disableFirebaseAndFallback === 'function') window.disableFirebaseAndFallback(error.message); });
-  
-  window.unsubPinjaman = window.dbInstance.collection("pinjaman").onSnapshot((snapshot) => {
-    window.dbData = []; snapshot.forEach(doc => { window.dbData.push({ id: doc.id, ...doc.data() }); });
-    window.dbData.sort((a, b) => new Date(b.tPinjam) - new Date(a.tPinjam));
-    if (typeof window.buildKelabData === 'function') window.buildKelabData();
-    const lv = document.getElementById('loginView'); const uid = document.getElementById('login_u_id');
-    if (lv && lv.style.display !== 'none' && uid && uid.value.trim().length >= 2 && typeof window.checkUserLogin === 'function') window.checkUserLogin();
-    const dv = document.getElementById('dashboardView'); if (dv && dv.style.display === 'block') { window.refreshAllViews(); }
-  }, (error) => { if (typeof window.disableFirebaseAndFallback === 'function') window.disableFirebaseAndFallback(error.message); });
-  
-  window.unsubBuku = window.dbInstance.collection("buku_baru").onSnapshot((snapshot) => {
-    window.dbBuku = []; snapshot.forEach(doc => { window.dbBuku.push({ id: doc.id, ...doc.data() }); });
-    window.dbBuku.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh));
-    const dv = document.getElementById('dashboardView'); if (dv && dv.style.display === 'block') { if (typeof window.renderBukuTable === 'function') window.renderBukuTable(); }
-  }, (error) => { if (typeof window.disableFirebaseAndFallback === 'function') window.disableFirebaseAndFallback(error.message); });
-  
+  window.unsubTetapan = window.dbInstance.collection("tetapan").doc("utama").onSnapshot((doc) => { if(doc.exists) { window.appSettings = doc.data(); window.applySettingsUI(); } }, (error) => console.warn(error));
+  window.unsubPengguna = window.dbInstance.collection("pengguna").onSnapshot((snapshot) => { snapshot.forEach(doc => { if (!window.dbUsers) window.dbUsers = {}; window.dbUsers[doc.id] = doc.data(); }); if (document.getElementById('dashboardView').style.display === 'block') { window.renderScoreboard(); if (window.userRole === 'user') window.renderMyProfile(); } }, (error) => window.disableFirebaseAndFallback(error.message));
+  window.unsubPinjaman = window.dbInstance.collection("pinjaman").onSnapshot((snapshot) => { window.dbData = []; snapshot.forEach(doc => window.dbData.push({ id: doc.id, ...doc.data() })); window.dbData.sort((a, b) => new Date(b.tPinjam) - new Date(a.tPinjam)); window.buildKelabData(); const lv = document.getElementById('loginView'); const uid = document.getElementById('login_u_id'); if (lv && lv.style.display !== 'none' && uid && uid.value.trim().length >= 2) window.checkUserLogin(); if (document.getElementById('dashboardView').style.display === 'block') window.refreshAllViews(); }, (error) => window.disableFirebaseAndFallback(error.message));
+  window.unsubBuku = window.dbInstance.collection("buku_baru").onSnapshot((snapshot) => { window.dbBuku = []; snapshot.forEach(doc => window.dbBuku.push({ id: doc.id, ...doc.data() })); window.dbBuku.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh)); if (document.getElementById('dashboardView').style.display === 'block') window.renderBukuTable(); }, (error) => window.disableFirebaseAndFallback(error.message));
   window.unsubUlasan = window.dbInstance.collection("ulasan").onSnapshot((snapshot) => {
     window.dbUlasan = []; snapshot.forEach(doc => { window.dbUlasan.push({ id: doc.id, ...doc.data() }); });
     window.buildKelabData();
