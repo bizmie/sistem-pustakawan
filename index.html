@@ -1665,7 +1665,29 @@ window.openPointsModal = function(targetKey) {
       if(bonus > 0){ pointsHistory.push({id: u.id, tarikh: u.tarikh.split('T')[0], tajuk: u.tajuk, jenis: 'Markah Reviu Yang Menarik', mata: bonus}); total += bonus; }
     }
   });
-  pointsHistory.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
+  
+  // Logik Grouping: Satukan item berpasangan berdasarkan tajuk buku
+  let groupedObj = {};
+  pointsHistory.forEach(p => {
+      let titleKey = p.tajuk ? p.tajuk.trim().toLowerCase() : 'lain-lain';
+      if (!groupedObj[titleKey]) groupedObj[titleKey] = { items: [], latestDate: p.tarikh, tajukRaw: p.tajuk };
+      groupedObj[titleKey].items.push(p);
+      if (new Date(p.tarikh) > new Date(groupedObj[titleKey].latestDate)) groupedObj[titleKey].latestDate = p.tarikh;
+  });
+
+  let groupedArr = Object.values(groupedObj);
+  groupedArr.sort((a, b) => new Date(b.latestDate) - new Date(a.latestDate));
+
+  let finalHistory = [];
+  groupedArr.forEach(group => {
+      const typeOrder = { 'Bacaan Harian': 1, 'Pinjaman buku': 2, 'Markah Reviu': 3, 'Markah Reviu Yang Menarik': 4 };
+      group.items.sort((a, b) => (typeOrder[a.jenis] || 99) - (typeOrder[b.jenis] || 99));
+      group.items.forEach((item, idx) => {
+          item.isSubItem = idx > 0; // Tanda item sebagai 'pasangan' jika lebih daripada 1 untuk tajuk sama
+          finalHistory.push(item);
+      });
+  });
+  pointsHistory = finalHistory;
   
   const tbody = document.getElementById('pointsModalBody');
   if (tbody) {
@@ -1681,7 +1703,14 @@ window.openPointsModal = function(targetKey) {
           
           let delBtn = isAdmin ? `<button class="btn-clear" style="padding:2px 6px; font-size:0.7rem; color:var(--danger); border-color:var(--danger-light); margin-left:8px; vertical-align: middle;" onclick="window.removePoints('${p.jenis}', '${p.id}', '${safeKey}')" title="Padam Mata Ini">🗑️</button>` : '';
           
-          html += `<tr style="border-bottom:1px dashed var(--border);"><td style="font-size:0.8rem; color:var(--text-muted);">${window.formatDate(p.tarikh)}</td><td><strong style="font-size:0.85rem; color:var(--text-main);">${p.tajuk}</strong></td><td style="text-align:center;"><span style="font-size:0.65rem; font-weight:700; color:${badgeColor}; background:${badgeBg}; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid ${badgeColor}; white-space:nowrap;">${p.jenis}</span></td><td style="text-align:right; font-weight:800; color:var(--warning); font-size:1.1rem; vertical-align: middle;">+${p.mata} ${delBtn}</td></tr>`;
+          let tajukDisp = p.isSubItem 
+              ? `<div style="padding-left:12px; border-left:2px solid var(--border); color:var(--text-muted); font-size:0.8rem; font-style:italic;">↳ Ulasan/Bonus Tambahan</div>` 
+              : `<strong style="font-size:0.85rem; color:var(--text-main);">${p.tajuk}</strong>`;
+
+          let trStyle = p.isSubItem ? 'border-bottom:1px dashed var(--border); background:rgba(0,0,0,0.015);' : 'border-bottom:1px dashed var(--border);';
+          let dateDisp = p.isSubItem ? `<span style="opacity:0.4;">${window.formatDate(p.tarikh)}</span>` : window.formatDate(p.tarikh);
+
+          html += `<tr style="${trStyle}"><td style="font-size:0.8rem; color:var(--text-muted);">${dateDisp}</td><td>${tajukDisp}</td><td style="text-align:center;"><span style="font-size:0.65rem; font-weight:700; color:${badgeColor}; background:${badgeBg}; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid ${badgeColor}; white-space:nowrap;">${p.jenis}</span></td><td style="text-align:right; font-weight:800; color:var(--warning); font-size:1.1rem; vertical-align: middle;">+${p.mata} ${delBtn}</td></tr>`;
         });
         tbody.innerHTML = html;
       }
