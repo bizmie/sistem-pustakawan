@@ -566,7 +566,7 @@
                 </div>
                 <div class="table-wrap" style="max-height:70vh; overflow-y:auto;">
                     <table>
-                        <thead><tr><th style="width:30%">Maklumat Ahli</th><th style="width:20%">Jabatan / Bahagian</th><th style="width:20%; text-align:center;">Point Aktiviti</th><th style="width:15%">Status Semasa</th><th style="text-align:right; width:15%">Tindakan</th></tr></thead>
+                        <thead><tr><th style="width:5%; text-align:center;">Bil</th><th style="width:30%">Maklumat Ahli</th><th style="width:25%">Jabatan / Bahagian</th><th style="width:20%; text-align:center;">Point Aktiviti</th><th style="text-align:center; width:20%">Status & Tindakan</th></tr></thead>
                         <tbody id="kelabTableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan data ahli...</td></tr></tbody>
                     </table>
                 </div>
@@ -575,22 +575,30 @@
 
         <div id="tab-scoreboard" class="tab-content">
             <div class="content-card" style="padding:0;">
-                <div class="toolbar">
-                    <div class="search-container" style="flex-wrap: wrap;">
-                        <span id="scoreboardTitleLabel" style="font-weight:700; font-size:1.1rem; color:var(--text-main); display:flex; align-items:center; gap:8px; margin-right:8px; white-space:nowrap;">🏅 Papan Mata</span>
-                        <input type="text" id="searchScoreboardInput" class="search-input" style="margin:0; padding:6px 10px; max-width: 250px;" placeholder="Cari nama, ID peminjam..." onkeyup="window.renderScoreboard()">
-                        <button class="btn-clear" style="padding:6px 10px;" onclick="document.getElementById('searchScoreboardInput').value=''; window.renderScoreboard();">❌</button>
+                <div class="toolbar" style="flex-direction: column; align-items: stretch; gap: 12px; background: transparent; border-bottom: none; padding-bottom: 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <span id="scoreboardTitleLabel" style="font-weight:700; font-size:1.2rem; color:var(--text-main); white-space:nowrap;">🏅 Papan Mata</span>
+                            <button class="btn-clear" style="padding: 4px 12px; font-size: 0.8rem; border-radius: 4px; border: 1px dashed #D4C374; color: #5C4033; background: #FFF9C4; font-weight: 700; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); transform: rotate(-1deg);" onclick="window.openPeraturanModal()">📌 Peraturan Mata</button>
+                        </div>
+                        <div class="search-container" style="flex: initial;">
+                            <input type="text" id="searchScoreboardInput" class="search-input" style="margin:0; padding:6px 10px; width: 250px;" placeholder="Cari nama, ID peminjam..." onkeyup="window.renderScoreboard()">
+                            <button class="btn-clear" style="padding:6px 10px;" onclick="document.getElementById('searchScoreboardInput').value=''; window.renderScoreboard();">❌</button>
+                        </div>
                     </div>
-                    <div class="action-wrapper">
+                    <div class="action-wrapper" style="justify-content: flex-start; background: var(--bg-body); padding: 10px 14px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-bottom: 10px;">
                         <select id="scoreLimit" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="3">Top 3</option><option value="5">Top 5</option><option value="10" selected>Top 10</option><option value="20">Top 20</option><option value="all">Semua</option></select>
+                        <span style="font-size:0.8rem; font-weight:600; margin-left:8px; color:var(--text-muted);">Tahun:</span>
                         <select id="scoreYear" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="all">Semua Tahun</option><option value="2026" selected>2026</option><option value="2025">2025</option><option value="2024">2024</option></select>
+                        <span style="font-size:0.8rem; font-weight:600; margin-left:8px; color:var(--text-muted);">Bulan:</span>
                         <select id="scoreStartMonth" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option></select>
-                        <span style="font-size:0.8rem; font-weight:600;">Hingga</span>
+                        <span style="font-size:0.8rem; font-weight:600; margin:0 4px; color:var(--text-muted);">Hingga</span>
                         <select id="scoreEndMonth" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11" selected>Dis</option></select>
+                        <div style="flex:1;"></div>
                         <button class="btn-3d secondary" onclick="window.printScoreboard()">🖨️ Cetak</button>
                     </div>
                 </div>
-                <div class="table-wrap" style="max-height:70vh; overflow-y:auto;">
+                <div class="table-wrap" style="max-height:70vh; overflow-y:auto; border-top: 1px solid var(--border);">
                     <table id="scoreboardTable">
                         <thead><tr><th style="width:10%; text-align:center;">Kedudukan</th><th style="width:40%;">Maklumat Peminjam</th><th style="width:30%;">Jabatan / Bahagian</th><th style="width:20%; text-align:center;">Jumlah Mata</th></tr></thead>
                         <tbody id="scoreboardTableBody"><tr><td colspan="4" style="text-align:center; padding:30px;">Memuatkan papan mata...</td></tr></tbody>
@@ -604,19 +612,24 @@
                 <div class="toolbar" style="border-bottom:none; background:transparent; padding-bottom:0;">
                     <div class="search-container" style="flex-wrap: wrap;">
                         <span style="font-weight:700; font-size:1.2rem; color:var(--text-main); margin-right:10px;">⭐ Ulasan & Penilaian Buku</span>
-                        <input type="text" id="searchUlasanName" class="search-input" style="margin:0; padding:4px 10px; max-width: 250px;" placeholder="Cari nama pengulas atau tajuk..." onkeyup="window.renderUlasanTable()">
-                        <select id="filterUlasanMonth" class="form-group select" style="width:auto; padding:4px 10px; margin:0;" onchange="window.renderUlasanTable()">
+                        <input type="text" id="searchUlasanName" class="search-input" style="margin:0; padding:4px 10px; max-width: 250px;" placeholder="Cari nama pengulas atau tajuk..." onkeyup="window.ulasanCurrentPage=1; window.renderUlasanTable()">
+                        <select id="filterUlasanMonth" class="form-group select" style="width:auto; padding:4px 10px; margin:0;" onchange="window.ulasanCurrentPage=1; window.renderUlasanTable()">
                             <option value="all">Semua Bulan</option>
                             <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option>
                         </select>
-                        <select id="filterUlasanYear" class="form-group select" style="width:auto; padding:4px 10px; margin:0;" onchange="window.renderUlasanTable()">
+                        <select id="filterUlasanYear" class="form-group select" style="width:auto; padding:4px 10px; margin:0;" onchange="window.ulasanCurrentPage=1; window.renderUlasanTable()">
                             <option value="all">Semua Tahun</option>
                             <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option>
                         </select>
-                        <button class="btn-clear" style="padding:4px 10px;" onclick="document.getElementById('searchUlasanName').value=''; document.getElementById('filterUlasanMonth').value='all'; document.getElementById('filterUlasanYear').value='all'; window.renderUlasanTable();">❌</button>
+                        <button class="btn-clear" style="padding:4px 10px;" onclick="document.getElementById('searchUlasanName').value=''; document.getElementById('filterUlasanMonth').value='all'; document.getElementById('filterUlasanYear').value='all'; window.ulasanCurrentPage=1; window.renderUlasanTable();">❌</button>
                     </div>
                 </div>
                 <div id="ulasanGrid" class="ulasan-grid"></div>
+                <div id="ulasanPagination" style="display:flex; justify-content:center; gap:15px; margin-top:12px; padding:10px; align-items:center; border-top: 1px dashed var(--border);">
+                    <button class="btn-clear" onclick="window.changeUlasanPage(-1)">« Sebelumnya</button>
+                    <span id="ulasanPageInfo" style="font-size:0.85rem; font-weight:700;">Halaman 1 / 1</span>
+                    <button class="btn-clear" onclick="window.changeUlasanPage(1)">Seterusnya »</button>
+                </div>
             </div>
         </div>
 
@@ -632,11 +645,17 @@
                         <label>Subtajuk Sistem</label>
                         <input type="text" id="set_sub_title" class="login-input" placeholder="Cth: Pengurusan Pinjaman Digital">
                     </div>
+                    <div class="form-group" style="margin-top: 12px; margin-bottom: 12px;">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:var(--text-main); font-size:0.85rem;">
+                            <input type="checkbox" id="set_show_points" checked style="width:auto; margin:0; cursor:pointer;">
+                            Benarkan pelawat & pengguna melihat mata di Papan Mata
+                        </label>
+                    </div>
                     <button class="btn-3d" style="margin-top: 8px; margin-bottom: 16px;" onclick="window.saveSettings()">💾 Simpan Tetapan</button>
                     
                     <div style="margin-bottom: 12px; padding-top: 12px; border-top: 1px dashed var(--border);">
                         <label class="form-label" style="font-size: 0.85rem; color:var(--text-main); font-weight:600;">Versi Aplikasi</label>
-                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">V23</p>
+                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">V23.2 (Tetapan Privasi Mata)</p>
                     </div>
                 </div>
             </div>
@@ -801,7 +820,8 @@
         <div class="form-group" style="margin-top: 10px;"><label>Catatan</label><textarea id="k_catatan" rows="2" readonly style="background:var(--bg-body); margin-bottom:0;"></textarea></div>
         <div id="k_duration_info" style="background: var(--bg-body); padding: 6px; border-radius: var(--radius-btn); text-align:center; font-size: 0.8rem; border:1px solid var(--border); margin-top:10px;"></div>
         <div style="display:flex; gap:8px; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; align-items:center;">
-            <button class="btn-3d secondary" style="margin-right:auto;" onclick="window.viewKelabHistory(document.getElementById('k_key').value)">📚 Sejarah</button>
+            <button class="btn-3d secondary" onclick="window.viewKelabHistory(document.getElementById('k_key').value)">📚 Sejarah</button>
+            <button class="btn-3d danger" id="btn-delete-kelab" style="display:none; font-size:0.75rem; padding:6px 10px;" onclick="window.deleteKelabProfile()">🗑️ Hapus Profil</button>
             <div style="flex:1;"></div>
             <button class="btn-3d" id="btn-save-kelab" onclick="window.updateKelabProfile()">💾 Simpan Pindaan</button>
             <button onclick="window.closeKelabModal()" class="btn-clear">❌ Tutup</button>
@@ -903,6 +923,38 @@
             </table>
         </div>
         <div style="display:flex; justify-content:flex-end; margin-top:16px;"><button class="btn-clear" onclick="window.closePointsModal()">Tutup</button></div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="peraturanModal" style="z-index: 10009;">
+    <div class="modal" style="max-width: 450px; background: #FFF9C4; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-bottom-right-radius: 30px; position: relative;">
+        <!-- Kesan Pita Pelekat (Tape) -->
+        <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 100px; height: 25px; background: rgba(255,255,255,0.5); border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 2;"></div>
+        
+        <div class="modal-header" style="border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 12px; padding-top: 10px;">
+            <h3 style="margin:0; color: #5C4033;">📌 Peraturan Mata</h3>
+            <div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red" onclick="window.closePeraturanModal()" style="cursor:pointer;"></span></div>
+        </div>
+        
+        <!-- Toolbar Format (Khas Admin) -->
+        <div id="p_toolbar" style="display: flex; gap: 4px; margin-bottom: 8px; background: rgba(255,255,255,0.5); padding: 4px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05);">
+            <button class="btn-clear" style="padding: 2px 8px; font-weight: bold; color: #5C4033; border-color: transparent;" onmousedown="event.preventDefault(); window.formatRule('bold')" title="Tebal (Bold)">B</button>
+            <button class="btn-clear" style="padding: 2px 8px; font-style: italic; color: #5C4033; border-color: transparent;" onmousedown="event.preventDefault(); window.formatRule('italic')" title="Italik (Italic)">I</button>
+            <button class="btn-clear" style="padding: 2px 8px; text-decoration: underline; color: #5C4033; border-color: transparent;" onmousedown="event.preventDefault(); window.formatRule('underline')" title="Garis Bawah (Underline)">U</button>
+            <button class="btn-clear" style="padding: 2px 8px; color: #5C4033; border-color: transparent;" onmousedown="event.preventDefault(); window.formatRule('insertUnorderedList')" title="Senarai (Bullet)">• Senarai</button>
+        </div>
+
+        <div class="form-group" style="margin-top:12px;">
+            <!-- Penyunting Teks Sticky Note -->
+            <div id="p_peraturan_editor" style="min-height: 150px; max-height: 350px; overflow-y: auto; padding: 12px; font-size: 0.95rem; color: #4A3b32; outline: none; line-height: 1.6; border-radius: 6px;"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+            <small id="p_peraturan_info" style="color: rgba(92, 64, 51, 0.7); font-size:0.75rem; font-weight:600;"></small>
+            <div style="display:flex; gap:8px;">
+                <button class="btn-clear" style="color: #5C4033; border-color: #5C4033;" onclick="window.closePeraturanModal()">Tutup</button>
+                <button class="btn-3d" style="background: #D97706; border-color: #B45309;" id="btn-save-peraturan" onclick="window.savePeraturanMata()">💾 Simpan</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -1046,6 +1098,7 @@ window.setupDateDisplay = function() {
 window.applySettingsUI = function() {
   const t = window.appSettings.title || "PUSTAKA MTIB";
   const s = window.appSettings.subtitle || "Sistem Pengurusan Perpustakaan Digital";
+  const showPoints = window.appSettings.showPointsPublic !== false;
   
   const lTitle = document.getElementById('loginMainTitle'); if(lTitle) lTitle.innerText = t;
   const lSub = document.getElementById('loginSubTitle'); if(lSub) lSub.innerText = s;
@@ -1055,15 +1108,20 @@ window.applySettingsUI = function() {
   
   const iTitle = document.getElementById('set_main_title'); if(iTitle) iTitle.value = t;
   const iSub = document.getElementById('set_sub_title'); if(iSub) iSub.value = s;
+  const chkPoints = document.getElementById('set_show_points'); if(chkPoints) chkPoints.checked = showPoints;
+  
+  if (typeof window.renderScoreboard === 'function') window.renderScoreboard();
 };
 
 window.saveSettings = async function() {
   const newT = document.getElementById('set_main_title').value.trim();
   const newS = document.getElementById('set_sub_title').value.trim();
+  const chkPoints = document.getElementById('set_show_points');
   if(!newT) return window.showCustomAlert('Sila masukkan tajuk utama.');
   
   window.appSettings.title = newT;
   window.appSettings.subtitle = newS;
+  window.appSettings.showPointsPublic = chkPoints ? chkPoints.checked : true;
   window.applySettingsUI();
   
   if(window.dbInstance) {
@@ -1106,13 +1164,28 @@ window.autoCalcReturnDateEdit = function() {
   }
 };
 
+window.autofillBuku = function() {
+  const accInputEl = document.getElementById('f_accession'); if (!accInputEl) return;
+  const accInput = accInputEl.value.trim().toLowerCase(); if (accInput.length < 2) return;
+  let found = window.dbData.find(item => item.accession && String(item.accession).trim().toLowerCase() === accInput);
+  if (!found) { found = window.dbBuku.find(item => (item.isbn && String(item.isbn).trim().toLowerCase() === accInput) || (item.accession && String(item.accession).trim().toLowerCase() === accInput)); }
+  if (found) {
+    const fTajuk = document.getElementById('f_tajuk'); if (fTajuk && !fTajuk.value) fTajuk.value = found.tajuk || '';
+    const fJenis = document.getElementById('f_jenis');
+    if (fJenis && found.jenis) {
+      const opts = Array.from(fJenis.options).map(o => o.value);
+      if (opts.includes(found.jenis)) fJenis.value = found.jenis;
+    }
+  }
+};
+
 window.generateStaticUI = function() {
   const depts = ["Pelawat Am", "Penjawat Awam", "Pejabat Ketua Pengarah", "Bahagian Pembangunan Perdagangan", "Bahagian Perancangan Strategik", "Bahagian Perladangan Hutan", "Bahagian Pembangunan Industri", "Bahagian Pemerkasaan Ekonomi Bumiputera", "Bahagian Khidmat Pengurusan – Seksyen Pentadbiran", "Bahagian Khidmat Pengurusan – Seksyen Teknologi Maklumat", "Bahagian Khidmat Pengurusan – Seksyen Kewangan", "Bahagian Khidmat Pengurusan – Seksyen Pengurusan Sumber Manusia", "Bahagian Pelesenan & Inspektorat", "WISDEC Banting", "WISDEC Sabah", "Pusat Bio Komposit & Gentian (FIDEC)", "Wilayah Timur", "Wilayah Tengah", "Wilayah Utara", "Wilayah Selatan", "Wilayah Sabah"];
   let deptHtml = '<option value="">-- Sila Pilih Bahagian --</option>';
   depts.forEach(d => { deptHtml += `<option value="${d}">${d}</option>`; });
   document.querySelectorAll('.dept-select').forEach(sel => { sel.innerHTML = deptHtml; });
   
-  const avatars = ['👤','👨‍💻','👩‍💻','🧑‍🎓','🧑‍🏫','🧑‍🚀','🕵️','🦸','🥷','🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐦','🦉','🦄','🐝','🦖','🦕','🐙','🦑','🦞','🦀','🐡','🐠','🐬','🐳','🦈','🐊','🐅','🐆','🦓','🦍','🐘','🦛','🦏','🐪','🦒','🦘','🐃','🐎','🐏','🦙','🐐','🦌','🐕','🐩','🐈','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦫','🦦','🦥','🐿️','🦔','🐉','🐲','🧚','🧜','🧞','🧙','🧛','🧟','🧝','👼','🍔','🍕','🍟','🍦','🍩'];
+  const avatars = ['👤','👨‍💻','👩‍💻','🧑‍🎓','🧑‍🏫','🧑‍🚀','🕵️','🦸','🥷','🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐸','🐵','🐔','🐧','🐦','🦉','🦄','🐝','🦖','🦕','🐙','🦑','🦞','🦀','🐡','🐠','🐬','🐳','🦈','🐊','🐅','🐆','🦓','🦍','🐘','🦛','🦏','🐪','🦒','🦘','🐃','🐎','🐏','🦙','🐐','🦌','🐕','🐩','🐈','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦫','🦦','🦥','🐿️','🦔','🐉','🐲','🧚','🧜','🧞','🧙','🧛','🧟','🧝','👼','🍔','🍕','🍟','🍦','🍩','🌲','🌳','🌴','🌵','🌷','🌸','🌹','🌺','🌻','🌼','🍎','🍓','🍉','🍌','🍣','🍱','☕','🚗','🏎️','🚀'];
   let avHtml = '';
   avatars.forEach(a => { avHtml += `<span class="avatar-opt" onclick="window.selectAvatar('${a}')">${a}</span>`; });
   const avList = document.getElementById('avatar_selection_list');
@@ -1620,6 +1693,71 @@ window.openPointsModal = function(targetKey) {
 
 window.closePointsModal = function() { const m = document.getElementById('pointsModal'); if(m){ m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } };
 
+window.formatRule = function(command) {
+    document.execCommand(command, false, null);
+    document.getElementById('p_peraturan_editor').focus();
+};
+
+window.openPeraturanModal = function() {
+  const modal = document.getElementById('peraturanModal');
+  const editor = document.getElementById('p_peraturan_editor');
+  const btnSave = document.getElementById('btn-save-peraturan');
+  const info = document.getElementById('p_peraturan_info');
+  const toolbar = document.getElementById('p_toolbar');
+  
+  const defaultRules = "<ul><li>Peminjaman Bahan/Buku: +10 Mata</li><li>Ulasan & Review: +2 Mata</li><li>Markah Bonus Ulasan Berkualiti: (Bergantung budi bicara Pustakawan)</li><li>Bacaan Harian: +10 Mata (Buku dibaca di perpustakaan sahaja)</li></ul>";
+  editor.innerHTML = (window.appSettings && window.appSettings.peraturanMata) ? window.appSettings.peraturanMata : defaultRules;
+
+  if (window.userRole === 'admin') {
+      editor.setAttribute('contenteditable', 'true');
+      editor.style.backgroundColor = "rgba(255,255,255,0.4)";
+      editor.style.border = "1px dashed rgba(0,0,0,0.2)";
+      toolbar.style.display = 'flex';
+      btnSave.style.display = 'inline-flex';
+      info.innerText = "Mod Suntingan (Admin)";
+  } else {
+      editor.setAttribute('contenteditable', 'false');
+      editor.style.backgroundColor = "transparent";
+      editor.style.border = "none";
+      toolbar.style.display = 'none';
+      btnSave.style.display = 'none';
+      info.innerText = "";
+  }
+  
+  if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
+};
+
+window.closePeraturanModal = function() {
+  const modal = document.getElementById('peraturanModal');
+  if (modal) { modal.classList.remove('open'); setTimeout(() => modal.style.display = 'none', 200); }
+};
+
+window.savePeraturanMata = async function() {
+  if (window.userRole !== 'admin') return;
+  const editor = document.getElementById('p_peraturan_editor');
+  
+  if (!window.appSettings) window.appSettings = {};
+  window.appSettings.peraturanMata = editor.innerHTML;
+  
+  const btnSave = document.getElementById('btn-save-peraturan');
+  const originalText = btnSave.innerText;
+  btnSave.innerText = "Menyimpan...";
+  
+  if (window.dbInstance) {
+      try {
+          await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true });
+          window.showCustomAlert("Peraturan Mata berjaya dikemaskini.");
+      } catch (e) {
+          console.warn(e);
+          window.showCustomAlert("Luar Talian: Peraturan disimpan secara tempatan.");
+      }
+  } else {
+      window.showCustomAlert("Mod Luar Talian: Peraturan disimpan secara tempatan.");
+  }
+  btnSave.innerText = originalText;
+  window.closePeraturanModal();
+};
+
 window.removePoints = async function(jenis, id, userKey) {
   window.showCustomConfirm("Adakah anda pasti mahu memadam rekod mata ganjaran ini?<br><small style='color:var(--danger);'>Tindakan ini akan menetapkan mata aktiviti tersebut kepada 0 (sifar) atau memadamnya sepenuhnya.</small>", async () => {
     if (jenis === 'Pinjaman buku' || jenis === 'Bacaan Harian') {
@@ -1739,10 +1877,40 @@ window.viewKelabProfile = function(key) {
     document.getElementById('k_jenis').value = '-'; document.getElementById('k_tajuk').value = 'Tiada Pinjaman Aktif'; document.getElementById('k_tPinjam').value = ''; document.getElementById('k_tPulang').value = ''; document.getElementById('k_catatan').value = ''; document.getElementById('k_status_container').innerHTML = '<span class="badge-btn" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border);">Tiada Data</span>'; document.getElementById('k_div_actual_return_date').style.display = 'none'; document.getElementById('k_duration_info').innerHTML = '';
   }
   const btnSave = document.getElementById('btn-save-kelab'); if(btnSave) { btnSave.style.display = window.userRole === 'admin' ? 'inline-block' : 'none'; }
+  const btnDelete = document.getElementById('btn-delete-kelab'); if(btnDelete) { btnDelete.style.display = window.userRole === 'admin' ? 'inline-block' : 'none'; }
   const modal = document.getElementById('kelabModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
 window.closeKelabModal = function() { const modal = document.getElementById('kelabModal'); if (modal) { modal.classList.remove('open'); setTimeout(() => { modal.style.display = 'none'; }, 200); } };
+
+window.deleteKelabProfile = async function() {
+  if (window.userRole !== 'admin') return;
+  const key = document.getElementById('k_key').value;
+  const nama = document.getElementById('k_nama').value || key;
+  
+  window.showCustomConfirm(`⚠️ AMARAN PENTING!<br><br>Adakah anda pasti mahu memadam profil pengguna <strong>${nama}</strong> secara KEKAL?<br><small style='color:var(--danger);'>Maklumat log masuk dan profil ini akan dipadamkan, tetapi rekod pinjaman lepas akan kekal di dalam sistem.</small>`, async () => {
+      
+      if(window.dbUsers && window.dbUsers[key]) {
+          delete window.dbUsers[key];
+      }
+      if(window.kelabMapData && window.kelabMapData[key]) {
+          delete window.kelabMapData[key];
+      }
+      
+      window.buildKelabData();
+      window.refreshAllViews();
+      window.closeKelabModal();
+      
+      if(window.dbInstance) {
+          try {
+              await window.dbInstance.collection("pengguna").doc(key).delete();
+              window.showCustomAlert(`Profil pengguna ${nama} berjaya dipadam.`);
+          } catch (e) {
+              console.warn(e);
+          }
+      }
+  });
+};
 
 window.updateKelabProfile = async function() {
   if (window.userRole !== 'admin') return;
@@ -1903,6 +2071,44 @@ window.changeSenaraiPage = function(dir) {
 };
 
 window.gotoSenaraiFiltered = function(filter) { if (window.userRole === 'visitor') return; window.switchTab('senarai'); window.setFilter(filter); };
+
+window.renderKelabTable = function() {
+  const tbody = document.getElementById('kelabTableBody'); if (!tbody) return;
+  const searchEl = document.getElementById('searchKelabInput'); const search = searchEl ? searchEl.value.toLowerCase() : '';
+  window.buildKelabData();
+  let kelabArr = Object.values(window.kelabMapData); 
+  
+  // Susun mengikut No. Pekerja (Menurun / A-Z)
+  kelabArr.sort((a, b) => {
+      const idA = (a.noPekerja || 'zzzzz').toLowerCase();
+      const idB = (b.noPekerja || 'zzzzz').toLowerCase();
+      if (idA < idB) return -1;
+      if (idA > idB) return 1;
+      return 0;
+  });
+
+  const filtered = kelabArr.filter(k => { const searchStr = (String(k.nama || '') + String(k.noPekerja || '')).toLowerCase(); return searchStr.includes(search); });
+  if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada data profil ahli kelab dijumpai.</td></tr>'; return; }
+  let html = '';
+  filtered.forEach((k, index) => {
+    let statusBadge = '';
+    if (k.latestLoan && typeof k.latestLoan.status === 'string' && k.latestLoan.status.includes('Selesai')) { statusBadge = `<span class="badge-btn badge-done">✅ Dipulangkan</span>`; } 
+    else if (k.latestLoan && k.latestLoan.status === 'Bacaan Harian') { statusBadge = `<span class="badge-btn badge-active" style="background:#FFFBEB; color:#9D5D00; border-color:#9D5D00;">📙 Bacaan Harian</span>`; } 
+    else if (k.latestLoan && k.latestLoan.status) { statusBadge = `<span class="badge-btn badge-active">🟢 Sedang Dipinjam</span>`; } 
+    else { statusBadge = `<span class="badge-btn" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border);">Tiada Pinjaman</span>`; }
+    const safeKey = window.getSafeKey(k.key);
+    let actionBtn = window.userRole === 'admin' ? `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.viewKelabProfile('${safeKey}')">✏️ Pinda Profil</button>` : `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.viewKelabProfile('${safeKey}')">📖 Lihat Profil</button>`;
+    
+    html += `<tr style="cursor:default;">
+        <td data-label="Bil" style="text-align:center; font-weight:bold; color:var(--text-muted);">${index + 1}</td>
+        <td data-label="Maklumat Ahli"><strong style="color:var(--primary); font-size:1.05rem; cursor:pointer; text-decoration:underline;" onclick="window.viewKelabHistory('${safeKey}')">${k.nama}</strong><br><span style="background:var(--bg-body); padding:2px 6px; border-radius:4px; font-size:0.75rem; border:1px solid var(--border); margin-top:4px; display:inline-block;">${k.noPekerja || '-'}</span></td>
+        <td data-label="Jabatan" style="font-size:0.95rem;">${k.bahagian || '-'}</td>
+        <td data-label="Point Aktiviti" style="text-align:center;"><div style="display:inline-flex; align-items:center; background:rgba(249, 171, 0, 0.1); border:1px solid rgba(249, 171, 0, 0.4); color:var(--warning); padding:4px 12px; border-radius:20px; font-weight:700; font-size:0.9rem;">🏆 ${k.totalMata} pt</div></td>
+        <td data-label="Status & Tindakan" style="text-align:center; vertical-align:middle;"><div style="display:flex; flex-direction:column; align-items:center; gap:6px;">${statusBadge}${actionBtn}</div></td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+};
 
 window.openBukuModal = function() {
   const idEl = document.getElementById('bukuId'); if (idEl) idEl.value = '';
@@ -2175,20 +2381,36 @@ window.renderKelabTable = function() {
   const tbody = document.getElementById('kelabTableBody'); if (!tbody) return;
   const searchEl = document.getElementById('searchKelabInput'); const search = searchEl ? searchEl.value.toLowerCase() : '';
   window.buildKelabData();
-  let kelabArr = Object.values(window.kelabMapData);
-  kelabArr.sort((a, b) => b.totalMata - a.totalMata);
+  let kelabArr = Object.values(window.kelabMapData); 
+  
+  // Susun mengikut No. Pekerja (Menurun / A-Z)
+  kelabArr.sort((a, b) => {
+      const idA = (a.noPekerja || 'zzzzz').toLowerCase();
+      const idB = (b.noPekerja || 'zzzzz').toLowerCase();
+      if (idA < idB) return -1;
+      if (idA > idB) return 1;
+      return 0;
+  });
+
   const filtered = kelabArr.filter(k => { const searchStr = (String(k.nama || '') + String(k.noPekerja || '')).toLowerCase(); return searchStr.includes(search); });
   if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada data profil ahli kelab dijumpai.</td></tr>'; return; }
   let html = '';
-  filtered.forEach(k => {
+  filtered.forEach((k, index) => {
     let statusBadge = '';
     if (k.latestLoan && typeof k.latestLoan.status === 'string' && k.latestLoan.status.includes('Selesai')) { statusBadge = `<span class="badge-btn badge-done">✅ Dipulangkan</span>`; } 
     else if (k.latestLoan && k.latestLoan.status === 'Bacaan Harian') { statusBadge = `<span class="badge-btn badge-active" style="background:#FFFBEB; color:#9D5D00; border-color:#9D5D00;">📙 Bacaan Harian</span>`; } 
     else if (k.latestLoan && k.latestLoan.status) { statusBadge = `<span class="badge-btn badge-active">🟢 Sedang Dipinjam</span>`; } 
     else { statusBadge = `<span class="badge-btn" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border);">Tiada Pinjaman</span>`; }
     const safeKey = window.getSafeKey(k.key);
-    let actionBtn = window.userRole === 'admin' ? `<button class="btn-3d secondary" onclick="window.viewKelabProfile('${safeKey}')">✏️ Pinda Profil</button>` : `<button class="btn-3d secondary" onclick="window.viewKelabProfile('${safeKey}')">📖 Lihat Profil</button>`;
-    html += `<tr style="cursor:default;"><td data-label="Maklumat Ahli"><strong style="color:var(--primary); font-size:1.05rem; cursor:pointer; text-decoration:underline;" onclick="window.viewKelabHistory('${safeKey}')">${k.nama}</strong><br><span style="background:var(--bg-body); padding:2px 6px; border-radius:4px; font-size:0.75rem; border:1px solid var(--border); margin-top:4px; display:inline-block;">${k.noPekerja || '-'}</span></td><td data-label="Jabatan" style="font-size:0.95rem;">${k.bahagian || '-'}</td><td data-label="Point Aktiviti" style="text-align:center;"><div style="display:inline-flex; align-items:center; background:rgba(249, 171, 0, 0.1); border:1px solid rgba(249, 171, 0, 0.4); color:var(--warning); padding:4px 12px; border-radius:20px; font-weight:700; font-size:0.9rem;">🏆 ${k.totalMata} pt</div></td><td data-label="Status Semasa">${statusBadge}</td><td data-label="Tindakan" style="text-align:right;">${actionBtn}</td></tr>`;
+    let actionBtn = window.userRole === 'admin' ? `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.viewKelabProfile('${safeKey}')">✏️ Pinda Profil</button>` : `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.viewKelabProfile('${safeKey}')">📖 Lihat Profil</button>`;
+    
+    html += `<tr style="cursor:default;">
+        <td data-label="Bil" style="text-align:center; font-weight:bold; color:var(--text-muted);">${index + 1}</td>
+        <td data-label="Maklumat Ahli"><strong style="color:var(--primary); font-size:1.05rem; cursor:pointer; text-decoration:underline;" onclick="window.viewKelabHistory('${safeKey}')">${k.nama}</strong><br><span style="background:var(--bg-body); padding:2px 6px; border-radius:4px; font-size:0.75rem; border:1px solid var(--border); margin-top:4px; display:inline-block;">${k.noPekerja || '-'}</span></td>
+        <td data-label="Jabatan" style="font-size:0.95rem;">${k.bahagian || '-'}</td>
+        <td data-label="Point Aktiviti" style="text-align:center;"><div style="display:inline-flex; align-items:center; background:rgba(249, 171, 0, 0.1); border:1px solid rgba(249, 171, 0, 0.4); color:var(--warning); padding:4px 12px; border-radius:20px; font-weight:700; font-size:0.9rem;">🏆 ${k.totalMata} pt</div></td>
+        <td data-label="Status & Tindakan" style="text-align:center; vertical-align:middle;"><div style="display:flex; flex-direction:column; align-items:center; gap:6px;">${statusBadge}${actionBtn}</div></td>
+    </tr>`;
   });
   tbody.innerHTML = html;
 };
@@ -2223,16 +2445,26 @@ window.renderScoreboard = function() {
   if (!isAll) scoreArr = scoreArr.slice(0, limitVal);
   if (scoreArr.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod mata dijumpai untuk carian/tempoh ini.</td></tr>'; return; }
   
+  const showPoints = window.appSettings && window.appSettings.showPointsPublic !== false;
+  
   let html = '';
   scoreArr.forEach((s, idx) => {
     let rankBadge = ''; if (idx === 0) rankBadge = '🥇 1'; else if (idx === 1) rankBadge = '🥈 2'; else if (idx === 2) rankBadge = '🥉 3'; else rankBadge = `🏅 ${idx + 1}`;
     const keyRaw = (s.noPekerja && s.noPekerja.trim() !== '') ? s.noPekerja.trim().toLowerCase() : s.nama.trim().toLowerCase(); const safeKey = window.getSafeKey(keyRaw);
     
     let pekerjaBadge = window.userRole === 'admin' ? `<br><span style="background:var(--bg-body); padding:2px 6px; border-radius:6px; font-size:0.75rem; border:1px solid var(--border); margin-top:2px; display:inline-block;">${s.noPekerja || '-'}</span>` : '';
+    let paparanMata = (window.userRole === 'admin' || showPoints) ? `${s.mata} pt` : `??? pt`;
     
-    html += `<tr><td style="text-align:center; font-weight:bold; font-size:1.1rem; color:var(--primary);">${rankBadge}</td><td><div style="display:flex; align-items:center; gap:12px;"><div style="font-size:2rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">${s.avatar}</div><div><strong style="color:var(--text-main); font-size:0.95rem; cursor:pointer; text-decoration:underline;" onclick="window.openPointsModal('${safeKey}')" title="Lihat Perincian Mata">${s.nama}</strong>${pekerjaBadge}</div></div></td><td style="font-size:0.85rem;">${s.bahagian || '-'}</td><td style="text-align:center;"><div style="display:inline-flex; align-items:center; background:var(--primary-light); border:1px solid var(--primary); color:var(--primary); padding:6px 16px; border-radius:20px; font-weight:700; font-size:1rem; box-shadow:0 2px 4px rgba(0,103,192,0.15);">${s.mata} pt</div></td></tr>`;
+    html += `<tr><td style="text-align:center; font-weight:bold; font-size:1.1rem; color:var(--primary);">${rankBadge}</td><td><div style="display:flex; align-items:center; gap:12px;"><div style="font-size:2rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">${s.avatar}</div><div><strong style="color:var(--text-main); font-size:0.95rem; cursor:pointer; text-decoration:underline;" onclick="window.openPointsModal('${safeKey}')" title="Lihat Perincian Mata">${s.nama}</strong>${pekerjaBadge}</div></div></td><td style="font-size:0.85rem;">${s.bahagian || '-'}</td><td style="text-align:center;"><div style="display:inline-flex; align-items:center; background:var(--primary-light); border:1px solid var(--primary); color:var(--primary); padding:6px 16px; border-radius:20px; font-weight:700; font-size:1rem; box-shadow:0 2px 4px rgba(0,103,192,0.15);">${paparanMata}</div></td></tr>`;
   });
   tbody.innerHTML = html;
+};
+
+window.ulasanCurrentPage = 1;
+
+window.changeUlasanPage = function(dir) {
+    window.ulasanCurrentPage += dir;
+    window.renderUlasanTable();
 };
 
 window.renderUlasanTable = function() {
@@ -2263,16 +2495,29 @@ window.renderUlasanTable = function() {
       return matchName && matchDate;
   });
 
+  const itemsPerPage = 25;
+  const totalPages = Math.ceil(filteredUlasan.length / itemsPerPage) || 1;
+  if (window.ulasanCurrentPage > totalPages) window.ulasanCurrentPage = totalPages;
+  if (window.ulasanCurrentPage < 1) window.ulasanCurrentPage = 1;
+  
+  const pageInfo = document.getElementById('ulasanPageInfo');
+  if (pageInfo) pageInfo.innerText = `Halaman ${window.ulasanCurrentPage} / ${totalPages}`;
+
   if (filteredUlasan.length === 0) { grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding:30px; color:var(--text-muted);">Tiada ulasan ditemui berdasarkan tapisan carian.</div>'; return; }
   
-  const sorted = [...filteredUlasan].sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh)); let html = ''; const isAdmin = window.userRole === 'admin';
-  sorted.forEach(u => {
+  const sorted = [...filteredUlasan].sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh)); 
+  
+  const startIdx = (window.ulasanCurrentPage - 1) * itemsPerPage;
+  const pagedData = sorted.slice(startIdx, startIdx + itemsPerPage);
+  
+  let html = ''; const isAdmin = window.userRole === 'admin';
+  pagedData.forEach(u => {
     let dateStr = u.tarikh ? window.formatDate(u.tarikh.split('T')[0]) : '';
     let starsHtml = ''; for (let i = 0; i < 5; i++) { starsHtml += i < u.stars ? '★' : '☆'; }
     
     let delBtn = isAdmin ? `<button onclick="window.deleteReview('${u.id}')" class="btn-clear" style="padding:2px 8px; color:var(--danger); border-color:var(--danger-light); font-size:0.7rem;" title="Padam Ulasan">🗑️ Padam</button>` : '';
     let bonusBadge = u.bonusMata > 0 ? `<span style="color:var(--warning); font-size:0.7rem; font-weight:bold; background:rgba(255,149,0,0.1); padding:2px 6px; border-radius:10px; margin-left:4px;">+${u.bonusMata} Bonus</span>` : '';
-    let bonusBtn = isAdmin ? `<button class="btn-clear" style="padding:2px 8px; font-size:0.7rem; color:var(--warning); border-color:rgba(255,149,0,0.3);" onclick="window.openBonusModal('${u.id}', '${u.bonusMata || 0}')">🎁 Bonus</button>` : '';
+    let bonusBtn = isAdmin ? `<button class="btn-clear" style="padding:2px 8px; font-size:0.7rem; margin-right:4px; color:var(--warning); border-color:rgba(255,149,0,0.3);" onclick="window.openBonusModal('${u.id}', '${u.bonusMata || 0}')">🎁 Bonus</button>` : '';
     
     let actionsHtml = isAdmin ? `<div style="display:flex; justify-content:flex-end; gap:6px; margin-top:8px;">${bonusBtn}${delBtn}</div>` : '';
     
