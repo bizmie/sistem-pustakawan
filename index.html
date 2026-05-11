@@ -2496,6 +2496,51 @@ window.changeUlasanPage = function(dir) {
     window.renderUlasanTable();
 };
 
+window.toggleReaction = async function(reviewId, type) {
+    if (window.userRole === 'visitor' || !window.currentUserKey) {
+        return window.showCustomAlert('Sila log masuk sebagai ahli untuk menggunakan fungsi reaksi ini.');
+    }
+    
+    const userKey = window.currentUserKey;
+    const reviewIndex = window.dbUlasan.findIndex(u => String(u.id) === String(reviewId));
+    if (reviewIndex === -1) return;
+    
+    let review = window.dbUlasan[reviewIndex];
+    if (!review.reactions) review.reactions = { like: [], clap: [], agree: [], heart: [], insight: [] };
+    
+    const allTypes = ['like', 'clap', 'agree', 'heart', 'insight'];
+    allTypes.forEach(t => { if (!review.reactions[t]) review.reactions[t] = []; });
+    
+    // Semak jika reaksi ini sudah ditekan sebelumnya
+    const wasSelected = review.reactions[type].includes(userKey);
+    
+    // Padam id pengguna dari KESEMUA jenis reaksi terlebih dahulu (reset)
+    allTypes.forEach(t => {
+        const userIndex = review.reactions[t].indexOf(userKey);
+        if (userIndex > -1) {
+            review.reactions[t].splice(userIndex, 1);
+        }
+    });
+    
+    // Jika ia belum dipilih sebelum ini, tambahkan reaksi baharu (jika sudah dipilih, ia kekal dipadam/unlike)
+    if (!wasSelected) {
+        review.reactions[type].push(userKey);
+    }
+    
+    window.renderUlasanTable();
+    if (typeof window.renderMyReviews === 'function') window.renderMyReviews();
+    
+    if (window.dbInstance) {
+        try {
+            await window.dbInstance.collection("ulasan").doc(reviewId).update({
+                reactions: review.reactions
+            });
+        } catch(e) { 
+            console.warn("Gagal simpan reaksi", e); 
+        }
+    }
+};
+
 window.renderUlasanTable = function() {
   const grid = document.getElementById('ulasanGrid'); if (!grid) return; grid.innerHTML = '';
   
@@ -2550,7 +2595,22 @@ window.renderUlasanTable = function() {
     
     let actionsHtml = isAdmin ? `<div style="display:flex; justify-content:flex-end; gap:6px; margin-top:8px;">${bonusBtn}${delBtn}</div>` : '';
     
-    html += `<div class="ulasan-card"><div class="uc-header"><div class="uc-avatar">${u.avatar || '👤'}</div><div><div class="uc-book">${u.tajuk}</div><div style="font-size:0.75rem; color:var(--text-main); font-weight:600; opacity:0.85; margin:2px 0;">🗓️ ${dateStr}</div><div class="uc-nama">${u.nama}</div></div></div><div class="uc-stars" style="margin-bottom:2px;">${starsHtml}</div><div style="margin-bottom:8px;"><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div class="uc-text" style="margin-bottom:4px;">"${u.teks}"</div>${actionsHtml}</div>`;
+    // Logik Reaksi
+    let rLike = u.reactions && u.reactions.like ? u.reactions.like : [];
+    let rHeart = u.reactions && u.reactions.heart ? u.reactions.heart : [];
+    let rInsight = u.reactions && u.reactions.insight ? u.reactions.insight : [];
+
+    let cLike = rLike.includes(window.currentUserKey) ? 'background:var(--primary-light); color:var(--primary); border-color:var(--primary);' : 'background:var(--surface-solid); border-color:var(--border); color:var(--text-main);';
+    let cHeart = rHeart.includes(window.currentUserKey) ? 'background:rgba(255,59,48,0.1); color:var(--danger); border-color:var(--danger);' : 'background:var(--surface-solid); border-color:var(--border); color:var(--text-main);';
+    let cInsight = rInsight.includes(window.currentUserKey) ? 'background:rgba(255,149,0,0.1); color:var(--warning); border-color:var(--warning);' : 'background:var(--surface-solid); border-color:var(--border); color:var(--text-main);';
+
+    let reactionsHtml = `<div style="display:flex; gap:6px; margin-top:10px; border-top:1px dashed var(--border); padding-top:8px; flex-wrap:wrap;">
+        <button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; border-radius:12px; transition:0.2s; ${cLike}" onclick="window.toggleReaction('${u.id}', 'like')">👍 ${rLike.length > 0 ? rLike.length : ''}</button>
+        <button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; border-radius:12px; transition:0.2s; ${cHeart}" onclick="window.toggleReaction('${u.id}', 'heart')">❤️ ${rHeart.length > 0 ? rHeart.length : ''}</button>
+        <button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; border-radius:12px; transition:0.2s; ${cInsight}" onclick="window.toggleReaction('${u.id}', 'insight')">💡 ${rInsight.length > 0 ? rInsight.length : ''}</button>
+    </div>`;
+    
+    html += `<div class="ulasan-card"><div class="uc-header"><div class="uc-avatar">${u.avatar || '👤'}</div><div><div class="uc-book">${u.tajuk}</div><div style="font-size:0.75rem; color:var(--text-main); font-weight:600; opacity:0.85; margin:2px 0;">🗓️ ${dateStr}</div><div class="uc-nama">${u.nama}</div></div></div><div class="uc-stars" style="margin-bottom:2px;">${starsHtml}</div><div style="margin-bottom:8px;"><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div class="uc-text" style="margin-bottom:4px;">"${u.teks}"</div>${reactionsHtml}${actionsHtml}</div>`;
   });
   grid.innerHTML = html;
 };
