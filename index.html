@@ -280,7 +280,7 @@
 
         <div style="margin-top: 12px;">
             <button type="button" class="btn-clear" style="border-radius: 50px; font-size: 0.75rem;" onclick="window.openAdminLoginModal()">⚙️ Log Pentadbir</button>
-            <div style="margin-top: 8px; font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">V23</div>
+            <div style="margin-top: 8px; font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">V24.0 (Modul Eksport Data & Laporan)</div>
         </div>
     </div>
 </div>
@@ -652,9 +652,84 @@
                     
                     <div style="margin-bottom: 12px; padding-top: 12px; border-top: 1px dashed var(--border);">
                         <label class="form-label" style="font-size: 0.85rem; color:var(--text-main); font-weight:600;">Versi Aplikasi</label>
-                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">V23.2 (Tetapan Privasi Mata)</p>
+                        <p style="font-size:0.85rem; color:var(--primary); margin: 2px 0 0 0; font-family: monospace;">V24.0 (Modul Eksport Data & Laporan)</p>
                     </div>
                 </div>
+
+                <div style="margin-top: 24px; padding-top: 16px; border-top: 2px solid var(--border);">
+                    <h2 style="margin-top:0; font-size: 1rem; color:var(--primary);">📥 Eksport Laporan & Data Sistem</h2>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:16px;">Jana rekod komprehensif dalam bentuk jadual untuk kegunaan perisian hamparan luaran (Excel / XLS) atau cetakan PDF.</p>
+                    
+                    <div class="dashboard-layout" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+                        
+                        <!-- 1. Data Ahli Peminjam -->
+                        <div class="widget-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+                            <strong style="color:var(--text-main); font-size:0.9rem;">1. Data Ahli Peminjam</strong>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">Senarai lengkap semua pengguna berserta maklumat profil & jumlah mata terkini.</div>
+                            <div style="display:flex; gap:8px; margin-top:auto; width:100%; justify-content:flex-end;">
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('ahli', 'excel')">📊 Excel</button>
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('ahli', 'pdf')">🖨️ PDF</button>
+                            </div>
+                        </div>
+
+                        <!-- 2. Data Bahan Baru -->
+                        <div class="widget-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+                            <strong style="color:var(--text-main); font-size:0.9rem;">2. Data Bahan Baru</strong>
+                            <div style="display:flex; gap:6px; flex-wrap:wrap; width:100%;">
+                                <select id="exp_buku_m" class="form-group select" style="width:auto; margin:0; padding:4px 6px; font-size:0.75rem;"><option value="all">Semua Bulan</option><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option></select>
+                                <input type="number" id="exp_buku_y" value="2026" class="login-input" style="width:70px; margin:0; padding:4px 6px; font-size:0.75rem;">
+                            </div>
+                            <div style="display:flex; gap:8px; margin-top:auto; width:100%; justify-content:flex-end;">
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('buku', 'excel')">📊 Excel</button>
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('buku', 'pdf')">🖨️ PDF</button>
+                            </div>
+                        </div>
+
+                        <!-- 3. Rekod Pinjaman Individu -->
+                        <div class="widget-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+                            <strong style="color:var(--text-main); font-size:0.9rem;">3. Rekod Pinjaman Individu</strong>
+                            <input type="text" id="exp_pinjam_id" class="login-input" style="margin:0; padding:4px 8px; font-size:0.75rem;" placeholder="Cari No. Pekerja / Nama...">
+                            <div style="display:flex; gap:6px; flex-wrap:wrap; width:100%;">
+                                <select id="exp_pinjam_m" class="form-group select" style="width:auto; margin:0; padding:4px 6px; font-size:0.75rem;"><option value="all">Semua Bulan</option><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option></select>
+                                <input type="number" id="exp_pinjam_y" value="2026" class="login-input" style="width:70px; margin:0; padding:4px 6px; font-size:0.75rem;">
+                            </div>
+                            <div style="display:flex; gap:8px; margin-top:auto; width:100%; justify-content:flex-end;">
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('pinjaman', 'excel')">📊 Excel</button>
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('pinjaman', 'pdf')">🖨️ PDF</button>
+                            </div>
+                        </div>
+
+                        <!-- 4. Rekod Mata Individu -->
+                        <div class="widget-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+                            <strong style="color:var(--text-main); font-size:0.9rem;">4. Rekod Mata Individu</strong>
+                            <input type="text" id="exp_mata_id" class="login-input" style="margin:0; padding:4px 8px; font-size:0.75rem;" placeholder="Cari No. Pekerja / Nama...">
+                            <div style="display:flex; gap:6px; flex-wrap:wrap; width:100%;">
+                                <select id="exp_mata_m" class="form-group select" style="width:auto; margin:0; padding:4px 6px; font-size:0.75rem;"><option value="all">Semua Bulan</option><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option></select>
+                                <input type="number" id="exp_mata_y" value="2026" class="login-input" style="width:70px; margin:0; padding:4px 6px; font-size:0.75rem;">
+                            </div>
+                            <div style="display:flex; gap:8px; margin-top:auto; width:100%; justify-content:flex-end;">
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('mata', 'excel')">📊 Excel</button>
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('mata', 'pdf')">🖨️ PDF</button>
+                            </div>
+                        </div>
+
+                        <!-- 5. Data Keseluruhan Rekod Pinjaman -->
+                        <div class="widget-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
+                            <strong style="color:var(--text-main); font-size:0.9rem;">5. Data Keseluruhan Pinjaman</strong>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">Semua rekod peminjam lengkap, tanpa markah mengikut bulan & tahun.</div>
+                            <div style="display:flex; gap:6px; flex-wrap:wrap; width:100%;">
+                                <select id="exp_all_pinjam_m" class="form-group select" style="width:auto; margin:0; padding:4px 6px; font-size:0.75rem;"><option value="all">Semua Bulan</option><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option></select>
+                                <input type="number" id="exp_all_pinjam_y" value="2026" class="login-input" style="width:70px; margin:0; padding:4px 6px; font-size:0.75rem;">
+                            </div>
+                            <div style="display:flex; gap:8px; margin-top:auto; width:100%; justify-content:flex-end;">
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('pinjaman_semua', 'excel')">📊 Excel</button>
+                                <button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.exportData('pinjaman_semua', 'pdf')">🖨️ PDF</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -2919,6 +2994,163 @@ window.printKelabHistory = function() {
   let html = `<html><head><title>Senarai Bacaan - ${k.nama}</title><style>@page{size:A4 portrait;margin:20mm;}body{font-family:Arial,sans-serif;padding:20px;font-size:12px;color:#333;}h2{text-align:center;margin-bottom:5px;text-transform:uppercase;color:#000;}p{text-align:center;color:#555;margin-top:0;margin-bottom:20px;}.profile-box{background:#f9f9f9;border:1px solid #ddd;padding:15px;margin-bottom:20px;border-radius:8px;display:flex;justify-content:space-between;}.profile-box h3{margin:0 0 5px 0;font-size:16px;color:#000;}.profile-box .info{font-size:13px;color:#555;}.point-box{text-align:right;}.point-value{font-size:24px;font-weight:bold;color:#d97706;}table{width:100%;border-collapse:collapse;margin-top:10px;}th,td{border:1px solid #000;padding:10px 8px;text-align:left;font-size:12px;}th{background-color:#f2f2f2;text-transform:uppercase;font-weight:bold;}.text-center{text-align:center;}.date-print{position:absolute;top:0px;right:0px;font-size:10px;color:#999;}</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>REKOD BACAAN AHLI KELAB MEMBACA</h2><p>Sistem Pustakawan Digital</p><div class="profile-box"><div><h3>${k.nama}</h3><div class="info">ID / No. Pekerja: <strong>${k.noPekerja || '-'}</strong></div><div class="info">Jabatan/Bahagian: <strong>${k.bahagian || '-'}</strong></div><div class="info" style="margin-top:8px;color:#1A73E8;font-weight:bold;">Tapisan Paparan: ${tapisanTeks}</div></div><div class="point-box"><div style="font-size:12px;color:#666;font-weight:bold;margin-bottom:4px;">MATA TERKUMPUL (TAPISAN)</div><div class="point-value">${filteredMata} pt</div></div></div><table><thead><tr><th width="5%" class="text-center">Bil</th><th width="15%" class="text-center">Tarikh Pinjam</th><th width="45%">Tajuk Bahan / Buku</th><th width="15%" class="text-center">Kategori</th><th width="10%" class="text-center">Mata</th></tr></thead><tbody>`;
   if (userHistory.length === 0) { html += `<tr><td colspan="5" class="text-center" style="padding:20px;">Tiada rekod bacaan untuk tempoh ini.</td></tr>`; } else { userHistory.forEach((item, idx) => { html += `<tr><td class="text-center">${idx + 1}</td><td class="text-center">${window.formatDate(item.tPinjam)}</td><td><strong>${item.tajuk}</strong></td><td class="text-center">${item.jenis}</td><td class="text-center" style="font-weight:bold;color:#d97706;">+${item.mata || 0}</td></tr>`; }); }
   html += `</tbody></table></body></html>`; const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
+};
+
+window.findUserForExport = function(query) {
+    if (!query) return null;
+    query = query.toLowerCase().trim();
+    window.buildKelabData();
+    const users = Object.values(window.kelabMapData);
+    return users.find(u => 
+        (u.noPekerja && u.noPekerja.toLowerCase().includes(query)) || 
+        (u.nama && u.nama.toLowerCase().includes(query))
+    );
+};
+
+window.exportData = function(type, format) {
+    let htmlTable = '';
+    let title = '';
+    const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+    
+    if (type === 'ahli') {
+        title = "DATA SENARAI AHLI PEMINJAM";
+        window.buildKelabData();
+        let arr = Object.values(window.kelabMapData).sort((a,b) => (a.nama||'').localeCompare(b.nama||''));
+        htmlTable = '<table><thead><tr><th>Bil</th><th>Nama Penuh</th><th>No. Pekerja (ID)</th><th>Jabatan / Bahagian</th><th>No. Telefon</th><th>Mata Terkumpul</th></tr></thead><tbody>';
+        if (arr.length === 0) htmlTable += '<tr><td colspan="6">Tiada rekod ahli.</td></tr>';
+        arr.forEach((k, i) => {
+            htmlTable += `<tr><td>${i+1}</td><td>${k.nama}</td><td>${k.noPekerja||'-'}</td><td>${k.bahagian||'-'}</td><td>${k.whatsapp||'-'}</td><td>${k.totalMata}</td></tr>`;
+        });
+        htmlTable += '</tbody></table>';
+    }
+    else if (type === 'buku') {
+        const m = document.getElementById('exp_buku_m').value;
+        const y = parseInt(document.getElementById('exp_buku_y').value);
+        title = `DATA REKOD BAHAN BARU (${m==='all' ? 'Tahun ' + y : monthNames[parseInt(m)] + ' ' + y})`;
+        
+        let filtered = window.dbBuku.filter(b => {
+            const d = new Date(b.tarikh);
+            if (d.getFullYear() !== y) return false;
+            if (m !== 'all' && d.getMonth() !== parseInt(m)) return false;
+            return true;
+        }).sort((a,b) => new Date(a.tarikh) - new Date(b.tarikh));
+        
+        htmlTable = '<table><thead><tr><th>Bil</th><th>Tarikh Daftar</th><th>Tajuk Bahan</th><th>Edisi / Isu</th><th>Kategori Pendaftaran</th><th>Jenis Bahan</th><th>Bidang</th><th>Penerbitan</th><th>Penerima</th><th>Sumber</th><th>Bilangan</th></tr></thead><tbody>';
+        if (filtered.length === 0) htmlTable += '<tr><td colspan="11">Tiada rekod.</td></tr>';
+        filtered.forEach((b, i) => {
+            htmlTable += `<tr><td>${i+1}</td><td>${window.formatDate(b.tarikh)}</td><td>${b.tajuk}</td><td>${b.edisi||'-'}</td><td>${b.kategori||'-'}</td><td>${b.jenis||'-'}</td><td>${b.bidang||'-'}</td><td>${b.penerbitan||'-'}</td><td>${b.penerima||'-'}</td><td>${b.sumber||'-'}</td><td>${b.bilangan||1}</td></tr>`;
+        });
+        htmlTable += '</tbody></table>';
+    }
+    else if (type === 'pinjaman') {
+        const query = document.getElementById('exp_pinjam_id').value;
+        if (!query) return window.showCustomAlert('Sila taipkan No. Pekerja atau Nama peminjam untuk memulakan carian.');
+        const user = window.findUserForExport(query);
+        if (!user) return window.showCustomAlert('Carian gagal. Pengguna/Ahli tidak dijumpai di dalam pangkalan data.');
+        
+        const m = document.getElementById('exp_pinjam_m').value;
+        const y = parseInt(document.getElementById('exp_pinjam_y').value);
+        title = `DATA PINJAMAN - ${user.nama.toUpperCase()} (${m==='all' ? 'Tahun ' + y : monthNames[parseInt(m)] + ' ' + y})`;
+        
+        let filtered = window.dbData.filter(item => {
+            if (window.getSafeKey(window.getItemUserKey(item)) !== user.key) return false;
+            const d = new Date(item.tPinjam);
+            if (d.getFullYear() !== y) return false;
+            if (m !== 'all' && d.getMonth() !== parseInt(m)) return false;
+            return true;
+        }).sort((a,b) => new Date(a.tPinjam) - new Date(b.tPinjam));
+        
+        htmlTable = '<table><thead><tr><th>Bil</th><th>Tajuk Bahan (Buku)</th><th>Kategori</th><th>Tarikh Pinjam</th><th>Jangkaan Pulang</th><th>Pulang Sebenar</th><th>Status Rekod</th><th>Rekod Denda (RM)</th></tr></thead><tbody>';
+        if (filtered.length === 0) htmlTable += '<tr><td colspan="8">Tiada rekod pinjaman bagi kriteria tersebut.</td></tr>';
+        filtered.forEach((item, i) => {
+            let stat = item.status || 'Dipinjam'; let actualReturn = '-'; let denda = item.denda || '0.00';
+            if(stat.includes('Selesai')) { stat = 'Selesai'; actualReturn = window.formatDate(item.tDipulangkan); }
+            else if(stat === 'Bacaan Harian') { actualReturn = window.formatDate(item.tPinjam); }
+            htmlTable += `<tr><td>${i+1}</td><td>${item.tajuk}</td><td>${item.jenis||'-'}</td><td>${window.formatDate(item.tPinjam)}</td><td>${window.formatDate(item.tPulang)}</td><td>${actualReturn}</td><td>${stat}</td><td>${denda}</td></tr>`;
+        });
+        htmlTable += '</tbody></table>';
+    }
+    else if (type === 'mata') {
+        const query = document.getElementById('exp_mata_id').value;
+        if (!query) return window.showCustomAlert('Sila taipkan No. Pekerja atau Nama peminjam untuk memulakan carian.');
+        const user = window.findUserForExport(query);
+        if (!user) return window.showCustomAlert('Carian gagal. Pengguna/Ahli tidak dijumpai di dalam pangkalan data.');
+        
+        const m = document.getElementById('exp_mata_m').value;
+        const y = parseInt(document.getElementById('exp_mata_y').value);
+        title = `DATA MATA GANJARAN - ${user.nama.toUpperCase()} (${m==='all' ? 'Tahun ' + y : monthNames[parseInt(m)] + ' ' + y})`;
+        
+        let records = [];
+        window.dbData.forEach(item => {
+            if (window.getSafeKey(window.getItemUserKey(item)) !== user.key) return;
+            const d = new Date(item.tPinjam);
+            if (d.getFullYear() !== y) return;
+            if (m !== 'all' && d.getMonth() !== parseInt(m)) return;
+            const mPt = parseInt(item.mata) || 0;
+            if(mPt > 0) records.push({ tarikh: item.tPinjam, tajuk: item.tajuk, aktiviti: (item.status==='Bacaan Harian'?'Bacaan Harian':'Pinjaman Bahan'), mata: mPt });
+        });
+        window.dbUlasan.forEach(u => {
+            if (u.userKey !== user.key) return;
+            const d = new Date(u.tarikh);
+            if (d.getFullYear() !== y) return;
+            if (m !== 'all' && d.getMonth() !== parseInt(m)) return;
+            records.push({ tarikh: u.tarikh.split('T')[0], tajuk: u.tajuk, aktiviti: 'Ulasan / Review Buku', mata: 2 });
+            if(parseInt(u.bonusMata)>0) records.push({ tarikh: u.tarikh.split('T')[0], tajuk: u.tajuk, aktiviti: 'Bonus Ulasan Berkualiti (Admin)', mata: parseInt(u.bonusMata) });
+        });
+        records.sort((a,b) => new Date(a.tarikh) - new Date(b.tarikh));
+        
+        let total = 0;
+        htmlTable = '<table><thead><tr><th>Bil</th><th>Tarikh Perolehan</th><th>Aktiviti / Perkara Terlibat</th><th>Tajuk Bahan Rujukan</th><th>Mata Diperoleh</th></tr></thead><tbody>';
+        if (records.length === 0) htmlTable += '<tr><td colspan="5">Tiada rekod pemerolehan mata.</td></tr>';
+        records.forEach((r, i) => {
+            total += r.mata;
+            htmlTable += `<tr><td>${i+1}</td><td>${window.formatDate(r.tarikh)}</td><td>${r.aktiviti}</td><td>${r.tajuk}</td><td>+${r.mata}</td></tr>`;
+        });
+        htmlTable += `<tr><td colspan="4" style="text-align:right; font-weight:bold;">JUMLAH MATA TERKUMPUL</td><td style="font-weight:bold; color:#d97706;">${total}</td></tr>`;
+        htmlTable += '</tbody></table>';
+    }
+    else if (type === 'pinjaman_semua') {
+        const m = document.getElementById('exp_all_pinjam_m').value;
+        const y = parseInt(document.getElementById('exp_all_pinjam_y').value);
+        title = `DATA KESELURUHAN REKOD PINJAMAN (${m==='all' ? 'Tahun ' + y : monthNames[parseInt(m)] + ' ' + y})`;
+        
+        let filtered = window.dbData.filter(item => {
+            const d = new Date(item.tPinjam);
+            if (d.getFullYear() !== y) return false;
+            if (m !== 'all' && d.getMonth() !== parseInt(m)) return false;
+            return true;
+        }).sort((a,b) => new Date(a.tPinjam) - new Date(b.tPinjam));
+        
+        htmlTable = '<table><thead><tr><th>Bil</th><th>Nama Peminjam</th><th>No. Pekerja (ID)</th><th>Bahagian / Jabatan</th><th>Tajuk Bahan (Buku)</th><th>Kategori</th><th>Tarikh Pinjam</th><th>Jangkaan Pulang</th><th>Pulang Sebenar</th><th>Status Rekod</th><th>Rekod Denda (RM)</th></tr></thead><tbody>';
+        if (filtered.length === 0) htmlTable += '<tr><td colspan="11">Tiada rekod pinjaman bagi tempoh tersebut.</td></tr>';
+        filtered.forEach((item, i) => {
+            let stat = item.status || 'Dipinjam'; let actualReturn = '-'; let denda = item.denda || '0.00';
+            if(stat.includes('Selesai')) { stat = 'Selesai'; actualReturn = window.formatDate(item.tDipulangkan); }
+            else if(stat === 'Bacaan Harian') { actualReturn = window.formatDate(item.tPinjam); }
+            htmlTable += `<tr><td>${i+1}</td><td>${item.nama||'-'}</td><td>${item.noPekerja||'-'}</td><td>${item.bahagian||'-'}</td><td>${item.tajuk||'-'}</td><td>${item.jenis||'-'}</td><td>${window.formatDate(item.tPinjam)}</td><td>${window.formatDate(item.tPulang)}</td><td>${actualReturn}</td><td>${stat}</td><td>${denda}</td></tr>`;
+        });
+        htmlTable += '</tbody></table>';
+    }
+    
+    // Logik format Excel (HTML ke XLS) atau PDF
+    if (format === 'excel') {
+        let uri = 'data:application/vnd.ms-excel;base64,';
+        let template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Data Laporan</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><h2>{title}</h2>{table}</body></html>';
+        let base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) };
+        let formatStr = function(s, c) { return s.replace(/{(\w+)}/g, function(match, p) { return c[p]; }) };
+        let ctx = { title: title, table: htmlTable };
+        let link = document.createElement("a");
+        link.download = "Laporan_" + title.replace(/[^a-zA-Z0-9]/g, "_") + ".xls";
+        link.href = uri + base64(formatStr(template, ctx));
+        link.click();
+    } else if (format === 'pdf') {
+        const today = new Date().toLocaleDateString('ms-MY');
+        let fullHtml = `<html><head><title>${title}</title><style>@page{size:A4 landscape;margin:15mm;}body{font-family:Arial,sans-serif;font-size:11px;color:#333;}table{width:100%;border-collapse:collapse;margin-top:15px;}th,td{border:1px solid #000;padding:6px 8px;text-align:left;}th{background-color:#f2f2f2;text-transform:uppercase;font-weight:bold;font-size:10px;}.date-print{position:absolute;top:0px;right:0px;font-size:10px;color:#999;}h2{text-align:center;text-transform:uppercase; margin-bottom:5px; color:#000;}p{text-align:center; margin-top:0; color:#555; margin-bottom:20px;}</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>${title}</h2><p>Penjanaan Laporan Automatik - Sistem Pustakawan Digital</p>${htmlTable}</body></html>`;
+        const win = window.open('', '', 'width=900,height=700'); 
+        win.document.write(fullHtml); 
+        win.document.close(); 
+        win.print();
+    }
 };
 
 window.openReviewModal = function(bookId, bookTitle) {
