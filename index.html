@@ -357,6 +357,7 @@
             <button class="nav-btn" id="btn-kelab" onclick="window.switchTab('kelab')">🏆 Senarai Peminjam</button>
             <button class="nav-btn" id="btn-scoreboard" onclick="window.switchTab('scoreboard')">🏅 Papan Mata</button>
             <button class="nav-btn" id="btn-ulasan" onclick="window.switchTab('ulasan')">⭐ Ulasan & Review</button>
+            <button class="nav-btn" id="btn-peraturan" onclick="window.switchTab('peraturan')" style="display:none;">📌 Peraturan Mata</button>
         </div>
 
         <div id="tab-dashboard" class="tab-content">
@@ -497,6 +498,19 @@
                             <button class="btn-clear" style="padding:4px 10px; border-radius:4px; border: 1px solid var(--primary); color:var(--primary); background:var(--primary-light); font-weight:700;" onclick="window.openCetakIndividuModal()">🖨️ Individu</button>
                             <button class="btn-3d" onclick="window.openModal()" style="padding:6px 14px; background:var(--success); border-color:#27C93F;">➕ Pinjaman Baru</button>
                         </div>
+                        <div class="action-wrapper" id="action-wrapper-senarai-user" style="display:none;">
+                            <div style="display:flex; align-items:center; gap:4px; background:var(--bg-body); padding:2px 6px; border-radius:var(--radius-btn); border:1px solid var(--border);">
+                                <select id="userReportMonth" class="form-group select" style="margin:0; padding:4px; width:auto; border:none; background:transparent;">
+                                    <option value="all">Semua Bulan</option>
+                                    <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option>
+                                </select>
+                                <select id="userReportYear" class="form-group select" style="margin:0; padding:4px; width:auto; border:none; background:transparent;">
+                                    <option value="all">Semua Tahun</option>
+                                    <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option>
+                                </select>
+                                <button class="btn-clear" style="padding:4px 10px; border-radius:4px; border: 1px solid var(--primary); color:var(--primary); background:var(--primary-light); font-weight:700;" onclick="window.printUserReport()" title="Cetak Rekod Pinjaman Saya">🖨️ Cetak Laporan Saya</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="filter-chips">
                         <button id="chip-all" class="chip active" onclick="window.setFilter('all')">Semua Rekod</button>
@@ -576,7 +590,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                             <span id="scoreboardTitleLabel" style="font-weight:700; font-size:1.2rem; color:var(--text-main); white-space:nowrap;">🏅 Papan Mata</span>
-                            <button class="btn-clear" style="padding: 4px 12px; font-size: 0.8rem; border-radius: 4px; border: 1px dashed #D4C374; color: #5C4033; background: #FFF9C4; font-weight: 700; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); transform: rotate(-1deg);" onclick="window.openPeraturanModal()">📌 Peraturan Mata</button>
+                            <button id="btn-peraturan-scoreboard" class="btn-clear" style="padding: 4px 12px; font-size: 0.8rem; border-radius: 4px; border: 1px dashed #D4C374; color: #5C4033; background: #FFF9C4; font-weight: 700; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); transform: rotate(-1deg);" onclick="window.openPeraturanModal()">📌 Peraturan Mata</button>
                         </div>
                         <div class="search-container" style="flex: initial;">
                             <input type="text" id="searchScoreboardInput" class="search-input" style="margin:0; padding:6px 10px; width: 250px;" placeholder="Cari nama, ID peminjam..." onkeyup="window.renderScoreboard()">
@@ -627,6 +641,14 @@
                     <span id="ulasanPageInfo" style="font-size:0.85rem; font-weight:700;">Halaman 1 / 1</span>
                     <button class="btn-clear" onclick="window.changeUlasanPage(1)">Seterusnya »</button>
                 </div>
+            </div>
+        </div>
+
+        <div id="tab-peraturan" class="tab-content">
+            <div class="content-card" style="padding: 20px; background: #FFF9C4; border: none; box-shadow: var(--shadow-sm); position: relative; margin-top: 10px;">
+                <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 100px; height: 25px; background: rgba(255,255,255,0.5); border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 2;"></div>
+                <h3 style="margin-top:0; color: #5C4033; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 10px; padding-top: 5px;">📌 Peraturan Mata</h3>
+                <div id="tab_peraturan_content" style="font-size: 0.95rem; color: #4A3b32; font-weight: 600; line-height: 1.6; margin-top: 16px;"></div>
             </div>
         </div>
 
@@ -1239,6 +1261,11 @@ window.applySettingsUI = function() {
   const iSub = document.getElementById('set_sub_title'); if(iSub) iSub.value = s;
   const chkPoints = document.getElementById('set_show_points'); if(chkPoints) chkPoints.checked = showPoints;
   
+  const defaultRules = "<ul><li>Peminjaman Bahan/Buku: +10 Mata</li><li>Ulasan & Review: +2 Mata</li><li>Markah Bonus Ulasan Berkualiti: (Bergantung budi bicara Pustakawan)</li><li>Bacaan Harian: +10 Mata (Buku dibaca di perpustakaan sahaja)</li></ul>";
+  const rulesContent = (window.appSettings && window.appSettings.peraturanMata) ? window.appSettings.peraturanMata : defaultRules;
+  const tabContent = document.getElementById('tab_peraturan_content');
+  if (tabContent) tabContent.innerHTML = rulesContent;
+  
   if (typeof window.renderScoreboard === 'function') window.renderScoreboard();
 };
 
@@ -1712,9 +1739,12 @@ window.setupTabsForRole = function() {
   safeSetDisplay('btn-kelab', isAdmin ? 'inline-block' : 'none');
   safeSetDisplay('btn-scoreboard', (isAdmin || isVisitor || isUser) ? 'inline-block' : 'none');
   safeSetDisplay('btn-ulasan', (isAdmin || isVisitor || isUser) ? 'inline-block' : 'none');
+  safeSetDisplay('btn-peraturan', (isUser || isVisitor) ? 'inline-block' : 'none');
+  safeSetDisplay('btn-peraturan-scoreboard', isAdmin ? 'inline-block' : 'none');
   safeSetDisplay('btn-tetapan-header', isAdmin ? 'inline-flex' : 'none');
   safeSetDisplay('action-wrapper-buku', isAdmin ? 'flex' : 'none');
   safeSetDisplay('action-wrapper-senarai', isAdmin ? 'flex' : 'none');
+  safeSetDisplay('action-wrapper-senarai-user', isUser ? 'flex' : 'none');
   safeSetDisplay('buku-th-tindakan', isAdmin ? 'table-cell' : 'none');
   
   const filterChips = document.querySelector('.filter-chips'); if (filterChips) filterChips.style.display = isAdmin ? 'flex' : 'none';
@@ -2008,6 +2038,10 @@ window.savePeraturanMata = async function() {
   } else {
       window.showCustomAlert("Mod Luar Talian: Peraturan disimpan secara tempatan.");
   }
+  
+  const tabContent = document.getElementById('tab_peraturan_content');
+  if (tabContent) tabContent.innerHTML = editor.innerHTML;
+  
   btnSave.innerText = originalText;
   window.closePeraturanModal();
 };
@@ -2543,6 +2577,18 @@ window.deleteRecord = async function() {
   });
 };
 
+window.openChatWithContext = function(userId, userName, tajuk, tarikh) {
+    if(!userId || userId === 'unknown') return window.showCustomAlert('ID peminjam tidak sah dijumpai.');
+    window.openChatAdmin(userId, userName);
+    setTimeout(() => {
+        const input = document.getElementById('chatInput');
+        if (input) {
+            input.value = `Merujuk kepada bahan pinjaman "${tajuk}" bertarikh ${window.formatDate(tarikh)}: `;
+            input.focus();
+        }
+    }, 250);
+};
+
 window.renderTable = function() {
   const tbody = document.getElementById('tableBody'); if (!tbody) return;
   const searchEl = document.getElementById('searchInput'); const search = searchEl ? searchEl.value.toLowerCase() : ''; tbody.innerHTML = '';
@@ -2616,7 +2662,7 @@ window.renderTable = function() {
       actionTd = `<div style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); text-align:center;"><div style="font-weight:900; color:var(--warning); font-size:1.1rem; margin-bottom:4px;">+${item.mata || 0} pt</div>${ulasanBtn}</div>`;
     }
 
-    // Pemprosesan Tarikh Daftar
+    // Pemprosesan Tarikh Daftar & Butang Mesej Admin
     let tarikhDaftar = '-'; 
     let idNum = parseInt(item.id);
     if (!isNaN(idNum) && idNum > 1000000000000) { 
@@ -2624,6 +2670,18 @@ window.renderTable = function() {
         tarikhDaftar = `<strong style="color:var(--primary);">${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}</strong><br><small style="color:var(--text-muted);">${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}</small>`; 
     } else { 
         tarikhDaftar = `<strong style="color:var(--primary);">${window.formatDate(item.tPinjam)}</strong>`; 
+    }
+
+    if (isAdmin) {
+        const rawKey = window.getItemUserKey(item);
+        const safeId = window.getSafeKey(rawKey);
+        const safeNama = (item.nama || '').replace(/'/g, "\\'");
+        const safeTajuk = (item.tajuk || '').replace(/'/g, "\\'");
+        
+        // Ikon surat minimalis (SVG)
+        const envelopeIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`;
+        
+        tarikhDaftar += `<div style="margin-top:8px;"><button class="btn-clear" style="padding:6px; width:28px; height:28px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; color:var(--primary); border-color:var(--primary-light); background:var(--primary-light); box-shadow:var(--shadow-sm);" onclick="window.openChatWithContext('${safeId}', '${safeNama}', '${safeTajuk}', '${item.tPinjam}')" title="Hantar mesej tentang bahan ini">${envelopeIcon}</button></div>`;
     }
 
     html += `<tr style="${rowStyle}"><td data-label="Tarikh Daftar" style="text-align:center; vertical-align:middle;">${tarikhDaftar}</td><td data-label="Peminjam"><strong style="color:var(--text-main); font-size:1rem;">${item.nama}</strong><br><small style="color:var(--text-muted);">${item.noPekerja}</small>${bhg}</td><td data-label="Bahan"><div style="font-size:0.95rem; color:var(--text-main);">${item.tajuk}</div><small style="background:var(--bg-body); padding:2px 6px; border-radius:4px; border:1px solid var(--border); font-size:0.75rem; margin-top:4px; display:inline-block;">${item.jenis}</small></td><td data-label="Tarikh & Tempoh"><div style="font-size:0.85rem; color:var(--text-muted);">Pinjam: <strong style="color:var(--text-main);">${window.formatDate(item.tPinjam)}</strong></div><div style="font-size:0.85rem; color:var(--text-muted);">Jangka Pulang: <strong style="color:var(--text-main);">${window.formatDate(item.tPulang)}</strong></div><div style="font-weight:700; color:${isLate ? 'var(--danger)' : 'var(--primary)'}; font-size:0.8rem; margin-top:6px; background: ${isLate ? 'var(--danger-light)' : 'var(--primary-light)'}; padding:2px 6px; border-radius:6px; width:max-content; border: 1px solid ${isLate ? 'var(--danger)' : 'var(--primary)'};">⌛ Tempoh: ${dur} Hari</div></td><td data-label="Status & Tindakan" style="text-align:center; vertical-align:middle;"><div>${statusBadge}</div>${actionTd}</td></tr>`;
@@ -2972,6 +3030,59 @@ window.printIndividuReport = function() {
     html += `</tbody></table></body></html>`; 
     
     window.closeCetakIndividuModal();
+    const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
+};
+
+window.printUserReport = function() {
+    const monthVal = document.getElementById('userReportMonth').value;
+    const yearVal = document.getElementById('userReportYear').value;
+
+    if (!window.currentUserKey) return window.showCustomAlert("Sila log masuk semula untuk memuat turun laporan anda.");
+
+    const userK = window.kelabMapData[window.currentUserKey] || (window.dbUsers && window.dbUsers[window.currentUserKey]);
+    const dispNama = userK ? (userK.nama || window.currentUserKey) : window.currentUserKey;
+    const dispId = userK ? (userK.noPekerja || '-') : '-';
+    const dispBhg = userK ? (userK.bahagian || '-') : '-';
+
+    let filtered = window.dbData.filter(item => window.getSafeKey(window.getItemUserKey(item)) === window.currentUserKey);
+
+    let tempohTxt = "Keseluruhan Rekod Lengkap";
+    if (yearVal !== 'all') {
+        filtered = filtered.filter(item => new Date(item.tPinjam).getFullYear() === parseInt(yearVal));
+        tempohTxt = `Tahun ${yearVal}`;
+    }
+    if (monthVal !== 'all') {
+        filtered = filtered.filter(item => new Date(item.tPinjam).getMonth() === parseInt(monthVal));
+        const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+        tempohTxt = yearVal !== 'all' ? `Bulan ${monthNames[parseInt(monthVal)]} ${yearVal}` : `Bulan ${monthNames[parseInt(monthVal)]} (Semua Tahun)`;
+    }
+
+    filtered.sort((a, b) => new Date(a.tPinjam) - new Date(b.tPinjam));
+
+    const today = new Date().toLocaleDateString('ms-MY');
+    let html = `<html><head><title>Laporan Rekod Pinjaman Saya</title><style>@page{size:A4 portrait;margin:15mm;}body{font-family:Arial,sans-serif;font-size:11px;color:#333;}h2{text-align:center;margin-bottom:5px;text-transform:uppercase;color:#000;}p{text-align:center;color:#555;margin-top:0;margin-bottom:20px;}table{width:100%;border-collapse:collapse;margin-top:10px;}th,td{border:1px solid #000;padding:6px 8px;text-align:left;vertical-align:top;}th{background-color:#f2f2f2;text-transform:uppercase;font-weight:bold;font-size:10px;}.text-center{text-align:center;}.date-print{position:absolute;top:0px;right:0px;font-size:10px;color:#999;}.profile-info{margin-bottom:15px; border:1px solid #ddd; padding:10px; border-radius:6px; background:#f9f9f9; line-height: 1.6;}</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>LAPORAN REKOD PINJAMAN SAYA</h2><p>Sistem Pustakawan Digital</p><div class="profile-info"><strong>Nama Peminjam:</strong> ${dispNama} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>No. Pekerja:</strong> ${dispId} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Jabatan / Bahagian:</strong> ${dispBhg}<br><strong>Pilihan Tempoh:</strong> ${tempohTxt} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Jumlah Rekod:</strong> ${filtered.length}</div><table><thead><tr><th width="5%" class="text-center">Bil</th><th width="35%">Tajuk Bahan / Buku</th><th width="15%" class="text-center">Tarikh Pinjam</th><th width="15%" class="text-center">Jangka Pulang</th><th width="15%" class="text-center">Pemulangan Sebenar</th><th width="15%" class="text-center">Status Terkini</th></tr></thead><tbody>`;
+
+    if (filtered.length === 0) {
+        html += `<tr><td colspan="6" style="text-align:center; padding:20px;">Tiada rekod pinjaman bagi tempoh masa ini.</td></tr>`;
+    } else {
+        filtered.forEach((item, idx) => {
+            let stat = item.status || 'Dipinjam'; let actualReturn = '-';
+            const isSelesai = stat.includes('Selesai'); const isHarian = stat === 'Bacaan Harian';
+            if (isSelesai) { stat = 'Dipulangkan'; actualReturn = window.formatDate(item.tDipulangkan); }
+            else if (isHarian) { actualReturn = window.formatDate(item.tPinjam); }
+
+            const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null));
+            const limit = window.calculateDuration(item.tPinjam, item.tPulang);
+            const overdueDays = dur - limit;
+
+            let lateText = '';
+            if (overdueDays > 0 && !isHarian) { lateText = `<br><span style="color:red; font-size:10px; font-weight:bold;">(Lewat ${overdueDays} Hari)</span>`; }
+
+            html += `<tr><td class="text-center">${idx + 1}</td><td><strong>${item.tajuk}</strong><br><span style="font-size:9px; color:#666;">Kategori: ${item.jenis || '-'}</span></td><td class="text-center">${window.formatDate(item.tPinjam)}</td><td class="text-center">${window.formatDate(item.tPulang)}</td><td class="text-center">${actualReturn}</td><td class="text-center"><strong>${stat}</strong>${lateText}</td></tr>`;
+        });
+    }
+    html += `</tbody></table></body></html>`;
+
     const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
 };
 
