@@ -560,8 +560,8 @@
                 </div>
                 <div class="table-wrap" style="max-height:70vh; overflow-y:auto;">
                     <table>
-                        <thead><tr><th style="width:12%">Tarikh</th><th style="width:25%">Tajuk & Edisi</th><th style="width:20%">Maklumat Bahan</th><th style="width:20%">Penerima / Sumber</th><th style="width:13%">Kategori</th><th id="buku-th-tindakan" style="text-align:right;">Tindakan</th></tr></thead>
-                        <tbody id="bukuTableBody"><tr><td colspan="6" style="text-align:center; padding: 30px;">Memuatkan senarai bahan...</td></tr></tbody>
+                        <thead><tr><th style="width:15%; text-align:center;">Tarikh</th><th style="width:30%">Tajuk & Edisi</th><th style="width:20%">Maklumat Bahan</th><th style="width:20%">Penerima / Sumber</th><th id="buku-th-tindakan" style="text-align:right;">No. Accession</th></tr></thead>
+                        <tbody id="bukuTableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan senarai bahan...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -665,10 +665,19 @@
                         <input type="text" id="set_sub_title" class="login-input" placeholder="Cth: Pengurusan Pinjaman Digital">
                     </div>
                     <div class="form-group" style="margin-top: 12px; margin-bottom: 12px;">
-                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:var(--text-main); font-size:0.85rem;">
-                            <input type="checkbox" id="set_show_points" checked style="width:auto; margin:0; cursor:pointer;">
-                            Benarkan pelawat & pengguna melihat mata di Papan Mata
-                        </label>
+                        <label style="color:var(--text-main); font-size:0.85rem; font-weight:600; margin-bottom:6px; display:block;">Hari Paparan Papan Mata Terbuka</label>
+                        <select id="set_points_day" class="login-input" style="width:100%;">
+                            <option value="all">Setiap Hari (Sentiasa Terbuka)</option>
+                            <option value="1">Hanya Hari Isnin</option>
+                            <option value="2">Hanya Hari Selasa</option>
+                            <option value="3">Hanya Hari Rabu</option>
+                            <option value="4">Hanya Hari Khamis</option>
+                            <option value="5">Hanya Hari Jumaat</option>
+                            <option value="6">Hanya Hari Sabtu</option>
+                            <option value="0">Hanya Hari Ahad</option>
+                            <option value="none">Sembunyi Sepenuhnya</option>
+                        </select>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Pilih hari di mana pelawat/pengguna dibenarkan melihat markah pada Papan Mata.</div>
                     </div>
                     <button class="btn-3d" style="margin-top: 8px; margin-bottom: 16px;" onclick="window.saveSettings()">💾 Simpan Tetapan</button>
                     
@@ -839,7 +848,7 @@
         <div class="grid-compact" style="grid-template-columns: repeat(2, 1fr);">
             <div class="form-group"><label style="color:var(--primary);">ID Pekerja</label><input type="text" id="f_noPekerja" onkeyup="window.autofillPekerja()" style="border-color: var(--primary); background: var(--primary-light);"></div>
             <div class="form-group"><label>Nama Peminjam</label><input type="text" id="f_nama"></div>
-            <div class="form-group" style="position: relative;"><label>WhatsApp</label><div style="display:flex; align-items:center;"><input type="text" id="f_whatsapp" style="padding-right: 30px;"><a id="waLinkBtn" href="#" target="_blank" style="position:absolute; right:8px; display:none; top:6px; font-size:1.1rem; text-decoration:none;">📱</a></div></div>
+            <div class="form-group"><label>WhatsApp / Mesej</label><div style="position: relative; display:flex; align-items:center; max-width:220px; margin-bottom:8px;"><input type="text" id="f_whatsapp" style="width:100%; padding-right:70px; margin-bottom:0;"><div style="position:absolute; right:8px; top:50%; transform:translateY(-50%); display:flex; gap:6px; align-items:center;"><a id="waLinkBtn" href="#" target="_blank" style="display:none; font-size:1.2rem; text-decoration:none; line-height:1;" title="Hubungi WhatsApp">📱</a><button type="button" id="msgLinkBtn" class="btn-clear" style="display:none; padding:4px; width:26px; height:26px; border-radius:6px; color:var(--primary); border-color:var(--primary-light); background:var(--primary-light); box-shadow:var(--shadow-sm); align-items:center; justify-content:center;" title="Hantar Mesej Peringatan (Sistem)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></button></div></div></div>
             <div class="form-group"><label>Bahagian</label><select id="f_bahagian" class="dept-select"></select></div>
             <div class="col-span-2" style="display: flex; gap: 8px; flex-wrap: wrap;">
                 <div class="form-group" style="flex: 0 0 140px; margin-bottom: 0;"><label style="color:var(--primary);">No. Accession</label><input type="text" id="f_accession" onkeyup="window.autofillBuku()" placeholder="Cth: ACC001" style="border-color: var(--primary); background: var(--primary-light);" autocomplete="off"></div>
@@ -1269,7 +1278,6 @@ window.setupDateDisplay = function() {
 window.applySettingsUI = function() {
   const t = window.appSettings.title || "PUSTAKA MTIB";
   const s = window.appSettings.subtitle || "Sistem Pengurusan Perpustakaan Digital";
-  const showPoints = window.appSettings.showPointsPublic !== false;
   
   const lTitle = document.getElementById('loginMainTitle'); if(lTitle) lTitle.innerText = t;
   const lSub = document.getElementById('loginSubTitle'); if(lSub) lSub.innerText = s;
@@ -1279,7 +1287,7 @@ window.applySettingsUI = function() {
   
   const iTitle = document.getElementById('set_main_title'); if(iTitle) iTitle.value = t;
   const iSub = document.getElementById('set_sub_title'); if(iSub) iSub.value = s;
-  const chkPoints = document.getElementById('set_show_points'); if(chkPoints) chkPoints.checked = showPoints;
+  const selPointsDay = document.getElementById('set_points_day'); if (selPointsDay) selPointsDay.value = window.appSettings.showPointsDay || 'all';
   
   const defaultRules = "<ul><li>Peminjaman Bahan/Buku: +10 Mata</li><li>Ulasan & Review: +2 Mata</li><li>Markah Bonus Ulasan Berkualiti: (Bergantung budi bicara Pustakawan)</li><li>Bacaan Harian: +10 Mata (Buku dibaca di perpustakaan sahaja)</li></ul>";
   const rulesContent = (window.appSettings && window.appSettings.peraturanMata) ? window.appSettings.peraturanMata : defaultRules;
@@ -1292,12 +1300,12 @@ window.applySettingsUI = function() {
 window.saveSettings = async function() {
   const newT = document.getElementById('set_main_title').value.trim();
   const newS = document.getElementById('set_sub_title').value.trim();
-  const chkPoints = document.getElementById('set_show_points');
+  const selPointsDay = document.getElementById('set_points_day');
   if(!newT) return window.showCustomAlert('Sila masukkan tajuk utama.');
   
   window.appSettings.title = newT;
   window.appSettings.subtitle = newS;
-  window.appSettings.showPointsPublic = chkPoints ? chkPoints.checked : true;
+  window.appSettings.showPointsDay = selPointsDay ? selPointsDay.value : 'all';
   window.applySettingsUI();
   
   if(window.dbInstance) {
@@ -2518,6 +2526,21 @@ window.prepareEditBuku = function(id) {
   const modal = document.getElementById('bukuModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
+window.prepareEditBukuLama = function(tajuk, jenis, accession) {
+  document.getElementById('bukuId').value = '';
+  document.querySelectorAll('#bukuModal .login-input').forEach(i => { if (i.id !== 'b_bilangan') i.value = ''; });
+  document.getElementById('b_bilangan').value = '1';
+  document.getElementById('b_tarikh').valueAsDate = new Date();
+  document.getElementById('b_kategori').value = 'Buku Percuma';
+  document.getElementById('b_jenis').value = jenis || 'Buku';
+  document.getElementById('b_bidang').value = 'Perusahaan Kayu';
+  document.getElementById('b_penerbitan').value = 'Dalam Negara';
+  document.getElementById('b_tajuk').value = tajuk || '';
+  document.getElementById('b_accession').value = accession || '';
+  const btnDel = document.getElementById('btnDeleteBuku'); if (btnDel) btnDel.style.display = 'none';
+  const modal = document.getElementById('bukuModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
+};
+
 window.saveBuku = async function(statusRec = 'Aktif') {
   const docIdEl = document.getElementById('bukuId'); const docId = docIdEl ? docIdEl.value : '';
   const tajukEl = document.getElementById('b_tajuk'); const tajuk = tajukEl ? tajukEl.value : '';
@@ -2544,25 +2567,117 @@ window.renderBukuTable = function() {
   const tbody = document.getElementById('bukuTableBody'); if (!tbody) return;
   const searchEl = document.getElementById('searchBukuInput'); const search = searchEl ? searchEl.value.toLowerCase() : ''; tbody.innerHTML = '';
   window.dbBuku.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh));
-  const dataToRender = window.dbBuku.filter(item => { const txt = ((item.tajuk || '') + (item.isbn || '') + (item.penerbitan || '') + (item.kategori || '') + (item.sumber || '') + (item.bidang || '') + (item.accession || '')).toLowerCase(); return !search || txt.includes(search); });
-  if (dataToRender.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Tiada rekod buku dijumpai.</td></tr>'; return; }
-  const isAdmin = window.userRole === 'admin'; let html = '';
-  dataToRender.forEach(item => {
-    const badgeColor = item.kategori === 'Buku Percuma' ? 'var(--success)' : '#9D5D00'; const badgeBg = item.kategori === 'Buku Percuma' ? '#DFF6DD' : '#FFFBEB';
-    let rowBgStyle = item.bidang === 'Perusahaan Kayu' ? 'background: var(--bg-kayu);' : 'background: var(--bg-bukan-kayu);'; if (item.status_rekod === 'KIV') rowBgStyle = 'background: var(--danger-light);';
-    const kivBadge = item.status_rekod === 'KIV' ? '<span style="background:var(--danger-light); color:var(--danger); padding:2px 6px; border-radius:6px; font-size:0.7rem; font-weight:700; margin-left:6px;">⏳ KIV</span>' : '';
-    
-    let actionBtn = isAdmin ? `<div style="margin-top:8px;"><button class="btn-clear" style="padding:4px 8px; font-size:0.7rem; width:100%; border-color:var(--primary); color:var(--primary); box-shadow:var(--shadow-sm);" onclick="window.prepareEditBuku('${item.id}')">✏️ Pinda</button></div>` : '';
-    let tarikhHtml = `<td data-label="Tarikh" style="vertical-align:middle; text-align:center;"><strong style="color:var(--primary); font-size:0.95rem;">${window.formatDate(item.tarikh)}</strong></td>`;
-    
-    let accInfo = item.accession ? `<div style="font-family:monospace; font-weight:800; color:var(--primary); font-size:0.8rem; background:var(--primary-light); padding:4px 8px; border-radius:6px; border:1px solid var(--primary); display:inline-block; white-space:nowrap; letter-spacing:0.5px;">${item.accession}</div>` : '<div style="font-family:monospace; color:var(--text-muted); font-size:0.8rem;">-</div>';
-    let accTd = isAdmin ? `<td data-label="No. Accession" style="text-align:right; vertical-align:middle;">${accInfo}${actionBtn}</td>` : '';
-    
-    let displayIsbn = item.isbn ? `<div style="color:var(--text-muted); font-size:0.8rem; font-family:monospace;">ISBN/ISSN: ${item.isbn}</div>` : '';
-    
-    html += `<tr style="${rowBgStyle}">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem;">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem;">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div>${displayIsbn}</td><td data-label="Penerima / Sumber"><div style="font-size:0.9rem;">${item.penerima}</div><div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">Sumber: ${item.sumber}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan}</div></td><td data-label="Kategori"><span style="color:${badgeColor}; background:${badgeBg}; padding:4px 8px; border-radius:6px; border: 1px solid ${badgeColor}; font-size:0.8rem; display:inline-block;">${item.kategori}</span></td>${accTd}</tr>`;
+  
+  const isAdmin = window.userRole === 'admin'; 
+  
+  const dataToRender = window.dbBuku.filter(item => { 
+      if (!isAdmin && item.status_rekod === 'KIV') return false; // Sembunyikan buku KIV dari pelawat/pengguna biasa
+      const txt = ((item.tajuk || '') + (item.isbn || '') + (item.penerbitan || '') + (item.kategori || '') + (item.sumber || '') + (item.bidang || '') + (item.accession || '')).toLowerCase(); 
+      return !search || txt.includes(search); 
   });
-  tbody.innerHTML = html;
+  
+  let html = '';
+
+  if (dataToRender.length > 0) {
+      dataToRender.forEach(item => {
+        const badgeColor = item.kategori === 'Buku Percuma' ? 'var(--success)' : '#9D5D00'; const badgeBg = item.kategori === 'Buku Percuma' ? '#DFF6DD' : '#FFFBEB';
+        let rowBgStyle = item.bidang === 'Perusahaan Kayu' ? 'background: var(--bg-kayu);' : 'background: var(--bg-bukan-kayu);'; if (item.status_rekod === 'KIV') rowBgStyle = 'background: var(--danger-light);';
+        const kivBadge = item.status_rekod === 'KIV' ? '<span style="background:var(--danger-light); color:var(--danger); padding:2px 6px; border-radius:6px; font-size:0.7rem; font-weight:700; margin-left:6px;">⏳ KIV</span>' : '';
+        
+        let actionBtn = isAdmin ? `<div style="margin-top:8px;"><button class="btn-clear" style="padding:4px 8px; font-size:0.7rem; width:100%; border-color:var(--primary); color:var(--primary); box-shadow:var(--shadow-sm);" onclick="window.prepareEditBuku('${item.id}')">✏️ Pinda</button></div>` : '';
+        
+        // Kategori dilampirkan bawah Tarikh (Hanya Admin)
+        let kategoriLabel = isAdmin ? `<div style="margin-top:6px;"><span style="color:${badgeColor}; background:${badgeBg}; padding:2px 6px; border-radius:4px; border: 1px solid ${badgeColor}; font-size:0.7rem; display:inline-block; line-height:1.2; font-weight:600; text-align:center;">${item.kategori}</span></div>` : '';
+        
+        let tarikhHtml = `<td data-label="Tarikh" style="vertical-align:middle; text-align:center;"><strong style="color:var(--primary); font-size:0.95rem;">${window.formatDate(item.tarikh)}</strong>${kategoriLabel}</td>`;
+        
+        let accInfo = item.accession ? `<div style="font-family:monospace; font-weight:800; color:var(--text-muted); font-size:0.8rem; background:var(--bg-body); padding:4px 8px; border-radius:6px; border:1px solid var(--border); display:inline-block; white-space:nowrap; letter-spacing:0.5px;">${item.accession}</div>` : '<div style="font-family:monospace; color:var(--text-muted); font-size:0.8rem;">-</div>';
+        let accTd = isAdmin ? `<td data-label="No. Accession" style="text-align:right; vertical-align:middle;">${accInfo}${actionBtn}</td>` : '';
+        
+        let displayIsbn = item.isbn ? `<div style="color:var(--text-muted); font-size:0.8rem; font-family:monospace;">ISBN/ISSN: ${item.isbn}</div>` : '';
+        
+        let namaPenerimaHtml = isAdmin ? `<div style="font-size:0.9rem; margin-bottom:2px;">${item.penerima || '-'}</div>` : '';
+        
+        html += `<tr style="${rowBgStyle}">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem;">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem;">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div>${displayIsbn}</td><td data-label="Penerima / Sumber">${namaPenerimaHtml}<div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber || '-'}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan || '-'}</div></td>${accTd}</tr>`;
+      });
+  }
+
+  // Pengiraan Buku Lama (Dari Sejarah Pinjaman) - KHAS ADMIN
+  if (isAdmin) {
+      let bukuLamaMap = {};
+      window.dbData.forEach(item => {
+          if (!item.tajuk) return;
+          let titleKey = item.tajuk.toLowerCase().trim();
+          let accKey = item.accession ? item.accession.toLowerCase().trim() : null;
+          
+          let existsInBukuBaru = window.dbBuku.some(b => 
+              (b.tajuk && b.tajuk.toLowerCase().trim() === titleKey) || 
+              (accKey && b.accession && b.accession.toLowerCase().trim() === accKey)
+          );
+          
+          if (existsInBukuBaru) return;
+
+          let mapKey = accKey || titleKey;
+          if (!bukuLamaMap[mapKey]) {
+              bukuLamaMap[mapKey] = {
+                  tajuk: item.tajuk,
+                  jenis: item.jenis || '-',
+                  accession: item.accession || '',
+                  tarikhAwal: item.tPinjam || ''
+              };
+          } else {
+              if (item.tPinjam && (!bukuLamaMap[mapKey].tarikhAwal || new Date(item.tPinjam) < new Date(bukuLamaMap[mapKey].tarikhAwal))) {
+                  bukuLamaMap[mapKey].tarikhAwal = item.tPinjam;
+              }
+          }
+      });
+      
+      let bukuLamaArr = Object.values(bukuLamaMap);
+      bukuLamaArr.sort((a, b) => new Date(b.tarikhAwal) - new Date(a.tarikhAwal));
+      
+      const dataLamaRender = bukuLamaArr.filter(item => { 
+          const txt = ((item.tajuk || '') + (item.jenis || '') + (item.accession || '')).toLowerCase(); 
+          return !search || txt.includes(search); 
+      });
+
+      if (dataLamaRender.length > 0) {
+          // Baris Sempadan untuk Buku Lama
+          html += `<tr style="background: rgba(0,0,0,0.04); border-top: 3px solid var(--border); border-bottom: 2px solid var(--border);">
+              <td colspan="5" style="padding: 15px 20px;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                      <span style="font-size:1.5rem;">📚</span>
+                      <div>
+                          <h3 style="margin: 0; color: var(--text-main); font-size: 1rem;">Rekod Buku Lama (Dari Sejarah Pinjaman)</h3>
+                          <p style="margin: 2px 0 0 0; font-size: 0.75rem; color: var(--text-muted);">Bahan rujukan di bawah telah direkodkan melalui transaksi pinjaman tetapi belum didaftarkan di senarai bahan baru.</p>
+                      </div>
+                  </div>
+              </td>
+          </tr>`;
+
+          dataLamaRender.forEach(item => {
+              let badgeKategoriLama = `<div style="margin-top:6px;"><span style="color:var(--text-muted); background:var(--bg-body); padding:2px 6px; border-radius:4px; border: 1px solid var(--border); font-size:0.7rem; display:inline-block; font-weight:600; text-align:center; line-height:1.2;">Buku Lama</span></div>`;
+              let tarikhHtml = `<td data-label="Tarikh Pinjam" style="vertical-align:middle; text-align:center;"><div style="color:var(--text-muted); font-size:0.85rem; font-weight:bold;">${window.formatDate(item.tarikhAwal)}</div>${badgeKategoriLama}</td>`;
+              
+              let accInfo = item.accession ? `<div style="font-family:monospace; font-weight:800; color:var(--text-muted); font-size:0.8rem; background:var(--bg-body); padding:4px 8px; border-radius:6px; border:1px solid var(--border); display:inline-block; white-space:nowrap; letter-spacing:0.5px;">${item.accession}</div>` : '<div style="font-family:monospace; color:var(--text-muted); font-size:0.8rem;">-</div>';
+              
+              let safeTajuk = item.tajuk ? item.tajuk.replace(/'/g, "\\'") : '';
+              let safeJenis = item.jenis ? item.jenis.replace(/'/g, "\\'") : '';
+              let safeAccession = item.accession ? item.accession.replace(/'/g, "\\'") : '';
+              
+              let actionBtn = `<div style="margin-top:8px;"><button class="btn-clear" style="padding:4px 8px; font-size:0.7rem; width:100%; border-color:var(--success); color:var(--success); box-shadow:var(--shadow-sm);" onclick="document.getElementById('b_tajuk').value='${safeTajuk}'; document.getElementById('b_accession').value='${safeAccession}'; window.openBukuModal();">✏️ Pinda</button></div>`;
+              let accTd = `<td data-label="No. Accession" style="text-align:right; vertical-align:middle;">${accInfo}${actionBtn}</td>`;
+              
+              html += `<tr style="background: rgba(0,0,0,0.015);">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:0.95rem; color:var(--text-main);">${item.tajuk}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Rekod Bacaan Lama</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem;">${item.jenis}</div></td><td data-label="Penerima / Sumber"><div style="font-size:0.8rem; color:var(--text-muted);">-</div></td>${accTd}</tr>`;
+          });
+      }
+  }
+
+  if (html === '') {
+      const colspanCount = isAdmin ? 5 : 4;
+      tbody.innerHTML = `<tr><td colspan="${colspanCount}" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod buku dijumpai berdasarkan carian anda.</td></tr>`;
+  } else {
+      tbody.innerHTML = html;
+  }
 };
 
 window.openModal = function() {
@@ -2575,6 +2690,7 @@ window.openModal = function() {
   window.autoCalcReturnDateEdit();
   const rBelum = document.getElementById('radio_belum'); if (rBelum) rBelum.checked = true; window.toggleReturnDateInput();
   const wa = document.getElementById('waLinkBtn'); if (wa) wa.style.display = 'none';
+  const msgBtn = document.getElementById('msgLinkBtn'); if (msgBtn) msgBtn.style.display = 'none';
   const del = document.getElementById('btnDelete'); if (del) del.style.display = 'none';
   const title = document.getElementById('sm_title'); if (title) title.innerText = "📝 Rekod Pinjaman Baru";
   const m = document.getElementById('statusModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } window.recalcModalCalc();
@@ -2599,6 +2715,12 @@ window.prepareEdit = function(id) {
   window.toggleReturnDateInput();
   const btnWA = document.getElementById('waLinkBtn');
   if (btnWA) { if (item.whatsapp) { btnWA.style.display = 'inline-flex'; btnWA.href = `https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}`; } else { btnWA.style.display = 'none'; } }
+  const btnMsg = document.getElementById('msgLinkBtn');
+  if (btnMsg) { 
+      const rawKey = window.getItemUserKey(item); const safeId = window.getSafeKey(rawKey); const safeNama = (item.nama || '').replace(/'/g, "\\'"); const safeTajuk = (item.tajuk || '').replace(/'/g, "\\'");
+      btnMsg.style.display = 'inline-flex'; 
+      btnMsg.onclick = function(e) { e.preventDefault(); window.openChatWithContext(safeId, safeNama, safeTajuk, item.tPinjam); };
+  }
   const del = document.getElementById('btnDelete'); if (del) del.style.display = 'inline-flex';
   const m = document.getElementById('statusModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } window.recalcModalCalc();
 };
@@ -2860,7 +2982,12 @@ window.renderScoreboard = function() {
   if (!isAll) scoreArr = scoreArr.slice(0, limitVal);
   if (scoreArr.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod mata dijumpai untuk carian/tempoh ini.</td></tr>'; return; }
   
-  const showPoints = window.appSettings && window.appSettings.showPointsPublic !== false;
+  let showPoints = true;
+  if (window.userRole !== 'admin') {
+      const allowedDay = window.appSettings && window.appSettings.showPointsDay ? window.appSettings.showPointsDay : 'all';
+      if (allowedDay === 'none') { showPoints = false; }
+      else if (allowedDay !== 'all') { if (new Date().getDay() !== parseInt(allowedDay)) showPoints = false; }
+  }
   
   let html = '';
   scoreArr.forEach((s, idx) => {
