@@ -1119,13 +1119,24 @@
 </div>
 
 <div class="modal-overlay" id="bukuModal" style="z-index: 1002;">
-    <div class="modal" style="max-width: 650px;">
+    <div class="modal" style="width: 95%; max-width: 650px;">
         <div class="modal-header"><h3 style="margin:0;">📚 Daftar Buku/Bahan Baru</h3><div class="mac-controls"><span class="mac-dot mac-red" onclick="window.closeBukuModal()" style="cursor:pointer;"></span></div></div>
         <input type="hidden" id="bukuId">
         <div class="grid-cols-4">
             <div class="form-group col-span-2"><label class="form-label" style="color:var(--primary); font-weight:700;">Kategori Penerimaan</label><select id="b_kategori" class="login-input" style="border-color:var(--primary); background:var(--primary-light); margin-bottom:0;"><option value="Buku Percuma">🎁 Bahan / Buku Percuma</option><option value="Pembelian Baru">🛒 Pembelian Baru</option></select></div>
             <div class="form-group col-span-2"><label class="form-label">Tarikh Diterima</label><input type="date" id="b_tarikh" class="login-input" style="margin-bottom:0;"></div>
-            <div class="form-group col-span-4"><label class="form-label">Tajuk Bahan</label><input type="text" id="b_tajuk" class="login-input" style="margin-bottom:0;"></div>
+            
+            <div class="col-span-4" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                    <label class="form-label">Tajuk Bahan</label>
+                    <input type="text" id="b_tajuk" class="login-input" style="margin-bottom:0;">
+                </div>
+                <div class="form-group" style="flex: 0 0 160px; margin-bottom: 0;">
+                    <label class="form-label" style="color:var(--primary);">No. Accession</label>
+                    <input type="text" id="b_accession" onkeyup="window.autofillBukuDaftar()" class="login-input" placeholder="Cth: ACC001" style="border-color: var(--primary); background: var(--primary-light); margin-bottom:0;" autocomplete="off">
+                </div>
+            </div>
+
             <div class="form-group col-span-2"><label class="form-label">Edisi / Isu</label><input type="text" id="b_edisi" class="login-input" style="margin-bottom:0;"></div>
             <div class="form-group col-span-2"><label class="form-label">ISSN / ISBN</label><input type="text" id="b_isbn" class="login-input" style="margin-bottom:0;"></div>
             <div class="form-group col-span-1"><label class="form-label">Jenis Bahan</label><select id="b_jenis" class="login-input" style="margin-bottom:0;"><option value="Buku">Buku</option><option value="Laporan">Laporan</option><option value="Majalah">Majalah</option><option value="Jurnal">Jurnal</option><option value="Lain-lain">Lain-lain</option></select></div>
@@ -1340,6 +1351,22 @@ window.autofillBuku = function() {
     if (fJenis && found.jenis) {
       const opts = Array.from(fJenis.options).map(o => o.value);
       if (opts.includes(found.jenis)) fJenis.value = found.jenis;
+    }
+  }
+};
+
+window.autofillBukuDaftar = function() {
+  const accInputEl = document.getElementById('b_accession'); if (!accInputEl) return;
+  const accInput = accInputEl.value.trim().toLowerCase(); if (accInput.length < 2) return;
+  let found = window.dbData.find(item => item.accession && String(item.accession).trim().toLowerCase() === accInput);
+  if (!found) { found = window.dbBuku.find(item => (item.accession && String(item.accession).trim().toLowerCase() === accInput) || (item.isbn && String(item.isbn).trim().toLowerCase() === accInput)); }
+  if (found) {
+    const bTajuk = document.getElementById('b_tajuk'); if (bTajuk && !bTajuk.value) bTajuk.value = found.tajuk || '';
+    const bIsbn = document.getElementById('b_isbn'); if (bIsbn && !bIsbn.value) bIsbn.value = found.isbn || '';
+    const bJenis = document.getElementById('b_jenis');
+    if (bJenis && found.jenis) {
+      const opts = Array.from(bJenis.options).map(o => o.value);
+      if (opts.includes(found.jenis)) bJenis.value = found.jenis;
     }
   }
 };
@@ -1877,7 +1904,23 @@ window.renderMyReviews = function() {
     let dateStr = u.tarikh ? window.formatDate(u.tarikh.split('T')[0]) : '';
     let starsHtml = ''; for(let i = 0; i < 5; i++){ starsHtml += i < u.stars ? '★' : '☆'; }
     let bonusBadge = u.bonusMata > 0 ? `<span style="color:var(--warning); font-size:0.7rem; font-weight:bold; background:rgba(255,149,0,0.1); padding:2px 6px; border-radius:10px; margin-left:4px;">+${u.bonusMata} Bonus</span>` : '';
-    html += `<div class="ulasan-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;"><div><div class="uc-book">${u.tajuk}</div><div style="font-size:0.75rem; color:var(--text-main); font-weight:600; opacity:0.85; margin:2px 0;">🗓️ ${dateStr}</div><div class="uc-stars" style="font-size:0.8rem; display:inline-block; margin-right:8px;">${starsHtml}</div><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; margin-right:4px;" onclick="window.editReview('${u.id}')">✏️ Pinda</button><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light);" onclick="window.deleteReview('${u.id}')">🗑️</button></div></div><div class="uc-text" style="font-size:0.85rem;">"${u.teks}"</div></div>`;
+    
+    // Logik Reaksi
+    let rLike = u.reactions && u.reactions.like ? u.reactions.like : [];
+    let rHeart = u.reactions && u.reactions.heart ? u.reactions.heart : [];
+    let rInsight = u.reactions && u.reactions.insight ? u.reactions.insight : [];
+
+    let cLike = rLike.includes(window.currentUserKey) ? 'background:var(--primary-light); color:var(--primary); border-color:var(--primary);' : 'background:var(--surface-solid); border-color:var(--border); color:var(--text-main);';
+    let cHeart = rHeart.includes(window.currentUserKey) ? 'background:rgba(255,59,48,0.1); color:var(--danger); border-color:var(--danger);' : 'background:var(--surface-solid); border-color:var(--border); color:var(--text-main);';
+    let cInsight = rInsight.includes(window.currentUserKey) ? 'background:rgba(255,149,0,0.1); color:var(--warning); border-color:var(--warning);' : 'background:var(--surface-solid); border-color:var(--border); color:var(--text-main);';
+
+    let reactHtml = `<div style="display:flex; gap:8px; margin-top:10px; border-top:1px dashed var(--border); padding-top:10px; flex-wrap:wrap;">
+        <button class="btn-clear" style="padding:4px 12px; font-size:0.9rem; border-radius:20px; transition:0.2s; ${cLike}" onclick="window.toggleReaction('${u.id}', 'like')">👍 ${rLike.length > 0 ? rLike.length : ''}</button>
+        <button class="btn-clear" style="padding:4px 12px; font-size:0.9rem; border-radius:20px; transition:0.2s; ${cHeart}" onclick="window.toggleReaction('${u.id}', 'heart')">❤️ ${rHeart.length > 0 ? rHeart.length : ''}</button>
+        <button class="btn-clear" style="padding:4px 12px; font-size:0.9rem; border-radius:20px; transition:0.2s; ${cInsight}" onclick="window.toggleReaction('${u.id}', 'insight')">💡 ${rInsight.length > 0 ? rInsight.length : ''}</button>
+    </div>`;
+
+    html += `<div class="ulasan-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;"><div><div class="uc-book">${u.tajuk}</div><div style="font-size:0.75rem; color:var(--text-main); font-weight:600; opacity:0.85; margin:2px 0;">🗓️ ${dateStr}</div><div class="uc-stars" style="font-size:0.8rem; display:inline-block; margin-right:8px;">${starsHtml}</div><span style="color:var(--success); font-size:0.7rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div><div><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; margin-right:4px;" onclick="window.editReview('${u.id}')">✏️ Pinda</button><button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light);" onclick="window.deleteReview('${u.id}')">🗑️</button></div></div><div class="uc-text" style="font-size:0.85rem;">"${u.teks}"</div>${reactHtml}</div>`;
   });
   html += '</div>'; container.innerHTML = html;
 };
@@ -2466,7 +2509,7 @@ window.closeBukuModal = function() { const modal = document.getElementById('buku
 
 window.prepareEditBuku = function(id) {
   const item = window.dbBuku.find(x => String(x.id) === String(id)); if (!item) return;
-  const els = ['bukuId', 'b_kategori', 'b_tarikh', 'b_tajuk', 'b_edisi', 'b_bilangan', 'b_isbn', 'b_jenis', 'b_bidang', 'b_penerbitan', 'b_penerima', 'b_sumber'];
+  const els = ['bukuId', 'b_kategori', 'b_tarikh', 'b_tajuk', 'b_edisi', 'b_bilangan', 'b_isbn', 'b_accession', 'b_jenis', 'b_bidang', 'b_penerbitan', 'b_penerima', 'b_sumber'];
   els.forEach(elId => { const el = document.getElementById(elId); if (el) el.value = item[elId.replace('b_', '')] || ''; });
   const kat = document.getElementById('b_kategori'); if (kat) kat.value = item.kategori || 'Buku Percuma';
   const bil = document.getElementById('b_bilangan'); if (bil) bil.value = item.bilangan || 1;
@@ -2480,7 +2523,7 @@ window.saveBuku = async function(statusRec = 'Aktif') {
   const tajukEl = document.getElementById('b_tajuk'); const tajuk = tajukEl ? tajukEl.value : '';
   if (!tajuk) return window.showCustomAlert("Sila isi Tajuk Bahan.");
   const getVal = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
-  const data = { kategori: getVal('b_kategori'), tarikh: getVal('b_tarikh'), tajuk: tajuk, edisi: getVal('b_edisi'), bilangan: getVal('b_bilangan'), isbn: getVal('b_isbn'), jenis: getVal('b_jenis'), bidang: getVal('b_bidang'), penerbitan: getVal('b_penerbitan'), penerima: getVal('b_penerima'), sumber: getVal('b_sumber'), status_rekod: statusRec };
+  const data = { kategori: getVal('b_kategori'), tarikh: getVal('b_tarikh'), tajuk: tajuk, edisi: getVal('b_edisi'), bilangan: getVal('b_bilangan'), isbn: getVal('b_isbn'), accession: getVal('b_accession'), jenis: getVal('b_jenis'), bidang: getVal('b_bidang'), penerbitan: getVal('b_penerbitan'), penerima: getVal('b_penerima'), sumber: getVal('b_sumber'), status_rekod: statusRec };
   if (!docId) data.id = Date.now().toString(); else data.id = docId;
   const idx = window.dbBuku.findIndex(x => String(x.id) === String(data.id));
   if (idx > -1) window.dbBuku[idx] = { ...window.dbBuku[idx], ...data }; else window.dbBuku.unshift(data);
@@ -2501,15 +2544,23 @@ window.renderBukuTable = function() {
   const tbody = document.getElementById('bukuTableBody'); if (!tbody) return;
   const searchEl = document.getElementById('searchBukuInput'); const search = searchEl ? searchEl.value.toLowerCase() : ''; tbody.innerHTML = '';
   window.dbBuku.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh));
-  const dataToRender = window.dbBuku.filter(item => { const txt = ((item.tajuk || '') + (item.isbn || '') + (item.penerbitan || '') + (item.kategori || '') + (item.sumber || '') + (item.bidang || '')).toLowerCase(); return !search || txt.includes(search); });
+  const dataToRender = window.dbBuku.filter(item => { const txt = ((item.tajuk || '') + (item.isbn || '') + (item.penerbitan || '') + (item.kategori || '') + (item.sumber || '') + (item.bidang || '') + (item.accession || '')).toLowerCase(); return !search || txt.includes(search); });
   if (dataToRender.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Tiada rekod buku dijumpai.</td></tr>'; return; }
   const isAdmin = window.userRole === 'admin'; let html = '';
   dataToRender.forEach(item => {
     const badgeColor = item.kategori === 'Buku Percuma' ? 'var(--success)' : '#9D5D00'; const badgeBg = item.kategori === 'Buku Percuma' ? '#DFF6DD' : '#FFFBEB';
     let rowBgStyle = item.bidang === 'Perusahaan Kayu' ? 'background: var(--bg-kayu);' : 'background: var(--bg-bukan-kayu);'; if (item.status_rekod === 'KIV') rowBgStyle = 'background: var(--danger-light);';
     const kivBadge = item.status_rekod === 'KIV' ? '<span style="background:var(--danger-light); color:var(--danger); padding:2px 6px; border-radius:6px; font-size:0.7rem; font-weight:700; margin-left:6px;">⏳ KIV</span>' : '';
-    let actionTd = isAdmin ? `<td data-label="Tindakan" style="text-align:right;"><button class="btn-3d secondary" onclick="window.prepareEditBuku('${item.id}')">✏️ Pinda</button></td>` : '';
-    html += `<tr style="${rowBgStyle}"><td data-label="Tarikh"><strong>${window.formatDate(item.tarikh)}</strong></td><td data-label="Tajuk"><div style="font-weight:700; font-size:1rem;">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem;">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div><div style="color:var(--primary); font-size:0.85rem; font-family:monospace; margin-top:2px;">${item.isbn || '-'}</div></td><td data-label="Penerima / Sumber"><div style="font-size:0.9rem;">${item.penerima}</div><div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">Sumber: ${item.sumber}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan}</div></td><td data-label="Kategori"><span style="color:${badgeColor}; background:${badgeBg}; padding:4px 8px; border-radius:6px; border: 1px solid ${badgeColor}; font-size:0.8rem; display:inline-block;">${item.kategori}</span></td>${actionTd}</tr>`;
+    
+    let actionBtn = isAdmin ? `<div style="margin-top:8px;"><button class="btn-clear" style="padding:4px 8px; font-size:0.7rem; width:100%; border-color:var(--primary); color:var(--primary); box-shadow:var(--shadow-sm);" onclick="window.prepareEditBuku('${item.id}')">✏️ Pinda</button></div>` : '';
+    let tarikhHtml = `<td data-label="Tarikh" style="vertical-align:middle; text-align:center;"><strong style="color:var(--primary); font-size:0.95rem;">${window.formatDate(item.tarikh)}</strong></td>`;
+    
+    let accInfo = item.accession ? `<div style="font-family:monospace; font-weight:800; color:var(--primary); font-size:0.8rem; background:var(--primary-light); padding:4px 8px; border-radius:6px; border:1px solid var(--primary); display:inline-block; white-space:nowrap; letter-spacing:0.5px;">${item.accession}</div>` : '<div style="font-family:monospace; color:var(--text-muted); font-size:0.8rem;">-</div>';
+    let accTd = isAdmin ? `<td data-label="No. Accession" style="text-align:right; vertical-align:middle;">${accInfo}${actionBtn}</td>` : '';
+    
+    let displayIsbn = item.isbn ? `<div style="color:var(--text-muted); font-size:0.8rem; font-family:monospace;">ISBN/ISSN: ${item.isbn}</div>` : '';
+    
+    html += `<tr style="${rowBgStyle}">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem;">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem;">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div>${displayIsbn}</td><td data-label="Penerima / Sumber"><div style="font-size:0.9rem;">${item.penerima}</div><div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">Sumber: ${item.sumber}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan}</div></td><td data-label="Kategori"><span style="color:${badgeColor}; background:${badgeBg}; padding:4px 8px; border-radius:6px; border: 1px solid ${badgeColor}; font-size:0.8rem; display:inline-block;">${item.kategori}</span></td>${accTd}</tr>`;
   });
   tbody.innerHTML = html;
 };
