@@ -1016,6 +1016,9 @@
             <span style="font-size:0.85rem; color:var(--text-muted);">Senarai bahan yang sedang dipinjam oleh ahli.</span>
             <button class="btn-3d secondary" style="padding:4px 10px; font-size:0.8rem;" onclick="window.closeActiveLoansModal(); window.gotoSenaraiFiltered('aktif')">Papar Penuh</button>
         </div>
+        <div class="form-group" style="margin-bottom: 12px;">
+            <input type="text" id="searchActiveLoansInput" class="login-input" style="margin:0; padding:6px 10px; font-size:0.85rem;" placeholder="Cari nama atau No. Pekerja peminjam..." autocomplete="off" onkeyup="window.updateBorrowedBooksWidget()">
+        </div>
         <div id="activeLoansModalBody" style="display: flex; flex-direction: column; gap: 8px; max-height: 55vh; overflow-y: auto; padding-right:4px;"></div>
         <div style="display:flex; justify-content:flex-end; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px;">
             <button onclick="window.closeActiveLoansModal()" class="btn-clear">❌ Tutup</button>
@@ -1511,8 +1514,10 @@ window.updateCountUI = function() {
 };
 
 window.openActiveLoansModal = function() {
+    const searchInput = document.getElementById('searchActiveLoansInput');
+    if (searchInput) searchInput.value = '';
     const m = document.getElementById('activeLoansModal');
-    if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
+    if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); window.updateBorrowedBooksWidget(); }
 };
 
 window.closeActiveLoansModal = function() {
@@ -1523,6 +1528,9 @@ window.closeActiveLoansModal = function() {
 window.updateBorrowedBooksWidget = function() {
   const container = document.getElementById('activeLoansModalBody');
   if (!container) return;
+  
+  const searchInput = document.getElementById('searchActiveLoansInput');
+  const searchQ = searchInput ? searchInput.value.toLowerCase().trim() : '';
   
   const activeLoans = window.dbData.filter(item => {
     const isSelesai = item.status && item.status.includes('Selesai');
@@ -1544,8 +1552,23 @@ window.updateBorrowedBooksWidget = function() {
     groupedLoans[userKey].loans.push(item);
   });
 
+  let filteredKeys = Object.keys(groupedLoans);
+  if (searchQ) {
+      filteredKeys = filteredKeys.filter(key => {
+          const g = groupedLoans[key];
+          const nameMatch = g.nama && g.nama.toLowerCase().includes(searchQ);
+          const idMatch = g.noPekerja && String(g.noPekerja).toLowerCase().includes(searchQ);
+          return nameMatch || idMatch;
+      });
+  }
+
+  if (filteredKeys.length === 0) {
+      container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted); font-size:0.8rem;">Tiada peminjam aktif dijumpai untuk carian tersebut.</div>';
+      return;
+  }
+
   let html = '';
-  Object.keys(groupedLoans).forEach((key, index) => {
+  filteredKeys.forEach((key, index) => {
     const group = groupedLoans[key];
     let maxLateDays = -999;
     let worstBadge = '';
