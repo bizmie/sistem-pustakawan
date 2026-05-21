@@ -36,6 +36,13 @@
             --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --widget-border: rgba(0, 0, 0, 0.15);
             --blur-effect: blur(20px) saturate(180%);
+            
+            /* Warna Pastel Sticky Notes */
+            --note-1: #FFF9C4; --note-1-border: #FBE9A7;
+            --note-2: #E3F2FD; --note-2-border: #BBDEFB;
+            --note-3: #E8F5E9; --note-3-border: #C8E6C9;
+            --note-4: #FFEBEE; --note-4-border: #FFCDD2;
+            --note-5: #F3E5F5; --note-5-border: #E1BEE7;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -58,6 +65,13 @@
                 --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.05);
                 --bg-weekend: rgba(255,255,255,0.03); 
                 --widget-border: rgba(255, 255, 255, 0.1);
+                
+                /* Warna Pastel Gelap (Dark Mode) */
+                --note-1: #3d3b24; --note-1-border: #4d4b30;
+                --note-2: #1e3347; --note-2-border: #28445e;
+                --note-3: #223825; --note-3-border: #2c4930;
+                --note-4: #422528; --note-4-border: #563034;
+                --note-5: #38253a; --note-5-border: #49304c;
             }
         }
 
@@ -80,6 +94,13 @@
             --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.05);
             --bg-weekend: rgba(255,255,255,0.03); 
             --widget-border: rgba(255, 255, 255, 0.1);
+            
+            /* Warna Pastel Gelap (Dark Mode) */
+            --note-1: #3d3b24; --note-1-border: #4d4b30;
+            --note-2: #1e3347; --note-2-border: #28445e;
+            --note-3: #223825; --note-3-border: #2c4930;
+            --note-4: #422528; --note-4-border: #563034;
+            --note-5: #38253a; --note-5-border: #49304c;
         }
 
         .mac-controls { display: flex; gap: 7px; align-items: center; justify-content: flex-end; }
@@ -202,11 +223,57 @@
         .col-span-1 { grid-column: span 1; } .col-span-2 { grid-column: span 2; } .col-span-4 { grid-column: span 4; }
         .form-group label { display: block; margin-bottom: 4px; font-size: 0.75rem; color: var(--text-muted); font-weight:600;}
 
-        .ulasan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; padding: 12px; }
-        .ulasan-card { background: var(--surface-solid); border: 1px solid var(--border); border-radius: 10px; padding: 12px; position: relative; transition: all 0.2s ease; box-shadow: var(--shadow-sm);}
-        .ulasan-card:hover { transform: translateY(-2px); border-color: var(--primary-light); box-shadow: var(--shadow-md); }
+        /* Penukaran Kepada CSS Multi-column (Masonry) */
+        .ulasan-grid { 
+            column-width: 300px; 
+            column-gap: 16px; 
+            padding: 16px; 
+        }
+        
+        /* Kosmetik Sticky Note Ulasan */
+        .ulasan-card { 
+            break-inside: avoid;
+            page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            background: var(--surface-solid); 
+            border: 1px solid var(--border); 
+            border-radius: 4px 22px 4px 4px; 
+            padding: 18px 14px 14px 14px !important; 
+            position: relative; 
+            transition: all 0.2s ease; 
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+            margin-top: 10px;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .ulasan-card::before { 
+            content: ''; 
+            position: absolute; 
+            top: -10px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 55px; 
+            height: 22px; 
+            background: rgba(255, 255, 255, 0.5); 
+            border-radius: 2px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08); 
+            z-index: 2; 
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        :root[data-theme="dark"] .ulasan-card::before, @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ulasan-card::before { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.02); } }
+        
+        .ulasan-card:nth-child(5n+1) { background-color: var(--note-1); border-color: var(--note-1-border); }
+        .ulasan-card:nth-child(5n+2) { background-color: var(--note-2); border-color: var(--note-2-border); }
+        .ulasan-card:nth-child(5n+3) { background-color: var(--note-3); border-color: var(--note-3-border); }
+        .ulasan-card:nth-child(5n+4) { background-color: var(--note-4); border-color: var(--note-4-border); }
+        .ulasan-card:nth-child(5n+5) { background-color: var(--note-5); border-color: var(--note-5-border); }
+
+        .ulasan-card:hover { transform: translateY(-4px) rotate(1deg); box-shadow: 4px 8px 15px rgba(0,0,0,0.1); }
+        
         .uc-header { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
-        .uc-avatar { font-size: 1.8rem; background: var(--bg-body); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);}
+        .uc-avatar { font-size: 1.8rem; background: rgba(255,255,255,0.4); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.05);}
         
         .uc-book { font-size: 0.95rem; color: var(--primary); font-weight:800; line-height:1.2; }
         .uc-nama { font-weight: 700; color: var(--text-main); font-size: 0.8rem; line-height:1.2; margin-top:2px; opacity:0.9;}
@@ -266,8 +333,6 @@
         <h1 id="loginMainTitle" style="color: var(--primary); margin-bottom: 2px; font-size: 1.4rem;">PUSTAKA MTIB</h1>
         <p id="loginSubTitle" style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.8rem;">Pengurusan Pinjaman Digital</p>
         
-        <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 16px; background: var(--success); border-color: #27C93F;" onclick="window.visitorLogin()">👤 Masuk Sebagai Pelawat</button>
-
         <div id="login_form_user" style="border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px;">
             <p style="color: var(--primary); margin-top: 0; margin-bottom: 10px; font-size: 0.85rem; font-weight: 700; text-align: left;">Log Masuk Ahli</p>
             <div style="text-align: left;">
@@ -275,12 +340,13 @@
                 <div id="login_u_info" style="min-height: 24px; margin-bottom: 8px; display:flex; flex-direction:column; justify-content:center;"></div>
                 <input type="password" id="login_u_pwd" class="login-input" placeholder="Kata Laluan (Lalai: 1234)" onkeyup="if(event.key === 'Enter') window.attemptUserLogin()">
             </div>
-            <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 8px;" onclick="window.attemptUserLogin()">Masuk Profil Peminjam</button>
+            <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 12px;" onclick="window.attemptUserLogin()">Masuk Profil Peminjam</button>
+            <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 8px; background: var(--success); border-color: #27C93F;" onclick="window.visitorLogin()">👤 Masuk tanpa login</button>
         </div>
 
-        <div style="margin-top: 12px;">
-            <button type="button" class="btn-clear" style="border-radius: 50px; font-size: 0.75rem;" onclick="window.openAdminLoginModal()">⚙️ Log Pentadbir</button>
-            <div style="margin-top: 8px; font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">V25.0</div>
+        <div style="margin-top: 32px;">
+            <button type="button" class="btn-clear" style="border-radius: 50px; font-size: 0.75rem; border-color: #F59E0B; color: var(--danger); font-weight: 700; background: transparent;" onclick="window.openAdminLoginModal()">⚙️ Log Pentadbir</button>
+            <div style="margin-top: 8px; font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">V30.0</div>
         </div>
     </div>
 </div>
@@ -882,13 +948,22 @@
                 <div class="form-group" style="flex: 0 0 140px; margin-bottom: 0;"><label style="color:var(--primary);">No. Accession</label><input type="text" id="f_accession" onkeyup="window.autofillBuku()" placeholder="Cth: ACC001" style="border-color: var(--primary); background: var(--primary-light);" autocomplete="off"></div>
                 <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;"><label>Tajuk Bahan</label><input type="text" id="f_tajuk"></div>
             </div>
-            <div class="form-group"><label>Kategori</label><select id="f_jenis"><option value="Buku">Buku</option><option value="Fail Dokumen">Fail Dokumen</option><option value="Majalah">Majalah</option><option value="Alat Bantu">Alat Bantu Mengajar</option></select></div>
+            <div class="form-group"><label>Kategori</label><select id="f_jenis"><option value="Buku">Buku</option><option value="Fail Dokumen">Fail Dokumen</option><option value="Majalah">Majalah/ Akhbar</option><option value="Alat Bantu">Alat Bantu Mengajar</option></select></div>
             <div class="form-group"><label style="color:var(--warning);">🏆 Mata Ganjaran</label><input type="number" id="f_mata" value="10" style="border-color: var(--warning); background: rgba(255, 149, 0, 0.1);"></div>
         </div>
         <div style="background: var(--bg-body); padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 16px;">
             <div class="grid-compact">
                 <div class="form-group" style="margin-bottom:0;"><label style="color: var(--primary);">Tarikh Pinjam</label><input type="date" id="f_tPinjam" onchange="window.autoCalcReturnDateEdit(); window.recalcModalCalc()" style="margin-bottom:0;"></div>
                 <div class="form-group" style="margin-bottom:0;"><label style="color: var(--primary);">Jangkaan Pulang</label><input type="date" id="f_tPulang" style="border-color: var(--primary); margin-bottom:0;" oninput="window.recalcModalCalc()"></div>
+            </div>
+            <div class="form-group" style="margin-top: 10px; margin-bottom: 0; padding-top: 10px; border-top: 1px dashed var(--border);">
+                <label style="color:var(--primary); font-size: 0.8rem; margin-bottom: 6px;">🔄 Sambung Pinjaman</label>
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <label style="display:flex; align-items:center; gap:4px; font-size:0.8rem; cursor:pointer;"><input type="checkbox" id="renew_1" onchange="window.handleRenewChange(1)"> 1 Kali</label>
+                    <label style="display:flex; align-items:center; gap:4px; font-size:0.8rem; cursor:pointer;"><input type="checkbox" id="renew_2" onchange="window.handleRenewChange(2)"> 2 Kali</label>
+                    <label style="display:flex; align-items:center; gap:4px; font-size:0.8rem; cursor:pointer;"><input type="checkbox" id="renew_3" onchange="window.handleRenewChange(3)"> 3 Kali</label>
+                    <small id="renew_info_text" style="color:var(--warning); font-weight:bold; font-size:0.75rem; margin-left:4px;"></small>
+                </div>
             </div>
         </div>
         <div style="background: var(--bg-body); padding: 10px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-top: 10px;">
@@ -1397,9 +1472,46 @@ window.autoCalcReturnDateEdit = function() {
     const isHarianEl = document.getElementById('radio_harian');
     const isHarian = isHarianEl ? isHarianEl.checked : false;
     if (!isHarian) { pinjamDate.setDate(pinjamDate.getDate() + 14); }
+    
+    let renewCount = 0;
+    if (document.getElementById('renew_3') && document.getElementById('renew_3').checked) renewCount = 3;
+    else if (document.getElementById('renew_2') && document.getElementById('renew_2').checked) renewCount = 2;
+    else if (document.getElementById('renew_1') && document.getElementById('renew_1').checked) renewCount = 1;
+    
+    if (!isHarian && renewCount > 0) { pinjamDate.setDate(pinjamDate.getDate() + (renewCount * 14)); }
+    
     const tPulang = document.getElementById('f_tPulang');
     if (tPulang) tPulang.value = pinjamDate.toISOString().split('T')[0];
   }
+};
+
+window.handleRenewChange = function(level) {
+    const r1 = document.getElementById('renew_1');
+    const r2 = document.getElementById('renew_2');
+    const r3 = document.getElementById('renew_3');
+    
+    if (level === 1 && !r1.checked) { r2.checked = false; r3.checked = false; }
+    if (level === 2) { if (r2.checked) { r1.checked = true; } else { r3.checked = false; } }
+    if (level === 3) { if (r3.checked) { r1.checked = true; r2.checked = true; } }
+    
+    let renewCount = 0;
+    if (r3 && r3.checked) renewCount = 3;
+    else if (r2 && r2.checked) renewCount = 2;
+    else if (r1 && r1.checked) renewCount = 1;
+    
+    window.autoCalcReturnDateEdit();
+    
+    const infoText = document.getElementById('renew_info_text');
+    if (infoText) {
+        if (renewCount > 0) infoText.innerText = `(+${renewCount * 14} Hari Lanjutan)`;
+        else infoText.innerText = '';
+    }
+    if(typeof window.recalcModalCalc === 'function') window.recalcModalCalc();
+};
+
+window.resetRenewCheckboxes = function() {
+    [1, 2, 3].forEach(i => { const el = document.getElementById('renew_' + i); if (el) el.checked = false; });
+    const infoText = document.getElementById('renew_info_text'); if (infoText) infoText.innerText = '';
 };
 
 window.autofillBuku = function() {
@@ -2003,7 +2115,7 @@ window.renderMyReviews = function() {
   const myReviews = window.dbUlasan.filter(u => u.userKey === window.currentUserKey);
   if(myReviews.length === 0){ container.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem;">Belum ada ulasan dipinkan.</p>'; return; }
   myReviews.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
-  let html = '<div class="ulasan-grid" style="grid-template-columns: 1fr;">';
+  let html = '<div class="ulasan-grid" style="column-count: 1; padding: 4px;">';
   myReviews.forEach(u => {
     let dateStr = u.tarikh ? window.formatDate(u.tarikh.split('T')[0]) : '';
     let starsHtml = ''; for(let i = 0; i < 5; i++){ starsHtml += i < u.stars ? '★' : '☆'; }
@@ -2840,6 +2952,7 @@ window.openModal = function() {
   const wa = document.getElementById('waLinkBtn'); if (wa) wa.style.display = 'none';
   const msgBtn = document.getElementById('msgLinkBtn'); if (msgBtn) msgBtn.style.display = 'none';
   const del = document.getElementById('btnDelete'); if (del) del.style.display = 'none';
+  if (typeof window.resetRenewCheckboxes === 'function') window.resetRenewCheckboxes();
   const title = document.getElementById('sm_title'); if (title) title.innerText = "📝 Rekod Pinjaman Baru";
   const m = document.getElementById('statusModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } window.recalcModalCalc();
 };
@@ -2860,6 +2973,7 @@ window.prepareEdit = function(id) {
   setVal('f_tPinjam', item.tPinjam || ''); setVal('f_tPulang', item.tPulang || ''); setVal('f_catatan', item.catatan || '');
   const rSudah = document.getElementById('radio_sudah'); const rHarian = document.getElementById('radio_harian'); const rBelum = document.getElementById('radio_belum');
   if (item.status && item.status.includes('Selesai')) { if (rSudah) rSudah.checked = true; setVal('f_tDipulangkan', item.tDipulangkan || new Date().toISOString().split('T')[0]); } else if (item.status === 'Bacaan Harian') { if (rHarian) rHarian.checked = true; setVal('f_tDipulangkan', new Date().toISOString().split('T')[0]); } else { if (rBelum) rBelum.checked = true; setVal('f_tDipulangkan', new Date().toISOString().split('T')[0]); }
+  if (typeof window.resetRenewCheckboxes === 'function') window.resetRenewCheckboxes();
   window.toggleReturnDateInput();
   const btnWA = document.getElementById('waLinkBtn');
   if (btnWA) { if (item.whatsapp) { btnWA.style.display = 'inline-flex'; btnWA.href = `https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}`; } else { btnWA.style.display = 'none'; } }
@@ -2877,6 +2991,12 @@ window.toggleReturnDateInput = function() {
   const rSudah = document.getElementById('radio_sudah'); const isPulang = rSudah ? rSudah.checked : false;
   const rHarian = document.getElementById('radio_harian'); const isHarian = rHarian ? rHarian.checked : false;
   const divActual = document.getElementById('div_actual_return_date'); if (divActual) divActual.style.display = isPulang ? 'block' : 'none';
+  
+  const tDipulangInput = document.getElementById('f_tDipulangkan');
+  if (tDipulangInput && isPulang && !tDipulangInput.value) {
+      tDipulangInput.value = new Date().toISOString().split('T')[0];
+  }
+
   const tPulangInput = document.getElementById('f_tPulang');
   if (tPulangInput) {
     if (isHarian) { tPulangInput.disabled = true; tPulangInput.style.backgroundColor = 'var(--bg-body)'; tPulangInput.style.cursor = 'not-allowed'; } else { tPulangInput.disabled = false; tPulangInput.style.backgroundColor = '#fff'; tPulangInput.style.cursor = 'auto'; }
@@ -2888,10 +3008,30 @@ window.recalcModalCalc = function() {
   const tpEl = document.getElementById('f_tPinjam'); if (!tpEl || !tpEl.value) return; const startVal = tpEl.value;
   const isPulang = document.getElementById('radio_sudah') ? document.getElementById('radio_sudah').checked : false;
   const isHarian = document.getElementById('radio_harian') ? document.getElementById('radio_harian').checked : false;
-  let endDateStr = isPulang ? (document.getElementById('f_tDipulangkan') ? document.getElementById('f_tDipulangkan').value : null) : null;
-  if (isHarian) endDateStr = startVal;
+  
+  let endDateStr = null;
+  if (isPulang) {
+      const fDipulang = document.getElementById('f_tDipulangkan');
+      endDateStr = (fDipulang && fDipulang.value) ? fDipulang.value : new Date().toISOString().split('T')[0];
+  } else if (isHarian) {
+      endDateStr = startVal;
+  }
+  
   const dur = window.calculateDuration(startVal, endDateStr);
   const el = document.getElementById('sm_duration_info'); if (el) el.innerHTML = `⏳ Tempoh: <strong>${dur} Hari</strong>`;
+  
+  const fMata = document.getElementById('f_mata');
+  if (fMata) {
+      const currentMata = parseInt(fMata.value) || 0;
+      // Hanya kemaskini jika nilai mata adalah 10, 20 atau 0 (supaya tak tindih nilai khas Admin)
+      if (currentMata === 10 || currentMata === 20 || currentMata === 0) {
+          if (isPulang && dur >= 1) {
+              fMata.value = "20";
+          } else {
+              fMata.value = "10";
+          }
+      }
+  }
 };
 
 window.autofillPekerja = function() {
@@ -2981,8 +3121,12 @@ window.renderTable = function() {
     return true;
   });
   
-  // Susunan Tarikh Daftar Terkini Ke Atas
+  // Susunan Tarikh Daftar Terkini Ke Atas (Kumpulan Tarikh)
   dataToRender.sort((a,b) => {
+     let dateA = new Date(a.tPinjam || 0).setHours(0,0,0,0);
+     let dateB = new Date(b.tPinjam || 0).setHours(0,0,0,0);
+     if (dateA !== dateB) return dateB - dateA;
+     
      let aVal = parseInt(a.id); let bVal = parseInt(b.id);
      if(isNaN(aVal)) aVal = new Date(a.tPinjam).getTime();
      if(isNaN(bVal)) bVal = new Date(b.tPinjam).getTime();
@@ -3003,20 +3147,36 @@ window.renderTable = function() {
 
   if (dataToRender.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod dijumpai.</td></tr>'; return; }
   const isAdmin = window.userRole === 'admin'; const isUser = window.userRole === 'user'; let html = '';
+  let lastDateGroup = null;
   
   pagedData.forEach(item => {
+    let groupDateStr = 'Tiada Tarikh';
+    if (item.tPinjam) {
+        const d = new Date(item.tPinjam);
+        if (!isNaN(d.getTime())) {
+            const days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+            groupDateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} (${days[d.getDay()]})`;
+        }
+    }
+
+    if (isAdmin && groupDateStr !== lastDateGroup) {
+        html += `<tr><td colspan="5" style="text-align:center; font-weight:800; color:#065F46; font-size:0.9rem; padding:8px; letter-spacing:0.5px; background:#D1FAE5; border-top:2px solid #A7F3D0; border-bottom:2px solid #A7F3D0; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">📅 ${groupDateStr}</td></tr>`;
+        lastDateGroup = groupDateStr;
+    }
+
     const isSelesai = item.status && item.status.includes('Selesai'); const isHarian = item.status === 'Bacaan Harian';
     const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null)); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const isLate = dur > limit && !isSelesai && !isHarian;
     
     let rowStyle = '';
     if (isSelesai) {
-        rowStyle = 'background: rgba(120, 120, 128, 0.05); outline: 2px solid rgba(120, 120, 128, 0.2); outline-offset: -2px; opacity: 0.8;';
+        rowStyle = 'background: rgba(120, 120, 128, 0.05); outline: 1px solid rgba(120, 120, 128, 0.3); outline-offset: -1px; opacity: 0.8;';
     } else if (isLate) {
-        rowStyle = 'background: rgba(255, 59, 48, 0.15); outline: 2px solid rgba(255, 59, 48, 0.9); outline-offset: -2px; position: relative; z-index: 10;';
+        rowStyle = 'background: rgba(255, 59, 48, 0.15); outline: 1px solid rgba(255, 59, 48, 0.7); outline-offset: -1px; position: relative; z-index: 10;';
     } else if (isHarian) {
-        rowStyle = 'background: rgba(255, 149, 0, 0.15); outline: 2px solid rgba(255, 149, 0, 0.9); outline-offset: -2px; position: relative; z-index: 10;';
+        rowStyle = 'background: rgba(255, 149, 0, 0.15); outline: 1px solid rgba(255, 149, 0, 0.7); outline-offset: -1px; position: relative; z-index: 10;';
     } else {
-        rowStyle = 'background: rgba(0, 102, 204, 0.12); outline: 2px solid rgba(0, 102, 204, 0.75); outline-offset: -2px; position: relative; z-index: 10;';
+        rowStyle = 'background: rgba(0, 102, 204, 0.12); outline: 1px solid rgba(0, 102, 204, 0.5); outline-offset: -1px; position: relative; z-index: 10;';
     }
 
     let statusBadge = '';
