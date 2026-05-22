@@ -265,12 +265,21 @@
         :root[data-theme="dark"] .ulasan-card::before, @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ulasan-card::before { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.02); } }
         
         .ulasan-card:nth-child(5n+1) { background-color: var(--note-1); border-color: var(--note-1-border); }
+        .ulasan-card:nth-child(5n+1):hover { border-color: #F59E0B; box-shadow: 0 0 12px rgba(245, 158, 11, 0.35), 0 0 0 1px #F59E0B; }
+        
         .ulasan-card:nth-child(5n+2) { background-color: var(--note-2); border-color: var(--note-2-border); }
+        .ulasan-card:nth-child(5n+2):hover { border-color: #3B82F6; box-shadow: 0 0 12px rgba(59, 130, 246, 0.35), 0 0 0 1px #3B82F6; }
+        
         .ulasan-card:nth-child(5n+3) { background-color: var(--note-3); border-color: var(--note-3-border); }
+        .ulasan-card:nth-child(5n+3):hover { border-color: #10B981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.35), 0 0 0 1px #10B981; }
+        
         .ulasan-card:nth-child(5n+4) { background-color: var(--note-4); border-color: var(--note-4-border); }
+        .ulasan-card:nth-child(5n+4):hover { border-color: #EF4444; box-shadow: 0 0 12px rgba(239, 68, 68, 0.35), 0 0 0 1px #EF4444; }
+        
         .ulasan-card:nth-child(5n+5) { background-color: var(--note-5); border-color: var(--note-5-border); }
+        .ulasan-card:nth-child(5n+5):hover { border-color: #8B5CF6; box-shadow: 0 0 12px rgba(139, 92, 246, 0.35), 0 0 0 1px #8B5CF6; }
 
-        .ulasan-card:hover { transform: translateY(-4px) rotate(1deg); box-shadow: 4px 8px 15px rgba(0,0,0,0.1); }
+        .ulasan-card:hover { transform: none; z-index: 5; }
         
         .uc-header { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
         .uc-avatar { font-size: 1.8rem; background: rgba(255,255,255,0.4); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.05);}
@@ -3031,9 +3040,10 @@ window.recalcModalCalc = function() {
   
   const fMata = document.getElementById('f_mata');
   if (fMata) {
-      const currentMata = parseInt(fMata.value) || 0;
-      // Hanya kemaskini jika nilai mata adalah 10, 20 atau 0 (supaya tak tindih nilai khas Admin)
-      if (currentMata === 10 || currentMata === 20 || currentMata === 0) {
+      const currentVal = String(fMata.value).trim();
+      // Kekalkan mata yang disimpan jika ia telah diubah secara manual. 
+      // Hanya kemaskini auto jika ia masih nilai asal (10), nilai auto (20), atau dibiarkan kosong.
+      if (currentVal === "10" || currentVal === "20" || currentVal === "") {
           if (isPulang && dur >= 1) {
               fMata.value = "20";
           } else {
@@ -3185,7 +3195,7 @@ window.renderTable = function() {
     
     let rowStyle = '';
     if (isSelesai) {
-        rowStyle = 'background: rgba(120, 120, 128, 0.05); outline: 1px solid rgba(120, 120, 128, 0.3); outline-offset: -1px; opacity: 0.8;';
+        rowStyle = 'background: rgba(142, 142, 147, 0.15); outline: 1px solid rgba(142, 142, 147, 0.4); outline-offset: -1px;';
     } else if (isLate) {
         rowStyle = 'background: rgba(255, 59, 48, 0.15); outline: 1px solid rgba(255, 59, 48, 0.7); outline-offset: -1px; position: relative; z-index: 10;';
     } else if (isHarian) {
