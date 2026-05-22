@@ -2971,10 +2971,18 @@ window.prepareEdit = function(id) {
   setVal('f_accession', item.accession || '');
   setVal('f_jenis', item.jenis || 'Buku'); setVal('f_tajuk', item.tajuk || ''); setVal('f_mata', item.mata !== undefined ? item.mata : "10");
   setVal('f_tPinjam', item.tPinjam || ''); setVal('f_tPulang', item.tPulang || ''); setVal('f_catatan', item.catatan || '');
+  
+  let rC = parseInt(item.renewCount) || 0;
+  if(document.getElementById('renew_1')) document.getElementById('renew_1').checked = rC >= 1;
+  if(document.getElementById('renew_2')) document.getElementById('renew_2').checked = rC >= 2;
+  if(document.getElementById('renew_3')) document.getElementById('renew_3').checked = rC >= 3;
+  const infoText = document.getElementById('renew_info_text');
+  if (infoText) { if (rC > 0) infoText.innerText = `(+${rC * 14} Hari Lanjutan)`; else infoText.innerText = ''; }
+
   const rSudah = document.getElementById('radio_sudah'); const rHarian = document.getElementById('radio_harian'); const rBelum = document.getElementById('radio_belum');
   if (item.status && item.status.includes('Selesai')) { if (rSudah) rSudah.checked = true; setVal('f_tDipulangkan', item.tDipulangkan || new Date().toISOString().split('T')[0]); } else if (item.status === 'Bacaan Harian') { if (rHarian) rHarian.checked = true; setVal('f_tDipulangkan', new Date().toISOString().split('T')[0]); } else { if (rBelum) rBelum.checked = true; setVal('f_tDipulangkan', new Date().toISOString().split('T')[0]); }
-  if (typeof window.resetRenewCheckboxes === 'function') window.resetRenewCheckboxes();
-  window.toggleReturnDateInput();
+  
+  window.toggleReturnDateInput(true);
   const btnWA = document.getElementById('waLinkBtn');
   if (btnWA) { if (item.whatsapp) { btnWA.style.display = 'inline-flex'; btnWA.href = `https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}`; } else { btnWA.style.display = 'none'; } }
   const btnMsg = document.getElementById('msgLinkBtn');
@@ -2987,7 +2995,7 @@ window.prepareEdit = function(id) {
   const m = document.getElementById('statusModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } window.recalcModalCalc();
 };
 
-window.toggleReturnDateInput = function() {
+window.toggleReturnDateInput = function(skipCalc = false) {
   const rSudah = document.getElementById('radio_sudah'); const isPulang = rSudah ? rSudah.checked : false;
   const rHarian = document.getElementById('radio_harian'); const isHarian = rHarian ? rHarian.checked : false;
   const divActual = document.getElementById('div_actual_return_date'); if (divActual) divActual.style.display = isPulang ? 'block' : 'none';
@@ -3001,7 +3009,8 @@ window.toggleReturnDateInput = function() {
   if (tPulangInput) {
     if (isHarian) { tPulangInput.disabled = true; tPulangInput.style.backgroundColor = 'var(--bg-body)'; tPulangInput.style.cursor = 'not-allowed'; } else { tPulangInput.disabled = false; tPulangInput.style.backgroundColor = '#fff'; tPulangInput.style.cursor = 'auto'; }
   }
-  window.autoCalcReturnDateEdit(); window.recalcModalCalc();
+  if (skipCalc !== true) window.autoCalcReturnDateEdit(); 
+  window.recalcModalCalc();
 };
 
 window.recalcModalCalc = function() {
@@ -3065,7 +3074,13 @@ window.saveData = async function() {
     if (overdue > 0 && !isHarian) dendaVal = (overdue * 0.20).toFixed(2);
   }
   let finalStatus = 'Dipinjam'; if (isSelesai) finalStatus = 'Selesai - Telah Dipulangkan'; else if (isHarian) finalStatus = 'Bacaan Harian';
-  const data = { nama: nama, noPekerja: getVal('f_noPekerja'), whatsapp: getVal('f_whatsapp'), bahagian: getVal('f_bahagian'), accession: getVal('f_accession'), jenis: getVal('f_jenis'), tajuk: tajuk, mata: parseInt(getVal('f_mata')) || 0, tPinjam: tPinjam, tPulang: tPulang, tDipulangkan: tDipulangkan, status: finalStatus, denda: dendaVal, catatan: getVal('f_catatan') };
+  
+  let renewCount = 0;
+  if (document.getElementById('renew_3') && document.getElementById('renew_3').checked) renewCount = 3;
+  else if (document.getElementById('renew_2') && document.getElementById('renew_2').checked) renewCount = 2;
+  else if (document.getElementById('renew_1') && document.getElementById('renew_1').checked) renewCount = 1;
+  
+  const data = { nama: nama, noPekerja: getVal('f_noPekerja'), whatsapp: getVal('f_whatsapp'), bahagian: getVal('f_bahagian'), accession: getVal('f_accession'), jenis: getVal('f_jenis'), tajuk: tajuk, mata: parseInt(getVal('f_mata')) || 0, tPinjam: tPinjam, tPulang: tPulang, tDipulangkan: tDipulangkan, status: finalStatus, denda: dendaVal, catatan: getVal('f_catatan'), renewCount: renewCount };
   if (!docId) data.id = Date.now().toString(); else data.id = docId;
   if (docId) { const idx = window.dbData.findIndex(x => String(x.id) === String(docId)); if (idx > -1) window.dbData[idx] = { ...window.dbData[idx], ...data }; } else { window.dbData.unshift(data); }
   window.refreshAllViews(); window.closeModal();
