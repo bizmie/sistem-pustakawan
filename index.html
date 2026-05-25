@@ -169,12 +169,11 @@
         .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; position: relative; z-index: 2; }
         #headerDate { color: var(--primary); font-size: 1.1rem; font-weight:800; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; text-align: right; line-height: 1.2; padding-top: 2px;}
 
-        .nav-tabs { display: flex; gap: 4px; margin-bottom: 12px; background: rgba(0,0,0,0.04); padding: 4px; border-radius: 10px; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--border); align-items:center;}
-        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .nav-tabs { background: rgba(255,255,255,0.05); } }
-        :root[data-theme="dark"] .nav-tabs { background: rgba(255,255,255,0.05); }
+        .nav-tabs { display: flex; gap: 4px; margin-bottom: 12px; background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 6px 8px; border-radius: var(--radius-card); overflow-x: auto; scrollbar-width: none; border: 1px solid var(--border); box-shadow: var(--shadow-sm); align-items:center;}
+        
         .nav-btn { background: transparent; color: var(--text-main); opacity: 0.9; border: none; padding: 8px 16px; font-size: 0.95rem; cursor: pointer; border-radius: 8px; transition: all 0.2s ease; white-space: nowrap; font-weight:700;}
         .nav-btn:hover { opacity: 1; color: var(--primary); background: rgba(0,0,0,0.05); }
-        .nav-btn.active { background: var(--surface-solid); color: var(--primary); opacity: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+        .nav-btn.active { background: var(--primary-light); color: var(--primary); opacity: 1; box-shadow: none; border: 1px solid var(--primary); }
         .tab-content { display: none; animation: blurFade 0.2s ease-out; }
         .tab-content.active { display: block; }
         @keyframes blurFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
@@ -1287,7 +1286,7 @@
 
             <div class="form-group col-span-2"><label class="form-label">Edisi / Isu</label><input type="text" id="b_edisi" class="login-input" style="margin-bottom:0;"></div>
             <div class="form-group col-span-2"><label class="form-label">ISSN / ISBN</label><input type="text" id="b_isbn" class="login-input" style="margin-bottom:0;"></div>
-            <div class="form-group col-span-1"><label class="form-label">Jenis Bahan</label><select id="b_jenis" class="login-input" style="margin-bottom:0;"><option value="Buku">Buku</option><option value="Laporan">Laporan</option><option value="Majalah">Majalah</option><option value="Jurnal">Jurnal</option><option value="Lain-lain">Lain-lain</option></select></div>
+            <div class="form-group col-span-1"><label class="form-label">Jenis Bahan</label><select id="b_jenis" class="login-input" style="margin-bottom:0;"><option value="Buku">Buku</option><option value="Laporan">Laporan</option><option value="Majalah">Majalah/ Akhbar</option><option value="Jurnal">Jurnal</option><option value="Lain-lain">Lain-lain</option></select></div>
             <div class="form-group col-span-1"><label class="form-label">Bilangan</label><input type="number" id="b_bilangan" class="login-input" value="1" min="1" style="margin-bottom:0;"></div>
             <div class="form-group col-span-1"><label class="form-label">Bidang</label><select id="b_bidang" class="login-input" style="margin-bottom:0;"><option value="Perusahaan Kayu" selected>Perusahaan Kayu</option><option value="Bukan Perusahaan Kayu">Bukan Perusahaan Kayu</option></select></div>
             <div class="form-group col-span-1"><label class="form-label">Penerbitan</label><select id="b_penerbitan" class="login-input" style="margin-bottom:0;"><option value="Dalam Negara">Dalam Negara</option><option value="Luar Negara">Luar Negara</option></select></div>
@@ -2934,9 +2933,19 @@ window.renderBukuTable = function() {
         let accTd = isAdmin ? `<td data-label="No. Accession" style="text-align:right; vertical-align:middle;">${accInfo}${actionBtn}</td>` : '';
         
         let displayIsbn = item.isbn ? `<div style="color:var(--text-muted); font-size:0.8rem; font-family:monospace;">ISBN/ISSN: ${item.isbn}</div>` : '';
+        
+        let activeLoan = window.dbData.find(loan => {
+            if (loan.status && loan.status.includes('Selesai')) return false;
+            let matchAcc = loan.accession && item.accession && loan.accession.trim().toLowerCase() === item.accession.trim().toLowerCase();
+            let matchTajuk = loan.tajuk && item.tajuk && loan.tajuk.trim().toLowerCase() === item.tajuk.trim().toLowerCase();
+            return matchAcc || (!item.accession && matchTajuk);
+        });
+        let borrowedLabelHover = isAdmin && activeLoan ? `cursor:pointer;" onclick="window.prepareEdit('${activeLoan.id}')" onmouseover="this.style.background='#FDE68A'; this.style.transform='scale(1.02)'" onmouseout="this.style.background='#FEF3C7'; this.style.transform='scale(1)'"` : `cursor:help;"`;
+        let borrowedLabel = activeLoan ? `<div style="margin-top:6px; font-size:0.7rem; color:#D97706; background:#FEF3C7; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #FDE68A; font-weight:700; box-shadow:0 1px 2px rgba(0,0,0,0.05); transition:all 0.2s; ${borrowedLabelHover} title="Peminjam: ${activeLoan.nama} ${isAdmin ? '(Klik untuk lihat/pinda)' : ''}">📖 Sedang dipinjam</div>` : '';
+
         let namaPenerimaHtml = isAdmin ? `<div style="font-size:0.9rem; margin-bottom:2px; color:var(--text-main);">${item.penerima || '-'}</div>` : '';
         
-        html += `<tr style="${rowBgStyle}">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem; color:var(--text-main);">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem; color:var(--text-main);">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div>${displayIsbn}</td><td data-label="Penerima / Sumber">${namaPenerimaHtml}<div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber || '-'}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan || '-'}</div></td>${accTd}</tr>`;
+        html += `<tr style="${rowBgStyle}">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem; color:var(--text-main);">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem; color:var(--text-main);">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div>${displayIsbn}${borrowedLabel}</td><td data-label="Penerima / Sumber">${namaPenerimaHtml}<div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber || '-'}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan || '-'}</div></td>${accTd}</tr>`;
       });
   }
   if (html === '') { tbody.innerHTML = `<tr><td colspan="${isAdmin ? 5 : 4}" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod buku dijumpai berdasarkan carian anda.</td></tr>`; } else { tbody.innerHTML = html; }
@@ -2986,9 +2995,19 @@ window.renderBukuTable = function() {
                   let accInfo = item.accession ? `<div style="font-family:monospace; font-weight:800; color:var(--text-muted); font-size:0.8rem; background:var(--bg-body); padding:4px 8px; border-radius:6px; border:1px solid var(--border); display:inline-block; white-space:nowrap; letter-spacing:0.5px;">${item.accession}</div>` : '<div style="font-family:monospace; color:var(--text-muted); font-size:0.8rem;">-</div>';
                   let accTd = `<td data-label="No. Accession" style="text-align:right; vertical-align:middle;">${accInfo}${actionBtn}</td>`;
                   let displayIsbn = item.isbn && item.isbn !== '-' ? `<div style="color:var(--text-muted); font-size:0.8rem; font-family:monospace;">ISBN/ISSN: ${item.isbn}</div>` : '';
+                  
+                  let activeLoan = window.dbData.find(loan => {
+                      if (loan.status && loan.status.includes('Selesai')) return false;
+                      let matchAcc = loan.accession && item.accession && loan.accession.trim().toLowerCase() === item.accession.trim().toLowerCase();
+                      let matchTajuk = loan.tajuk && item.tajuk && loan.tajuk.trim().toLowerCase() === item.tajuk.trim().toLowerCase();
+                      return matchAcc || (!item.accession && matchTajuk);
+                  });
+                  let borrowedLabelHover = isAdmin && activeLoan ? `cursor:pointer;" onclick="window.prepareEdit('${activeLoan.id}')" onmouseover="this.style.background='#FDE68A'; this.style.transform='scale(1.02)'" onmouseout="this.style.background='#FEF3C7'; this.style.transform='scale(1)'"` : `cursor:help;"`;
+                  let borrowedLabel = activeLoan ? `<div style="margin-top:6px; font-size:0.7rem; color:#D97706; background:#FEF3C7; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #FDE68A; font-weight:700; box-shadow:0 1px 2px rgba(0,0,0,0.05); transition:all 0.2s; ${borrowedLabelHover} title="Peminjam: ${activeLoan.nama} ${isAdmin ? '(Klik untuk lihat/pinda)' : ''}">📖 Sedang dipinjam</div>` : '';
+
                   let namaPenerimaHtml = `<div style="font-size:0.9rem; margin-bottom:2px; color:var(--text-main);">${item.penerima !== '-' ? item.penerima : '-'}</div>`;
                   
-                  htmlLama += `<tr style="${rowBgStyle}">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem; color:var(--text-main);">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem; color:var(--text-main);">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div>${displayIsbn}</td><td data-label="Penerima / Sumber">${namaPenerimaHtml}<div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber || '-'}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan || '-'}</div></td>${accTd}</tr>`;
+                  htmlLama += `<tr style="${rowBgStyle}">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem; color:var(--text-main);">${item.tajuk} ${kivBadge}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Edisi: ${item.edisi || '-'} | Bil: ${item.bilangan}</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem; color:var(--text-main);">${item.jenis} - <span style="font-weight:700;">${item.bidang}</span></div>${displayIsbn}${borrowedLabel}</td><td data-label="Penerima / Sumber">${namaPenerimaHtml}<div style="font-size:0.8rem; color:var(--text-muted);">Sumber: ${item.sumber || '-'}</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: ${item.penerbitan || '-'}</div></td>${accTd}</tr>`;
               } else {
                   let badgeKategoriLama = `<div style="margin-top:6px;"><span style="color:#7E22CE; background:#F3E8FF; padding:2px 6px; border-radius:4px; border: 1px solid #7E22CE; font-size:0.7rem; display:inline-block; font-weight:600; text-align:center; line-height:1.2;">Rekod Bacaan Lama</span></div>`;
                   let tarikhHtml = `<td data-label="Tarikh Pinjam" style="vertical-align:middle; text-align:center;"><strong style="color:var(--primary); font-size:0.95rem;" title="Tarikh Rekod Asal">${window.formatDate(item.tarikhAwal)}</strong><br>${badgeKategoriLama}</td>`;
@@ -2998,7 +3017,16 @@ window.renderBukuTable = function() {
                   let actionBtn = `<div style="margin-top:8px;"><button class="btn-clear" style="padding:4px 8px; font-size:0.7rem; width:100%; border-color:var(--success); color:var(--success); box-shadow:var(--shadow-sm);" onclick="document.getElementById('b_tajuk').value='${safeTajuk}'; document.getElementById('b_accession').value='${safeAccession}'; window.prepareEditBukuLama('${safeTajuk}', '${safeJenis}', '${safeAccession}', '${item.tarikhAwal}')">Kemaskini</button></div>`;
                   let accTd = `<td data-label="No. Accession" style="text-align:right; vertical-align:middle;">${accInfo}${actionBtn}</td>`;
                   
-                  htmlLama += `<tr style="background: rgba(0,0,0,0.015);">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem; color:var(--text-main);">${item.tajuk}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Rekod Pinjaman (Belum Didaftar)</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem; color:var(--text-main);">${item.jenis} - <span style="font-weight:700; color:var(--text-muted);">Tiada Rekod</span></div></td><td data-label="Penerima / Sumber"><div style="font-size:0.9rem; margin-bottom:2px; color:var(--text-main);">-</div><div style="font-size:0.8rem; color:var(--text-muted);">Sumber: -</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: -</div></td>${accTd}</tr>`;
+                  let activeLoan = window.dbData.find(loan => {
+                      if (loan.status && loan.status.includes('Selesai')) return false;
+                      let matchAcc = loan.accession && item.accession && loan.accession.trim().toLowerCase() === item.accession.trim().toLowerCase();
+                      let matchTajuk = loan.tajuk && item.tajuk && loan.tajuk.trim().toLowerCase() === item.tajuk.trim().toLowerCase();
+                      return matchAcc || (!item.accession && matchTajuk);
+                  });
+                  let borrowedLabelHover = isAdmin && activeLoan ? `cursor:pointer;" onclick="window.prepareEdit('${activeLoan.id}')" onmouseover="this.style.background='#FDE68A'; this.style.transform='scale(1.02)'" onmouseout="this.style.background='#FEF3C7'; this.style.transform='scale(1)'"` : `cursor:help;"`;
+                  let borrowedLabel = activeLoan ? `<div style="margin-top:6px; font-size:0.7rem; color:#D97706; background:#FEF3C7; padding:2px 6px; border-radius:4px; display:inline-block; border:1px solid #FDE68A; font-weight:700; box-shadow:0 1px 2px rgba(0,0,0,0.05); transition:all 0.2s; ${borrowedLabelHover} title="Peminjam: ${activeLoan.nama} ${isAdmin ? '(Klik untuk lihat/pinda)' : ''}">📖 Sedang dipinjam</div>` : '';
+
+                  htmlLama += `<tr style="background: rgba(0,0,0,0.015);">${tarikhHtml}<td data-label="Tajuk"><div style="font-weight:700; font-size:1rem; color:var(--text-main);">${item.tajuk}</div><div style="color:var(--text-muted); font-size:0.8rem; margin-top:2px;">Rekod Pinjaman (Belum Didaftar)</div></td><td data-label="Info Bahan"><div style="font-size:0.8rem; color:var(--text-main);">${item.jenis} - <span style="font-weight:700; color:var(--text-muted);">Tiada Rekod</span></div>${borrowedLabel}</td><td data-label="Penerima / Sumber"><div style="font-size:0.9rem; margin-bottom:2px; color:var(--text-main);">-</div><div style="font-size:0.8rem; color:var(--text-muted);">Sumber: -</div><div style="font-size:0.8rem; color:var(--text-muted);">Terbitan: -</div></td>${accTd}</tr>`;
               }
           });
       }
@@ -3525,13 +3553,101 @@ window.renderUlasanTable = function() {
 
 window.printBukuReport = function() {
   const month = document.getElementById('printBukuMonth').value; const year = parseInt(document.getElementById('printBukuYear').value);
-  const filtered = window.dbBuku.filter(b => { const d = new Date(b.tarikh); if (d.getFullYear() !== year) return false; if (month !== 'all' && d.getMonth() !== parseInt(month)) return false; return true; });
-  filtered.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh)); let reportTitle = `LAPORAN BAHAN BAHARU (${year})`;
-  if (month !== 'all') { const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; reportTitle = `LAPORAN BAHAN BAHARU (${monthNames[parseInt(month)]} ${year})`; }
+  const filtered = window.dbBuku.filter(b => { 
+      if (b.klasifikasi === 'Rekod Bacaan Lama' || !!b.tarikh_asal) return false; // Abaikan buku yang didaftar melalui rekod pinjaman lama
+      const d = new Date(b.tarikh); 
+      if (d.getFullYear() !== year) return false; 
+      if (month !== 'all' && d.getMonth() !== parseInt(month)) return false; 
+      return true; 
+  });
+  filtered.sort((a, b) => new Date(a.tarikh) - new Date(b.tarikh)); 
+  
+  let reportTitle = "LAPORAN BAHAN BAHARU (" + year + ")";
+  const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]; 
+  if (month !== 'all') { reportTitle = "LAPORAN BAHAN BAHARU (" + monthNames[parseInt(month)] + " " + year + ")"; }
+  
   const today = new Date().toLocaleDateString('ms-MY');
-  let html = `<html><head><title>${reportTitle}</title><style>@page { size: A4 landscape; margin: 15mm; } body { font-family: Arial, sans-serif; font-size:12px; } table { width: 100%; border-collapse: collapse; margin-top: 10px; } th, td { border: 1px solid #000; padding: 6px; text-align: left; } th { background-color: #f2f2f2; text-transform:uppercase; }</style></head><body><h3>${reportTitle}</h3><p>Tarikh Cetakan: ${today}</p><table><thead><tr><th width="5%">Bil</th><th width="15%">Tarikh</th><th width="35%">Tajuk & Edisi</th><th width="15%">Kategori</th><th width="15%">Penerima/Sumber</th><th width="15%">Terbitan</th></tr></thead><tbody>`;
-  if (filtered.length === 0) html += `<tr><td colspan="6" style="text-align:center; padding:15px;">Tiada rekod.</td></tr>`; else filtered.forEach((item, idx) => html += `<tr><td style="text-align:center;">${idx + 1}</td><td>${window.formatDate(item.tarikh)}</td><td><strong>${item.tajuk}</strong><br><span style="font-size:10px;">${item.isbn || '-'}</span></td><td>${item.kategori}<br><span style="font-size:10px;">${item.jenis}</span></td><td>${item.penerima}<br><span style="font-size:10px;">${item.sumber}</span></td><td>${item.penerbitan}</td></tr>`);
-  html += `</tbody></table></body></html>`; const win = window.open('', '', 'width=900,height=700'); win.document.write(html); win.document.close(); win.print();
+  
+  let html = "<html><head><title>" + reportTitle + "</title><style>\n" +
+    "@page { size: A4 landscape; margin: 12mm; }\n" +
+    "body { font-family: 'Calibri', 'Arial', sans-serif; font-size:10pt; color: #000; }\n" +
+    "h3 { text-align: center; margin-bottom: 5px; text-transform: uppercase; font-size: 14pt; }\n" +
+    "p { text-align: center; margin-top: 0; font-size: 10pt; color: #333; margin-bottom: 15px;}\n" +
+    "table { width: 100%; border-collapse: collapse; border: 1.5px solid #000; }\n" +
+    "th, td { border: 1px solid #000; padding: 5px 6px; vertical-align: middle; }\n" +
+    "th { text-transform: uppercase; font-weight: bold; font-size: 9pt; text-align: center; background-color: #fff; }\n" +
+    ".text-center { text-align: center; }\n" +
+    "</style></head><body>\n" +
+    "<h3>" + reportTitle + "</h3><p>Sistem Pustakawan Digital | Tarikh Cetakan: " + today + "</p>\n" +
+    "<table><thead><tr>\n" +
+    "<th width=\"3%\">BIL</th>\n" +
+    "<th width=\"9%\">TARIKH</th>\n" +
+    "<th width=\"20%\">TAJUK</th>\n" +
+    "<th width=\"12%\">EDISI/ISU</th>\n" +
+    "<th width=\"5%\">BILANGAN</th>\n" +
+    "<th width=\"8%\">ISSN/ISBN</th>\n" +
+    "<th width=\"8%\">JENIS BAHAN</th>\n" +
+    "<th width=\"9%\">BIDANG</th>\n" +
+    "<th width=\"8%\">PENERBITAN</th>\n" +
+    "<th width=\"8%\">PENERIMA</th>\n" +
+    "<th width=\"10%\">PEROLEHAN DARIPADA</th>\n" +
+    "</tr></thead><tbody>\n";
+  
+  if (filtered.length === 0) {
+      html += "<tr><td colspan=\"11\" class=\"text-center\" style=\"padding:15px;\">Tiada rekod.</td></tr>"; 
+  } else {
+      let lastMonth = -1;
+      let bilCounter = 1;
+      let monthlyTotal = 0;
+      let grandTotal = 0;
+
+      filtered.forEach((item) => { 
+          const d = new Date(item.tarikh);
+          const currentMonth = !isNaN(d.getTime()) ? d.getMonth() : -1;
+          const itemBilangan = parseInt(item.bilangan) || 1;
+          
+          if (month === 'all' && currentMonth !== -1 && currentMonth !== lastMonth) {
+              if (lastMonth !== -1) {
+                  html += "<tr><td colspan=\"11\" style=\"text-align: right; font-weight: bold; padding: 6px 10px; background-color: #fafafa;\">JUMLAH KESELURUHAN BAHAN BULAN " + monthNames[lastMonth].toUpperCase() + " : " + monthlyTotal + "</td></tr>";
+              }
+              html += "<tr><td colspan=\"11\" style=\"background-color: #f2f2f2; font-weight: bold; text-transform: uppercase; padding: 6px 10px; font-size: 10pt; color: #000;\">BULAN: " + monthNames[currentMonth] + "</td></tr>";
+              lastMonth = currentMonth;
+              monthlyTotal = 0;
+          }
+
+          monthlyTotal += itemBilangan;
+          grandTotal += itemBilangan;
+
+          const formattedDate = !isNaN(d.getTime()) ? d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getFullYear() : '-';
+          
+          html += "<tr>\n" +
+            "<td class=\"text-center\">" + (bilCounter++) + "</td>\n" +
+            "<td>" + formattedDate + "</td>\n" +
+            "<td>" + (item.tajuk || '-') + "</td>\n" +
+            "<td>" + (item.edisi || '-') + "</td>\n" +
+            "<td class=\"text-center\">" + itemBilangan + "</td>\n" +
+            "<td>" + (item.isbn || '-') + "</td>\n" +
+            "<td>" + (item.jenis || '-') + "</td>\n" +
+            "<td>" + (item.bidang || '-') + "</td>\n" +
+            "<td>" + (item.penerbitan || '-') + "</td>\n" +
+            "<td>" + (item.penerima || '-') + "</td>\n" +
+            "<td>" + (item.sumber || '-') + "</td>\n" +
+            "</tr>\n";
+      });
+
+      if (month === 'all' && lastMonth !== -1) {
+          html += "<tr><td colspan=\"11\" style=\"text-align: right; font-weight: bold; padding: 6px 10px; background-color: #fafafa;\">JUMLAH KESELURUHAN BAHAN BULAN " + monthNames[lastMonth].toUpperCase() + " : " + monthlyTotal + "</td></tr>";
+          html += "<tr><td colspan=\"11\" style=\"text-align: right; font-weight: bold; padding: 6px 10px; background-color: #eaeaea;\">JUMLAH KESELURUHAN TAHUN " + year + " : " + grandTotal + " BAHAN</td></tr>";
+      } else if (month !== 'all') {
+          html += "<tr><td colspan=\"11\" style=\"text-align: right; font-weight: bold; padding: 6px 10px; background-color: #fafafa;\">JUMLAH KESELURUHAN BULAN INI : " + grandTotal + " BAHAN</td></tr>";
+      }
+  }
+  html += "</tbody></table></body></html>"; 
+  
+  const win = window.open('', '', 'width=1000,height=700'); 
+  win.document.write(html); 
+  win.document.close(); 
+  win.print();
 };
 
 window.printMonthlyReport = function() {
@@ -3765,6 +3881,7 @@ window.exportData = function(type, format) {
         title = `DATA REKOD BAHAN BARU (${m==='all' ? 'Tahun ' + y : monthNames[parseInt(m)] + ' ' + y})`;
         
         let filtered = window.dbBuku.filter(b => {
+            if (b.klasifikasi === 'Rekod Bacaan Lama' || !!b.tarikh_asal) return false; // Abaikan buku dari rekod pinjaman
             const d = new Date(b.tarikh);
             if (d.getFullYear() !== y) return false;
             if (m !== 'all' && d.getMonth() !== parseInt(m)) return false;
