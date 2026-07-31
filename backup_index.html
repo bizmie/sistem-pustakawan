@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -93,10 +92,10 @@
         .badge-btn { padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; display: inline-block; font-weight:700; border: 1px solid rgba(0,0,0,0.05); }
         .badge-active { background: var(--badge-active-bg); color: var(--badge-active-text); }
         .badge-late { background: var(--badge-late-bg); color: var(--badge-late-text); }
-        .badge-done { background: var(--badge-done-bg); color: var(--badge-done-text); }
+       .badge-done { background: var(--badge-done-bg); color: var(--badge-done-text); }
 
         #dashboardView { display: none; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0; }
+        .container { max-width: 100%; margin: 0 auto; padding: 0; }
         header, .content-card, .calendar-card, .widget-card, .stat-card, .modal { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-md); overflow: hidden; transition: all 0.3s; }
         .calendar-card, .widget-card, .stat-card { border-radius: 12px; box-shadow: var(--shadow-sm); }
         
@@ -117,7 +116,7 @@
         .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; position: relative; z-index: 2; }
         #headerDate { color: var(--primary); font-size: 1.1rem; font-weight:800; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; text-align: right; line-height: 1.2; padding-top: 2px;}
 
-        .nav-tabs { display: flex; gap: 4px; margin-bottom: 12px; background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 6px 8px; border-radius: var(--radius-card); overflow-x: auto; scrollbar-width: none; border: 1px solid var(--border); box-shadow: var(--shadow-sm); align-items:center;}
+        .nav-tabs { display: flex; gap: 4px; margin-bottom: 12px; background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 6px 8px; border-radius: var(--radius-card); flex-wrap: wrap; border: 1px solid var(--border); box-shadow: var(--shadow-sm); align-items:center;}
         
         .nav-btn { background: transparent; color: var(--text-main); opacity: 0.9; border: none; padding: 8px 16px; font-size: 0.95rem; cursor: pointer; border-radius: 8px; transition: all 0.2s ease; white-space: nowrap; font-weight:700;}
         .nav-btn:hover { opacity: 1; color: var(--primary); background: rgba(0,0,0,0.05); }
@@ -141,19 +140,19 @@
         .cal-header h3 { margin:0; font-size:1.15rem; color:var(--primary); font-weight:900; text-transform:uppercase; letter-spacing:0.5px; }
         .cal-nav button { background: white; border: 1px solid #D1E5F9; color: var(--primary); border-radius: 4px; font-size: 1rem; padding: 0; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-weight:600; box-shadow: none; cursor:pointer; }
         .cal-nav button:hover { background: var(--primary-light); border-color: var(--primary); }
-        .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0 6px; }
-        .cal-grid-headers { text-align: center; font-size: 0.75rem; margin-bottom: 2px; font-weight:800; text-transform:uppercase; position: relative; z-index: 1; }
+        .cal-grid-headers, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0 4px; }
+        .cal-grid-headers { text-align: center; font-size: 0.7rem; margin-bottom: 4px; font-weight:800; text-transform:uppercase; position: relative; z-index: 1; }
         .cal-day { background: transparent; border: 2px solid transparent; border-radius: 6px; padding: 6px 2px; min-height: 65px; text-align: center; display: flex; flex-direction: column; transition: all 0.2s ease; cursor: pointer; position: relative; color: #334155; margin-bottom: 0;}
         .cal-day * { pointer-events: none; } 
-        .cal-day.weekend { background-color: #E9ECEF; border-color: transparent; border-radius: 0; }
+        .cal-day.weekend { background-color: #E9ECEF; border-color: transparent; border-radius: 6px; }
         .cal-day.today { font-weight:900; color: var(--primary); }
         .cal-day.selected-day { background: #FFFFFF !important; border: 2px solid var(--primary) !important; transform: scale(1.05); z-index: 2; box-shadow: 0 4px 8px rgba(0,102,204,0.3); border-radius: 12px !important; }
         .cal-day.selected-day .cal-date-num { color: #000000 !important; }
         .cal-day:hover:not(.selected-day) { background: var(--primary-light); z-index: 10; border-radius: 6px; }
-        .cal-info { font-size:0.55rem; line-height:1.1; margin-top:6px; }
-        .cal-date-num { font-weight:900; font-size:1.05rem; color:#334155; display:block; line-height:1; margin-bottom:2px; }
-        .cal-header-day { padding: 8px 0; border-radius: 20px 20px 0 0; }
-        .cal-header-weekend { background-color: #E9ECEF; padding-bottom: 8px; margin-bottom: 0; }
+        .cal-info { font-size:0.5rem; line-height:1.1; margin-top:4px; }
+        .cal-date-num { font-weight:900; font-size:1rem; color:#334155; display:block; line-height:1; margin-bottom:2px; }
+        .cal-header-day { padding: 8px 0; border-radius: 6px; }
+        .cal-header-weekend { background-color: transparent; color: var(--danger) !important; }
         
         .widget-item { background: var(--surface-solid); border: 1px solid var(--widget-border); border-left: 4px solid var(--primary); padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; transition: all 0.2s; box-shadow: var(--shadow-sm); }
         .widget-item:hover { transform: translateX(2px); box-shadow: var(--shadow-md); border-color: var(--border); }
@@ -169,7 +168,7 @@
         tr { transition: background-color 0.15s; }
         tr:hover td { background-color: var(--primary-light); }
 
-        .filter-chips { display: flex; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; background: transparent;}
+        .filter-chips { display: flex; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--border); flex-wrap: wrap; background: transparent;}
         .chip { background: var(--bg-body); border: 1.5px solid var(--border); padding: 4px 12px; border-radius: 12px; cursor: pointer; color: var(--text-muted); font-size: 0.75rem; transition: all 0.2s; white-space: nowrap; font-weight:600; box-shadow: 0 1px 2px rgba(0,0,0,0.04);}
         .chip:hover { border-color: var(--primary-light); color: var(--primary); }
         .chip.active { background: var(--primary); color: white; border-color: var(--primary); font-weight:700;}
@@ -344,6 +343,10 @@
         @media (max-width: 768px) {
             .dashboard-layout, .grid-compact, .grid-cols-4 { grid-template-columns: 1fr !important; }
             .col-span-1, .col-span-2, .col-span-4 { grid-column: span 1; }
+            
+            /* Memaksa kalendar mini memenuhi skrin dan duduk di atas jadual */
+            #senarai_layout_container.sidebar-open #senarai_sidebar_left { width: 100% !important; }
+            
             header { flex-direction: column; align-items: center; text-align: center; gap: 16px; padding: 16px;}
             .header-left, .header-right { align-items: center; width: 100%; }
             .header-left-title { justify-content: center; }
@@ -395,7 +398,7 @@
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"></path><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
                 </button>
             </div>
-            <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">v35.08d (Stable)</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px;">v35.54e (Stable)</div>
         </div>
     </div>
 </div>
@@ -476,7 +479,7 @@
         <div id="tab-dashboard" class="tab-content">
             <div class="admin-stats-grid">
                 <!-- WIDGET 1: Sedang Dipinjam -->
-                <div class="stat-card clickable" onclick="if(window.userRole === 'admin') window.switchTab('aktif')" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.02); border-radius: 12px;">
+                <div class="stat-card clickable" onclick="if(window.userRole === 'admin') window.switchTab('aktif')" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px;">
                     <div style="width: 42px; height: 42px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;">📖</div>
                     <div style="display: flex; flex-direction: column; justify-content: center;">
                         <div style="font-size: 0.7rem; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Sedang Dipinjam</div>
@@ -485,7 +488,7 @@
                 </div>
 
                 <!-- WIDGET 2: Senarai Lewat -->
-                <div class="stat-card clickable" onclick="window.openFineModal()" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.02); border-radius: 12px;">
+                <div class="stat-card clickable" onclick="window.openFineModal()" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px;">
                     <div style="width: 42px; height: 42px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;">⏳</div>
                     <div style="display: flex; flex-direction: column; justify-content: center;">
                         <div style="font-size: 0.7rem; font-weight: 800; color: #b45309; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Senarai Lewat</div>
@@ -494,7 +497,7 @@
                 </div>
                 
                 <!-- WIDGET 5: Pusat Mesej -->
-                <div class="stat-card clickable" onclick="window.openAdminInbox()" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.02); border-radius: 12px; position: relative;">
+                <div class="stat-card clickable" onclick="window.openAdminInbox()" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px; position: relative;">
                     <div style="width: 42px; height: 42px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; position: relative;">
                         💬
                         <span id="adminInboxBadgeDot" style="display:none; position:absolute; top:-4px; right:-4px; width:10px; height:10px; background:var(--danger); border-radius:50%; border:2px solid #fff;"></span>
@@ -511,36 +514,40 @@
             
             <div class="dashboard-layout" style="grid-template-columns: 320px 1fr; align-items: stretch;">
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <div class="calendar-card">
-                        <div class="cal-header">
-                            <h3 id="dashCalMonthYear">Bulan Tahun</h3>
-                            <div class="cal-nav" style="display: flex; gap: 4px;">
-                                <button class="btn-clear" onclick="window.changeDashMonth(-1)">&lt;</button>
-                                <button class="btn-clear" onclick="window.changeDashMonth(1)">&gt;</button>
+                    <div class="calendar-card" style="padding: 16px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden;">
+                        <div class="cal-header" style="background: #ffffff; margin: -16px -16px 12px -16px; padding: 12px 16px; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box; position: relative;">
+                            <h3 id="dashCalMonthYear" style="margin:0; font-size:0.95rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px; display: flex; align-items: center; gap: 8px;">
+                                <span id="dashCalMonthYearText">Bulan Tahun</span>
+                            </h3>
+                            <div class="cal-nav" style="display: flex; gap: 6px; position: absolute; right: 16px;">
+                                <button class="btn-clear" style="background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 10px; font-size: 0.9rem; width: auto; height: auto; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-weight: 800;" onclick="window.changeDashMonth(-1)">&lt;</button>
+                                <button class="btn-clear" style="background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 10px; font-size: 0.9rem; width: auto; height: auto; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-weight: 800;" onclick="window.changeDashMonth(1)">&gt;</button>
                             </div>
                         </div>
                         <div class="cal-grid-headers"><div class="cal-header-day" style="color:var(--primary)">ISN</div><div class="cal-header-day" style="color:var(--primary)">SEL</div><div class="cal-header-day" style="color:var(--primary)">RAB</div><div class="cal-header-day" style="color:var(--primary)">KHA</div><div class="cal-header-day" style="color:var(--primary)">JUM</div><div class="cal-header-day cal-header-weekend" style="color:var(--danger)">SAB</div><div class="cal-header-day cal-header-weekend" style="color:var(--danger)">AHD</div></div>
                         <div class="cal-grid" id="dashCalGrid"></div>
                         <div style="margin-top: 12px; text-align: center;">
-                            <button class="btn-clear" style="padding: 8px 12px; font-size: 0.85rem; border: 1px solid var(--primary); color: var(--primary); font-weight: 800; width: 100%; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: white;" onclick="window.resetDashCalToToday()">📅 Hari Ini</button>
+                            <button class="btn-clear" style="padding: 8px 12px; font-size: 0.85rem; border: 1px solid #cbd5e1; color: #475569; font-weight: 800; width: 100%; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: white;" onclick="window.resetDashCalToToday()">📅 Hari Ini</button>
                         </div>
                     </div>
                 </div>
                 
                 <div style="display: flex; flex-direction: column; gap: 10px; height: 100%;">
-                    <div class="widget-card" style="padding:12px; display: flex; flex-direction: column; flex: 1; min-height: 200px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px;">
-                            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                                <h3 style="margin:0;">📋 Rekod Pinjaman Buku</h3>
-                                <span id="selectedDateLabel" style="font-size:0.75rem; color:var(--primary); background:var(--primary-light); padding:4px 10px; border-radius:12px; font-weight:700;">Pilih Tarikh</span>
-                                <label style="display:flex; align-items:center; gap:4px; font-size:0.7rem; color:var(--danger); font-weight:700; background:#FEF2F2; border:1px solid #FECACA; padding:2px 8px; border-radius:12px; cursor:pointer;" title="Papar rekod yang Belum Rekod Sistem Ilmu sahaja">
+                    <div class="widget-card" style="padding:0; border-radius: 12px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; flex: 1; min-height: 200px; overflow: hidden; background: #f1f5f9; border: 1px solid #cbd5e1;">
+                        <div style="background: #ffffff; padding: 12px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
+                            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                                <h3 style="margin:0; color: #0f172a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                                    REKOD PINJAMAN
+                                </h3>
+                                <span id="selectedDateLabel" style="font-size:0.7rem; color:#475569; background:#f8fafc; border:1px solid #cbd5e1; padding:4px 10px; border-radius:12px; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">Pilih Tarikh</span>
+                                <label style="display:flex; align-items:center; gap:4px; font-size:0.7rem; color:var(--danger); font-weight:700; background:#FEF2F2; border:1px solid #FECACA; padding:2px 8px; border-radius:12px; cursor:pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" title="Papar rekod yang Belum Rekod Sistem Ilmu sahaja">
                                     <input type="checkbox" id="dashFilterIlmu" onchange="window.updateDailyWidget(window.dashSelectedDate)" style="margin:0; accent-color:var(--danger);">
                                     Belum Rekod Ilmu
                                 </label>
                             </div>
                             <div id="dashDailyPaginationHeader"></div>
                         </div>
-                        <div id="dailyActivityList" style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px; height: 600px; overflow-y: auto; padding-right: 4px; overscroll-behavior: contain;"></div>
+                        <div id="dailyActivityList" style="display: flex; flex-direction: column; gap: 6px; padding: 12px; height: 600px; overflow-y: auto; overscroll-behavior: contain;"></div>
                     </div>
                 </div>
             </div>
@@ -600,8 +607,8 @@
         </div>
 
         <div id="tab-senarai" class="tab-content">
-            <div class="dashboard-layout" style="grid-template-columns: 0px 1fr; gap: 0px; transition: all 0.3s ease;" id="senarai_layout_container">
-                <div id="senarai_sidebar_left" style="transition: all 0.3s ease; overflow: hidden; opacity: 0; pointer-events: none; transform: translateX(-20px); width: 0px;">
+            <div class="dashboard-layout sidebar-open" style="grid-template-columns: 320px 1fr; gap: 16px; transition: all 0.3s ease;" id="senarai_layout_container">
+                <div id="senarai_sidebar_left" style="transition: all 0.3s ease; overflow: hidden; opacity: 1; pointer-events: all; transform: translateX(0); width: 320px; display: block;">
                     <div class="calendar-card">
                         <div class="cal-header">
                             <h3 id="senaraiCalMonthYear" style="margin:0;">Bulan Tahun</h3>
@@ -639,18 +646,10 @@
                 <div class="content-card" style="padding:0; min-width: 0; transition: all 0.3s ease;">
                     <div class="toolbar">
                         <div class="search-container">
-                            <button id="btnBukaKalendarSenarai" class="btn-clear" style="display:inline-flex; padding:6px 10px; margin-right:6px; border-radius:8px; box-shadow:var(--shadow-sm);" onclick="window.toggleSenaraiSidebar()" title="Papar Semula Kalendar">📅</button>
+                            <button id="btnBukaKalendarSenarai" class="btn-clear" style="display:none; padding:6px 10px; margin-right:6px; border-radius:8px; box-shadow:var(--shadow-sm);" onclick="window.toggleSenaraiSidebar()" title="Papar Semula Kalendar">📅</button>
                             <input type="text" id="searchInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari peminjam, ID, tajuk..." onkeyup="window.senaraiCurrentPage=1; window.renderTable()"><button class="btn-clear" style="padding:6px 10px;" onclick="window.clearSearch()">❌</button>
                         </div>
                         <div class="action-wrapper" id="action-wrapper-senarai">
-                            <div style="display:flex; align-items:center; gap:4px; background:var(--bg-body); padding:2px 6px; border-radius:var(--radius-btn); border:1px solid var(--border);">
-                                <select id="reportMonth" class="form-group select" style="margin:0; padding:4px; width:auto; border:none; background:transparent;">
-                                    <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option>
-                                </select>
-                                <input type="number" id="reportYear" value="2026" style="width:60px; margin:0; padding:4px; border:none; background:transparent;">
-                                <button class="btn-clear" style="padding:4px 10px; border-radius:4px; font-weight:700; color:var(--text-main);" onclick="window.printMonthlyReport()" title="Cetak Laporan Bulanan">🖨️ Bulanan</button>
-                            </div>
-                            <button class="btn-clear" style="padding:4px 10px; border-radius:4px; border: 1px solid var(--primary); color:var(--primary); background:var(--primary-light); font-weight:700;" onclick="window.openCetakIndividuModal()">🖨️ Individu</button>
                             <button class="btn-3d" onclick="window.openModal()" style="padding:6px 14px; background:var(--success); border-color:#27C93F;">➕ Pinjaman Baru</button>
                         </div>
                         <div class="action-wrapper" id="action-wrapper-senarai-user" style="display:none;">
@@ -675,6 +674,7 @@
                         <button id="chip-sambung" class="chip" onclick="window.setFilter('sambung')">Sambung Pinjam</button>
                         <button id="chip-sedang" class="chip" onclick="window.setFilter('sedang')">Sedang Dipinjam</button>
                         <button id="chip-ilmu" class="chip" onclick="window.setFilter('ilmu')" style="color:var(--danger); border-color:var(--danger-light);">Belum Rekod Ilmu</button>
+                        <button id="chip-ilmu-caj" class="chip" onclick="window.setFilter('ilmu-caj')" style="color:#d97706; border-color:#fde68a;">Caj Sistem Ilmu</button>
                     </div>
                     <div class="table-wrap" style="max-height: 70vh; overflow-y: auto; padding-right: 8px; padding-bottom: 16px;"> 
                         <div id="tableBody" style="display:flex; flex-direction:column; gap:0;">
@@ -711,9 +711,10 @@
                     </div>
                 </div>
                 
-                <div style="display:flex; background:rgba(0,0,0,0.02); padding:14px 16px 0 16px; gap:8px; border-bottom:2px solid var(--border);" id="sub-tabs-buku">
+                <div style="display:flex; flex-wrap:wrap; background:rgba(0,0,0,0.02); padding:14px 16px 0 16px; gap:8px; border-bottom:1px solid #94a3b8;" id="sub-tabs-buku">
                     <button id="tab-buku-baru-btn" class="nav-btn active" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid var(--primary); border-bottom:2px solid var(--primary); background:var(--primary); color:white; margin-bottom:-2px; position:relative; z-index:2; font-weight:800; box-shadow: 0 -3px 8px rgba(0,102,204,0.2);" onclick="window.switchSubTabBuku('baru')">📚 Buku Baru Diterima</button>
                     <button id="tab-buku-lama-btn" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,0,0,0.05); color:var(--text-muted); margin-bottom:-2px; position:relative; z-index:1; font-weight:700; display:none;" onclick="window.switchSubTabBuku('lama')">🕰️ Rekod Buku Lama</button>
+                    <a id="btn_webopac_link" href="#" target="_blank" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,191,255,0.1); color:#007aff; margin-bottom:-2px; position:relative; z-index:1; font-weight:700; text-decoration:none; display:none; align-items:center; gap:6px;">🔗 <span id="text_webopac_link">Carian buku WEBOPAC MTIB</span></a>
                 </div>
 
                 <div id="view-buku-baru" style="background:#f8fafc; padding-bottom: 20px;">
@@ -782,18 +783,16 @@
         </div>
 
         <div id="tab-kelab" class="tab-content">
-            <div class="content-card" style="padding:0;">
-                <div class="toolbar">
+            <div class="content-card" style="padding:0; background: transparent; border: none; box-shadow: none;">
+                <div class="toolbar" style="background: var(--surface-solid); border-radius: var(--radius-card); margin-bottom: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
                     <div class="search-container">
                         <input type="text" id="searchKelabInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari nama atau ID peminjam..." onkeyup="window.renderKelabTable()">
                         <button class="btn-clear" style="padding:6px 10px;" onclick="document.getElementById('searchKelabInput').value=''; window.renderKelabTable();">❌</button>
                     </div>
                 </div>
-                <div class="table-wrap" style="max-height:70vh; overflow-y:auto;">
-                    <table>
-                        <thead><tr><th style="width:5%; text-align:center;">Bil</th><th style="width:30%">Maklumat Ahli</th><th style="width:25%">Jabatan / Bahagian</th><th style="width:20%; text-align:center;">Point Aktiviti</th><th style="text-align:center; width:20%">Status & Tindakan</th></tr></thead>
-                        <tbody id="kelabTableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan data ahli...</td></tr></tbody>
-                    </table>
+                <!-- Container list baru untuk kad -->
+                <div id="kelabTableBody" style="display:flex; flex-direction:column; gap:10px; max-height:70vh; overflow-y:auto; padding-right: 6px;">
+                    <div style="text-align:center; padding: 30px; color:var(--text-muted);">Memuatkan data ahli...</div>
                 </div>
             </div>
         </div>
@@ -870,7 +869,7 @@
             <div class="content-card" style="padding: 20px; margin-bottom: 20px; border: 1.5px solid var(--border); box-shadow: var(--shadow-sm); overflow: visible;">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; flex-wrap:wrap; gap:10px;">
                     <h2 style="margin:0; font-size: 1.1rem; color:var(--primary);">⚙️ Tetapan Sistem Aplikasi</h2>
-                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v35.08d (Stable)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
+                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v35.54e (Stable)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; align-items: stretch;">
                     
@@ -915,6 +914,19 @@
                             <input type="hidden" id="set_r2w_year" value="2026">
                             <input type="hidden" id="set_r2w_start" value="0">
                             <input type="hidden" id="set_r2w_end" value="11">
+                        </div>
+                    </div>
+
+                    <!-- BOX 3: Pautan Luaran (Senarai Buku) -->
+                    <div style="background: rgba(0,0,0,0.015); padding: 16px; border-radius: 12px; border: 1px solid var(--border-input);">
+                        <h4 style="margin:0 0 12px 0; color:var(--text-main); font-size:0.9rem; border-bottom:1px dashed var(--border); padding-bottom:8px;">🔗 Pautan Luaran (Tab Buku)</h4>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label style="font-weight:600; font-size:0.75rem; display:block; margin-bottom:6px; color:var(--text-muted);">Nama Pautan / Butang</label>
+                            <input type="text" id="set_webopac_name" class="login-input" placeholder="Cth: Carian buku WEBOPAC MTIB" style="margin-bottom:0;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-weight:600; font-size:0.75rem; display:block; margin-bottom:6px; color:var(--text-muted);">Pautan URL</label>
+                            <input type="text" id="set_webopac_url" class="login-input" placeholder="Cth: https://opac.mtib.gov.my" style="margin-bottom:0;">
                         </div>
                     </div>
                 </div>
@@ -1068,19 +1080,24 @@
 
 <!-- CHAT MODAL -->
 <div class="modal-overlay" id="chatModal" style="z-index: 10006;">
-    <div class="modal" style="max-width: 450px; padding:0; overflow:hidden; display:flex; flex-direction:column; height: 80vh;">
-        <div class="modal-header" style="padding: 16px; background: var(--surface-solid); margin:0; border-bottom: 1px solid var(--border);">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <button class="btn-clear" id="btnBackInbox" style="display:none; padding:4px 8px; border:none; background:var(--primary-light); color:var(--primary);" onclick="window.openAdminInbox()">◀</button>
-                <h3 style="margin:0; color:var(--primary);" id="chatTitle">💬 Bantuan & Pertanyaan</h3>
+    <div class="modal modal-faded" style="max-width: 800px; width: 90%; background: #f1f5f9; padding:0; overflow:hidden; display:flex; flex-direction:column; height: 80vh;">
+        <div class="modal-header" style="background: #ffffff; margin:0; padding: 16px; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box; flex-shrink: 0;">
+            <button class="btn-clear" id="btnBackInbox" style="display:none; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); padding:6px; border:1px solid #cbd5e1; background:#f8fafc; color:#475569; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); align-items:center; justify-content:center; transition:0.2s;" onclick="window.openAdminInbox()" title="Kembali ke Peti Masuk" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f8fafc'">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div id="chatTitle" style="text-align:center; display:flex; flex-direction:column; justify-content:center; align-items:center; line-height:1.2; width: calc(100% - 120px); overflow: hidden; margin: 0 auto;">
+                <span id="chatTitleName" style="font-size:0.65rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block;">BANTUAN & PERTANYAAN</span>
+                <span id="chatTitleDept" style="font-size:0.65rem; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: none;"></span>
             </div>
-            <div class="mac-controls" style="margin:0;">
-                <button class="btn-clear" style="padding:2px 8px; font-size:0.75rem; color:var(--danger); border-color:var(--danger-light); margin-right:8px;" onclick="window.clearChatHistory()" title="Padam Sejarah Sembang">🗑️ Padam</button>
-                <span class="mac-dot mac-red" onclick="window.closeChatModal()" style="cursor:pointer;"></span>
+            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0; display:flex; align-items:center; gap:8px;">
+                <button class="btn-clear" style="padding:6px; color:var(--danger); border-color:var(--danger-light); background:var(--danger-light); border-radius:6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display:flex; align-items:center; justify-content:center; transition:0.2s;" onclick="window.clearChatHistory()" title="Padam Mesej & Sejarah Sembang" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='var(--danger-light)'">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+                <span class="mac-dot mac-red" onclick="window.closeChatModal()" style="cursor:pointer;" title="Tutup Tetingkap"></span>
             </div>
         </div>
-        <div id="chatMessagesArea" class="chat-container" style="flex:1; border:none; border-radius:0;"></div>
-        <div style="padding:12px; background: var(--bg-body); border-top: 1px solid var(--border); display:flex; flex-direction:column; gap:8px;">
+        <div id="chatMessagesArea" class="chat-container" style="flex:1; border:none; border-radius:0; background:transparent;"></div>
+        <div style="padding:12px; background: #ffffff; border-top: 1px solid #cbd5e1; display:flex; flex-direction:column; gap:8px;">
             <div style="display:flex; gap:8px; align-items:center;">
                 <input type="text" id="chatInput" class="login-input" style="margin:0; flex:1; border-color:var(--border);" placeholder="Taip mesej anda di sini..." onkeyup="if(event.key==='Enter') window.sendChatMessage()">
                 <button class="btn-3d" style="padding:8px 16px; border:none;" onclick="window.sendChatMessage()">Hantar</button>
@@ -1096,25 +1113,22 @@
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('🙏')">🙏</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('👍')">👍</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('👎')">👎</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; background:rgba(0,102,204,0.05); padding:6px 12px; border-radius:12px; width:100%; box-sizing:border-box;">
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('✅')">✅</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('❌')">❌</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('❓')">❓</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; background:rgba(0,102,204,0.05); padding:6px 12px; border-radius:12px; width:100%; box-sizing:border-box;">
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('💡')">💡</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📚')">📚</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('💻')">💻</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📁')">📁</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📊')">📊</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; background:rgba(255,149,0,0.05); padding:6px 12px; border-radius:12px; width:100%; box-sizing:border-box;">
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('🗓️')">🗓️</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('⏰')">⏰</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📌')">📌</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('✏️')">✏️</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('🖨️')">🖨️</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('📑')">📑</span>
-                    <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('☕')">☕</span>
                     <span style="cursor:pointer; font-size:1.2rem; transition: transform 0.1s;" onclick="window.insertEmoji('🏢')">🏢</span>
                 </div>
             </div>
@@ -1124,24 +1138,24 @@
 
 <!-- ADMIN INBOX MODAL -->
 <div class="modal-overlay" id="adminInboxModal" style="z-index: 10005;">
-    <div class="modal" style="max-width: 500px; padding:0; overflow:hidden; display:flex; flex-direction:column; max-height: 80vh;">
-        <div class="modal-header" style="padding: 16px; background: var(--surface-solid); margin:0; border-bottom: none;">
-            <h3 style="margin:0; color:var(--primary);">Pusat Mesej & Notifikasi</h3>
-            <div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red" onclick="window.closeAdminInbox()" style="cursor:pointer;"></span></div>
+    <div class="modal modal-faded" style="max-width: 800px; width: 90%; background: #f1f5f9; padding:0; overflow:hidden; display:flex; flex-direction:column; max-height: 85vh;">
+        <div class="modal-header" style="background: #ffffff; margin:0; padding: 16px; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box; flex-shrink: 0;">
+            <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">PUSAT MESEJ & NOTIFIKASI</h3>
+            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeAdminInbox()" style="cursor:pointer;"></span></div>
         </div>
-        <div style="display:flex; background:var(--surface-solid); padding:0 16px; gap:8px; border-bottom:1px solid var(--border);">
-            <button id="tab-inbox-btn" class="nav-btn active" style="padding:8px 12px; font-size:0.85rem; border-radius:0; border-bottom:2px solid var(--primary); color:var(--primary);" onclick="window.renderAdminInboxTab('inbox')">Peti Masuk</button>
-            <button id="tab-announce-btn" class="nav-btn" style="padding:8px 12px; font-size:0.85rem; border-radius:0; border-bottom:2px solid transparent;" onclick="window.renderAdminInboxTab('announce')">Pengumuman</button>
-            <button id="tab-reminder-btn" class="nav-btn" style="padding:8px 12px; font-size:0.85rem; border-radius:0; border-bottom:2px solid transparent;" onclick="window.renderAdminInboxTab('reminder')">Peringatan</button>
+        <div style="display:flex; background:#ffffff; padding:0 16px; gap:8px; border-bottom:1px solid #cbd5e1; flex-shrink: 0;">
+            <button id="tab-inbox-btn" class="nav-btn active" style="padding:10px 12px; font-size:0.85rem; border-radius:0; border-bottom:2px solid var(--primary); color:var(--primary); font-weight:800;" onclick="window.renderAdminInboxTab('inbox')">Peti Masuk</button>
+            <button id="tab-announce-btn" class="nav-btn" style="padding:10px 12px; font-size:0.85rem; border-radius:0; border-bottom:2px solid transparent; font-weight:800;" onclick="window.renderAdminInboxTab('announce')">Pengumuman</button>
+            <button id="tab-reminder-btn" class="nav-btn" style="padding:10px 12px; font-size:0.85rem; border-radius:0; border-bottom:2px solid transparent; font-weight:800;" onclick="window.renderAdminInboxTab('reminder')">Peringatan</button>
         </div>
-        <div id="adminInboxList" style="flex:1; overflow-y:auto; padding:16px; background:var(--bg-body); display:flex; flex-direction:column; gap:8px;"></div>
+        <div id="adminInboxList" style="flex:1; overflow-y:auto; padding:16px; background:transparent; display:flex; flex-direction:column; gap:10px;"></div>
     </div>
 </div>
 
 <div class="modal-overlay" id="statusModal" style="z-index: 1001;">
-    <div class="modal modal-faded" style="width: 95%; max-width: 900px;">
-        <div class="modal-header" style="background: var(--primary-light); margin: -16px -16px 16px -16px; padding: 14px 16px; border-radius: 15px 15px 0 0; position: relative; justify-content: center; border-bottom: 1px solid var(--primary);">
-            <h3 id="sm_title" style="margin:0; text-align:center;">Urus Pinjaman</h3>
+    <div class="modal modal-faded" style="width: 95%; max-width: 900px; background: #f1f5f9; padding-bottom: 24px;">
+        <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
+            <h3 id="sm_title" style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">REKOD PINJAMAN BARU</h3>
             <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeModal()" style="cursor:pointer;"></span></div>
         </div>
         <input type="hidden" id="docId">
@@ -1236,10 +1250,10 @@
             </div>
         </div>
         
-        <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px; align-items:center;">
+        <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px dashed #cbd5e1; padding-top: 16px; align-items:center;">
             <button onclick="window.deleteRecord()" id="btnDelete" class="btn-3d danger" type="button" style="display:none; margin-right:auto;">🗑️ Hapus</button>
             <div style="flex:1;"></div>
-            <button onclick="window.closeModal()" class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff;">❌ Tutup</button>
+            <button onclick="window.closeModal()" class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff; border: 1px solid #cbd5e1; color: #475569; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">❌ Tutup</button>
             <button onclick="window.saveData()" class="btn-3d" type="button" style="padding-left: 24px; padding-right: 24px;">💾 Simpan</button>
         </div>
     </div>
@@ -1259,59 +1273,38 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="kelabModal">
-    <div class="modal modal-faded" style="width: 95%; max-width: 680px;">
-        <div class="modal-header" style="background: var(--primary-light); margin: -16px -16px 16px -16px; padding: 14px 16px; border-radius: 15px 15px 0 0; position: relative; justify-content: center; border-bottom: 1px solid var(--primary);">
-            <h3 id="kelabModalTitleText" style="margin:0; text-align:center;">✏️ Kemaskini Profil Ahli</h3>
-            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeKelabModal()" style="cursor:pointer;"></span></div>
+<div class="modal-overlay" id="kelabModal" style="z-index: 1001;">
+    <div class="modal modal-faded" style="width: 95%; max-width: 550px; background: #f1f5f9; padding-bottom: 24px;">
+        <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
+            <h3 id="kelabModalTitleText" style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">KEMASKINI PROFIL AHLI</h3>
+            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeKelabModal()" style="cursor:pointer;" title="Tutup"></span></div>
         </div>
         <input type="hidden" id="k_key">
         
-        <div class="grid-compact" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 12px;">
-            <div class="form-group col-span-2"><label>Nama Penuh</label><input type="text" id="k_nama" style="border-color:var(--primary); background:var(--primary-light);"></div>
-            <div class="form-group"><label>No Pekerja (ID)</label><input type="text" id="k_noPekerja" style="border-color:var(--primary); background:var(--primary-light);"></div>
-            <div class="form-group"><label>Bahagian / Jabatan</label><select id="k_bahagian" class="dept-select" style="border-color:var(--primary); background:var(--primary-light); width: 100%; box-sizing: border-box;"></select></div>
-            <div class="form-group"><label>No. Telefon (WhatsApp)</label><input type="text" id="k_whatsapp" style="border-color:var(--primary); background:var(--primary-light);"></div>
-            <div class="form-group" id="div_admin_password" style="display:none;"><label style="color:var(--danger);">Kata Laluan Log Masuk</label><input type="text" id="k_password" style="border-color:var(--danger); background:var(--danger-light);"></div>
+        <div class="grid-compact" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 16px; gap: 12px; margin-top: 12px;">
+            <div class="form-group col-span-2" style="margin-bottom:0;"><label style="color:var(--primary); font-weight:700;">Nama Penuh</label><input type="text" id="k_nama" style="border-color:var(--primary); background:var(--primary-light); margin-bottom:0;"></div>
+            <div class="form-group" style="margin-bottom:0;"><label style="color:var(--primary); font-weight:700;">No Pekerja (ID)</label><input type="text" id="k_noPekerja" style="border-color:var(--primary); background:var(--primary-light); margin-bottom:0;"></div>
+            <div class="form-group" style="margin-bottom:0;"><label>Bahagian / Jabatan</label><select id="k_bahagian" class="dept-select" style="margin-bottom:0; width: 100%; box-sizing: border-box;"></select></div>
+            <div class="form-group" style="margin-bottom:0;"><label>No. Telefon (WhatsApp)</label><input type="text" id="k_whatsapp" placeholder="Cth: 0123456789" style="margin-bottom:0;"></div>
+            <div class="form-group" id="div_admin_password" style="display:none; margin-bottom:0;"><label style="color:var(--danger); font-weight:700;">Kata Laluan Log Masuk</label><input type="text" id="k_password" style="border-color:var(--danger); background:var(--danger-light); margin-bottom:0;"></div>
         </div>
         
-        <!-- Information grouped -->
-        <div style="background: var(--bg-body); padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-bottom: 12px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);">
-            <div class="grid-compact" style="grid-template-columns: repeat(3, 1fr);">
-                <div class="form-group" style="margin-bottom:0;"><label style="color:var(--warning);">🏆 Mata Terkini</label><input type="text" id="k_totalMata" readonly style="background:var(--surface-solid); color:var(--warning); font-weight: 800; border-color:var(--warning); margin-bottom:0; text-align:center;"></div>
-                <div class="form-group col-span-2" style="margin-bottom:0;"><label>Kategori Bahan Semasa</label><input type="text" id="k_jenis" readonly style="background:var(--surface-solid); margin-bottom:0;"></div>
-                <div class="form-group col-span-3" style="margin-bottom:0; margin-top:8px;"><label>Tajuk Bahan Semasa</label><input type="text" id="k_tajuk" readonly style="background:var(--surface-solid); margin-bottom:0;"></div>
-            </div>
-        </div>
-        
-        <div class="grid-compact" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 12px;">
-            <div style="background: var(--bg-body); padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);">
-                <div class="form-group"><label style="color: var(--primary);">Tarikh Pinjam</label><input type="date" id="k_tPinjam" readonly style="background:var(--surface-solid);"></div>
-                <div class="form-group" style="margin-bottom:0;"><label style="color: var(--primary);">Jangkaan Pulang</label><input type="date" id="k_tPulang" readonly style="background:var(--surface-solid); border-color:var(--primary); margin-bottom:0;"></div>
-            </div>
-            
-            <div style="background: var(--bg-body); padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);">
-                <div class="form-group"><label style="margin-bottom: 6px;">Status Pemulangan</label><div style="display: flex; gap: 12px; align-items:center; min-height: 38px; border: 1px solid var(--border-input); padding: 0 14px; border-radius: var(--radius-btn); background: var(--surface-solid);" id="k_status_container"></div></div>
-                <div class="form-group" id="k_div_actual_return_date" style="display:none; margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 12px; margin-bottom: 0;"><label style="color:var(--success);">Tarikh Pemulangan Sebenar</label><input type="date" id="k_tDipulangkan" readonly style="background:var(--surface-solid); border-color: var(--success); margin-bottom:0;"></div>
-            </div>
-        </div>
-
-        <div class="form-group" style="margin-top: 12px;"><label>Catatan Pustakawan</label><textarea id="k_catatan" rows="2" readonly style="background:var(--bg-body); margin-bottom:0;"></textarea></div>
-        <div id="k_duration_info" style="background: var(--bg-body); padding: 8px; border-radius: var(--radius-btn); text-align:center; font-size: 0.85rem; border:1px solid var(--border); margin-top:12px; color:var(--text-main);"></div>
-        
-        <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px; align-items:center; flex-wrap:wrap;">
-            <button class="btn-3d secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="window.viewKelabHistory(document.getElementById('k_key').value)">📚 Sejarah</button>
-            <button class="btn-3d danger" id="btn-delete-kelab" style="display:none; padding: 8px 16px; font-size: 0.85rem;" onclick="window.deleteKelabProfile()">🗑️ Hapus Profil</button>
+        <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px dashed #cbd5e1; padding-top: 16px; align-items:center; flex-wrap:wrap;">
+            <button class="btn-3d secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="window.viewKelabHistory(document.getElementById('k_key').value)">📚 Sejarah Bacaan</button>
+            <button class="btn-3d danger" id="btn-delete-kelab" style="display:none; margin-right:auto; padding: 8px 16px; font-size: 0.85rem;" type="button" onclick="window.deleteKelabProfile()">🗑️ Hapus</button>
             <div style="flex:1;"></div>
-            <button class="btn-3d" id="btn-save-kelab" style="padding: 8px 16px; font-size: 0.85rem;" onclick="window.updateKelabProfile()">💾 Simpan Pindaan</button>
-            <button onclick="window.closeKelabModal()" class="btn-clear" style="padding: 8px 16px; font-size: 0.85rem;">❌ Tutup</button>
+            <button onclick="window.closeKelabModal()" class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff; border: 1px solid #cbd5e1; color: #475569; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" type="button">❌ Tutup</button>
+            <button class="btn-3d" id="btn-save-kelab" style="padding-left: 24px; padding-right: 24px;" type="button" onclick="window.updateKelabProfile()">💾 Simpan</button>
         </div>
     </div>
 </div>
 
 <div class="modal-overlay" id="historyModal" style="z-index: 1000;">
-    <div class="modal" style="max-width: 700px; background: var(--surface-solid);">
-        <div class="modal-header"><h3 style="margin:0;">📚 Rekod Sejarah Bacaan</h3><div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red" onclick="window.closeHistoryModal()" style="cursor:pointer;"></span></div></div>
+    <div class="modal modal-faded" style="max-width: 700px; background: #f1f5f9; padding-bottom: 24px;">
+        <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
+            <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">REKOD SEJARAH BACAAN</h3>
+            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeHistoryModal()" style="cursor:pointer;"></span></div>
+        </div>
         <div id="h_userInfo" style="background: var(--surface-solid); padding: 10px 14px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
             <div><h4 id="h_nama" style="margin:0 0 2px 0; font-size:0.95rem; color:var(--primary);">Nama Ahli</h4><div id="h_jabatan" style="color:var(--text-muted); font-size:0.8rem;">Jabatan</div></div>
             <div style="text-align:right;"><div style="color:var(--text-muted); font-size:0.7rem; margin-bottom:2px;">Mata Terkumpul</div><div id="h_totalMata" style="display:inline-block; background:rgba(255, 149, 0, 0.15); border:1px solid rgba(255, 149, 0, 0.4); color:var(--warning); padding:2px 10px; border-radius:16px; font-size:0.9rem; font-weight:700;">🏆 0 pt</div></div>
@@ -1327,19 +1320,19 @@
                 <tbody id="historyTableBody"><tr><td colspan="6" style="text-align:center;">Memuatkan...</td></tr></tbody>
             </table>
         </div>
-        <div style="display:flex; gap:8px; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; align-items:center;">
+        <div style="display:flex; gap:8px; margin-top: 12px; border-top: 1px dashed #cbd5e1; padding-top: 16px; align-items:center;">
             <input type="hidden" id="h_key">
             <button class="btn-3d secondary" style="margin-right:auto;" onclick="window.printKelabHistory()">🖨️ Cetak PDF</button>
             <div style="flex:1;"></div>
-            <button class="btn-clear" onclick="window.closeHistoryModal()">❌ Tutup</button>
+            <button class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff; border: 1px solid #cbd5e1; color: #475569; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onclick="window.closeHistoryModal()">❌ Tutup</button>
         </div>
     </div>
 </div>
 
 <div class="modal-overlay" id="fineModal">
-    <div class="modal modal-faded" style="width: 95%; max-width: 900px; background: #f8fafc; padding-bottom: 24px;">
-        <div class="modal-header" style="background: var(--primary-light); margin: -16px -16px 16px -16px; padding: 14px 16px; border-radius: 15px 15px 0 0; position: relative; justify-content: center; border-bottom: 1px solid var(--primary);">
-            <h3 style="margin:0; text-align:center; color: var(--primary);">⏳ Senarai Rekod Lewat</h3>
+    <div class="modal modal-faded" style="width: 95%; max-width: 900px; background: #f1f5f9; padding-bottom: 24px;">
+        <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
+            <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">SENARAI REKOD LEWAT</h3>
             <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeFineModal()" style="cursor:pointer;"></span></div>
         </div>
         <div class="table-wrap" style="max-height: 60vh; overflow-y: auto; background: transparent; padding: 0 16px;">
@@ -1397,8 +1390,11 @@
 </div>
 
 <div class="modal-overlay" id="pointsModal" style="z-index: 10008;">
-    <div class="modal" style="max-width: 800px; width: 95%; background: var(--surface-solid);">
-        <div class="modal-header"><h3 style="margin:0;">🏆 Perincian Mata Ganjaran</h3><div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red" onclick="window.closePointsModal()" style="cursor:pointer;"></span></div></div>
+    <div class="modal modal-faded" style="max-width: 800px; width: 95%; background: #f1f5f9; padding-bottom: 24px;">
+        <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
+            <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">PERINCIAN MATA GANJARAN</h3>
+            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closePointsModal()" style="cursor:pointer;"></span></div>
+        </div>
         
         <div style="background:var(--surface-solid); padding:16px 20px; border-radius:var(--radius-btn); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border:1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
             <!-- Kiri: Info Peminjam -->
@@ -1433,13 +1429,13 @@
             <button class="btn-clear" style="padding:4px 10px; font-size:0.8rem; color:var(--primary); border-color:var(--primary-light); background:var(--primary-light); font-weight:700; box-shadow:var(--shadow-sm);" onclick="window.printPointsReport()" title="Cetak Laporan PDF">🖨️ Cetak PDF</button>
         </div>
 
-        <div class="table-wrap" style="max-height: 45vh; overflow-y: auto; border:1px solid var(--border); border-radius:var(--radius-btn);">
+        <div class="table-wrap" style="max-height: 45vh; overflow-y: auto; border:1px solid var(--border); border-radius:var(--radius-btn); background: #ffffff;">
             <table style="margin:0; width: 100%;">
                 <thead><tr><th style="width:15%;">Tarikh</th><th style="width:40%;">Tajuk</th><th style="width:25%; text-align:center;">Aktiviti</th><th style="width:20%; text-align:right;">Markah</th></tr></thead>
                 <tbody id="pointsModalBody"><tr><td colspan="4" style="text-align:center; padding:20px;">Memuatkan...</td></tr></tbody>
             </table>
         </div>
-        <div style="display:flex; justify-content:flex-end; margin-top:16px;"><button class="btn-clear" onclick="window.closePointsModal()">Tutup</button></div>
+        <div style="display:flex; justify-content:flex-end; margin-top:16px; border-top: 1px dashed #cbd5e1; padding-top: 16px;"><button class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff; border: 1px solid #cbd5e1; color: #475569; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onclick="window.closePointsModal()">❌ Tutup</button></div>
     </div>
 </div>
 
@@ -1569,16 +1565,16 @@
 </div>
 
 <div class="modal-overlay" id="bukuModal" style="z-index: 1002;">
-    <div class="modal modal-faded" style="width: 95%; max-width: 900px;">
-        <div class="modal-header" style="background: var(--primary-light); margin: -16px -16px 16px -16px; padding: 14px 16px; border-radius: 15px 15px 0 0; position: relative; justify-content: center; border-bottom: 1px solid var(--primary);">
-            <h3 style="margin:0; text-align:center;">📚 Daftar Buku/Bahan Baru</h3>
+    <div class="modal modal-faded" style="width: 95%; max-width: 900px; background: #f1f5f9; padding-bottom: 24px;">
+        <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
+            <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">DAFTAR BUKU/BAHAN BARU</h3>
             <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeBukuModal()" style="cursor:pointer;"></span></div>
         </div>
         <input type="hidden" id="bukuId">
         <input type="hidden" id="b_tarikh_asal">
         
         <!-- Ruangan Preview & Muat Naik Gambar Cover -->
-        <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px; background:var(--bg-body); padding:12px; border-radius:8px; border:1px solid var(--border); box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);">
+        <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px; background:#ffffff; padding:16px; border-radius:12px; border:1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
             <div id="b_cover_preview_container" style="width: 100px; height: 140px; background: var(--surface-solid); border: 2px dashed var(--border-input); border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; position:relative; box-shadow:var(--shadow-sm); padding: 3px;">
                 <div id="b_cover_placeholder" style="width: 100%; height: 100%; display: flex; flex-direction: column; background: linear-gradient(135deg, #1e3a8a, #2563eb); border-radius: 4px; overflow: hidden; box-shadow: inset 3px 0 6px rgba(0,0,0,0.3);">
                     <div style="padding: 4px; font-size: 0.35rem; text-align: left; color: rgba(255,255,255,0.7); line-height: 1; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.2px;">Pustaka MTIB</div>
@@ -1649,7 +1645,7 @@
             </div>
         </div>
         
-        <div style="display:flex; gap:8px; margin-top:16px; border-top: 1px dashed var(--border); padding-top: 16px; align-items:center;">
+        <div style="display:flex; gap:8px; margin-top:16px; border-top: 1px dashed #cbd5e1; padding-top: 16px; align-items:center;">
             <button type="button" id="btnDeleteBuku" class="btn-3d danger" style="display:none; margin-right:auto;" onclick="window.deleteBuku()">🗑️ Hapus</button>
             <div style="flex:1;"></div>
             <button type="button" class="btn-3d secondary" style="color:#D97706; border-color:#FDE68A; background:#FFFBEB; font-weight:700;" onclick="window.saveBuku('KIV')">⏳ Simpan KIV</button>
@@ -1669,19 +1665,20 @@ window.toggleSenaraiSidebar = function() {
     
     if (!layout || !leftBar || !btnBuka) return;
 
-    // Jika sedang disembunyikan, BUKA SEMULA
-    if (leftBar.style.opacity === '0') {
-        layout.style.gridTemplateColumns = '320px 1fr';
-        layout.style.gap = '10px';
-        leftBar.style.opacity = '1';
-        leftBar.style.pointerEvents = 'all';
-        leftBar.style.transform = 'translateX(0)';
-        leftBar.style.width = 'auto';
-        btnBuka.style.display = 'none';
-        layout.classList.add('sidebar-open');
+    if (leftBar.style.opacity === '0' || leftBar.style.opacity === '') {
+        leftBar.style.display = 'block';
+        setTimeout(() => {
+            layout.style.gridTemplateColumns = '320px 1fr';
+            layout.style.gap = '16px';
+            leftBar.style.opacity = '1';
+            leftBar.style.pointerEvents = 'all';
+            leftBar.style.transform = 'translateX(0)';
+            leftBar.style.width = '320px';
+            btnBuka.style.display = 'none';
+            layout.classList.add('sidebar-open');
+        }, 10);
     } else {
-        // Jika sedang terbuka, KECUTKAN / TUTUP
-        layout.style.gridTemplateColumns = '0px 1fr';
+        layout.style.gridTemplateColumns = '1fr';
         layout.style.gap = '0px';
         leftBar.style.opacity = '0';
         leftBar.style.pointerEvents = 'none';
@@ -1689,6 +1686,12 @@ window.toggleSenaraiSidebar = function() {
         leftBar.style.width = '0px';
         btnBuka.style.display = 'inline-flex';
         layout.classList.remove('sidebar-open');
+        
+        setTimeout(() => {
+            if (leftBar.style.opacity === '0') {
+                leftBar.style.display = 'none';
+            }
+        }, 300);
     }
 };
 
@@ -1891,6 +1894,24 @@ window.applySettingsUI = function() {
   const iSub = document.getElementById('set_sub_title'); if(iSub) iSub.value = s;
   const selPointsDay = document.getElementById('set_points_day'); if (selPointsDay) selPointsDay.value = window.appSettings.showPointsDay || 'all';
   
+  const wName = window.appSettings.webopac_name || "Carian buku WEBOPAC MTIB";
+  const wUrl = window.appSettings.webopac_url || "";
+  
+  const setWName = document.getElementById('set_webopac_name'); if(setWName) setWName.value = wName;
+  const setWUrl = document.getElementById('set_webopac_url'); if(setWUrl) setWUrl.value = wUrl;
+  
+  const linkBtn = document.getElementById('btn_webopac_link');
+  const linkText = document.getElementById('text_webopac_link');
+  if (linkBtn && linkText) {
+      if (wUrl && wUrl.trim() !== "") {
+          linkBtn.style.display = 'inline-flex';
+          linkBtn.href = wUrl;
+          linkText.innerText = wName || "Pautan Luaran";
+      } else {
+          linkBtn.style.display = 'none';
+      }
+  }
+
   const savedYear = window.appSettings.r2w_year !== undefined ? String(window.appSettings.r2w_year) : String(new Date().getFullYear());
   const savedStart = window.appSettings.r2w_start !== undefined ? String(window.appSettings.r2w_start) : '0';
   const savedEnd = window.appSettings.r2w_end !== undefined ? String(window.appSettings.r2w_end) : '11';
@@ -1958,6 +1979,11 @@ window.saveSettings = async function() {
   window.appSettings.title = newT;
   window.appSettings.subtitle = newS;
   window.appSettings.showPointsDay = selPointsDay ? selPointsDay.value : 'all';
+
+  const wName = document.getElementById('set_webopac_name') ? document.getElementById('set_webopac_name').value.trim() : '';
+  const wUrl = document.getElementById('set_webopac_url') ? document.getElementById('set_webopac_url').value.trim() : '';
+  window.appSettings.webopac_name = wName;
+  window.appSettings.webopac_url = wUrl;
 
   window.appSettings.r2w_year = document.getElementById('set_r2w_year') ? String(document.getElementById('set_r2w_year').value) : String(new Date().getFullYear());
   window.appSettings.r2w_start = document.getElementById('set_r2w_start') ? String(document.getElementById('set_r2w_start').value) : '0';
@@ -2135,7 +2161,7 @@ window.renderTable = function() {
     if (window.senaraiFilterDate) { if (item.tPinjam !== window.senaraiFilterDate && item.tPulang !== window.senaraiFilterDate && item.tDipulangkan !== window.senaraiFilterDate) return false; }
     const isSelesai = item.status && item.status.includes('Selesai'); const isHarian = item.status === 'Bacaan Harian';
     const renew = parseInt(item.renewCount) || 0;
-    const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null)); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const isLate = dur > limit && !isSelesai && !isHarian && renew === 0;
+    const dur = window.calculateDuration(item.tPinjam, isSelesai ? item.tDipulangkan : (isHarian ? item.tPinjam : null)); const limit = window.calculateDuration(item.tPinjam, item.tPulang); const isLate = dur > limit && !isSelesai && !isHarian;
     if (window.currentFilter === 'harian' && !isHarian) return false;
     if (window.currentFilter === 'biasa' && isHarian) return false;
     if (window.currentFilter === 'aktif' && (isSelesai || isHarian)) return false;
@@ -2146,6 +2172,10 @@ window.renderTable = function() {
     if (window.currentFilter === 'ilmu') {
         let ilmuStatus = item.sistemIlmuStatus || (item.isMarked ? 'caj' : 'belum');
         if (ilmuStatus !== 'belum' || !item.accession || item.accession.trim() === '') return false;
+    }
+    if (window.currentFilter === 'ilmu-caj') {
+        let ilmuStatus = item.sistemIlmuStatus || (item.isMarked ? 'caj' : 'belum');
+        if (ilmuStatus !== 'caj') return false;
     }
     return true;
   });
@@ -2662,7 +2692,7 @@ window.openModal = function() {
 
   const del = document.getElementById('btnDelete'); if (del) del.style.display = 'none';
   if (typeof window.resetRenewCheckboxes === 'function') window.resetRenewCheckboxes();
-  const title = document.getElementById('sm_title'); if (title) title.innerText = "📝 Rekod Pinjaman Baru";
+  const title = document.getElementById('sm_title'); if (title) title.innerText = "REKOD PINJAMAN BARU";
   const m = document.getElementById('statusModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } window.recalcModalCalc();
 };
 
@@ -2670,7 +2700,7 @@ window.closeModal = function() { const m = document.getElementById('statusModal'
 
 window.prepareEdit = function(id) {
   currId = String(id); const item = window.dbData.find(x => String(x.id) === currId); if (!item) return;
-  const title = document.getElementById('sm_title'); if (title) title.innerText = "✏️ Pinda Maklumat Pinjaman";
+  const title = document.getElementById('sm_title'); if (title) title.innerText = "PINDA MAKLUMAT PINJAMAN";
   const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
   setVal('docId', id); setVal('f_noPekerja', item.noPekerja || ''); setVal('f_nama', item.nama || ''); setVal('f_whatsapp', item.whatsapp || '');
   const bhgSelect = document.getElementById('f_bahagian');
@@ -3129,9 +3159,9 @@ window.updateDailyWidget = function(dateStr) {
   if (headerContainer) {
       if (totalPages > 1) {
           headerContainer.innerHTML = `<div style="display:flex; gap:6px; align-items:center;">
-              <button class="btn-clear" style="padding:2px 8px; font-size:0.7rem; border-radius:4px; ${window.dashDailyPage === 1 ? 'opacity:0.3; pointer-events:none;' : ''}" onclick="window.dashDailyPage--; window.updateDailyWidget(window.dashSelectedDate);">◀</button>
-              <span style="font-size:0.75rem; font-weight:700; color:var(--text-main);">Muka ${window.dashDailyPage}/${totalPages}</span>
-              <button class="btn-clear" style="padding:2px 8px; font-size:0.7rem; border-radius:4px; ${window.dashDailyPage === totalPages ? 'opacity:0.3; pointer-events:none;' : ''}" onclick="window.dashDailyPage++; window.updateDailyWidget(window.dashSelectedDate);">▶</button>
+              <button class="btn-clear" style="padding:4px 8px; font-size:0.7rem; border-radius:6px; background:#f8fafc; color:#475569; border:1px solid #cbd5e1; box-shadow:0 1px 2px rgba(0,0,0,0.05); ${window.dashDailyPage === 1 ? 'opacity:0.4; pointer-events:none;' : ''}" onclick="window.dashDailyPage--; window.updateDailyWidget(window.dashSelectedDate);">◀</button>
+              <span style="font-size:0.75rem; font-weight:800; color:#0f172a;">Muka ${window.dashDailyPage}/${totalPages}</span>
+              <button class="btn-clear" style="padding:4px 8px; font-size:0.7rem; border-radius:6px; background:#f8fafc; color:#475569; border:1px solid #cbd5e1; box-shadow:0 1px 2px rgba(0,0,0,0.05); ${window.dashDailyPage === totalPages ? 'opacity:0.4; pointer-events:none;' : ''}" onclick="window.dashDailyPage++; window.updateDailyWidget(window.dashSelectedDate);">▶</button>
           </div>`;
       } else {
           headerContainer.innerHTML = '';
@@ -3622,6 +3652,13 @@ window.generateMiniCalendar = function(startDateStr, endDateStr) {
 
 window.myReviewIndex = 0;
 
+window.toTitleCase = function(str) {
+    if (!str) return '';
+    return str.toLowerCase().replace(/(?:^|\s|-)\w/g, function(match) {
+        return match.toUpperCase();
+    });
+};
+
 window.changeMyReview = function(dir) {
     const myReviews = window.dbUlasan.filter(u => u.userKey === window.currentUserKey);
     if (myReviews.length === 0) return;
@@ -3926,6 +3963,7 @@ window.renderMyReviews = function() {
           ${coverHtml}
           <div style="flex:1; min-width:0;">
               <div class="uc-book" style="line-height:1.2; margin-bottom:4px; font-size:0.8rem; color:#5C4033;">${u.tajuk}</div>
+              <div class="uc-nama" style="font-weight: 700; color: var(--text-main); font-size: 0.8rem; line-height:1.2; margin-top:2px; opacity:0.9;">${window.toTitleCase(u.nama)}</div>
               <div style="font-size:0.7rem; color:rgba(92, 64, 51, 0.8); font-weight:600; margin-bottom:4px;">🗓️ ${dateStr}</div>
               <div class="uc-stars" style="font-size:0.75rem; margin-bottom:4px;">${starsHtml}</div>
               <div><span style="color:var(--success); font-size:0.65rem; font-weight:bold; background:#DFF6DD; padding:2px 6px; border-radius:10px;">+2 pt</span>${bonusBadge}</div>
@@ -3995,7 +4033,10 @@ window.openPointsModal = function(targetKey) {
   const dispAvatar = userDbInfo.avatar || '👤';
   
   const titleEl = document.querySelector('#pointsModal .modal-header h3');
-  if (titleEl) titleEl.innerText = `🏆 Perincian Mata Ganjaran`;
+  if (titleEl) {
+      titleEl.innerText = `PERINCIAN MATA GANJARAN`;
+      titleEl.style.cssText = "margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;";
+  }
   
   const elAvatar = document.getElementById('pm_avatar'); if(elAvatar) elAvatar.innerText = dispAvatar;
   const elNama = document.getElementById('pm_nama'); if(elNama) elNama.innerText = dispNama;
@@ -4482,6 +4523,12 @@ window.saveMyProfile = async function(avatarOnly=false) {
 
 window.viewKelabProfile = function(key) {
   const safeKey = window.getSafeKey(key); const k = window.kelabMapData[safeKey]; if(!k) return;
+  
+  const modalTitle = document.getElementById('kelabModalTitleText');
+  if (modalTitle) {
+      modalTitle.innerText = window.userRole === 'admin' ? "KEMASKINI PROFIL AHLI" : "MAKLUMAT PROFIL AHLI";
+  }
+
   document.getElementById('k_key').value = safeKey;
   document.getElementById('k_nama').value = k.nama || '';
   document.getElementById('k_noPekerja').value = k.noPekerja || '';
@@ -4491,24 +4538,13 @@ window.viewKelabProfile = function(key) {
   const uRec = window.dbUsers && window.dbUsers[safeKey];
   const pwdDiv = document.getElementById('div_admin_password'); const pwdIn = document.getElementById('k_password');
   if (window.userRole === 'admin') { if(pwdDiv) pwdDiv.style.display = 'block'; if(pwdIn) pwdIn.value = uRec ? (uRec.password || '1234') : '1234'; } else { if(pwdDiv) pwdDiv.style.display = 'none'; }
-  document.getElementById('k_totalMata').value = k.totalMata + ' pt';
-  if(k.latestLoan) {
-    document.getElementById('k_jenis').value = k.latestLoan.jenis || '-'; document.getElementById('k_tajuk').value = k.latestLoan.tajuk || 'Tiada Pinjaman Aktif'; document.getElementById('k_tPinjam').value = k.latestLoan.tPinjam || ''; document.getElementById('k_tPulang').value = k.latestLoan.tPulang || ''; document.getElementById('k_catatan').value = k.latestLoan.catatan || '';
-    const isSelesai = k.latestLoan.status && k.latestLoan.status.includes('Selesai'); const isHarian = k.latestLoan.status === 'Bacaan Harian';
-    let sHtml = ''; if(isSelesai) sHtml = '<span class="badge-btn badge-done">✅ Selesai Dipulangkan</span>'; else if(isHarian) sHtml = '<span class="badge-btn badge-active" style="background:#FFFBEB; color:#9D5D00; border-color:#9D5D00;">📙 Bacaan Harian</span>'; else sHtml = '<span class="badge-btn badge-active">🟢 Sedang Dipinjam</span>';
-    document.getElementById('k_status_container').innerHTML = sHtml;
-    if(isSelesai && k.latestLoan.tDipulangkan) { document.getElementById('k_div_actual_return_date').style.display = 'block'; document.getElementById('k_tDipulangkan').value = k.latestLoan.tDipulangkan; } else { document.getElementById('k_div_actual_return_date').style.display = 'none'; }
-    const dur = window.calculateDuration(k.latestLoan.tPinjam, isSelesai ? k.latestLoan.tDipulangkan : (isHarian ? k.latestLoan.tPinjam : null)); document.getElementById('k_duration_info').innerHTML = `⏳ Tempoh direkodkan: <strong>${dur} Hari</strong>`;
-  } else {
-    document.getElementById('k_jenis').value = '-'; document.getElementById('k_tajuk').value = 'Tiada Pinjaman Aktif'; document.getElementById('k_tPinjam').value = ''; document.getElementById('k_tPulang').value = ''; document.getElementById('k_catatan').value = ''; document.getElementById('k_status_container').innerHTML = '<span class="badge-btn" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border);">Tiada Data</span>'; document.getElementById('k_div_actual_return_date').style.display = 'none'; document.getElementById('k_duration_info').innerHTML = '';
-  }
+  
   const btnSave = document.getElementById('btn-save-kelab'); if(btnSave) { btnSave.style.display = window.userRole === 'admin' ? 'inline-block' : 'none'; }
   const btnDelete = document.getElementById('btn-delete-kelab'); if(btnDelete) { btnDelete.style.display = window.userRole === 'admin' ? 'inline-block' : 'none'; }
   const modal = document.getElementById('kelabModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
 window.closeKelabModal = function() { const modal = document.getElementById('kelabModal'); if (modal) { modal.classList.remove('open'); setTimeout(() => { modal.style.display = 'none'; }, 200); } };
-
 window.deleteKelabProfile = async function() {
   if (window.userRole !== 'admin') return;
   const key = document.getElementById('k_key').value;
@@ -4603,7 +4639,8 @@ window.renderDashCalendar = function() {
   const dCalEl = document.getElementById('dashCalMonthYear');
   if (!dCalEl) return;
   
-  dCalEl.innerText = new Date(y, m).toLocaleDateString('ms-MY', { month: 'long', year: 'numeric' }).toUpperCase(); 
+  const targetTextEl = document.getElementById('dashCalMonthYearText') || dCalEl;
+  targetTextEl.innerText = new Date(y, m).toLocaleDateString('ms-MY', { month: 'long', year: 'numeric' }).toUpperCase(); 
   const dGrid = document.getElementById('dashCalGrid');
   if (!dGrid) return;
   
@@ -4853,7 +4890,7 @@ window.openBukuModal = function() {
   
   window.updateMockupCover();
   const btnDel = document.getElementById('btnDeleteBuku'); if (btnDel) btnDel.style.display = 'none';
-  const modalTitle = document.querySelector('#bukuModal .modal-header h3'); if (modalTitle) modalTitle.innerText = "📚 Daftar Buku/Bahan Baru";
+  const modalTitle = document.querySelector('#bukuModal .modal-header h3'); if (modalTitle) modalTitle.innerText = "DAFTAR BUKU/BAHAN BARU";
   const modal = document.getElementById('bukuModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
@@ -4959,7 +4996,7 @@ window.prepareEditBuku = function(id) {
 
   window.updateMockupCover();
   const btnDel = document.getElementById('btnDeleteBuku'); if (btnDel) btnDel.style.display = 'inline-flex';
-  const modalTitle = document.querySelector('#bukuModal .modal-header h3'); if (modalTitle) modalTitle.innerText = "✏️ Pinda Buku/Bahan";
+  const modalTitle = document.querySelector('#bukuModal .modal-header h3'); if (modalTitle) modalTitle.innerText = "PINDA BUKU/BAHAN";
   const modal = document.getElementById('bukuModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
@@ -4990,7 +5027,7 @@ window.prepareEditBukuLama = function(tajuk, jenis, accession, tarikhAwal) {
 
   window.updateMockupCover();
   const btnDel = document.getElementById('btnDeleteBuku'); if (btnDel) btnDel.style.display = 'none';
-  const modalTitle = document.querySelector('#bukuModal .modal-header h3'); if (modalTitle) modalTitle.innerText = "✏️ Kemaskini Maklumat Buku Lama";
+  const modalTitle = document.querySelector('#bukuModal .modal-header h3'); if (modalTitle) modalTitle.innerText = "KEMASKINI MAKLUMAT BUKU LAMA";
   const modal = document.getElementById('bukuModal'); if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
 };
 
@@ -5276,7 +5313,7 @@ window.renderBukuTable = function() {
 };
 
 window.renderKelabTable = function() {
-  const tbody = document.getElementById('kelabTableBody'); if (!tbody) return;
+  const container = document.getElementById('kelabTableBody'); if (!container) return;
   const searchEl = document.getElementById('searchKelabInput'); const search = searchEl ? searchEl.value.toLowerCase() : '';
   window.buildKelabData();
   let kelabArr = Object.values(window.kelabMapData); 
@@ -5291,26 +5328,60 @@ window.renderKelabTable = function() {
   });
 
   const filtered = kelabArr.filter(k => { const searchStr = (String(k.nama || '') + String(k.noPekerja || '')).toLowerCase(); return searchStr.includes(search); });
-  if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada data profil ahli kelab dijumpai.</td></tr>'; return; }
+  if (filtered.length === 0) { container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted); background:var(--surface-solid); border-radius:12px; border:1px solid var(--border);">Tiada data profil ahli kelab dijumpai.</div>'; return; }
   let html = '';
   filtered.forEach((k, index) => {
     let statusBadge = '';
-    if (k.latestLoan && typeof k.latestLoan.status === 'string' && k.latestLoan.status.includes('Selesai')) { statusBadge = `<span class="badge-btn badge-done">✅ Dipulangkan</span>`; } 
-    else if (k.latestLoan && k.latestLoan.status === 'Bacaan Harian') { statusBadge = `<span class="badge-btn badge-active" style="background:#FFFBEB; color:#9D5D00; border-color:#9D5D00;">📙 Bacaan Harian</span>`; } 
-    else if (k.latestLoan && k.latestLoan.status) { statusBadge = `<span class="badge-btn badge-active">🟢 Sedang Dipinjam</span>`; } 
-    else { statusBadge = `<span class="badge-btn" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border);">Tiada Pinjaman</span>`; }
+    if (k.latestLoan && typeof k.latestLoan.status === 'string' && k.latestLoan.status.includes('Selesai')) { statusBadge = `<span style="color:#059669; font-weight:800; font-size:0.75rem;">✅ Dipulangkan</span>`; } 
+    else if (k.latestLoan && k.latestLoan.status === 'Bacaan Harian') { statusBadge = `<span style="color:#D97706; font-weight:800; font-size:0.75rem;">📙 Harian</span>`; } 
+    else if (k.latestLoan && k.latestLoan.status) { statusBadge = `<span style="color:var(--primary); font-weight:800; font-size:0.75rem;">🟢 Dipinjam</span>`; } 
+    else { statusBadge = `<span style="color:#94a3b8; font-weight:800; font-size:0.75rem;">- Tiada -</span>`; }
     const safeKey = window.getSafeKey(k.key);
-    let actionBtn = window.userRole === 'admin' ? `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.viewKelabProfile('${safeKey}')">✏️ Pinda Profil</button>` : `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.viewKelabProfile('${safeKey}')">📖 Lihat Profil</button>`;
+    let actionBtn = window.userRole === 'admin' ? `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); font-weight:800; padding:6px 12px; border-radius:8px; border:1px solid var(--primary); background:white; transition:0.2s; box-shadow:0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='white'" onclick="window.viewKelabProfile('${safeKey}')">✏️ Pinda</button>` : `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); font-weight:800; padding:6px 12px; border-radius:8px; border:1px solid var(--primary); background:white; transition:0.2s; box-shadow:0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='white'" onclick="window.viewKelabProfile('${safeKey}')">📖 Lihat</button>`;
     
-    html += `<tr style="cursor:default;">
-        <td data-label="Bil" style="text-align:center; font-weight:bold; color:var(--text-muted);">${index + 1}</td>
-        <td data-label="Maklumat Ahli"><strong style="color:var(--primary); font-size:1.05rem; cursor:pointer; text-decoration:underline;" onclick="window.viewKelabHistory('${safeKey}')">${k.nama}</strong><br><span style="background:var(--bg-body); padding:2px 6px; border-radius:4px; font-size:0.75rem; border:1px solid var(--border); margin-top:4px; display:inline-block;">${k.noPekerja || '-'}</span></td>
-        <td data-label="Jabatan" style="font-size:0.95rem;">${k.bahagian || '-'}</td>
-        <td data-label="Point Aktiviti" style="text-align:center;"><div style="display:inline-flex; align-items:center; background:rgba(249, 171, 0, 0.1); border:1px solid rgba(249, 171, 0, 0.4); color:var(--warning); padding:4px 12px; border-radius:20px; font-weight:700; font-size:0.9rem;">🏆 ${k.totalMata} pt</div></td>
-        <td data-label="Status & Tindakan" style="text-align:center; vertical-align:middle;"><div style="display:flex; flex-direction:column; align-items:center; gap:6px;">${statusBadge}${actionBtn}</div></td>
-    </tr>`;
+    // Reka bentuk kad baharu mengikut lakar image_c5ba23.png
+    html += `
+    <div style="background:var(--surface-solid); border:1px solid var(--border-input); padding:12px 16px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; gap:16px; transition:all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02);" onmouseover="this.style.borderColor='var(--primary-ring)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.borderColor='var(--border-input)'; this.style.transform='translateY(0)';">
+        
+        <!-- Bahagian Kiri (Maklumat Asas) -->
+        <div style="display:flex; align-items:center; gap:16px; flex:1; min-width:0;">
+            <div style="font-weight:900; color:#94a3b8; font-size:1.1rem; width:24px; text-align:center;">${index + 1}</div>
+            
+            <div style="flex:1; min-width:0;">
+                <div style="font-weight:800; font-size:1.05rem; color:var(--primary); margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;" onclick="window.viewKelabHistory('${safeKey}')" title="Klik untuk lihat sejarah bacaan">
+                    ${k.nama}
+                </div>
+                <div style="font-size:0.75rem; color:#475569; font-weight:600;">
+                    <span style="display:inline-block; background:#f1f5f9; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; color:#334155; margin-right:6px;">ID: ${k.noPekerja || '-'}</span>
+                    <span style="color:#94a3b8;">🏢</span> ${k.bahagian || '-'}
+                </div>
+            </div>
+        </div>
+
+        <!-- Bahagian Kanan (Kotak Putus-Putus Biru) -->
+        <div style="flex-shrink:0; display:flex; align-items:stretch; border:1px dashed #7dd3fc; background:#f0f9ff; border-radius:8px; overflow:hidden;">
+            
+            <!-- Segmen 1: Status -->
+            <div style="padding:8px 12px; display:flex; flex-direction:column; justify-content:center; align-items:center; border-right:1px solid #bae6fd; min-width:90px;">
+                <span style="font-size:0.6rem; color:#0284c7; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:4px;">Status</span>
+                ${statusBadge}
+            </div>
+
+            <!-- Segmen 2: Mata -->
+            <div style="padding:8px 16px; display:flex; flex-direction:column; justify-content:center; align-items:center; border-right:1px solid #bae6fd; min-width:90px; background:rgba(255,255,255,0.4);">
+                <span style="font-size:0.6rem; color:#0284c7; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:2px;">Mata</span>
+                <span style="font-size:1.1rem; font-weight:900; color:#d97706;">${k.totalMata} <span style="font-size:0.7rem;">pt</span></span>
+            </div>
+
+            <!-- Segmen 3: Tindakan -->
+            <div style="padding:8px 12px; display:flex; align-items:center; justify-content:center; min-width:80px;">
+                ${actionBtn}
+            </div>
+            
+        </div>
+    </div>`;
   });
-  tbody.innerHTML = html;
+  container.innerHTML = html;
 };
 
 window.renderScoreboard = function() {
@@ -5602,20 +5673,68 @@ window.exportData = function(type, format) {
         title = `DATA KESELURUHAN REKOD PINJAMAN (${m==='all' ? 'Tahun ' + y : monthNames[parseInt(m)] + ' ' + y})`;
         
         let filtered = window.dbData.filter(item => {
+            if (!item.tPinjam) return false;
             const d = new Date(item.tPinjam);
             if (d.getFullYear() !== y) return false;
             if (m !== 'all' && d.getMonth() !== parseInt(m)) return false;
             return true;
-        }).sort((a,b) => new Date(a.tPinjam) - new Date(b.tPinjam));
-        
-        htmlTable = '<table><thead><tr><th>Bil</th><th>Nama Peminjam</th><th>No. Pekerja (ID)</th><th>Bahagian / Jabatan</th><th>Tajuk Bahan (Buku)</th><th>Kategori</th><th>Tarikh Pinjam</th><th>Jangkaan Pulang</th><th>Pulang Sebenar</th><th>Status Rekod</th><th>Rekod Denda (RM)</th></tr></thead><tbody>';
-        if (filtered.length === 0) htmlTable += '<tr><td colspan="11">Tiada rekod pinjaman bagi tempoh tersebut.</td></tr>';
-        filtered.forEach((item, i) => {
-            let stat = item.status || 'Dipinjam'; let actualReturn = '-'; let denda = item.denda || '0.00';
-            if(stat.includes('Selesai')) { stat = 'Selesai'; actualReturn = window.formatDate(item.tDipulangkan); }
-            else if(stat === 'Bacaan Harian') { actualReturn = window.formatDate(item.tPinjam); }
-            htmlTable += `<tr><td>${i+1}</td><td>${item.nama||'-'}</td><td>${item.noPekerja||'-'}</td><td>${item.bahagian||'-'}</td><td>${item.tajuk||'-'}</td><td>${item.jenis||'-'}</td><td>${window.formatDate(item.tPinjam)}</td><td>${window.formatDate(item.tPulang)}</td><td>${actualReturn}</td><td>${stat}</td><td>${denda}</td></tr>`;
         });
+        
+        htmlTable = '<table><thead><tr><th style="width:3%; text-align:center;">Bil</th><th style="width:15%;">Nama Peminjam</th><th style="width:7%; text-align:center;">ID</th><th style="width:12%;">Bahagian / Jabatan</th><th style="width:20%;">Tajuk Bahan (Buku)</th><th style="width:8%; text-align:center;">Kategori</th><th style="width:8%; text-align:center;">Tarikh Pinjam</th><th style="width:8%; text-align:center;">Jangkaan Pulang</th><th style="width:8%; text-align:center;">Pulang Sebenar</th><th style="width:7%; text-align:center;">Status Rekod</th><th style="width:4%; text-align:center;">Bil Hari Lewat</th></tr></thead><tbody>';
+        
+        if (filtered.length === 0) {
+            htmlTable += '<tr><td colspan="11" style="text-align:center; padding:20px;">Tiada rekod pinjaman bagi tempoh tersebut.</td></tr>';
+        } else {
+            // Susun dan kelompokkan mengikut bulan (Jan - Dis)
+            for (let monthIdx = 0; monthIdx < 12; monthIdx++) {
+                if (m !== 'all' && parseInt(m) !== monthIdx) continue;
+                
+                let monthData = filtered.filter(item => new Date(item.tPinjam).getMonth() === monthIdx);
+                monthData.sort((a,b) => new Date(a.tPinjam) - new Date(b.tPinjam));
+                
+                if (monthData.length > 0) {
+                    htmlTable += `<tr><td colspan="11" style="background-color:#e6f2ff; font-weight:bold; font-size:12px; padding:8px; text-transform:uppercase;">BULAN: ${monthNames[monthIdx]} ${y} (${monthData.length} Rekod)</td></tr>`;
+                    
+                    monthData.forEach((item, i) => {
+                        let stat = item.status || 'Dipinjam'; let actualReturn = '-'; 
+                        let hariLewat = '-';
+                        
+                        const isSelesai = stat.includes('Selesai');
+                        const isHarian = stat === 'Bacaan Harian';
+                        
+                        if(isSelesai) { 
+                            stat = 'Selesai'; 
+                            actualReturn = window.formatDate(item.tDipulangkan); 
+                            
+                            // Kira kelewatan untuk buku yang dah pulang
+                            if (item.tPinjam && item.tDipulangkan && item.tPulang) {
+                                const dur = window.calculateDuration(item.tPinjam, item.tDipulangkan); 
+                                const limit = window.calculateDuration(item.tPinjam, item.tPulang); 
+                                const overdue = dur - limit;
+                                if (overdue > 0) hariLewat = overdue;
+                            }
+                        }
+                        else if(isHarian) { 
+                            stat = 'Harian'; 
+                            actualReturn = window.formatDate(item.tPinjam); 
+                            hariLewat = '-';
+                        } else {
+                            // Kira kelewatan buku yang BELUM pulang
+                            if (item.tPinjam && item.tPulang) {
+                                const dur = window.calculateDuration(item.tPinjam, null); 
+                                const limit = window.calculateDuration(item.tPinjam, item.tPulang); 
+                                const overdue = dur - limit;
+                                if (overdue > 0) hariLewat = overdue;
+                            }
+                        }
+                        
+                        let lewatDisp = hariLewat !== '-' ? `<span style="color:red; font-weight:bold;">${hariLewat}</span>` : '-';
+                        
+                        htmlTable += `<tr><td style="text-align:center;">${i+1}</td><td>${item.nama||'-'}</td><td style="text-align:center;">${item.noPekerja||'-'}</td><td>${item.bahagian||'-'}</td><td>${item.tajuk||'-'}</td><td style="text-align:center;">${item.jenis||'-'}</td><td style="text-align:center;">${window.formatDate(item.tPinjam)}</td><td style="text-align:center;">${window.formatDate(item.tPulang)}</td><td style="text-align:center;">${actualReturn}</td><td style="text-align:center;">${stat}</td><td style="text-align:center;">${lewatDisp}</td></tr>`;
+                    });
+                }
+            }
+        }
         htmlTable += '</tbody></table>';
     }
     else if (type === 'kumpulan_semua') {
@@ -5740,12 +5859,15 @@ window.renderCharts = function() {
             else pinjaman++;
         }
 
-        const diffDays = Math.ceil((refDate - t) / (1000 * 60 * 60 * 24));
+        const tDate = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+        const rDate = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate());
+        const diffDays = Math.round((rDate - tDate) / (1000 * 60 * 60 * 24));
+        
         if (diffDays >= 0) {
-            if (diffDays <= 7) weekData[3]++;
-            else if (diffDays <= 14) weekData[2]++;
-            else if (diffDays <= 21) weekData[1]++;
-            else if (diffDays <= 28) weekData[0]++;
+            if (diffDays <= 6) weekData[3]++;
+            else if (diffDays <= 13) weekData[2]++;
+            else if (diffDays <= 20) weekData[1]++;
+            else if (diffDays <= 27) weekData[0]++;
         }
     });
 
@@ -5852,9 +5974,11 @@ window.exportAllChartData = function(format) {
         if (matchYr && matchMo) {
             if (d.status === 'Bacaan Harian') harian++; else pinjaman++;
         }
-        const diffDays = Math.ceil((refDate - t) / (1000 * 60 * 60 * 24));
+        const tDate = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+        const rDate = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate());
+        const diffDays = Math.round((rDate - tDate) / (1000 * 60 * 60 * 24));
         if (diffDays >= 0) {
-            if (diffDays <= 7) weekData[3]++; else if (diffDays <= 14) weekData[2]++; else if (diffDays <= 21) weekData[1]++; else if (diffDays <= 28) weekData[0]++;
+            if (diffDays <= 6) weekData[3]++; else if (diffDays <= 13) weekData[2]++; else if (diffDays <= 20) weekData[1]++; else if (diffDays <= 27) weekData[0]++;
         }
     });
     
@@ -5881,7 +6005,24 @@ window.exportAllChartData = function(format) {
     <h3 style="text-align:left; color:#000; font-size:12px; margin-top:30px; text-transform:uppercase;">2. TREND PERATUSAN PERUBAHAN (4 MINGGU TERAKHIR BAGI TEMPOH DIPILIH)</h3>
     <table><thead><tr><th>Fasa Kedudukan Minggu</th><th style="text-align:center;">Jumlah Transaksi Aktiviti</th><th style="text-align:center;">Prestasi % (Berbanding Minggu Terdahulu)</th></tr></thead><tbody>`;
     
-    let prev = null; const wLabels = ['Minggu 4 (Paling Awal)', 'Minggu 3', 'Minggu 2', 'Minggu 1 (Terkini/Semasa)'];
+    const getWkStr = (sOff, eOff) => {
+        let d1 = new Date(refDate); d1.setDate(d1.getDate() - sOff);
+        let d2 = new Date(refDate); d2.setDate(d2.getDate() - eOff);
+        let m1 = mNames[d1.getMonth()], y1 = d1.getFullYear();
+        let m2 = mNames[d2.getMonth()], y2 = d2.getFullYear();
+        if (m1 === m2 && y1 === y2) return `${d1.getDate()} - ${d2.getDate()} ${m2} ${y2}`;
+        if (y1 === y2) return `${d1.getDate()} ${m1} - ${d2.getDate()} ${m2} ${y2}`;
+        return `${d1.getDate()} ${m1} ${y1} - ${d2.getDate()} ${m2} ${y2}`;
+    };
+    
+    let prev = null; 
+    const wLabels = [
+        `Minggu 4 (Paling Awal)<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(27, 21)})</span>`, 
+        `Minggu 3<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(20, 14)})</span>`, 
+        `Minggu 2<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(13, 7)})</span>`, 
+        `Minggu 1 (Terkini/Semasa)<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(6, 0)})</span>`
+    ];
+
     weekData.forEach((val, i) => {
         let pct = '-'; let color = '#333';
         if (prev !== null) { 
@@ -6016,7 +6157,7 @@ window.renderUlasanTable = function() {
                     <div class="uc-book" style="line-height:1.2; margin-bottom:4px; font-size:0.85rem; color:#5C4033;">${u.tajuk}</div>
                     <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
                         <div style="font-size:1.2rem; background:rgba(255,255,255,0.5); width:24px; height:24px; display:flex; align-items:center; justify-content:center; border-radius:50%; border:1px solid rgba(0,0,0,0.05);">${dispAvatar}</div>
-                        <div class="uc-nama" style="font-size:0.75rem;">${u.nama}</div>
+                        <div class="uc-nama" style="font-size:0.75rem;">${window.toTitleCase(u.nama)}</div>
                     </div>
                     <div style="font-size:0.7rem; color:rgba(92, 64, 51, 0.8); font-weight:600; margin-bottom:4px;">🗓️ ${dateStr}</div>
                     <div class="uc-stars" style="font-size:0.75rem; margin-bottom:4px;">${starsHtml}</div>
@@ -6084,7 +6225,7 @@ window.setStarRating = function(n) { document.getElementById('r_stars_val').valu
 window.submitReview = async function() {
   const bookId = document.getElementById('r_bookId').value; const revId = document.getElementById('r_reviewId').value; const isUpdate = !!revId; const finalId = isUpdate ? revId : Date.now().toString();
   const tajuk = document.getElementById('r_bookTitle').innerText; const stars = parseInt(document.getElementById('r_stars_val').value); const teks = document.getElementById('r_teks').value.trim(); if (!teks) return window.showCustomAlert("Sila taipkan ulasan anda.");
-  let myName = document.getElementById('my_display_nama') ? document.getElementById('my_display_nama').innerText : "Pengguna"; let myAvatar = '👤'; if (window.currentUserKey && window.dbUsers && window.dbUsers[window.currentUserKey]) { myAvatar = window.dbUsers[window.currentUserKey].avatar || '👤'; }
+  let myName = "Pengguna"; if (window.currentUserKey) { const userInfo = window.kelabMapData[window.currentUserKey] || (window.dbUsers && window.dbUsers[window.currentUserKey]); if (userInfo && userInfo.nama) myName = userInfo.nama; } let myAvatar = '👤'; if (window.currentUserKey && window.dbUsers && window.dbUsers[window.currentUserKey]) { myAvatar = window.dbUsers[window.currentUserKey].avatar || '👤'; }
   const revData = { id: finalId, bookId: bookId, userKey: window.currentUserKey || 'unknown', nama: myName, avatar: myAvatar, tajuk: tajuk, stars: stars, teks: teks, tarikh: new Date().toISOString() };
   if (isUpdate) { const idx = window.dbUlasan.findIndex(u => String(u.id) === String(finalId)); if (idx > -1) window.dbUlasan[idx] = revData; } else { window.dbUlasan.unshift(revData); }
   window.buildKelabData(); window.refreshAllViews(); window.closeReviewModal(); if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(revData.id).set(revData); } catch (e) { console.warn(e); } }
@@ -6112,7 +6253,9 @@ window.updateUnreadBadges = function() {
 };
 
 window.openChatUser = function() {
-  window.currentChatUserId = window.currentUserKey; document.getElementById('btnBackInbox').style.display = 'none'; document.getElementById('chatTitle').innerText = '💬 Bantuan & Pertanyaan';
+  window.currentChatUserId = window.currentUserKey; document.getElementById('btnBackInbox').style.display = 'none'; 
+  document.getElementById('chatTitleName').innerText = 'BANTUAN & PERTANYAAN';
+  document.getElementById('chatTitleDept').style.display = 'none';
   window.dbMesej.forEach(m => { if (m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead) { m.isRead = true; if (window.dbInstance) { window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn); } } });
   window.renderChatMessages(); const m = document.getElementById('chatModal'); m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10);
 };
@@ -6128,7 +6271,15 @@ window.renderAdminInboxTab = function(tab) {
     let usersMap = {}; window.dbMesej.forEach(m => { if (!usersMap[m.userId]) { usersMap[m.userId] = { userId: m.userId, lastMsg: m, unreadCount: 0 }; } else if (new Date(m.tarikh) > new Date(usersMap[m.userId].lastMsg.tarikh)) { usersMap[m.userId].lastMsg = m; } if (m.sender === 'user' && !m.isRead) { usersMap[m.userId].unreadCount++; } });
     let usersArr = Object.values(usersMap).sort((a, b) => new Date(b.lastMsg.tarikh) - new Date(a.lastMsg.tarikh));
     if (usersArr.length === 0) { listDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Tiada mesej daripada pengguna.</p>'; } else {
-      let html = ''; usersArr.forEach(u => { let dispNama = u.userId; const userInfo = window.kelabMapData[u.userId] || (window.dbUsers && window.dbUsers[u.userId]); if (userInfo && userInfo.nama) dispNama = userInfo.nama; let badge = u.unreadCount > 0 ? `<span class="badge-btn badge-active" style="background:var(--danger); color:white; border-color:var(--danger);">${u.unreadCount}</span>` : ''; let timeStr = new Date(u.lastMsg.tarikh).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' }); html += `<div class="inbox-item" onclick="window.openChatAdmin('${u.userId}', '${dispNama.replace(/'/g, "\\'")}')"><div style="flex:1; overflow:hidden;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong style="color:var(--primary); font-size:0.9rem;">${dispNama}</strong><span style="font-size:0.7rem; color:var(--text-muted);">${timeStr}</span></div><div style="font-size:0.8rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.8;">${u.lastMsg.sender === 'admin' ? 'Anda: ' : ''}${u.lastMsg.teks}</div></div><div style="margin-left:12px;">${badge}</div></div>`; }); listDiv.innerHTML = html;
+      let html = ''; usersArr.forEach(u => { 
+        let dispNama = u.userId; 
+        let dispDept = '-';
+        const userInfo = window.kelabMapData[u.userId] || (window.dbUsers && window.dbUsers[u.userId]); 
+        if (userInfo && userInfo.nama) dispNama = userInfo.nama; 
+        if (userInfo && userInfo.bahagian) dispDept = userInfo.bahagian;
+        let badge = u.unreadCount > 0 ? `<span class="badge-btn badge-active" style="background:var(--danger); color:white; border-color:var(--danger);">${u.unreadCount}</span>` : ''; let timeStr = new Date(u.lastMsg.tarikh).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' }); 
+        html += `<div class="inbox-item" onclick="window.openChatAdmin('${u.userId}', '${dispNama.replace(/'/g, "\\'")}', '${dispDept.replace(/'/g, "\\'")}')"><div style="flex:1; overflow:hidden;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><strong style="color:var(--primary); font-size:0.9rem;">${dispNama}</strong><span style="font-size:0.7rem; color:var(--text-muted);">${timeStr}</span></div><div style="font-size:0.8rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.8;">${u.lastMsg.sender === 'admin' ? 'Anda: ' : ''}${u.lastMsg.teks}</div></div><div style="margin-left:12px;">${badge}</div></div>`; 
+      }); listDiv.innerHTML = html;
     } window.updateUnreadBadges();
   } else if (tab === 'announce') { listDiv.innerHTML = `<div style="background:var(--surface-solid); padding:16px; border-radius:8px; border:1px solid var(--border);"><h4 style="margin-top:0; color:var(--primary);">Hebahan Pengumuman</h4><p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Mesej ini akan dihantar ke dalam ruangan sembang semua ahli kelab yang telah log masuk dan berdaftar di dalam sistem.</p><textarea id="broadcastInput" rows="4" class="login-input" style="width:100%; margin-bottom:12px; resize:none;" placeholder="Taip mesej pengumuman di sini..."></textarea><button class="btn-3d" style="width:100%;" onclick="window.sendBroadcastMessage()">📢 Hantar Ke Semua Ahli</button></div>`; } else if (tab === 'reminder') {
     const lateUsers = window.dbData.filter(i => { const isSelesai = i.status && i.status.includes('Selesai'); const isHarian = i.status === 'Bacaan Harian'; if (isSelesai || isHarian) return false; const limit = window.calculateDuration(i.tPinjam, i.tPulang); return window.calculateDuration(i.tPinjam, null) > limit; });
@@ -6136,8 +6287,15 @@ window.renderAdminInboxTab = function(tab) {
   }
 };
 
-window.openChatAdmin = function(userId, userName) {
-  window.currentChatUserId = userId; document.getElementById('adminInboxModal').classList.remove('open'); document.getElementById('btnBackInbox').style.display = 'inline-block'; document.getElementById('chatTitle').innerText = `💬 ${userName}`;
+window.openChatAdmin = function(userId, userName, userDept = '') {
+  window.currentChatUserId = userId; document.getElementById('adminInboxModal').classList.remove('open'); document.getElementById('btnBackInbox').style.display = 'inline-flex'; 
+  document.getElementById('chatTitleName').innerText = `${userName.toUpperCase()}`;
+  if (userDept && userDept !== '-') {
+      document.getElementById('chatTitleDept').innerText = userDept;
+      document.getElementById('chatTitleDept').style.display = 'block';
+  } else {
+      document.getElementById('chatTitleDept').style.display = 'none';
+  }
   window.dbMesej.forEach(m => { if (m.userId === userId && m.sender === 'user' && !m.isRead) { m.isRead = true; if (window.dbInstance) { window.dbInstance.collection("mesej_bantuan").doc(m.id).update({ isRead: true }).catch(console.warn); } } }); window.renderChatMessages(); setTimeout(() => { document.getElementById('adminInboxModal').style.display = 'none'; const m = document.getElementById('chatModal'); m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }, 200);
 };
 
