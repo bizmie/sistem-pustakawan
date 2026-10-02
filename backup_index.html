@@ -72,6 +72,18 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        @keyframes win7spin {
+            0% { transform: rotate(0deg) scale(0.8); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(0.8); }
+        }
+        .win7-loader { width: 40px; height: 40px; position: relative; animation: win7spin 1.8s infinite linear; }
+        .win7-dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 6px rgba(0,0,0,0.2); }
+        .win7-dot:nth-child(1) { background: #FF5F56; top: 0; left: 14px; }
+        .win7-dot:nth-child(2) { background: #27C93F; top: 14px; right: 0; }
+        .win7-dot:nth-child(3) { background: #007aff; bottom: 0; left: 14px; }
+        .win7-dot:nth-child(4) { background: #FFBD2E; top: 14px; left: 0; }
+
         #loginView { display: flex; justify-content: center; align-items: center; min-height: 90vh; flex-direction: column; }
         .login-card { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 28px 24px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-md); width: 100%; max-width: 340px; text-align: center; position: relative; overflow: hidden; z-index: 1; animation: modalPopIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; transition: all 0.3s; }
         
@@ -367,6 +379,7 @@
             td { display: flex; flex-direction: column; text-align: left; padding: 4px 0; border-bottom: 1px dashed var(--border); }
             td:last-child { border-bottom: none; }
             td::before { content: attr(data-label); font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-bottom: 2px; font-weight:700;}
+            .hide-mobile { display: none !important; }
         }
     </style>
 </head>
@@ -386,8 +399,12 @@
 
         <!-- Ruangan Animasi Loading (Overlay Atas) -->
         <div id="loginLoadingSpinner" style="position:absolute; top:45px; bottom:35px; left:12px; right:12px; background:var(--surface-solid); z-index:99; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity 0.5s ease; border-radius: 8px;">
-            <div style="font-size: 1.75rem; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); animation: minimalistPulse 1.5s infinite ease-in-out;">⏳</div>
-            <div style="font-size: 0.75rem; color: var(--primary); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; animation: minimalistPulse 1.5s infinite ease-in-out;">Memuatkan Sistem...</div>
+            <div class="win7-loader">
+                <div class="win7-dot"></div>
+                <div class="win7-dot"></div>
+                <div class="win7-dot"></div>
+                <div class="win7-dot"></div>
+            </div>
         </div>
 
         <!-- Kandungan Utama (Dirender serentak di latar belakang) -->
@@ -416,7 +433,7 @@
             </div>
         </div>
         
-        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v35.65 (Stable)</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v36.20 (Stable)</div>
     </div>
 </div>
 
@@ -439,20 +456,48 @@
     </div>
 </div>
 
-<!-- Modal Login Admin -->
-<div class="modal-overlay" id="adminLoginModal">
-    <div class="modal" style="max-width: 300px; text-align: center;">
+<!-- Modal Pinda Tajuk Ulasan (Carian Cadangan) -->
+<div class="modal-overlay" id="editUlasanTajukModal" style="z-index: 10009;">
+    <div class="modal custom-dialog" style="overflow:visible;">
         <div class="modal-header" style="border-bottom:none; margin-bottom:0;">
-            <h3>🔐 Akses Pentadbir</h3>
+            <h3 style="color:var(--primary);">Pinda Tajuk Ulasan</h3>
             <div class="mac-controls" style="margin:0;">
                 <span class="mac-dot mac-green"></span>
                 <span class="mac-dot mac-yellow"></span>
-                <span class="mac-dot mac-red" onclick="window.closeAdminLoginModal()" style="cursor:pointer;"></span>
+                <span class="mac-dot mac-red" onclick="window.closeEditUlasanTajukModal()" style="cursor:pointer;"></span>
             </div>
         </div>
-        <div style="padding-top:10px;">
-            <input type="password" id="password" class="login-input" placeholder="Kata Laluan Pentadbir" onkeyup="if(event.key === 'Enter') window.attemptLogin()">
-            <button class="btn-3d" style="width:100%; margin-top:6px; padding:8px;" onclick="window.attemptLogin()">Masuk Sistem</button>
+        <p style="margin-bottom:16px; margin-top:10px; color:var(--text-main); font-size:0.9rem;">Pinda tajuk buku bagi ulasan ini:</p>
+        <div style="position:relative; margin-bottom:24px; text-align:left;">
+            <input type="text" id="eu_tajuk" class="login-input" style="margin-bottom:0; text-align:center;" placeholder="Taip tajuk buku / No. ACC..." autocomplete="off" onkeyup="window.searchTajukUlasanEdit()">
+            <div id="eu_tajuk_suggestions" style="display:none; position:absolute; top:calc(100% + 4px); left:0; width:100%; background:var(--surface-solid); border:1px solid var(--primary); border-radius:4px; max-height:160px; overflow-y:auto; z-index:1000; box-shadow:var(--shadow-md); text-align:left;"></div>
+        </div>
+        <input type="hidden" id="eu_ulasan_id">
+        <input type="hidden" id="eu_current_tajuk">
+        <div style="display:flex; gap:10px; justify-content:center;">
+            <button class="btn-clear" style="flex:1;" onclick="window.closeEditUlasanTajukModal()">Batal</button>
+            <button class="btn-3d" style="flex:1;" onclick="window.confirmEditUlasanTajuk()">Sahkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Login Admin -->
+<div class="modal-overlay" id="adminLoginModal">
+    <div class="modal" style="max-width: 320px; text-align: center;">
+        <div class="modal-header" style="border-bottom:none; margin-bottom:0; padding-bottom:0; display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="margin:0; font-size:1.1rem; color:var(--primary);">🔐 Akses Pentadbir</h3>
+            <button class="btn-clear" onclick="window.closeAdminLoginModal()" style="padding:4px; margin:0; border:none; background:transparent; color:var(--danger);" title="Tutup">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div style="padding-top:16px;">
+            <div style="position:relative; margin-bottom:8px;">
+                <input type="password" id="password" class="login-input" placeholder="Kata Laluan Pentadbir" style="margin-bottom:0; padding-right:40px;" onkeyup="if(event.key === 'Enter') window.attemptLogin()">
+                <span onclick="window.toggleAdminPassword()" id="adminPwdEye" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--text-muted); display:flex; align-items:center; justify-content:center; padding:4px;" title="Papar/Sembunyi Kata Laluan">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </span>
+            </div>
+            <button class="btn-3d" id="btnAdminLoginModal" style="width:100%; margin-top:6px; padding:8px;" onclick="window.attemptLogin()">Masuk Sistem</button>
         </div>
     </div>
 </div>
@@ -490,7 +535,12 @@
             <button class="nav-btn" id="btn-kelab" onclick="window.switchTab('kelab')">🏆 Senarai Ahli</button>
             <button class="nav-btn" id="btn-scoreboard" onclick="window.switchTab('scoreboard')">🏅 Papan Mata</button>
             <button class="nav-btn" id="btn-ulasan" onclick="window.switchTab('ulasan')">⭐ Ulasan</button>
-            <button class="nav-btn" id="btn-peraturan" onclick="window.switchTab('peraturan')" style="display:none;">📌 Peraturan Mata</button>
+            <button class="nav-btn" id="btn-informasi" onclick="window.switchTab('informasi')" style="display:none; position:relative;">
+                📌 Informasi
+                <span id="badge-informasi-nav" style="display:none; position:absolute; top:-6px; right:-6px; z-index:10;" title="Informasi Baru Dikemaskini">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--danger)" stroke="none" style="filter:drop-shadow(0 1px 2px rgba(0,0,0,0.15));"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                </span>
+            </button>
         </div>
 
         <div id="tab-dashboard" class="tab-content">
@@ -648,8 +698,8 @@
                         </div>
                         <!-- Butang Pengecutan Mini Sidebar -->
                         <div style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border); text-align:center;">
-                            <button class="btn-clear" style="padding:4px 12px; font-size:0.75rem; border-radius:12px; display:inline-flex; align-items:center; gap:4px;" onclick="window.toggleSenaraiSidebar()" title="Kecutkan Kalendar">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Kecutkan
+                            <button class="btn-clear" style="padding:4px 12px; font-size:0.75rem; border-radius:12px; display:inline-flex; align-items:center; gap:4px;" onclick="window.toggleSenaraiSidebar()" title="Sembunyi Kalendar">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> <<<
                             </button>
                         </div>
                     </div>
@@ -731,7 +781,9 @@
                 <div style="display:flex; flex-wrap:wrap; background:rgba(0,0,0,0.02); padding:14px 16px 0 16px; gap:8px; border-bottom:1px solid #94a3b8;" id="sub-tabs-buku">
                     <button id="tab-buku-baru-btn" class="nav-btn active" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid var(--primary); border-bottom:2px solid var(--primary); background:var(--primary); color:white; margin-bottom:-2px; position:relative; z-index:2; font-weight:800; box-shadow: 0 -3px 8px rgba(0,102,204,0.2);" onclick="window.switchSubTabBuku('baru')">📚 Buku Baru Diterima</button>
                     <button id="tab-buku-lama-btn" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,0,0,0.05); color:var(--text-muted); margin-bottom:-2px; position:relative; z-index:1; font-weight:700; display:none;" onclick="window.switchSubTabBuku('lama')">🕰️ Rekod Buku Lama</button>
-                    <a id="btn_webopac_link" href="#" target="_blank" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,191,255,0.1); color:#007aff; margin-bottom:-2px; position:relative; z-index:1; font-weight:700; text-decoration:none; display:none; align-items:center; gap:6px;">🔗 <span id="text_webopac_link">Carian buku WEBOPAC MTIB</span></a>
+                    <button id="tab-majalah-btn" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,0,0,0.05); color:var(--text-muted); margin-bottom:-2px; position:relative; z-index:1; font-weight:700; display:none;" onclick="window.switchSubTabBuku('majalah')">🗞️ Akhbar</button>
+                    <button id="tab-akhbar-btn" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,0,0,0.05); color:var(--text-muted); margin-bottom:-2px; position:relative; z-index:1; font-weight:700; display:none;" onclick="window.switchSubTabBuku('akhbar')">📰 Majalah</button>
+                    <a id="btn_webopac_link" href="#" target="_blank" class="nav-btn" style="margin-left:auto; padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,191,255,0.1); color:#007aff; margin-bottom:-2px; position:relative; z-index:10; font-weight:700; text-decoration:none; display:none; align-items:center; gap:6px; cursor:pointer;">🔗 <span id="text_webopac_link">Carian buku WEBOPAC MTIB</span></a>
                 </div>
 
                 <div id="view-buku-baru" style="background:#f8fafc; padding-bottom: 20px;">
@@ -771,6 +823,86 @@
                         <button class="btn-clear" onclick="window.changeBukuPage('lama', -1)">« Sebelumnya</button>
                         <span id="bukuLamaPageInfo" style="font-size:0.85rem; font-weight:700;">Halaman 1 / 1</span>
                         <button class="btn-clear" onclick="window.changeBukuPage('lama', 1)">Seterusnya »</button>
+                    </div>
+                </div>
+
+                <div id="view-majalah" style="display:none; background:#f8fafc; padding-bottom: 20px;">
+                    <div class="table-wrap" id="wrapMajalah" style="max-height:65vh; overflow-y:auto; background:transparent; padding: 0 16px;">
+                        <table style="border-collapse: separate; border-spacing: 0 16px; background: transparent; margin-top: -10px;">
+                            <thead><tr>
+                                <th style="width:120px; text-align:center; color:#0284c7; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">TARIKH</th>
+                                <th style="width:35%; color:#0284c7; padding-left:20px; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">TAJUK & EDISI</th>
+                                <th style="width:20%; color:#0284c7; padding-left:20px; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">MAKLUMAT BAHAN</th>
+                                <th style="width:15%; text-align:center; color:#0284c7; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">PENERIMA</th>
+                                <th style="width:20%; text-align:center; color:#0284c7; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">NO. ACCESSION</th>
+                            </tr></thead>
+                            <tbody id="majalahTableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan senarai majalah...</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div id="majalahPagination" style="display:flex; justify-content:center; gap:15px; margin-top:12px; padding:10px; align-items:center; border-top: 1px dashed var(--border);">
+                        <button class="btn-clear" onclick="window.changeBukuPage('majalah', -1)">« Sebelumnya</button>
+                        <span id="majalahPageInfo" style="font-size:0.85rem; font-weight:700;">Halaman 1 / 1</span>
+                        <button class="btn-clear" onclick="window.changeBukuPage('majalah', 1)">Seterusnya »</button>
+                    </div>
+                </div>
+
+                <div id="view-akhbar" style="display:none; background:#f8fafc; padding-bottom: 20px;">
+                    <div class="table-wrap" id="wrapAkhbar" style="max-height:65vh; overflow-y:auto; background:transparent; padding: 0 16px;">
+                        <table style="border-collapse: separate; border-spacing: 0 16px; background: transparent; margin-top: -10px;">
+                            <thead><tr>
+                                <th style="width:120px; text-align:center; color:#0284c7; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">TARIKH</th>
+                                <th style="width:35%; color:#0284c7; padding-left:20px; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">TAJUK & EDISI</th>
+                                <th style="width:20%; color:#0284c7; padding-left:20px; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">MAKLUMAT BAHAN</th>
+                                <th style="width:15%; text-align:center; color:#0284c7; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">PENERIMA</th>
+                                <th style="width:20%; text-align:center; color:#0284c7; border:none; background:transparent; padding:4px 16px 8px 16px; font-weight:800; font-size:0.75rem;">NO. ACCESSION</th>
+                            </tr></thead>
+                            <tbody id="akhbarTableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan senarai akhbar...</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div id="akhbarPagination" style="display:flex; justify-content:center; gap:15px; margin-top:12px; padding:10px; align-items:center; border-top: 1px dashed var(--border);">
+                        <button class="btn-clear" onclick="window.changeBukuPage('akhbar', -1)">« Sebelumnya</button>
+                        <span id="akhbarPageInfo" style="font-size:0.85rem; font-weight:700;">Halaman 1 / 1</span>
+                        <button class="btn-clear" onclick="window.changeBukuPage('akhbar', 1)">Seterusnya »</button>
+                    </div>
+                </div>
+
+                <div id="view-majalah" style="display:none; background:#f8fafc; padding-bottom: 20px;">
+                    <div class="table-wrap" id="wrapMajalah" style="max-height:65vh; overflow-y:auto; background:transparent; padding: 0 16px;">
+                        <table>
+                            <thead><tr>
+                                <th style="width:120px; text-align:center; color:#0284c7;">TARIKH</th>
+                                <th style="width:35%; color:#0284c7; padding-left:20px;">TAJUK & EDISI</th>
+                                <th style="width:20%; color:#0284c7; padding-left:20px;">MAKLUMAT BAHAN</th>
+                                <th style="width:15%; text-align:center; color:#0284c7;">PENERIMA</th>
+                                <th style="width:20%; text-align:center; color:#0284c7;">NO. ACCESSION</th>
+                            </tr></thead>
+                            <tbody id="majalahTableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan senarai majalah...</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div id="majalahPagination" style="display:flex; justify-content:center; gap:15px; margin-top:12px; padding:10px; align-items:center; border-top: 1px dashed var(--border);">
+                        <button class="btn-clear" onclick="window.changeBukuPage('majalah', -1)">« Sebelumnya</button>
+                        <span id="majalahPageInfo" style="font-size:0.85rem; font-weight:700;">Halaman 1 / 1</span>
+                        <button class="btn-clear" onclick="window.changeBukuPage('majalah', 1)">Seterusnya »</button>
+                    </div>
+                </div>
+
+                <div id="view-akhbar" style="display:none; background:#f8fafc; padding-bottom: 20px;">
+                    <div class="table-wrap" id="wrapAkhbar" style="max-height:65vh; overflow-y:auto; background:transparent; padding: 0 16px;">
+                        <table>
+                            <thead><tr>
+                                <th style="width:120px; text-align:center; color:#0284c7;">TARIKH</th>
+                                <th style="width:35%; color:#0284c7; padding-left:20px;">TAJUK & EDISI</th>
+                                <th style="width:20%; color:#0284c7; padding-left:20px;">MAKLUMAT BAHAN</th>
+                                <th style="width:15%; text-align:center; color:#0284c7;">PENERIMA</th>
+                                <th style="width:20%; text-align:center; color:#0284c7;">NO. ACCESSION</th>
+                            </tr></thead>
+                            <tbody id="akhbarTableBody"><tr><td colspan="5" style="text-align:center; padding: 30px;">Memuatkan senarai akhbar...</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div id="akhbarPagination" style="display:flex; justify-content:center; gap:15px; margin-top:12px; padding:10px; align-items:center; border-top: 1px dashed var(--border);">
+                        <button class="btn-clear" onclick="window.changeBukuPage('akhbar', -1)">« Sebelumnya</button>
+                        <span id="akhbarPageInfo" style="font-size:0.85rem; font-weight:700;">Halaman 1 / 1</span>
+                        <button class="btn-clear" onclick="window.changeBukuPage('akhbar', 1)">Seterusnya »</button>
                     </div>
                 </div>
                 
@@ -872,15 +1004,16 @@
             </div>
         </div>
 
-        <div id="tab-peraturan" class="tab-content">
-            <div class="content-card" style="padding: 20px; background: rgba(255, 249, 196, 0.8); border: none; box-shadow: var(--shadow-sm); position: relative; margin-top: 10px;">
-                <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 100px; height: 25px; background: rgba(255,255,255,0.5); border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 2;"></div>
-                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 10px; padding-top: 5px;">
-                    <h3 style="margin:0; color: #5C4033;">📌 Peraturan Mata</h3>
-                    <button id="btn-edit-peraturan-tab" class="btn-clear" style="display:none; padding: 4px 12px; font-size: 0.75rem; border-radius: 6px; border: 1px solid #D4C374; color: #5C4033; background: #fff; font-weight: 700; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onclick="window.openPeraturanModal()">✏️ Kemaskini</button>
+        <div id="tab-informasi" class="tab-content">
+            <div class="content-card" style="padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); box-shadow: var(--shadow-sm); border-radius: 12px; display: flex; flex-direction: column; gap: 12px;">
+                <div style="display:flex; justify-content:center; align-items:center; position:relative; border-bottom: 1px dashed var(--border); padding-bottom: 10px; min-height: 32px;">
+                    <h2 style="margin:0; color:var(--primary); font-size:1.15rem; text-transform:uppercase; text-align:center; font-weight:900; letter-spacing:1px; max-width:75%; line-height:1.2;">PAPAN INFORMASI & PENGUMUMAN</h2>
+                    <button id="btnTambahInfo" class="btn-3d" style="display:none; padding:6px 12px; position:absolute; right:0; font-size:0.85rem;" onclick="window.bukaBorangInfo()">➕<span class="hide-mobile" style="margin-left:4px;">Tambah Pos</span></button>
                 </div>
-                <div id="tab_peraturan_content" style="font-size: 0.95rem; color: #4A3b32; font-weight: 600; line-height: 1.6; margin-top: 16px;"></div>
-                <div id="tab_peraturan_tarikh" style="font-size: 0.75rem; color: rgba(92, 64, 51, 0.7); margin-top: 20px; font-style: italic; text-align: right; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 8px;"></div>
+                
+                <div id="infoPostsContainer" style="display:flex; flex-direction:column; gap:12px;">
+                    <!-- Pos akan dijana di sini -->
+                </div>
             </div>
         </div>
 
@@ -888,7 +1021,7 @@
             <div class="content-card" style="padding: 20px; margin-bottom: 20px; border: 1.5px solid var(--border); box-shadow: var(--shadow-sm); overflow: visible;">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; flex-wrap:wrap; gap:10px;">
                     <h2 style="margin:0; font-size: 1.1rem; color:var(--primary);">⚙️ Tetapan Sistem Aplikasi</h2>
-                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v35.65 (Stable)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
+                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v36.20 (Stable)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; align-items: stretch;">
                     
@@ -912,9 +1045,13 @@
                             <label style="font-weight:600; font-size:0.75rem; display:block; margin-bottom:6px; color:var(--text-muted);">Tajuk Utama Sistem</label>
                             <input type="text" id="set_main_title" class="login-input" placeholder="Cth: PUSTAKA MTIB" style="margin-bottom:0;">
                         </div>
-                        <div class="form-group" style="margin-bottom: 0;">
+                        <div class="form-group" style="margin-bottom: 12px;">
                             <label style="font-weight:600; font-size:0.75rem; display:block; margin-bottom:6px; color:var(--text-muted);">Subtajuk Sistem</label>
                             <input type="text" id="set_sub_title" class="login-input" placeholder="Cth: Pengurusan Pinjaman Digital" style="margin-bottom:0;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-weight:600; font-size:0.75rem; display:block; margin-bottom:6px; color:var(--danger);">🔑 Kata Laluan Akses Pentadbir (Admin)</label>
+                            <input type="text" id="set_admin_pwd" class="login-input" placeholder="Tetapkan kata laluan rahsia..." style="margin-bottom:0; border-color:var(--danger-light); background:var(--danger-light);">
                         </div>
                     </div>
 
@@ -1200,7 +1337,11 @@
         
         <div style="display: grid; grid-template-columns: 1.5fr 1fr 2.5fr; gap: 12px; margin-bottom: 12px;">
             <div class="form-group" style="margin-bottom:0;"><label>Bahagian</label><select id="f_bahagian" class="dept-select" style="margin-bottom:0;"></select></div>
-            <div class="form-group" style="margin-bottom:0;"><label>Kategori</label><select id="f_jenis" style="margin-bottom:0;"><option value="Buku">Buku</option><option value="Fail Dokumen">Fail Dokumen</option><option value="Majalah">Majalah/ Akhbar</option><option value="Alat Bantu">Alat Bantu Mengajar</option></select></div>
+            <div class="form-group" style="margin-bottom:0;"><label>Kategori</label><select id="f_jenis" style="margin-bottom:0;"><option value="Buku">Buku</option>
+<option value="Fail Dokumen">Fail Dokumen</option> 
+<option value="Akhbar">Majalah</option>
+<option value="Majalah">Akhbar</option>
+                                   <option value="Lain-Lain">Lain-Lain</option></select></div>
             <div class="form-group" style="margin-bottom:0;"><label>Catatan</label><input type="text" id="f_catatan" class="login-input" style="margin-bottom:0;" placeholder="Catatan tambahan..."></div>
         </div>
         
@@ -1325,7 +1466,7 @@
         </div>
         
         <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px dashed #cbd5e1; padding-top: 16px; align-items:center; flex-wrap:wrap;">
-            <button class="btn-3d secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="window.viewKelabHistory(document.getElementById('k_key').value)">📚 Sejarah Bacaan</button>
+            <button class="btn-3d secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="window.closeKelabModal(); setTimeout(() => window.viewKelabHistory(document.getElementById('k_key').value), 250);">📚 Sejarah Bacaan</button>
             <button class="btn-3d danger" id="btn-delete-kelab" style="display:none; margin-right:auto; padding: 8px 16px; font-size: 0.85rem;" type="button" onclick="window.deleteKelabProfile()">🗑️ Hapus</button>
             <div style="flex:1;"></div>
             <button onclick="window.closeKelabModal()" class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff; border: 1px solid #cbd5e1; color: #475569; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" type="button">❌ Tutup</button>
@@ -1517,57 +1658,67 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="peraturanModal" style="z-index: 10009;">
-    <div class="modal" style="width: auto; min-width: 450px; max-width: 90vw; height: auto; min-height: 250px; max-height: 90vh; display: flex; flex-direction: column; background: #FFF9C4; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-bottom-right-radius: 30px; position: relative; transition: width 0.3s, height 0.3s; overflow: hidden !important;">
-        <!-- Kesan Pita Pelekat (Tape) -->
-        <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 100px; height: 25px; background: rgba(255,255,255,0.5); border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 2;"></div>
-        
-        <div class="modal-header" style="border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 12px; padding-top: 10px; flex-shrink: 0;">
-            <h3 style="margin:0; color: #5C4033;">📌 Peraturan Mata</h3>
-            <div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red" onclick="window.closePeraturanModal()" style="cursor:pointer;"></span></div>
+<!-- Modal Tambah/Edit Informasi -->
+<div class="modal-overlay" id="informasiModal" style="z-index: 10009;">
+    <div class="modal modal-faded" style="max-width: 900px; width: 95%; background: #f1f5f9; padding-bottom: 24px;">
+        <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0;">
+            <h3 id="infoFormTitle" style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">📝 CIPTA POS BARU</h3>
+            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.tutupBorangInfo()" style="cursor:pointer;"></span></div>
         </div>
         
-        <!-- Toolbar Format (Khas Admin) -->
-        <div id="p_toolbar" style="display: flex; gap: 4px; margin-bottom: 8px; background: rgba(255,255,255,0.6); padding: 6px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); align-items: center; flex-shrink: 0; flex-wrap: wrap;">
-            <button class="btn-clear" style="padding: 2px 8px; font-weight: bold; color: #5C4033; border-color: transparent; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.formatRule('bold')" title="Tebal (Bold)">B</button>
-            <button class="btn-clear" style="padding: 2px 8px; font-style: italic; color: #5C4033; border-color: transparent; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.formatRule('italic')" title="Italik (Italic)">I</button>
-            <button class="btn-clear" style="padding: 2px 8px; text-decoration: underline; color: #5C4033; border-color: transparent; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.formatRule('underline')" title="Garis Bawah (Underline)">U</button>
+        <input type="hidden" id="infoPostId">
+        
+        <div class="form-group" style="margin-bottom:12px;">
+            <label style="font-weight:700; color:var(--primary);">Tajuk Pos</label>
+            <input type="text" id="infoTitle" class="login-input" placeholder="Masukkan tajuk pengumuman/informasi" style="font-size:1.05rem; font-weight:800;">
+        </div>
+        
+        <label style="font-weight:700; color:var(--primary); font-size:0.75rem; display:block; margin-bottom:4px;">Kandungan</label>
+        
+        <!-- Toolbar Format -->
+        <div id="i_toolbar" style="display: flex; gap: 4px; margin-bottom: 0px; background: #ffffff; padding: 8px 12px; border-radius: 8px 8px 0 0; border: 1px solid var(--border-input); border-bottom:1px dashed var(--border); align-items: center; flex-wrap: wrap;">
+            <button class="btn-clear" style="padding: 2px 8px; font-weight: bold; color: var(--text-main); border:none;" onclick="window.formatInfo('bold')" title="Tebal (Bold)">B</button>
+            <button class="btn-clear" style="padding: 2px 8px; font-style: italic; color: var(--text-main); border:none;" onclick="window.formatInfo('italic')" title="Italik (Italic)">I</button>
+            <button class="btn-clear" style="padding: 2px 8px; text-decoration: underline; color: var(--text-main); border:none;" onclick="window.formatInfo('underline')" title="Garis Bawah (Underline)">U</button>
             
-            <div style="width: 1px; height: 16px; background: rgba(0,0,0,0.1); margin: 0 4px;"></div>
+            <div style="width: 1px; height: 16px; background: var(--border-input); margin: 0 4px;"></div>
             
+            <button class="btn-clear" style="padding: 2px 8px; color: var(--text-main); border:none;" onclick="window.insertImageInfo()" title="Masukkan Gambar via URL">🖼️</button>
+            <button class="btn-clear" style="padding: 2px 8px; color: var(--text-main); border:none;" onclick="window.insertLinkInfo()" title="Masukkan Pautan (Hyperlink)">🔗</button>
+            <button class="btn-clear" style="padding: 2px 10px; color: var(--text-main); border:none;" onclick="window.formatInfo('insertUnorderedList')" title="Senarai (Bullet)">• Senarai</button>
+
+            <div style="width: 1px; height: 16px; background: var(--border-input); margin: 0 4px;"></div>
+
             <!-- Pemilih Warna Teks -->
             <label style="cursor: pointer; display: flex; align-items: center; padding: 2px; border-radius: 4px; transition: 0.2s;" title="Warna Teks" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'">
-                <input type="color" oninput="window.formatRule('foreColor', this.value)" onchange="window.formatRule('foreColor', this.value)" style="width: 22px; height: 22px; border: none; padding: 0; cursor: pointer; background: transparent;">
+                <input type="color" oninput="window.formatInfo('foreColor', this.value)" onchange="window.formatInfo('foreColor', this.value)" style="width: 22px; height: 22px; border: none; padding: 0; cursor: pointer; background: transparent;">
             </label>
-            
-            <!-- Alat Masukkan Gambar -->
-            <button class="btn-clear" style="padding: 2px 8px; color: #5C4033; border-color: transparent; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.insertImagePeraturan()" title="Masukkan Gambar via URL">🖼️</button>
-            
-            <!-- Alat Masukkan Pautan (Link) -->
-            <button class="btn-clear" style="padding: 2px 8px; color: #5C4033; border-color: transparent; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.insertLinkPeraturan()" title="Masukkan Pautan (Hyperlink)">🔗</button>
-            
+
             <!-- Alat Pemilih Emoji -->
             <div style="position: relative;">
-                <button class="btn-clear" style="padding: 2px 8px; color: #5C4033; border-color: transparent; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.togglePeraturanEmojiPicker(event)" title="Masukkan Emotikon">😀</button>
+                <button class="btn-clear" style="padding: 2px 8px; color: var(--text-main); border:none; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'" onclick="window.toggleInfoEmojiPicker(event)" title="Masukkan Emotikon">😀</button>
                 <!-- Popup Emoji -->
-                <div id="p_emoji_picker" style="display: none; position: absolute; top: 100%; left: 0; background: var(--surface-solid); border: 1px solid var(--border); border-radius: 8px; padding: 8px; box-shadow: var(--shadow-md); z-index: 100; width: 220px; grid-template-columns: repeat(6, 1fr); gap: 4px; max-height: 150px; overflow-y: auto;"></div>
+                <div id="i_emoji_picker" style="display: none; position: absolute; top: 100%; left: 0; background: var(--surface-solid); border: 1px solid var(--border); border-radius: 8px; padding: 8px; box-shadow: var(--shadow-md); z-index: 100; width: 220px; grid-template-columns: repeat(6, 1fr); gap: 4px; max-height: 150px; overflow-y: auto;"></div>
             </div>
-            
-            <div style="flex: 1;"></div>
-            
-            <button class="btn-clear" style="padding: 2px 10px; color: #5C4033; border-color: transparent; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.formatRule('insertUnorderedList')" title="Senarai (Bullet)">• Senarai</button>
+
+            <div style="flex:1; min-width:20px;"></div>
+
+            <!-- Kontena Kanan (Pin & Tarikh) -->
+            <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:flex-end;">
+                <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-weight:700; color:var(--text-main); margin:0; font-size:0.85rem;">
+                    <input type="checkbox" id="infoIsPinned" style="width:16px; height:16px; accent-color:var(--warning); margin:0;"> 📌 Pin Pos
+                </label>
+                <input type="date" id="infoDate" class="login-input" style="margin:0; padding:4px 8px; width:auto; font-size:0.85rem; border-color:var(--border-input); height:auto;" title="Tarikh Pos">
+            </div>
         </div>
 
-        <div class="form-group" style="margin-top:0; flex: 1; display: flex; flex-direction: column; min-height: 0;">
-            <!-- Penyunting Teks Sticky Note dengan scrollbar dalaman -->
-            <div id="p_peraturan_editor" style="flex: 1; min-height: 150px; overflow-y: auto; overflow-x: hidden; padding: 12px; font-size: 0.95rem; color: #4A3b32; font-weight: 600; outline: none; line-height: 1.6; border-radius: 6px; padding-right: 16px;" onkeyup="window.savePeraturanSelection()" onmouseup="window.savePeraturanSelection()" onmouseleave="window.savePeraturanSelection()"></div>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; flex-shrink: 0;">
-            <small id="p_peraturan_info" style="color: rgba(92, 64, 51, 0.7); font-size:0.75rem; font-weight:600;"></small>
-            <div style="display:flex; gap:8px;">
-                <button class="btn-clear" style="color: #5C4033; border-color: #5C4033;" onclick="window.closePeraturanModal()">Tutup</button>
-                <button class="btn-3d" style="background: #D97706; border-color: #B45309;" id="btn-save-peraturan" onclick="window.savePeraturanMata()">💾 Simpan</button>
-            </div>
+        <div id="i_editor" contenteditable="true" style="background:#ffffff; border:1px solid var(--border-input); border-top:none; border-radius: 0 0 8px 8px; padding:16px; min-height:300px; max-height:50vh; overflow-y:auto; font-size:0.95rem; line-height:1.6; outline:none;" onkeyup="window.saveInfoSelection()" onmouseup="window.saveInfoSelection()"></div>
+        
+        <div style="display:flex; align-items:center; margin-top:20px; border-top:1px dashed var(--border-input); padding-top:16px;">
+            <button class="btn-3d danger" id="btnPadamInfoModal" style="display:none; padding:8px 16px;" onclick="window.padamInfoPostDalamModal()">🗑️ Padam</button>
+            <div style="flex:1;"></div>
+            <button class="btn-clear" style="padding:8px 16px; margin-right:8px;" onclick="window.tutupBorangInfo()">Batal</button>
+            <button class="btn-3d" id="btnSiarInfo" style="padding:8px 16px;" onclick="window.simpanInfoPost()">🚀 Hantar</button>
         </div>
     </div>
 </div>
@@ -1674,7 +1825,11 @@
             
             <!-- Baris 4: Jenis, Bilangan, Bidang, Penerbitan -->
             <div style="display: grid; grid-template-columns: 1.5fr 0.8fr 1.5fr 1.5fr; gap: 12px;">
-                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Jenis Bahan</label><select id="b_jenis" class="login-input" style="margin-bottom:0;" onchange="window.updateMockupCover()"><option value="Buku">Buku</option><option value="Laporan">Laporan</option><option value="Majalah">Majalah/ Akhbar</option><option value="Jurnal">Jurnal</option><option value="Lain-lain">Lain-lain</option></select></div>
+                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Jenis Bahan</label><select id="b_jenis" class="login-input" style="margin-bottom:0;" onchange="window.updateMockupCover()"><option value="Buku">Buku</option>
+    <option value="Fail Dokumen">Fail Dokumen</option>
+    <option value="Akhbar">Majalah</option>
+    <option value="Majalah">Akhbar</option>
+    <option value="Lain-Lain">Lain-Lain</option></select></div>
                 <div class="form-group" style="margin-bottom:0;"><label class="form-label">Bilangan</label><input type="number" id="b_bilangan" class="login-input" value="1" min="1" style="margin-bottom:0;"></div>
                 <div class="form-group" style="margin-bottom:0;"><label class="form-label">Bidang</label><select id="b_bidang" class="login-input" style="margin-bottom:0;"><option value="Perusahaan Kayu" selected>Perusahaan Kayu</option><option value="Bukan Perusahaan Kayu">Bukan Perusahaan Kayu</option></select></div>
                 <div class="form-group" style="margin-bottom:0;"><label class="form-label">Penerbitan</label><select id="b_penerbitan" class="login-input" style="margin-bottom:0;"><option value="Dalam Negara">Dalam Negara</option><option value="Luar Negara">Luar Negara</option></select></div>
@@ -1700,14 +1855,17 @@
 <script>
 window.senaraiCurrentPage = 1;
 
-window.toggleSenaraiSidebar = function() {
+window.toggleSenaraiSidebar = function(forceState) {
     const layout = document.getElementById('senarai_layout_container');
     const leftBar = document.getElementById('senarai_sidebar_left');
     const btnBuka = document.getElementById('btnBukaKalendarSenarai');
     
     if (!layout || !leftBar || !btnBuka) return;
 
-    if (leftBar.style.opacity === '0' || leftBar.style.opacity === '') {
+    const isCurrentlyClosed = (leftBar.style.opacity === '0' || leftBar.style.opacity === '');
+    const wantsToOpen = forceState !== undefined ? forceState : isCurrentlyClosed;
+
+    if (wantsToOpen) {
         leftBar.style.display = 'block';
         setTimeout(() => {
             layout.style.gridTemplateColumns = '320px 1fr';
@@ -1736,6 +1894,27 @@ window.toggleSenaraiSidebar = function() {
         }, 300);
     }
 };
+
+window.lastLayoutState = window.innerWidth >= 1200 ? 'wide' : 'narrow';
+
+// Pemantau Pengecilan Saiz Pelayar Automatik (Auto-hide/Auto-show)
+window.addEventListener('resize', function() {
+    const width = window.innerWidth;
+    if (width < 1200 && window.lastLayoutState !== 'narrow') {
+        window.lastLayoutState = 'narrow';
+        window.toggleSenaraiSidebar(false); // Autohide
+    } else if (width >= 1200 && window.lastLayoutState !== 'wide') {
+        window.lastLayoutState = 'wide';
+        window.toggleSenaraiSidebar(true); // Autoshow
+    }
+});
+
+// Semak saiz skrin awal semasa sistem dimuatkan
+setTimeout(() => {
+    if (window.innerWidth < 1200) {
+        window.toggleSenaraiSidebar(false);
+    }
+}, 100);
 
 window.dbData = [];
 window.dbBuku = [];
@@ -1981,13 +2160,21 @@ window.applySettingsUI = function() {
   
   const setWName = document.getElementById('set_webopac_name'); if(setWName) setWName.value = wName;
   const setWUrl = document.getElementById('set_webopac_url'); if(setWUrl) setWUrl.value = wUrl;
+
+  const setAdminPwd = document.getElementById('set_admin_pwd');
+  if(setAdminPwd) setAdminPwd.value = window.appSettings.adminPassword || '';
   
   const linkBtn = document.getElementById('btn_webopac_link');
   const linkText = document.getElementById('text_webopac_link');
   if (linkBtn && linkText) {
       if (wUrl && wUrl.trim() !== "") {
           linkBtn.style.display = 'inline-flex';
-          linkBtn.href = wUrl;
+          let finalUrl = wUrl.trim();
+          // Tambah https:// jika tiada
+          if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+              finalUrl = 'https://' + finalUrl;
+          }
+          linkBtn.href = finalUrl;
           linkText.innerText = wName || "Pautan Luaran";
       } else {
           linkBtn.style.display = 'none';
@@ -2012,23 +2199,8 @@ window.applySettingsUI = function() {
       window.hasSetDefaultScoreboard = true;
   }
   
-  const defaultRules = "<ul><li>Peminjaman Bahan/Buku: +10 Mata</li><li>Ulasan & Review: +2 Mata</li><li>Markah Bonus Ulasan Berkualiti: (Bergantung budi bicara Pustakawan)</li><li>Bacaan Harian: +10 Mata (Buku dibaca di perpustakaan sahaja)</li></ul>";
-  const rulesContent = (window.appSettings && window.appSettings.peraturanMata) ? window.appSettings.peraturanMata : defaultRules;
-  const tabContent = document.getElementById('tab_peraturan_content');
-  if (tabContent) tabContent.innerHTML = rulesContent;
-  
-  const tabTarikh = document.getElementById('tab_peraturan_tarikh');
-  if (tabTarikh) {
-      if (window.appSettings && window.appSettings.peraturanLastUpdated) {
-          const d = new Date(window.appSettings.peraturanLastUpdated);
-          tabTarikh.innerHTML = `Kemaskini Terakhir: <strong>${d.toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' })} (${d.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' })})</strong>`;
-      } else {
-          tabTarikh.innerHTML = ``;
-      }
-  }
-  
   if (typeof window.renderScoreboard === 'function') window.renderScoreboard();
-  if (typeof window.checkPeraturanNotification === 'function') window.checkPeraturanNotification();
+  if (typeof window.checkInformasiNotification === 'function') window.checkInformasiNotification();
   
   setTimeout(() => {
       const spinner = document.getElementById('loginLoadingSpinner');
@@ -2039,22 +2211,22 @@ window.applySettingsUI = function() {
   }, 4000); // Penimbal 4 saat sementara logo dimuatkan di latar belakang
 };
 
-window.getPeraturanStorageKey = function() {
-    return 'peraturanViewed_' + (window.currentUserKey || window.userRole || 'anon');
+window.getInformasiStorageKey = function() {
+    return 'informasiViewed_' + (window.currentUserKey || window.userRole || 'anon');
 };
 
-window.checkPeraturanNotification = function() {
-    const lastUpdated = window.appSettings.peraturanLastUpdated || 0;
-    const lastViewed = parseInt(localStorage.getItem(window.getPeraturanStorageKey())) || 0;
+window.checkInformasiNotification = function() {
+    const lastUpdated = window.appSettings.informasiLastUpdated || 0;
+    const lastViewed = parseInt(localStorage.getItem(window.getInformasiStorageKey())) || 0;
     const isNew = lastUpdated > lastViewed;
     
-    const badgeNav = document.getElementById('badge-peraturan-nav');
+    const badgeNav = document.getElementById('badge-informasi-nav');
     if (badgeNav) badgeNav.style.display = isNew ? 'inline-block' : 'none';
 };
 
-window.markPeraturanAsRead = function() {
-    localStorage.setItem(window.getPeraturanStorageKey(), Date.now());
-    if (typeof window.checkPeraturanNotification === 'function') window.checkPeraturanNotification();
+window.markInformasiAsRead = function() {
+    localStorage.setItem(window.getInformasiStorageKey(), Date.now());
+    if (typeof window.checkInformasiNotification === 'function') window.checkInformasiNotification();
 };
 
 window.saveSettings = async function() {
@@ -2074,6 +2246,11 @@ window.saveSettings = async function() {
   const wUrl = document.getElementById('set_webopac_url') ? document.getElementById('set_webopac_url').value.trim() : '';
   window.appSettings.webopac_name = wName;
   window.appSettings.webopac_url = wUrl;
+
+  const newAdminPwd = document.getElementById('set_admin_pwd') ? document.getElementById('set_admin_pwd').value.trim() : '';
+  if (newAdminPwd) {
+      window.appSettings.adminPassword = newAdminPwd;
+  }
 
   window.appSettings.r2w_year = document.getElementById('set_r2w_year') ? String(document.getElementById('set_r2w_year').value) : String(new Date().getFullYear());
   window.appSettings.r2w_start = document.getElementById('set_r2w_start') ? String(document.getElementById('set_r2w_start').value) : '0';
@@ -2484,7 +2661,6 @@ window.renderTable = function() {
         coverDiv = `<div style="width: 100px; height: 140px; background: ${bgGradient}; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; box-shadow: inset 2px 0 4px rgba(0,0,0,0.3), 0 4px 6px rgba(0,0,0,0.1);"><div style="padding: 4px 6px; font-size: 0.4rem; color: rgba(255,255,255,0.8); line-height: 1; border-bottom: 1px solid rgba(255,255,255,0.2);">MTIB</div><div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px; font-size: 0.75rem; font-weight: 800; color: #fff; text-align: center; line-height: 1.2; word-break: break-word;">${mockupTitle}</div></div>`;
     }
 
-    let leftBoxActionBtn = '';
     let middleBoxActionBtn = '';
     if (isAdmin) {
          middleBoxActionBtn = `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); border-radius:20px; padding:6px 12px; white-space:nowrap; background:#fff; font-weight:700; transition:0.2s; box-shadow:0 2px 4px rgba(0,102,204,0.1); flex-shrink:0; box-sizing:border-box;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='#fff'" onclick="window.prepareEdit('${item.id}')">✏️ Pinda Maklumat</button>`;
@@ -2492,25 +2668,23 @@ window.renderTable = function() {
          const safeId = String(item.id).replace(/'/g, "\\'");
          const safeTajuk = String(item.tajuk).replace(/'/g, "\\'");
          const isReviewed = window.dbUlasan.find(u => u.bookId === item.id);
-         leftBoxActionBtn = isReviewed ?
-            `<div style="font-size:0.75rem; color:var(--success); border:1px solid var(--success); border-radius:20px; padding:6px 12px; width:100%; text-align:center; background:rgba(40,205,65,0.05); font-weight:700; white-space:nowrap; box-sizing:border-box;">✓ Diulas</div>` :
-            `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); border-radius:20px; padding:6px 12px; width:100%; white-space:nowrap; background:transparent; font-weight:700; transition:0.2s; box-sizing:border-box;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'" onclick="window.openReviewModal('${safeId}', '${safeTajuk}')">⭐ Beri Ulasan</button>`;
+         middleBoxActionBtn = isReviewed ?
+            `<div style="font-size:0.75rem; color:var(--success); border:1px solid var(--success); border-radius:20px; padding:6px 12px; text-align:center; background:rgba(40,205,65,0.05); font-weight:700; white-space:nowrap; box-sizing:border-box;">✓ Diulas</div>` :
+            `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); border-radius:20px; padding:6px 12px; white-space:nowrap; background:#fff; font-weight:700; transition:0.2s; box-shadow:0 2px 4px rgba(0,102,204,0.1); flex-shrink:0; box-sizing:border-box;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='#fff'" onclick="window.openReviewModal('${safeId}', '${safeTajuk}')">⭐ Beri Ulasan</button>`;
     }
     
-    let borrowerInfoHtml = '';
+    let dynamicAvatarUrl = window.getUserAvatar(item.noPekerja);
+    let borrowerInfoHtml = `
+    <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+        <img src="${dynamicAvatarUrl}" style="width:32px; height:32px; border-radius:50%; border:1px solid var(--border-input); background:var(--surface-solid); object-fit:cover;" alt="Avatar">
+        <div style="flex:1; min-width:0; overflow:hidden;">
+            <strong style="color:var(--text-main); font-size:0.9rem; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.nama}</strong>
+            <div style="font-size:0.75rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.noPekerja || '-'} | ${item.bahagian || '-'}</div>
+        </div>
+    </div>`;
+
     let ilmuHtml = '';
     if (isAdmin) {
-         let dynamicAvatarUrl = window.getUserAvatar(item.noPekerja);
-         borrowerInfoHtml = `
-         <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
-             <img src="${dynamicAvatarUrl}" style="width:32px; height:32px; border-radius:50%; border:1px solid var(--border-input); background:var(--surface-solid); object-fit:cover;" alt="Avatar">
-             <div style="flex:1; min-width:0; overflow:hidden;">
-                 <strong style="color:var(--text-main); font-size:0.9rem; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.nama}</strong>
-                 <div style="font-size:0.75rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.noPekerja || '-'} | ${item.bahagian || '-'}</div>
-             </div>
-         </div>`;
-         
-         // ILMU Box - Struktur diubah untuk susunan padat menegak (Vertical Stack) di kanan
          let ilmuStatus = item.sistemIlmuStatus || (item.isMarked ? 'caj' : 'belum');
          let isRekod = (ilmuStatus === 'caj' || ilmuStatus === 'discaj');
          let isDiscaj = (ilmuStatus === 'discaj');
@@ -2542,7 +2716,6 @@ window.renderTable = function() {
        
        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100px; flex-shrink:0; gap:10px;">
            ${coverDiv}
-           ${leftBoxActionBtn}
        </div>
 
        <!-- Kotak Tengah (Tajuk, Maklumat Peminjam & Ilmu) -->
@@ -2552,20 +2725,18 @@ window.renderTable = function() {
            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
                <div style="flex:1; min-width:0;">
                    <div style="font-weight:800; font-size:1.05rem; color:var(--text-main); line-height:1.4; margin-bottom:8px; padding-left:4px;">${item.tajuk}</div>
-                   <div style="font-size:0.85rem; color:var(--text-muted); padding-left:4px;">Kategori: <strong style="color:var(--text-main);">${item.jenis || '-'}</strong> ${item.accession ? '| ACC: <span style="font-family:monospace;">'+item.accession+'</span>' : ''}</div>
+                   <div style="font-size:0.85rem; color:var(--text-muted); padding-left:4px;">Kategori: <strong style="color:var(--text-main);">${item.jenis === 'Majalah' ? 'Akhbar' : (item.jenis === 'Akhbar' ? 'Majalah' : (item.jenis || '-'))}</strong> ${item.accession ? '| ACC: <span style="font-family:monospace;">'+item.accession+'</span>' : ''}</div>
                </div>
                ${ilmuHtml ? `<div style="flex-shrink:0;">${ilmuHtml}</div>` : ''}
            </div>
 
-           <!-- BOTTOM ROW: Maklumat Peminjam & Butang Pinda -->
-           ${isAdmin ? `
+           <!-- BOTTOM ROW: Maklumat Peminjam & Butang Pinda / Ulasan -->
            <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:8px;">
                ${borrowerInfoHtml}
                <div style="flex-shrink:0;">
                    ${middleBoxActionBtn}
                </div>
            </div>
-           ` : ''}
 
        </div>
        
@@ -2713,7 +2884,7 @@ window.searchTajukBuku = function(query) {
             let tLow = b.tajuk.trim().toLowerCase();
             if (!seenTitles.has(tLow)) {
                 seenTitles.add(tLow);
-                matches.push({ tajuk: b.tajuk, accession: b.accession || '' });
+                matches.push({ tajuk: b.tajuk, accession: b.accession || '', jenis: b.jenis || 'Buku' });
             }
         }
     });
@@ -2724,7 +2895,7 @@ window.searchTajukBuku = function(query) {
             let tLow = d.tajuk.trim().toLowerCase();
             if (!seenTitles.has(tLow)) {
                 seenTitles.add(tLow);
-                matches.push({ tajuk: d.tajuk, accession: d.accession || '' });
+                matches.push({ tajuk: d.tajuk, accession: d.accession || '', jenis: d.jenis || 'Buku' });
             }
         }
     });
@@ -2735,23 +2906,32 @@ window.searchTajukBuku = function(query) {
         let html = '';
         matches.slice(0, 15).forEach(m => {
             let safeTajuk = m.tajuk.replace(/'/g, "\\'");
+            let safeJenis = m.jenis.replace(/'/g, "\\'");
             let accText = m.accession ? `<span style="font-family:monospace; color:var(--primary); font-size:0.75rem; margin-left:6px; background:var(--primary-light); padding:2px 4px; border-radius:4px; border:1px solid rgba(0,102,204,0.2);">ACC: ${m.accession}</span>` : '';
-            html += `<div style="padding:10px 12px; cursor:pointer; border-bottom:1px solid var(--border); font-size:0.85rem;" onclick="window.selectTajukBuku('${safeTajuk}', '${m.accession}')" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'"><strong>${m.tajuk}</strong> ${accText}</div>`;
+            html += `<div style="padding:10px 12px; cursor:pointer; border-bottom:1px solid var(--border); font-size:0.85rem;" onclick="window.selectTajukBuku('${safeTajuk}', '${m.accession}', '${safeJenis}')" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'"><strong>${m.tajuk}</strong> ${accText}</div>`;
         });
         suggDiv.innerHTML = html;
     }
     suggDiv.style.display = 'block';
 };
 
-window.selectTajukBuku = function(tajuk, accession) {
+window.selectTajukBuku = function(tajuk, accession, jenis) {
     const inputTajuk = document.getElementById('f_tajuk');
     const inputAcc = document.getElementById('f_accession');
+    const inputJenis = document.getElementById('f_jenis');
+    
     if (inputTajuk) inputTajuk.value = tajuk;
     
-    // Auto-isi No Accession jika ia wujud dan ruang input acc kosong
-    if (inputAcc && accession && accession.trim() !== '' && !inputAcc.value) {
+    // Auto-isi Kategori (Jenis Bahan)
+    if (inputJenis && jenis) {
+        const opts = Array.from(inputJenis.options).map(o => o.value);
+        if (opts.includes(jenis)) inputJenis.value = jenis;
+    }
+    
+    // Auto-isi No Accession jika ia wujud
+    if (inputAcc && accession && accession.trim() !== '') {
         inputAcc.value = accession;
-        window.autofillBuku(); // Trigger auto-fill sedia ada untuk kemaskini kategori (jika perlu)
+        window.autofillBuku(); // Trigger auto-fill sedia ada untuk pastikan silang semak kekal tepat
     }
     
     const suggDiv = document.getElementById('f_tajuk_suggestions');
@@ -3089,7 +3269,7 @@ window.openFineModal = function() {
         
         <td style="border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-right: 1px dashed #cbd5e1; vertical-align: middle; padding: 16px;">
             <div style="font-weight: 700; font-size: 0.85rem; color: #334155; line-height: 1.3;">${item.tajuk}</div>
-            <div style="font-size: 0.75rem; color: #64748b; font-weight:600; margin-top:4px;">Kategori: <span style="color:#334155;">${item.jenis || '-'}</span></div>
+            <div style="font-size: 0.75rem; color: #64748b; font-weight:600; margin-top:4px;">Kategori: <span style="color:#334155;">${item.jenis === 'Majalah' ? 'Akhbar' : (item.jenis === 'Akhbar' ? 'Majalah' : (item.jenis || '-'))}</span></div>
         </td>
         
         <td style="border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-right: 1px dashed #cbd5e1; vertical-align: middle; padding: 16px; text-align:center;">
@@ -3234,7 +3414,9 @@ window.updateDailyWidget = function(dateStr) {
         actType: actType,
         actColor: actColor,
         actBg: actBg,
-        icon: icon
+        icon: icon,
+        sistemIlmuStatus: item.sistemIlmuStatus || (item.isMarked ? 'caj' : 'belum'),
+        accession: item.accession || ''
     });
   });
 
@@ -3261,13 +3443,29 @@ window.updateDailyWidget = function(dateStr) {
         const clickAction = window.userRole === 'admin' ? `onclick="event.stopPropagation(); window.prepareEdit('${act.id}')"` : '';
         const cursorStyle = window.userRole === 'admin' ? 'cursor:pointer;' : '';
         
+        let hasAcc = act.accession && act.accession.trim() !== '';
+        let ilmuStatus = act.sistemIlmuStatus;
+        let ilmuIcon = '';
+        
+        if (hasAcc) {
+            if (ilmuStatus === 'discaj') {
+                ilmuIcon = `<div title="Sistem Ilmu: Discaj" style="width:14px; height:14px; border-radius:50%; background:var(--success); border:1.5px solid #24b23a; flex-shrink:0; margin-top:3px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></div>`;
+            } else if (ilmuStatus === 'caj') {
+                ilmuIcon = `<div title="Sistem Ilmu: Caj Sistem" style="width:14px; height:14px; border-radius:50%; background:#d97706; border:1.5px solid #b45309; flex-shrink:0; margin-top:3px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></div>`;
+            } else {
+                ilmuIcon = `<div title="Sistem Ilmu: Belum Rekod" style="width:14px; height:14px; border-radius:50%; background:#9ca3af; border:1.5px solid #6b7280; flex-shrink:0; margin-top:3px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></div>`;
+            }
+        } else {
+            ilmuIcon = `<div title="Tiada No. Accession" style="width:14px; height:14px; border-radius:50%; background:#fff; border:1.5px solid #cbd5e1; flex-shrink:0; margin-top:3px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);"></div>`;
+        }
+
         actsHtml += `<div style="${cursorStyle}; background:var(--surface-solid); border:1px solid var(--border-input); border-radius:8px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center; gap:12px; transition:all 0.2s ease; box-shadow:0 1px 2px rgba(0,0,0,0.02);" onmouseover="this.style.borderColor='var(--primary-ring)'; this.style.transform='translateX(4px)';" onmouseout="this.style.borderColor='var(--border-input)'; this.style.transform='translateX(0)';" ${clickAction} title="Klik untuk lihat butiran">
             <div style="flex:1; min-width:0;">
                 <div style="color:var(--text-main); font-size:0.95rem; margin-bottom:4px; display:flex; align-items:flex-start; gap:8px; line-height:1.3;">
-                    <span style="color:var(--text-muted); font-size:1.1rem; line-height:1;">📄</span>
+                    ${ilmuIcon}
                     <span style="white-space:normal; font-weight:600;">${act.tajuk}</span>
                 </div>
-                <div style="font-size:0.85rem; color:var(--text-muted); padding-left:26px;">Tarikh Semasa: <strong style="color:var(--text-main);">${window.formatDate(dateStr)}</strong></div>
+                <div style="font-size:0.85rem; color:var(--text-muted); padding-left:36px;">Tarikh Semasa: <strong style="color:var(--text-main);">${window.formatDate(dateStr)}</strong></div>
             </div>
             <div style="display:flex; align-items:center; gap:4px; font-size:0.65rem; font-weight:700; color:${act.actColor}; background:${act.actBg}; padding:4px 10px; border-radius:12px; border: 1px solid ${act.actColor}40; white-space:nowrap; flex-shrink:0; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
                 ${act.icon} ${act.actType}
@@ -3427,12 +3625,28 @@ window.visitorLogin = function() {
   window.setupTabsForRole(); window.switchTab('ulasan');
 };
 
-window.openAdminLoginModal = function() { const m = document.getElementById('adminLoginModal'); if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } };
+window.openAdminLoginModal = function() { 
+  const btn = document.getElementById('btnAdminLoginModal');
+  if (btn) {
+      btn.style.background = 'var(--primary)';
+      btn.style.borderColor = 'rgba(0,0,0,0.1)';
+      btn.title = "";
+  }
+  const m = document.getElementById('adminLoginModal'); 
+  if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); } 
+};
+
 window.closeAdminLoginModal = function() { const m = document.getElementById('adminLoginModal'); if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } };
 
 window.attemptLogin = function() {
   const pInput = document.getElementById('password'); const p = pInput ? pInput.value : '';
-  if (p === 'pustakaMtib' || p === 'K0778') { 
+  const currentAdminPwd = (window.appSettings && window.appSettings.adminPassword) ? window.appSettings.adminPassword : null;
+  
+  if (!currentAdminPwd) {
+      return window.showCustomAlert("Ralat Sistem: Kata laluan pentadbir belum ditetapkan di dalam Pangkalan Data. Sila hubungi Super Admin.");
+  }
+
+  if (p === currentAdminPwd) { 
     window.userRole = 'admin';
     const lView = document.getElementById('loginView'); if (lView) lView.style.display = 'none';
     const aModal = document.getElementById('adminLoginModal'); if (aModal) aModal.style.display = 'none';
@@ -3441,6 +3655,22 @@ window.attemptLogin = function() {
     if (typeof window.updateUnreadBadges === 'function') window.updateUnreadBadges();
     if (pInput) pInput.value = '';
   } else { window.showCustomAlert("Kata Laluan pentadbir salah."); }
+};
+
+window.toggleAdminPassword = function() {
+    const pwdInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('adminPwdEye');
+    if (pwdInput && eyeIcon) {
+        if (pwdInput.type === 'password') {
+            pwdInput.type = 'text';
+            eyeIcon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+            eyeIcon.style.color = 'var(--primary)';
+        } else {
+            pwdInput.type = 'password';
+            eyeIcon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+            eyeIcon.style.color = 'var(--text-muted)';
+        }
+    }
 };
 
 window.quickAdminLogin = function() {
@@ -3462,13 +3692,16 @@ window.setupTabsForRole = function() {
   safeSetDisplay('btn-kelab', isAdmin ? 'inline-block' : 'none');
   safeSetDisplay('btn-scoreboard', (isAdmin || isVisitor || isUser) ? 'inline-block' : 'none');
   safeSetDisplay('btn-ulasan', (isAdmin || isVisitor || isUser) ? 'inline-block' : 'none');
-  safeSetDisplay('btn-peraturan', 'inline-block');
-  safeSetDisplay('btn-edit-peraturan-tab', isAdmin ? 'inline-flex' : 'none');
+  safeSetDisplay('btn-informasi', 'inline-block');
   safeSetDisplay('btn-tetapan-header', isAdmin ? 'inline-flex' : 'none');
   safeSetDisplay('action-wrapper-buku', isAdmin ? 'flex' : 'none');
   safeSetDisplay('action-wrapper-senarai', isAdmin ? 'flex' : 'none');
   safeSetDisplay('action-wrapper-senarai-user', isUser ? 'flex' : 'none');
   safeSetDisplay('buku-th-tindakan', 'table-cell');
+  
+  safeSetDisplay('tab-buku-lama-btn', isAdmin ? 'inline-block' : 'none');
+  safeSetDisplay('tab-majalah-btn', isAdmin ? 'inline-block' : 'none');
+  safeSetDisplay('tab-akhbar-btn', isAdmin ? 'inline-block' : 'none');
   
   const filterChips = document.querySelector('.filter-chips'); if (filterChips) filterChips.style.display = isAdmin ? 'flex' : 'none';
   const thTindakanSenarai = document.getElementById('senarai-th-tindakan'); 
@@ -3477,7 +3710,7 @@ window.setupTabsForRole = function() {
       thTindakanSenarai.innerText = isAdmin ? 'Status & Tindakan' : 'Status & Ulasan'; 
   }
   window.refreshAllViews();
-  if (typeof window.checkPeraturanNotification === 'function') window.checkPeraturanNotification();
+  if (typeof window.checkInformasiNotification === 'function') window.checkInformasiNotification();
 };
 
 window.switchTab = function(tabId) {
@@ -3497,7 +3730,10 @@ window.switchTab = function(tabId) {
   }
   if (tabId === 'buku' && typeof window.renderBukuTable === 'function') window.renderBukuTable();
   if (tabId === 'kelab' && typeof window.renderKelabTable === 'function') window.renderKelabTable();
-  if (tabId === 'peraturan' && typeof window.markPeraturanAsRead === 'function') window.markPeraturanAsRead();
+  if (tabId === 'informasi') {
+      if (typeof window.renderInformasiTab === 'function') window.renderInformasiTab();
+      if (typeof window.markInformasiAsRead === 'function') window.markInformasiAsRead();
+  }
   if (tabId === 'tetapan' && typeof window.renderCharts === 'function') setTimeout(() => window.renderCharts(), 150);
 };
 
@@ -3584,12 +3820,29 @@ window.renderAktifTable = function() {
             const clickAction = window.userRole === 'admin' ? `onclick="window.prepareEdit('${item.id}')"` : '';
             const cursorStyle = window.userRole === 'admin' ? 'cursor:pointer;' : '';
 
+            let hasAcc = item.accession && item.accession.trim() !== '';
+            let ilmuStatus = item.sistemIlmuStatus || (item.isMarked ? 'caj' : 'belum');
+            let ilmuIcon = '';
+            
+            if (hasAcc) {
+                if (ilmuStatus === 'discaj') {
+                    ilmuIcon = `<div title="Sistem Ilmu: Discaj" style="width:14px; height:14px; border-radius:50%; background:var(--success); border:1.5px solid #24b23a; flex-shrink:0; box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></div>`;
+                } else if (ilmuStatus === 'caj') {
+                    ilmuIcon = `<div title="Sistem Ilmu: Caj Sistem" style="width:14px; height:14px; border-radius:50%; background:#d97706; border:1.5px solid #b45309; flex-shrink:0; box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></div>`;
+                } else {
+                    ilmuIcon = `<div title="Sistem Ilmu: Belum Rekod" style="width:14px; height:14px; border-radius:50%; background:#9ca3af; border:1.5px solid #6b7280; flex-shrink:0; box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></div>`;
+                }
+            } else {
+                ilmuIcon = `<div title="Tiada No. Accession" style="width:14px; height:14px; border-radius:50%; background:#fff; border:1.5px solid #cbd5e1; flex-shrink:0; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);"></div>`;
+            }
+
             // Layout mengikut lampiran gambar "image_fd16e3.png"
             itemsHtml += `
             <div style="${cursorStyle} background:var(--surface-solid); border:1px solid var(--border-input); padding:12px 16px; border-radius:12px; margin-top:8px; display:flex; justify-content:space-between; align-items:center; gap:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--primary-ring)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.borderColor='var(--border-input)'; this.style.transform='translateY(0)';" ${clickAction}>
                 <div style="flex:1; min-width:0;">
-                    <div style="font-weight:700; color:var(--text-main); font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                        ${item.tajuk}
+                    <div style="font-weight:700; color:var(--text-main); font-size:0.95rem; display:flex; align-items:center; gap:8px;">
+                        ${ilmuIcon}
+                        <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1;">${item.tajuk}</span>
                     </div>
                 </div>
                 <!-- Bekas Bergaris Putus-Putus (Dashed Border) Biru di Sebelah Kanan -->
@@ -4129,7 +4382,26 @@ window.renderMyReviews = function() {
       </div>`;
   }
 
-  container.innerHTML = navHtml + html;
+  let viewAllBtn = `<div style="text-align:center; margin-top:6px;"><span style="cursor:pointer; font-size:0.8rem; color:var(--primary); font-style:italic;" onclick="window.viewAllMyReviews()" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">( semua ulasan saya )</span></div>`;
+
+  container.innerHTML = navHtml + html + viewAllBtn;
+};
+
+window.viewAllMyReviews = function() {
+    if (!window.currentUserKey) return;
+    const userInfo = window.kelabMapData[window.currentUserKey] || window.dbUsers[window.currentUserKey] || {};
+    const myName = userInfo.nama || '';
+    if (myName) {
+        window.switchTab('ulasan');
+        const searchInput = document.getElementById('searchUlasanName');
+        if (searchInput) {
+            searchInput.value = myName;
+        }
+        window.ulasanCurrentPage = 1;
+        if (typeof window.renderUlasanTable === 'function') {
+            window.renderUlasanTable();
+        }
+    }
 };
 
 window.openMyProfileModal = function() {
@@ -4380,88 +4652,231 @@ window.printPointsReport = function() {
 
 window.closePointsModal = function() { const m = document.getElementById('pointsModal'); if(m){ m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } };
 
-window.savedPeraturanRange = null;
+window.appSettings.infoPosts = window.appSettings.infoPosts || [];
 
-window.savePeraturanSelection = function() {
+// Migrasi peraturan sedia ada ke dalam sistem blog baru
+setTimeout(() => {
+    if (window.appSettings.infoPosts && window.appSettings.infoPosts.length === 0 && window.appSettings.peraturanMata) {
+        window.appSettings.infoPosts.push({
+            id: 'post_' + Date.now(),
+            title: 'PERATURAN MATA',
+            content: window.appSettings.peraturanMata,
+            date: new Date().toISOString(),
+            isPinned: true,
+            timestamp: Date.now()
+        });
+    }
+}, 2000);
+
+window.savedInfoRange = null;
+window.saveInfoSelection = function() {
     const sel = window.getSelection();
     if (sel.rangeCount > 0) {
         const range = sel.getRangeAt(0);
-        const editor = document.getElementById('p_peraturan_editor');
-        if (editor.contains(range.commonAncestorContainer)) {
-            window.savedPeraturanRange = range;
-        }
+        const editor = document.getElementById('i_editor');
+        if (editor.contains(range.commonAncestorContainer)) { window.savedInfoRange = range; }
     }
 };
-
-window.restorePeraturanSelection = function() {
-    if (window.savedPeraturanRange) {
+window.restoreInfoSelection = function() {
+    if (window.savedInfoRange) {
         const sel = window.getSelection();
         sel.removeAllRanges();
-        sel.addRange(window.savedPeraturanRange);
+        sel.addRange(window.savedInfoRange);
     }
 };
-
-window.formatRule = function(command, value = null) {
-    document.getElementById('p_peraturan_editor').focus();
-    if (command === 'foreColor') {
-        window.restorePeraturanSelection();
-    }
+window.formatInfo = function(command, value = null) {
+    document.getElementById('i_editor').focus();
+    if (command === 'foreColor') window.restoreInfoSelection();
     document.execCommand(command, false, value);
-    window.savePeraturanSelection();
+    window.saveInfoSelection();
 };
-
-window.insertImagePeraturan = function() {
-    window.savePeraturanSelection(); // Simpan seleksi sebelum buka popup
-    window.showCustomPrompt("Sila masukkan pautan (URL) gambar dari internet:", function(url) {
+window.insertImageInfo = function() {
+    window.saveInfoSelection();
+    window.showCustomPrompt("Sila masukkan pautan (URL) gambar:", function(url) {
         if (url && url.trim() !== "" && url !== "https://") {
-            document.getElementById('p_peraturan_editor').focus();
-            window.restorePeraturanSelection(); // Panggil semula lokasi kursor
+            document.getElementById('i_editor').focus();
+            window.restoreInfoSelection();
             const imgHtml = `<img src="${url}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 8px 0; display: block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">`;
             document.execCommand('insertHTML', false, imgHtml);
-            window.savePeraturanSelection();
+            window.saveInfoSelection();
         }
     }, "🖼️ Masukkan Gambar", "https://");
 };
-
-window.insertLinkPeraturan = function() {
-    window.savePeraturanSelection();
+window.insertLinkInfo = function() {
+    window.saveInfoSelection();
     window.showCustomPrompt("Sila masukkan pautan (URL) laman web:", function(url) {
         if (url && url.trim() !== "" && url !== "https://") {
-            document.getElementById('p_peraturan_editor').focus();
-            window.restorePeraturanSelection();
-            
+            document.getElementById('i_editor').focus();
+            window.restoreInfoSelection();
             const sel = window.getSelection();
-            // Jika ada teks yang ditanda (highlight)
-            if (sel.rangeCount > 0 && sel.toString().trim().length > 0) {
-                document.execCommand('createLink', false, url);
-            } else {
-                // Jika tiada teks ditanda, masukkan URL tersebut sebagai teks
-                const linkHtml = `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-                document.execCommand('insertHTML', false, linkHtml);
-            }
-            
-            // Pengayaan CSS & tetapan target="_blank" untuk pautan baharu
-            const editor = document.getElementById('p_peraturan_editor');
-            const links = editor.getElementsByTagName('a');
+            if (sel.rangeCount > 0 && sel.toString().trim().length > 0) { document.execCommand('createLink', false, url); } 
+            else { document.execCommand('insertHTML', false, `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`); }
+            const links = document.getElementById('i_editor').getElementsByTagName('a');
             for (let i = 0; i < links.length; i++) {
-                links[i].setAttribute('target', '_blank');
-                links[i].setAttribute('rel', 'noopener noreferrer');
-                links[i].style.color = 'var(--primary)';
-                links[i].style.textDecoration = 'underline';
+                links[i].setAttribute('target', '_blank'); links[i].setAttribute('rel', 'noopener noreferrer');
+                links[i].style.color = 'var(--primary)'; links[i].style.textDecoration = 'underline';
             }
-            
-            window.savePeraturanSelection();
+            window.saveInfoSelection();
         }
     }, "🔗 Masukkan Pautan", "https://");
 };
 
-window.togglePeraturanEmojiPicker = function(e) {
+window.bukaBorangInfo = function(id = null) {
+    if (window.userRole !== 'admin') return;
+    const modal = document.getElementById('informasiModal');
+    const btnSiar = document.getElementById('btnSiarInfo');
+    const btnPadam = document.getElementById('btnPadamInfoModal');
+
+    if (id) {
+        let post = window.appSettings.infoPosts.find(p => p.id === id);
+        if (post) {
+            document.getElementById('infoFormTitle').innerText = '✏️ EDIT POS';
+            document.getElementById('infoPostId').value = post.id;
+            document.getElementById('infoTitle').value = post.title;
+            document.getElementById('infoIsPinned').checked = post.isPinned;
+            document.getElementById('i_editor').innerHTML = post.content;
+            
+            // Masukkan tarikh asal pos
+            let d = new Date(post.date);
+            if (!isNaN(d.getTime())) {
+                document.getElementById('infoDate').value = d.toISOString().split('T')[0];
+            } else {
+                document.getElementById('infoDate').value = new Date().toISOString().split('T')[0];
+            }
+
+            if (btnSiar) btnSiar.innerHTML = '💾 Simpan pindaan';
+            if (btnPadam) btnPadam.style.display = 'inline-flex';
+        }
+    } else {
+        document.getElementById('infoFormTitle').innerText = '📝 CIPTA POS BARU';
+        document.getElementById('infoPostId').value = '';
+        document.getElementById('infoTitle').value = '';
+        document.getElementById('infoIsPinned').checked = false;
+        document.getElementById('i_editor').innerHTML = '';
+        document.getElementById('infoDate').value = new Date().toISOString().split('T')[0];
+
+        if (btnSiar) btnSiar.innerHTML = '🚀 Hantar';
+        if (btnPadam) btnPadam.style.display = 'none';
+    }
+    if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
+};
+
+window.tutupBorangInfo = function() {
+    const modal = document.getElementById('informasiModal');
+    if (modal) { modal.classList.remove('open'); setTimeout(() => modal.style.display = 'none', 200); }
+};
+
+window.simpanInfoPost = async function() {
+    if (window.userRole !== 'admin') return;
+    let id = document.getElementById('infoPostId').value;
+    let title = document.getElementById('infoTitle').value.trim();
+    let isPinned = document.getElementById('infoIsPinned').checked;
+    let content = document.getElementById('i_editor').innerHTML;
+    let inputDate = document.getElementById('infoDate').value;
+
+    if (!title) return window.showCustomAlert('Sila masukkan tajuk pos.');
+
+    let finalDate = new Date().toISOString();
+    if (inputDate) {
+        let d = new Date(inputDate);
+        if (!isNaN(d.getTime())) {
+            finalDate = d.toISOString();
+        }
+    }
+
+    let posts = window.appSettings.infoPosts || [];
+    if (id) {
+        let idx = posts.findIndex(p => p.id === id);
+        if (idx !== -1) {
+            posts[idx].title = title;
+            posts[idx].content = content;
+            posts[idx].isPinned = isPinned;
+            posts[idx].timestamp = Date.now();
+            posts[idx].date = finalDate; // Pinda tarikh kepada yang dipilih
+        }
+    } else {
+        posts.push({
+            id: 'post_' + Date.now(),
+            title: title.toUpperCase(),
+            content: content,
+            date: finalDate, // Tarikh pilihan admin
+            isPinned: isPinned,
+            timestamp: Date.now()
+        });
+    }
+    
+    if (!window.appSettings) window.appSettings = {};
+    window.appSettings.infoPosts = posts;
+    window.appSettings.informasiLastUpdated = Date.now();
+    
+    window.tutupBorangInfo();
+    window.renderInformasiTab();
+
+    const loader = document.getElementById('loadingBar');
+    if(loader) loader.style.display = 'block';
+
+    if (window.dbInstance) {
+        try {
+            await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true });
+            window.showCustomAlert(id ? 'Pindaan pos berjaya disimpan!' : 'Pos baru berjaya dihantar!');
+        } catch (e) {
+            console.warn(e);
+            window.showCustomAlert('Luar Talian: Pos disimpan secara tempatan.');
+        }
+    } else {
+        window.showCustomAlert('Mod Luar Talian: Pos disimpan secara tempatan.');
+    }
+
+    if(loader) loader.style.display = 'none';
+};
+
+window.padamInfoPost = function(id) {
+    if (window.userRole !== 'admin') return;
+    window.showCustomConfirm('Anda pasti mahu memadam pos ini?', async () => {
+        window.appSettings.infoPosts = window.appSettings.infoPosts.filter(p => p.id !== id);
+        window.appSettings.informasiLastUpdated = Date.now();
+        
+        window.renderInformasiTab();
+
+        const loader = document.getElementById('loadingBar');
+        if(loader) loader.style.display = 'block';
+
+        if (window.dbInstance) {
+            try { 
+                await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true }); 
+            } catch(e) { console.warn(e); }
+        }
+        if(loader) loader.style.display = 'none';
+    });
+};
+
+window.padamInfoPostDalamModal = function() {
+    let id = document.getElementById('infoPostId').value;
+    if (!id) return;
+    window.showCustomConfirm('Anda pasti mahu memadam pos ini secara kekal?', async () => {
+        window.appSettings.infoPosts = window.appSettings.infoPosts.filter(p => p.id !== id);
+        window.appSettings.informasiLastUpdated = Date.now();
+        
+        window.renderInformasiTab();
+        window.tutupBorangInfo();
+
+        const loader = document.getElementById('loadingBar');
+        if(loader) loader.style.display = 'block';
+
+        if (window.dbInstance) {
+            try { await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true }); } 
+            catch(e) { console.warn(e); }
+        }
+        if(loader) loader.style.display = 'none';
+    });
+};
+
+window.toggleInfoEmojiPicker = function(e) {
     if (e) e.preventDefault();
-    const picker = document.getElementById('p_emoji_picker');
+    const picker = document.getElementById('i_emoji_picker');
     if (picker.style.display === 'none' || picker.style.display === '') {
         picker.style.display = 'grid';
         if (picker.innerHTML.trim() === '') {
-            // 60 Emotikon: Reaksi, Dokumen, Pejabat, Alat Tulis & Hadiah
             const emojis = [
                 '👍','❤️','😂','👏','💡','📄','📂','📋','📊','📑',
                 '📝','📖','🏢','💼','💻','🖨️','🗓️','⏰','📌','✉️',
@@ -4472,7 +4887,7 @@ window.togglePeraturanEmojiPicker = function(e) {
             ];
             let html = '';
             emojis.forEach(em => {
-                html += `<span style="cursor:pointer; font-size:1.2rem; text-align:center; padding:4px; border-radius:4px; transition:0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.insertEmojiPeraturan('${em}')">${em}</span>`;
+                html += `<span style="cursor:pointer; font-size:1.2rem; text-align:center; padding:4px; border-radius:4px; transition:0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'" onmousedown="event.preventDefault(); window.insertEmojiInfo('${em}')">${em}</span>`;
             });
             picker.innerHTML = html;
         }
@@ -4481,17 +4896,16 @@ window.togglePeraturanEmojiPicker = function(e) {
     }
 };
 
-window.insertEmojiPeraturan = function(emoji) {
-    document.getElementById('p_peraturan_editor').focus();
-    window.restorePeraturanSelection(); // Pastikan kursor kekal di kedudukan asal
+window.insertEmojiInfo = function(emoji) {
+    document.getElementById('i_editor').focus();
+    window.restoreInfoSelection(); 
     document.execCommand('insertText', false, emoji);
-    window.savePeraturanSelection();
-    document.getElementById('p_emoji_picker').style.display = 'none';
+    window.saveInfoSelection();
+    document.getElementById('i_emoji_picker').style.display = 'none';
 };
 
-// Tutup picker emoji jika klik di luar
 document.addEventListener('mousedown', function(e) {
-    const picker = document.getElementById('p_emoji_picker');
+    const picker = document.getElementById('i_emoji_picker');
     if (picker && picker.style.display === 'grid') {
         if (!picker.contains(e.target) && !e.target.closest('button[title="Masukkan Emotikon"]')) {
             picker.style.display = 'none';
@@ -4499,72 +4913,103 @@ document.addEventListener('mousedown', function(e) {
     }
 });
 
-window.openPeraturanModal = function() {
-  const modal = document.getElementById('peraturanModal');
-  const editor = document.getElementById('p_peraturan_editor');
-  const btnSave = document.getElementById('btn-save-peraturan');
-  const info = document.getElementById('p_peraturan_info');
-  const toolbar = document.getElementById('p_toolbar');
-  
-  const defaultRules = "<ul><li>Peminjaman Bahan/Buku: +10 Mata</li><li>Ulasan & Review: +2 Mata</li><li>Markah Bonus Ulasan Berkualiti: (Bergantung budi bicara Pustakawan)</li><li>Bacaan Harian: +10 Mata (Buku dibaca di perpustakaan sahaja)</li></ul>";
-  editor.innerHTML = (window.appSettings && window.appSettings.peraturanMata) ? window.appSettings.peraturanMata : defaultRules;
-
-  if (window.userRole === 'admin') {
-      editor.setAttribute('contenteditable', 'true');
-      editor.style.backgroundColor = "rgba(255,255,255,0.4)";
-      editor.style.border = "1px dashed rgba(0,0,0,0.2)";
-      toolbar.style.display = 'flex';
-      btnSave.style.display = 'inline-flex';
-      info.innerText = "Mod Suntingan (Admin)";
-  } else {
-      editor.setAttribute('contenteditable', 'false');
-      editor.style.backgroundColor = "transparent";
-      editor.style.border = "none";
-      toolbar.style.display = 'none';
-      btnSave.style.display = 'none';
-      info.innerText = "";
-  }
-  
-  if (modal) { modal.style.display = 'flex'; setTimeout(() => modal.classList.add('open'), 10); }
+window.togglePostExpand = function(id) {
+    const contentDiv = document.getElementById('post-content-' + id);
+    const iconBtn = document.getElementById('post-icon-' + id);
+    if (contentDiv.style.display === 'none') {
+        contentDiv.style.display = 'block';
+        if(iconBtn) iconBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+    } else {
+        contentDiv.style.display = 'none';
+        if(iconBtn) iconBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    }
 };
 
-window.closePeraturanModal = function() {
-  const modal = document.getElementById('peraturanModal');
-  if (modal) { modal.classList.remove('open'); setTimeout(() => modal.style.display = 'none', 200); }
-};
+window.renderInformasiTab = function() {
+    const btnTambah = document.getElementById('btnTambahInfo');
+    if (btnTambah) {
+        btnTambah.style.display = window.userRole === 'admin' ? 'inline-flex' : 'none';
+    }
 
-window.savePeraturanMata = async function() {
-  if (window.userRole !== 'admin') return;
-  const editor = document.getElementById('p_peraturan_editor');
-  
-  if (!window.appSettings) window.appSettings = {};
-  window.appSettings.peraturanMata = editor.innerHTML;
-  window.appSettings.peraturanLastUpdated = Date.now();
-  
-  // Catat waktu dibaca secara spesifik untuk admin sahaja, pengguna lain tak terjejas
-  localStorage.setItem(window.getPeraturanStorageKey(), window.appSettings.peraturanLastUpdated);
-  
-  const btnSave = document.getElementById('btn-save-peraturan');
-  const originalText = btnSave.innerText;
-  btnSave.innerText = "Menyimpan...";
-  
-  if (window.dbInstance) {
-      try {
-          await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true });
-          window.showCustomAlert("Peraturan Mata berjaya dikemaskini.");
-      } catch (e) {
-          console.warn(e);
-          window.showCustomAlert("Luar Talian: Peraturan disimpan secara tempatan.");
-      }
-  } else {
-      window.showCustomAlert("Mod Luar Talian: Peraturan disimpan secara tempatan.");
-  }
-  
-  const tabContent = document.getElementById('tab_peraturan_content');
-  if (tabContent) tabContent.innerHTML = editor.innerHTML;
-  
-  btnSave.innerText = originalText;
-  window.closePeraturanModal();
+    const container = document.getElementById('infoPostsContainer');
+    if (!container) return;
+
+    let posts = JSON.parse(JSON.stringify(window.appSettings.infoPosts || []));
+    
+    // Asingkan Pinned dan Unpinned, Susun mengikut TARIKH TERKINI DI ATAS
+    let pinned = posts.filter(p => p.isPinned).sort((a,b) => new Date(b.date) - new Date(a.date));
+    let unpinned = posts.filter(p => !p.isPinned).sort((a,b) => new Date(b.date) - new Date(a.date));
+    
+    let html = '';
+    
+    const arrowDown = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    const arrowUp = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+    const pinIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/></svg>';
+
+    let baseShadow = "box-shadow: 0 6px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03); transition: transform 0.2s ease, box-shadow 0.2s ease;";
+    let hoverEffect = "onmouseover=\"this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.05)';\" onmouseout=\"this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03)';\"";
+
+    // Render Pinned Posts (Tutup secara lalai)
+    pinned.forEach(post => {
+        let dateStr = window.formatDate(post.date.split('T')[0]);
+        let adminControls = window.userRole === 'admin' ? `<div style="padding:10px 16px; border-top:1px dashed #e2b99a; text-align:right;"><span style="cursor:pointer; color:#b45309; font-weight:700; margin-right:12px; font-size:0.85rem;" onclick="event.stopPropagation(); window.bukaBorangInfo('${post.id}')">✏️ Pinda</span> <span style="cursor:pointer; color:var(--danger); font-weight:700; font-size:0.85rem;" onclick="event.stopPropagation(); window.padamInfoPost('${post.id}')">🗑️ Padam</span></div>` : '';
+        
+        html += `
+        <div style="background:#fffbeb; border:2px solid #fcd34d; border-radius:12px; overflow:hidden; position:relative; ${baseShadow}" ${hoverEffect}>
+            <div style="text-align:center; padding:6px; font-size:0.75rem; font-weight:800; color:#b45309; border-bottom:1px solid #fde68a; background:rgba(253, 230, 138, 0.4); text-transform:uppercase;">${dateStr}</div>
+            <div style="position:absolute; top:6px; right:12px; color:#b45309;" title="Pin Post">${pinIcon}</div>
+            
+            <div style="padding:16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="window.togglePostExpand('${post.id}')">
+                <strong style="font-size:1.1rem; color:#92400e; text-transform:uppercase;">${post.title}</strong>
+                <span id="post-icon-${post.id}" style="color:#b45309; display:flex; align-items:center; justify-content:center;">${arrowDown}</span>
+            </div>
+            
+            <div id="post-content-${post.id}" style="display:none; padding:0 16px 16px 16px;">
+                <div style="background:#fff; border:1px solid #fde68a; border-radius:8px; padding:16px; color:var(--text-main); font-size:0.95rem; line-height:1.6; box-shadow:inset 0 1px 3px rgba(0,0,0,0.02);">
+                    ${post.content}
+                </div>
+            </div>
+            ${adminControls}
+        </div>`;
+    });
+
+    // Render Unpinned Posts
+    unpinned.forEach((post, index) => {
+        let isBaru = (index === 0); // Post pertama dikira 'Baru'
+        let dateStr = window.formatDate(post.date.split('T')[0]);
+        
+        // Tema Warna
+        let bgStyle = isBaru ? 'background:#f0f9ff; border:2px solid #bae6fd;' : 'background:#f8fafc; border:2px solid #e2e8f0;';
+        let headerBg = isBaru ? 'background:#e0f2fe; color:#0369a1; border-bottom:1px solid #bae6fd;' : 'background:#f1f5f9; color:#64748b; border-bottom:1px solid #e2e8f0;';
+        let titleColor = isBaru ? 'color:#0c4a6e;' : 'color:#475569;';
+        let displayState = isBaru ? 'block' : 'none';
+        let iconState = isBaru ? arrowUp : arrowDown;
+        
+        let adminControls = window.userRole === 'admin' ? `<div style="padding:10px 16px; border-top:1px dashed ${isBaru ? '#bae6fd' : '#e2e8f0'}; text-align:right;"><span style="cursor:pointer; color:var(--primary); font-weight:700; margin-right:12px; font-size:0.85rem;" onclick="event.stopPropagation(); window.bukaBorangInfo('${post.id}')">✏️ Pinda</span> <span style="cursor:pointer; color:var(--danger); font-weight:700; font-size:0.85rem;" onclick="event.stopPropagation(); window.padamInfoPost('${post.id}')">🗑️ Padam</span></div>` : '';
+
+        html += `
+        <div style="${bgStyle} border-radius:12px; overflow:hidden; position:relative; ${baseShadow}" ${hoverEffect}>
+            <div style="${headerBg} text-align:center; padding:6px; font-size:0.75rem; font-weight:800; text-transform:uppercase;">${dateStr}</div>
+            
+            <div style="padding:16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="window.togglePostExpand('${post.id}')">
+                <strong style="${titleColor} font-size:1.1rem; text-transform:uppercase;">${post.title}</strong>
+                <span id="post-icon-${post.id}" style="color:var(--text-muted); display:flex; align-items:center; justify-content:center;">${iconState}</span>
+            </div>
+            
+            <div id="post-content-${post.id}" style="display:${displayState}; padding:0 16px 16px 16px;">
+                <div style="background:#fff; border:1px solid rgba(0,0,0,0.05); border-radius:8px; padding:16px; color:var(--text-main); font-size:0.95rem; line-height:1.6; box-shadow:inset 0 1px 3px rgba(0,0,0,0.02);">
+                    ${post.content}
+                </div>
+            </div>
+            ${adminControls}
+        </div>`;
+    });
+    
+    if (posts.length === 0) {
+        html = `<div style="text-align:center; padding:40px; color:var(--text-muted); font-size:0.9rem;">Tiada informasi atau pengumuman setakat ini.</div>`;
+    }
+
+    container.innerHTML = html;
 };
 
 window.removePoints = async function(jenis, id, userKey) {
@@ -4766,7 +5211,8 @@ window.renderHistoryTable = function() {
       else { statusTxt = `<span style="color:var(--primary); font-weight:700; font-size:0.85rem;">Sedang Baca</span>`; }
       const mataVal = parseInt(item.mata || 0); filteredMata += mataVal;
       let editBtn = isAdmin ? `<button class="btn-clear" style="font-size:0.7rem; padding:2px 6px; margin-top:4px;" onclick="window.closeHistoryModal(); window.prepareEdit('${item.id}');">✏️ Pinda</button>` : '';
-      html += `<tr style="border-bottom:1px solid var(--border);"><td style="text-align:center;">${index+1}</td><td>${window.formatDate(item.tPinjam)}</td><td><strong style="color:var(--text-main); font-size:0.95rem;">${item.tajuk}</strong></td><td><span style="background:var(--bg-body); padding:2px 6px; border-radius:4px; border:1px solid var(--border); font-size:0.75rem;">${item.jenis}</span></td><td style="text-align:center;">${statusTxt}<br>${editBtn}</td><td style="text-align:center; font-weight:bold; color:var(--warning); font-size:1.05rem;">+${mataVal}</td></tr>`;
+      let dispJenis = item.jenis === 'Majalah' ? 'Akhbar' : (item.jenis === 'Akhbar' ? 'Majalah' : (item.jenis || '-'));
+      html += `<tr style="border-bottom:1px solid var(--border);"><td style="text-align:center;">${index+1}</td><td>${window.formatDate(item.tPinjam)}</td><td><strong style="color:var(--text-main); font-size:0.95rem;">${item.tajuk}</strong></td><td><span style="background:var(--bg-body); padding:2px 6px; border-radius:4px; border:1px solid var(--border); font-size:0.75rem;">${dispJenis}</span></td><td style="text-align:center;">${statusTxt}<br>${editBtn}</td><td style="text-align:center; font-weight:bold; color:var(--warning); font-size:1.05rem;">+${mataVal}</td></tr>`;
     });
     tbody.innerHTML = html;
   }
@@ -4955,44 +5401,6 @@ window.changeSenaraiPage = function(dir) {
 };
 
 window.gotoSenaraiFiltered = function(filter) { if (window.userRole === 'visitor') return; window.switchTab('senarai'); window.setFilter(filter); };
-
-window.renderKelabTable = function() {
-  const tbody = document.getElementById('kelabTableBody'); if (!tbody) return;
-  const searchEl = document.getElementById('searchKelabInput'); const search = searchEl ? searchEl.value.toLowerCase() : '';
-  window.buildKelabData();
-  let kelabArr = Object.values(window.kelabMapData); 
-  
-  // Susun mengikut No. Pekerja (Menurun / A-Z)
-  kelabArr.sort((a, b) => {
-      const idA = (a.noPekerja || 'zzzzz').toLowerCase();
-      const idB = (b.noPekerja || 'zzzzz').toLowerCase();
-      if (idA < idB) return -1;
-      if (idA > idB) return 1;
-      return 0;
-  });
-
-  const filtered = kelabArr.filter(k => { const searchStr = (String(k.nama || '') + String(k.noPekerja || '')).toLowerCase(); return searchStr.includes(search); });
-  if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada data profil ahli kelab dijumpai.</td></tr>'; return; }
-  let html = '';
-  filtered.forEach((k, index) => {
-    let statusBadge = '';
-    if (k.latestLoan && typeof k.latestLoan.status === 'string' && k.latestLoan.status.includes('Selesai')) { statusBadge = `<span class="badge-btn badge-done">✅ Dipulangkan</span>`; } 
-    else if (k.latestLoan && k.latestLoan.status === 'Bacaan Harian') { statusBadge = `<span class="badge-btn badge-active" style="background:#FFFBEB; color:#9D5D00; border-color:#9D5D00;">📙 Bacaan Harian</span>`; } 
-    else if (k.latestLoan && k.latestLoan.status) { statusBadge = `<span class="badge-btn badge-active">🟢 Sedang Dipinjam</span>`; } 
-    else { statusBadge = `<span class="badge-btn" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border);">Tiada Pinjaman</span>`; }
-    const safeKey = window.getSafeKey(k.key);
-    let actionBtn = window.userRole === 'admin' ? `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.viewKelabProfile('${safeKey}')">✏️ Pinda Profil</button>` : `<button class="btn-3d secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="window.viewKelabProfile('${safeKey}')">📖 Lihat Profil</button>`;
-    
-    html += `<tr style="cursor:default;">
-        <td data-label="Bil" style="text-align:center; font-weight:bold; color:var(--text-muted);">${index + 1}</td>
-        <td data-label="Maklumat Ahli"><strong style="color:var(--primary); font-size:1.05rem; cursor:pointer; text-decoration:underline;" onclick="window.viewKelabHistory('${safeKey}')">${k.nama}</strong><br><span style="background:var(--bg-body); padding:2px 6px; border-radius:4px; font-size:0.75rem; border:1px solid var(--border); margin-top:4px; display:inline-block;">${k.noPekerja || '-'}</span></td>
-        <td data-label="Jabatan" style="font-size:0.95rem;">${k.bahagian || '-'}</td>
-        <td data-label="Point Aktiviti" style="text-align:center;"><div style="display:inline-flex; align-items:center; background:rgba(249, 171, 0, 0.1); border:1px solid rgba(249, 171, 0, 0.4); color:var(--warning); padding:4px 12px; border-radius:20px; font-weight:700; font-size:0.9rem;">🏆 ${k.totalMata} pt</div></td>
-        <td data-label="Status & Tindakan" style="text-align:center; vertical-align:middle;"><div style="display:flex; flex-direction:column; align-items:center; gap:6px;">${statusBadge}${actionBtn}</div></td>
-    </tr>`;
-  });
-  tbody.innerHTML = html;
-};
 
 window.updateMockupCover = function() {
     const titleEl = document.getElementById('b_tajuk');
@@ -5190,7 +5598,6 @@ window.saveBuku = async function(statusRec = 'Aktif') {
   const tajukEl = document.getElementById('b_tajuk'); const tajuk = tajukEl ? tajukEl.value : '';
   if (!tajuk) return window.showCustomAlert("Sila isi Tajuk Bahan.");
   
-  // Dapatkan Gambar Cover Sama ada dari URL atau Base64
   const coverUrl = document.getElementById('b_cover_url').value.trim();
   const coverBase64 = document.getElementById('b_cover_base64').value.trim();
   const finalCover = coverUrl || coverBase64 || '';
@@ -5199,9 +5606,43 @@ window.saveBuku = async function(statusRec = 'Aktif') {
   const data = { klasifikasi: getVal('b_klasifikasi'), kategori: getVal('b_kategori'), tarikh: getVal('b_tarikh'), tarikh_asal: getVal('b_tarikh_asal'), tajuk: tajuk, cover: finalCover, edisi: getVal('b_edisi'), bilangan: getVal('b_bilangan'), isbn: getVal('b_isbn'), accession: getVal('b_accession'), jenis: getVal('b_jenis'), bidang: getVal('b_bidang'), penerbitan: getVal('b_penerbitan'), penerima: getVal('b_penerima'), sumber: getVal('b_sumber'), status_rekod: statusRec };
   if (!docId) data.id = Date.now().toString(); else data.id = docId;
   const idx = window.dbBuku.findIndex(x => String(x.id) === String(data.id));
-  if (idx > -1) window.dbBuku[idx] = { ...window.dbBuku[idx], ...data }; else window.dbBuku.unshift(data);
-  window.renderBukuTable(); window.closeBukuModal();
-  if (window.dbInstance) { try { await window.dbInstance.collection("buku_baru").doc(data.id).set(data); } catch (e) { console.warn("Firebase save error", e); } }
+  
+  let promises = [];
+  
+  if (idx > -1) { 
+      let oldTajuk = window.dbBuku[idx].tajuk || '';
+      window.dbBuku[idx] = { ...window.dbBuku[idx], ...data }; 
+      
+      // Jika tajuk ditukar, lakukan kemaskini berantai menggunakan padanan Tajuk Lama
+      if (oldTajuk && oldTajuk.trim().toLowerCase() !== data.tajuk.trim().toLowerCase()) {
+          // 1. Kemaskini Ulasan
+          window.dbUlasan.forEach(u => {
+              if (u.tajuk && u.tajuk.trim().toLowerCase() === oldTajuk.trim().toLowerCase()) {
+                  u.tajuk = data.tajuk;
+                  if (window.dbInstance) promises.push(window.dbInstance.collection("ulasan").doc(u.id).update({ tajuk: data.tajuk }));
+              }
+          });
+          // 2. Kemaskini Rekod Pinjaman supaya cover tidak hilang di tab lain
+          window.dbData.forEach(d => {
+              if (d.tajuk && d.tajuk.trim().toLowerCase() === oldTajuk.trim().toLowerCase()) {
+                  d.tajuk = data.tajuk;
+                  if (window.dbInstance) promises.push(window.dbInstance.collection("pinjaman").doc(d.id).update({ tajuk: data.tajuk }));
+              }
+          });
+      }
+  } else { 
+      window.dbBuku.unshift(data); 
+  }
+  
+  window.renderBukuTable(); 
+  if (typeof window.renderUlasanTable === 'function') window.renderUlasanTable(); 
+  if (typeof window.renderTable === 'function') window.renderTable(); 
+  window.closeBukuModal();
+  
+  if (window.dbInstance) { 
+      promises.push(window.dbInstance.collection("buku_baru").doc(data.id).set(data));
+      try { await Promise.all(promises); } catch (e) { console.warn("Firebase save error", e); } 
+  }
 };
 
 window.bukuBaruCurrentPage = 1; window.bukuLamaCurrentPage = 1; window.currentSubTabBuku = 'baru';
@@ -5225,44 +5666,60 @@ window.toggleBukuFilterActive = function() {
     window.renderBukuTable();
 };
 
+window.majalahCurrentPage = 1; 
+window.akhbarCurrentPage = 1;
+
 window.switchSubTabBuku = function(tab) {
     window.currentSubTabBuku = tab;
-    const btnBaru = document.getElementById('tab-buku-baru-btn'); 
-    const btnLama = document.getElementById('tab-buku-lama-btn'); 
-    const viewBaru = document.getElementById('view-buku-baru'); 
-    const viewLama = document.getElementById('view-buku-lama');
-    
-    if (tab === 'baru') {
-        if(btnBaru) { 
-            btnBaru.style.border = '2px solid var(--primary)'; btnBaru.style.borderBottom = '2px solid var(--primary)'; 
-            btnBaru.style.background = 'var(--primary)'; btnBaru.style.color = 'white'; 
-            btnBaru.style.fontWeight = '800'; btnBaru.style.boxShadow = '0 -3px 8px rgba(0,102,204,0.2)';
-            btnBaru.style.zIndex = '2'; btnBaru.classList.add('active'); 
+    const tabs = ['baru', 'lama', 'majalah', 'akhbar'];
+    const colors = {
+        'baru': 'var(--primary)',
+        'lama': '#7E22CE', // Ungu
+        'majalah': '#0ea5e9', // Sky Blue
+        'akhbar': '#0284c7'  // Cyan gelap
+    };
+
+    tabs.forEach(t => {
+        let btnId = t === 'baru' ? 'tab-buku-baru-btn' : (t === 'lama' ? 'tab-buku-lama-btn' : 'tab-' + t + '-btn');
+        let viewId = t === 'baru' ? 'view-buku-baru' : (t === 'lama' ? 'view-buku-lama' : 'view-' + t);
+        
+        const btn = document.getElementById(btnId);
+        const view = document.getElementById(viewId);
+        
+        if (btn) {
+            if (t === tab) {
+                btn.style.border = `2px solid ${colors[t]}`; 
+                btn.style.borderBottom = `2px solid ${colors[t]}`; 
+                btn.style.background = colors[t]; 
+                btn.style.color = 'white'; 
+                btn.style.fontWeight = '800'; 
+                btn.style.boxShadow = `0 -3px 8px ${colors[t]}33`;
+                btn.style.zIndex = '2'; 
+                btn.classList.add('active'); 
+            } else {
+                btn.style.border = '2px solid transparent'; 
+                btn.style.borderBottom = '2px solid transparent'; 
+                btn.style.background = 'rgba(0,0,0,0.05)'; 
+                btn.style.color = 'var(--text-muted)'; 
+                btn.style.fontWeight = '700'; 
+                btn.style.boxShadow = 'none';
+                btn.style.zIndex = '1'; 
+                btn.classList.remove('active'); 
+            }
         }
-        if(btnLama) { 
-            btnLama.style.border = '2px solid transparent'; btnLama.style.borderBottom = '2px solid transparent'; 
-            btnLama.style.background = 'rgba(0,0,0,0.05)'; btnLama.style.color = 'var(--text-muted)'; 
-            btnLama.style.fontWeight = '700'; btnLama.style.boxShadow = 'none';
-            btnLama.style.zIndex = '1'; btnLama.classList.remove('active'); 
+        if (view) {
+            view.style.display = (t === tab) ? 'block' : 'none';
         }
-        if(viewBaru) viewBaru.style.display = 'block'; if(viewLama) viewLama.style.display = 'none';
-    } else {
-        if(btnLama) { 
-            btnLama.style.border = '2px solid #7E22CE'; btnLama.style.borderBottom = '2px solid #7E22CE'; 
-            btnLama.style.background = '#7E22CE'; btnLama.style.color = 'white'; 
-            btnLama.style.fontWeight = '800'; btnLama.style.boxShadow = '0 -3px 8px rgba(126,34,206,0.2)';
-            btnLama.style.zIndex = '2'; btnLama.classList.add('active'); 
-        }
-        if(btnBaru) { 
-            btnBaru.style.border = '2px solid transparent'; btnBaru.style.borderBottom = '2px solid transparent'; 
-            btnBaru.style.background = 'rgba(0,0,0,0.05)'; btnBaru.style.color = 'var(--text-muted)'; 
-            btnBaru.style.fontWeight = '700'; btnBaru.style.boxShadow = 'none';
-            btnBaru.style.zIndex = '1'; btnBaru.classList.remove('active'); 
-        }
-        if(viewLama) viewLama.style.display = 'block'; if(viewBaru) viewBaru.style.display = 'none';
-    }
+    });
 };
-window.changeBukuPage = function(type, dir) { if (type === 'baru') { window.bukuBaruCurrentPage += dir; } else { window.bukuLamaCurrentPage += dir; } window.renderBukuTable(); };
+
+window.changeBukuPage = function(type, dir) { 
+    if (type === 'baru') { window.bukuBaruCurrentPage += dir; } 
+    else if (type === 'lama') { window.bukuLamaCurrentPage += dir; } 
+    else if (type === 'majalah') { window.majalahCurrentPage += dir; } 
+    else if (type === 'akhbar') { window.akhbarCurrentPage += dir; } 
+    window.renderBukuTable(); 
+};
 
 window.deleteBuku = async function() {
   const docIdEl = document.getElementById('bukuId'); if (!docIdEl || !docIdEl.value) return window.showCustomAlert("Sila pilih rekod.");
@@ -5381,8 +5838,9 @@ window.renderBukuTable = function() {
           ${reviewLinkHtml}
       </td>`;
       
+      let dispJenis = item.jenis === 'Majalah' ? 'Akhbar' : (item.jenis === 'Akhbar' ? 'Majalah' : (item.jenis || 'Buku'));
       let bahanHtml = `<td style="border-top:1px solid #cbd5e1; border-bottom:1px solid #cbd5e1; border-left:1px dashed #cbd5e1; background:white; vertical-align:top; padding:20px;">
-          <div style="font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:4px;">${item.jenis || 'Buku'}</div>
+          <div style="font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:4px;">${dispJenis}</div>
           ${borrowerHtml}
       </td>`;
       
@@ -5422,29 +5880,32 @@ window.renderBukuTable = function() {
   }
   if (html === '') { tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod buku dijumpai berdasarkan carian anda.</td></tr>`; } else { tbody.innerHTML = html; }
 
-  // Tapis Buku Lama
+  // Kumpulkan Data Buku Lama / Majalah / Akhbar
+  let bahanLamaMap = {};
+  window.dbBuku.forEach(b => {
+      if (checkIsOldBook(b)) {
+          let mapKey = (b.accession ? b.accession.toLowerCase().trim() : null) || b.tajuk.toLowerCase().trim();
+          bahanLamaMap[mapKey] = { isSaved: true, id: b.id, tajuk: b.tajuk, jenis: b.jenis || '-', accession: b.accession || '', tarikhAwal: b.tarikh_asal || b.tarikh || '', tarikhDaftar: b.tarikh || '', penerima: b.penerima || '-', sumber: b.sumber || '-', penerbitan: b.penerbitan || '-', kategori: b.kategori || '-', bidang: b.bidang || '-', isbn: b.isbn || '-', edisi: b.edisi || '-', bilangan: b.bilangan || 1, status_rekod: b.status_rekod || 'Aktif', klasifikasi: b.klasifikasi, cover: b.cover || '' };
+      }
+  });
+
+  window.dbData.forEach(item => {
+      if (!item.tajuk) return; let titleKey = item.tajuk.toLowerCase().trim(); let accKey = item.accession ? item.accession.toLowerCase().trim() : null;
+      let existsInBukuBaru = window.dbBuku.some(b => (b.tajuk && b.tajuk.toLowerCase().trim() === titleKey) || (accKey && b.accession && b.accession.toLowerCase().trim() === accKey));
+      if (existsInBukuBaru) return;
+      let mapKey = accKey || titleKey;
+      if (!bahanLamaMap[mapKey]) { bahanLamaMap[mapKey] = { isSaved: false, tajuk: item.tajuk, jenis: item.jenis || '-', accession: item.accession || '', tarikhAwal: item.tPinjam || '', cover: '' }; } 
+      else { if (!bahanLamaMap[mapKey].isSaved && item.tPinjam && (!bahanLamaMap[mapKey].tarikhAwal || new Date(item.tPinjam) < new Date(bahanLamaMap[mapKey].tarikhAwal))) { bahanLamaMap[mapKey].tarikhAwal = item.tPinjam; } }
+  });
+  
+  let bahanLamaArr = Object.values(bahanLamaMap); 
+  bahanLamaArr.sort((a, b) => new Date(b.tarikhAwal) - new Date(a.tarikhAwal));
+
+  // Tapis Buku Lama (Hanya jenis "Buku")
   const tbodyLama = document.getElementById('bukuLamaTableBody');
   if (tbodyLama) {
-      let bukuLamaMap = {};
-      window.dbBuku.forEach(b => {
-          if (checkIsOldBook(b)) {
-              let mapKey = (b.accession ? b.accession.toLowerCase().trim() : null) || b.tajuk.toLowerCase().trim();
-              bukuLamaMap[mapKey] = { isSaved: true, id: b.id, tajuk: b.tajuk, jenis: b.jenis || '-', accession: b.accession || '', tarikhAwal: b.tarikh_asal || b.tarikh || '', tarikhDaftar: b.tarikh || '', penerima: b.penerima || '-', sumber: b.sumber || '-', penerbitan: b.penerbitan || '-', kategori: b.kategori || '-', bidang: b.bidang || '-', isbn: b.isbn || '-', edisi: b.edisi || '-', bilangan: b.bilangan || 1, status_rekod: b.status_rekod || 'Aktif', klasifikasi: b.klasifikasi, cover: b.cover || '' };
-          }
-      });
-
-      window.dbData.forEach(item => {
-          if (!item.tajuk) return; let titleKey = item.tajuk.toLowerCase().trim(); let accKey = item.accession ? item.accession.toLowerCase().trim() : null;
-          let existsInBukuBaru = window.dbBuku.some(b => (b.tajuk && b.tajuk.toLowerCase().trim() === titleKey) || (accKey && b.accession && b.accession.toLowerCase().trim() === accKey));
-          if (existsInBukuBaru) return;
-          let mapKey = accKey || titleKey;
-          if (!bukuLamaMap[mapKey]) { bukuLamaMap[mapKey] = { isSaved: false, tajuk: item.tajuk, jenis: item.jenis || '-', accession: item.accession || '', tarikhAwal: item.tPinjam || '', cover: '' }; } 
-          else { if (!bukuLamaMap[mapKey].isSaved && item.tPinjam && (!bukuLamaMap[mapKey].tarikhAwal || new Date(item.tPinjam) < new Date(bukuLamaMap[mapKey].tarikhAwal))) { bukuLamaMap[mapKey].tarikhAwal = item.tPinjam; } }
-      });
-      
-      let bukuLamaArr = Object.values(bukuLamaMap); bukuLamaArr.sort((a, b) => new Date(b.tarikhAwal) - new Date(a.tarikhAwal));
-      const dataLamaRender = bukuLamaArr.filter(item => { 
-          if (item.jenis !== 'Buku') return false;
+      const dataLamaRender = bahanLamaArr.filter(item => { 
+          if (item.jenis !== 'Buku') return false; // Abaikan jika bukan Buku
           if (window.bukuFilterActiveOnly && !checkActive(item)) return false;
           const txt = ((item.tajuk || '') + (item.jenis || '') + (item.accession || '') + (item.isbn || '')).toLowerCase(); 
           return !search || txt.includes(search); 
@@ -5460,206 +5921,60 @@ window.renderBukuTable = function() {
       if (pagedDataLama.length > 0) {
           pagedDataLama.forEach(item => { htmlLama += buildRow(item, true); });
       }
-      if (htmlLama === '') { tbodyLama.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod bacaan lama dijumpai.</td></tr>`; } else { tbodyLama.innerHTML = htmlLama; }
-  } else {
-      if (document.getElementById('wrapBukuBaru')) document.getElementById('wrapBukuBaru').style.maxHeight = '65vh';
+      if (htmlLama === '') { tbodyLama.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod bacaan buku lama dijumpai.</td></tr>`; } else { tbodyLama.innerHTML = htmlLama; }
   }
-};
 
-window.renderKelabTable = function() {
-  const container = document.getElementById('kelabTableBody'); if (!container) return;
-  const searchEl = document.getElementById('searchKelabInput'); const search = searchEl ? searchEl.value.toLowerCase() : '';
-  window.buildKelabData();
-  let kelabArr = Object.values(window.kelabMapData); 
-  
-  // Susun mengikut No. Pekerja (Menurun / A-Z)
-  kelabArr.sort((a, b) => {
-      const idA = (a.noPekerja || 'zzzzz').toLowerCase();
-      const idB = (b.noPekerja || 'zzzzz').toLowerCase();
-      if (idA < idB) return -1;
-      if (idA > idB) return 1;
-      return 0;
-  });
+  // Tapis Majalah (Atau Akhbar yang disilap daftar sebagai Majalah)
+  const tbodyMajalah = document.getElementById('majalahTableBody');
+  if (tbodyMajalah) {
+      const dataMajalahRender = bahanLamaArr.filter(item => { 
+          if (item.jenis !== 'Majalah') return false; 
+          if (window.bukuFilterActiveOnly && !checkActive(item)) return false;
+          const txt = ((item.tajuk || '') + (item.jenis || '') + (item.accession || '') + (item.isbn || '')).toLowerCase(); 
+          return !search || txt.includes(search); 
+      });
 
-  const filtered = kelabArr.filter(k => { const searchStr = (String(k.nama || '') + String(k.noPekerja || '')).toLowerCase(); return searchStr.includes(search); });
-  if (filtered.length === 0) { container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted); background:var(--surface-solid); border-radius:12px; border:1px solid var(--border);">Tiada data profil ahli kelab dijumpai.</div>'; return; }
-  let html = '';
-  filtered.forEach((k, index) => {
-    let statusBadge = '';
-    if (k.latestLoan && typeof k.latestLoan.status === 'string' && k.latestLoan.status.includes('Selesai')) { statusBadge = `<span style="color:#059669; font-weight:800; font-size:0.75rem;">✅ Dipulangkan</span>`; } 
-    else if (k.latestLoan && k.latestLoan.status === 'Bacaan Harian') { statusBadge = `<span style="color:#D97706; font-weight:800; font-size:0.75rem;">📙 Harian</span>`; } 
-    else if (k.latestLoan && k.latestLoan.status) { statusBadge = `<span style="color:var(--primary); font-weight:800; font-size:0.75rem;">🟢 Dipinjam</span>`; } 
-    else { statusBadge = `<span style="color:#94a3b8; font-weight:800; font-size:0.75rem;">- Tiada -</span>`; }
-    const safeKey = window.getSafeKey(k.key);
-    let actionBtn = window.userRole === 'admin' ? `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); font-weight:800; padding:6px 12px; border-radius:8px; border:1px solid var(--primary); background:white; transition:0.2s; box-shadow:0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='white'" onclick="window.viewKelabProfile('${safeKey}')">✏️ Pinda</button>` : `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); font-weight:800; padding:6px 12px; border-radius:8px; border:1px solid var(--primary); background:white; transition:0.2s; box-shadow:0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='white'" onclick="window.viewKelabProfile('${safeKey}')">📖 Lihat</button>`;
-    
-    // Reka bentuk kad baharu mengikut lakar image_c5ba23.png
-    html += `
-    <div style="background:var(--surface-solid); border:1px solid var(--border-input); padding:12px 16px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; gap:16px; transition:all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02);" onmouseover="this.style.borderColor='var(--primary-ring)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.borderColor='var(--border-input)'; this.style.transform='translateY(0)';">
-        
-        <!-- Bahagian Kiri (Maklumat Asas) -->
-        <div style="display:flex; align-items:center; gap:16px; flex:1; min-width:0;">
-            <div style="font-weight:900; color:#94a3b8; font-size:1.1rem; width:24px; text-align:center;">${index + 1}</div>
-            
-            <div style="flex:1; min-width:0;">
-                <div style="font-weight:800; font-size:1.05rem; color:var(--primary); margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;" onclick="window.viewKelabHistory('${safeKey}')" title="Klik untuk lihat sejarah bacaan">
-                    ${k.nama}
-                </div>
-                <div style="font-size:0.75rem; color:#475569; font-weight:600;">
-                    <span style="display:inline-block; background:#f1f5f9; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; color:#334155; margin-right:6px;">ID: ${k.noPekerja || '-'}</span>
-                    <span style="color:#94a3b8;">🏢</span> ${k.bahagian || '-'}
-                </div>
-            </div>
-        </div>
-
-        <!-- Bahagian Kanan (Kotak Putus-Putus Biru) -->
-        <div style="flex-shrink:0; display:flex; align-items:stretch; border:1px dashed #7dd3fc; background:#f0f9ff; border-radius:8px; overflow:hidden;">
-            
-            <!-- Segmen 1: Status -->
-            <div style="padding:8px 12px; display:flex; flex-direction:column; justify-content:center; align-items:center; border-right:1px solid #bae6fd; min-width:90px;">
-                <span style="font-size:0.6rem; color:#0284c7; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:4px;">Status</span>
-                ${statusBadge}
-            </div>
-
-            <!-- Segmen 2: Mata -->
-            <div style="padding:8px 16px; display:flex; flex-direction:column; justify-content:center; align-items:center; border-right:1px solid #bae6fd; min-width:90px; background:rgba(255,255,255,0.4);">
-                <span style="font-size:0.6rem; color:#0284c7; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:2px;">Mata</span>
-                <span style="font-size:1.1rem; font-weight:900; color:#d97706;">${k.totalMata} <span style="font-size:0.7rem;">pt</span></span>
-            </div>
-
-            <!-- Segmen 3: Tindakan -->
-            <div style="padding:8px 12px; display:flex; align-items:center; justify-content:center; min-width:80px;">
-                ${actionBtn}
-            </div>
-            
-        </div>
-    </div>`;
-  });
-  container.innerHTML = html;
-};
-
-window.renderScoreboard = function() {
-  const tbody = document.getElementById('scoreboardTableBody'); if (!tbody) return;
-  const limitValRaw = document.getElementById('scoreLimit').value; const isAll = limitValRaw === 'all'; const limitVal = isAll ? 'Semua' : parseInt(limitValRaw);
-  const searchQ = document.getElementById('searchScoreboardInput').value.toLowerCase();
-  const yearVal = document.getElementById('scoreYear').value; const startM = parseInt(document.getElementById('scoreStartMonth').value); const endM = parseInt(document.getElementById('scoreEndMonth').value);
-  document.getElementById('scoreboardTitleLabel').innerText = isAll ? `🏅 Papan Mata (Semua)` : `🏅 Papan Mata (Top ${limitVal})`;
-
-  let scoreMap = {};
-  const updateScoreMap = (key, data, mataTambah, type) => {
-      if (!scoreMap[key]) {
-          let av = '👤'; let bestName = data.nama || '';
-          if (window.kelabMapData && window.kelabMapData[key]) { if (window.kelabMapData[key].nama && window.kelabMapData[key].nama.length > bestName.length) bestName = window.kelabMapData[key].nama; }
-          if (window.dbUsers && window.dbUsers[key]) { av = window.dbUsers[key].avatar || av; if (window.dbUsers[key].nama && window.dbUsers[key].nama.length > bestName.length) bestName = window.dbUsers[key].nama; }
-          if (!bestName || bestName.trim() === '') bestName = key.toUpperCase();
-          scoreMap[key] = { nama: bestName, noPekerja: data.noPekerja || '', bahagian: data.bahagian || '', mata: 0, avatar: av, bukuCount: 0, ulasanCount: 0, key: key };
-      } else {
-          if (data.nama && data.nama.length > scoreMap[key].nama.length) scoreMap[key].nama = data.nama;
-          if (!scoreMap[key].noPekerja && data.noPekerja) scoreMap[key].noPekerja = data.noPekerja; if (!scoreMap[key].bahagian && data.bahagian) scoreMap[key].bahagian = data.bahagian;
+      const totalPagesMajalah = Math.ceil(dataMajalahRender.length / itemsPerPage) || 1;
+      if (window.majalahCurrentPage > totalPagesMajalah) window.majalahCurrentPage = totalPagesMajalah;
+      if (window.majalahCurrentPage < 1) window.majalahCurrentPage = 1;
+      const pageInfoMajalah = document.getElementById('majalahPageInfo'); if (pageInfoMajalah) pageInfoMajalah.innerText = `Halaman ${window.majalahCurrentPage} / ${totalPagesMajalah}`;
+      
+      const pagedDataMajalah = dataMajalahRender.slice((window.majalahCurrentPage - 1) * itemsPerPage, window.majalahCurrentPage * itemsPerPage);
+      let htmlMajalah = '';
+      if (pagedDataMajalah.length > 0) {
+          pagedDataMajalah.forEach(item => { htmlMajalah += buildRow(item, true); });
       }
-      scoreMap[key].mata += mataTambah;
-      if (type === 'buku' && mataTambah > 0) scoreMap[key].bukuCount++;
-      if (type === 'ulasan' && mataTambah > 0) scoreMap[key].ulasanCount++;
-  };
-
-  window.dbData.forEach(item => { const d = new Date(item.tPinjam); let include = false; if (yearVal === 'all') include = true; else if (d.getFullYear() === parseInt(yearVal) && d.getMonth() >= startM && d.getMonth() <= endM) include = true; if (include) updateScoreMap(window.getSafeKey(window.getItemUserKey(item)), item, parseInt(item.mata || 0), 'buku'); });
-  window.dbUlasan.forEach(u => { const d = new Date(u.tarikh); let include = false; if (yearVal === 'all') include = true; else if (d.getFullYear() === parseInt(yearVal) && d.getMonth() >= startM && d.getMonth() <= endM) include = true; if (include) { const safeKey = u.userKey; if (safeKey && safeKey !== 'unknown') updateScoreMap(safeKey, u, 2 + (parseInt(u.bonusMata) || 0), 'ulasan'); } });
-
-  let scoreArr = Object.values(scoreMap); scoreArr.sort((a, b) => b.mata - a.mata); scoreArr = scoreArr.filter(s => s.mata > 0);
-  if (searchQ) scoreArr = scoreArr.filter(s => s.nama.toLowerCase().includes(searchQ) || (s.noPekerja && s.noPekerja.toLowerCase().includes(searchQ)) );
-  if (!isAll) scoreArr = scoreArr.slice(0, limitVal);
-  
-  window.currentScoreboardData = scoreArr;
-
-  if (scoreArr.length === 0) { tbody.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod mata dijumpai untuk carian/tempoh ini.</div>'; return; }
-  
-  let showPoints = true;
-  if (window.userRole !== 'admin') {
-      const allowedDay = window.appSettings && window.appSettings.showPointsDay ? window.appSettings.showPointsDay : 'all';
-      if (allowedDay === 'none') { showPoints = false; }
-      else if (allowedDay !== 'all') { if (new Date().getDay() !== parseInt(allowedDay)) showPoints = false; }
+      if (htmlMajalah === '') { tbodyMajalah.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod akhbar dijumpai.</td></tr>`; } else { tbodyMajalah.innerHTML = htmlMajalah; }
   }
-  
-  let html = '';
-  scoreArr.forEach((s, idx) => {
-    const rank = idx + 1;
-    const safeKey = s.key;
-    let paparanMata = (window.userRole === 'admin' || showPoints) ? s.mata : '???';
-    
-    let leftBorderColor = '#cbd5e1';
-    let avatarBorderColor = '#cbd5e1';
-    let statsBorderColor = '#e2e8f0';
-    let statsTitleColor = '#64748b';
-    let scoreColor = '#2563eb';
-    let statsTitle = 'PESERTA';
-    let crownHtml = '';
 
-    if (rank === 1) {
-        leftBorderColor = '#FBBF24'; 
-        avatarBorderColor = '#FBBF24';
-        statsBorderColor = '#86EFAC';
-        statsTitleColor = '#059669';
-        scoreColor = '#059669';
-        statsTitle = '🔥 PENDAHULU KESELURUHAN';
-        crownHtml = '<div style="position:absolute; top:-12px; right:-8px; font-size:1.4rem; transform: rotate(15deg); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));">👑</div>';
-    } else if (rank === 2) {
-        leftBorderColor = '#94a3b8'; 
-        avatarBorderColor = '#94a3b8';
-        statsTitle = '📉 PENGEJAR RAPAT';
-    } else if (rank === 3) {
-        leftBorderColor = '#FDBA74'; 
-        avatarBorderColor = '#FDBA74';
-        statsTitle = 'KONSISTEN';
-    }
+  // Tapis Akhbar (Atau Majalah yang disilap daftar sebagai Akhbar)
+  const tbodyAkhbar = document.getElementById('akhbarTableBody');
+  if (tbodyAkhbar) {
+      const dataAkhbarRender = bahanLamaArr.filter(item => { 
+          if (item.jenis !== 'Akhbar') return false; 
+          if (window.bukuFilterActiveOnly && !checkActive(item)) return false;
+          const txt = ((item.tajuk || '') + (item.jenis || '') + (item.accession || '') + (item.isbn || '')).toLowerCase(); 
+          return !search || txt.includes(search); 
+      });
 
-    html += `
-    <div style="display:flex; align-items:stretch; flex-wrap:wrap; background:#fff; border-radius:12px; padding:12px; border:1px solid #e2e8f0; border-left: 6px solid ${leftBorderColor}; box-shadow: 0 2px 4px rgba(0,0,0,0.02); gap:12px; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-        
-        <!-- Kiri: Avatar & Rank -->
-        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:60px; flex-shrink:0; position:relative;">
-            ${crownHtml}
-            <div style="width:42px; height:42px; border-radius:50%; border:2px solid ${avatarBorderColor}; display:flex; align-items:center; justify-content:center; font-size:1.4rem; background:#f8fafc; z-index:2; box-shadow:0 1px 2px rgba(0,0,0,0.05);">${s.avatar}</div>
-            <div style="font-size:1.1rem; font-weight:900; color:#334155; margin-top:4px;">#${rank}</div>
-        </div>
+      const totalPagesAkhbar = Math.ceil(dataAkhbarRender.length / itemsPerPage) || 1;
+      if (window.akhbarCurrentPage > totalPagesAkhbar) window.akhbarCurrentPage = totalPagesAkhbar;
+      if (window.akhbarCurrentPage < 1) window.akhbarCurrentPage = 1;
+      const pageInfoAkhbar = document.getElementById('akhbarPageInfo'); if (pageInfoAkhbar) pageInfoAkhbar.innerText = `Halaman ${window.akhbarCurrentPage} / ${totalPagesAkhbar}`;
+      
+      const pagedDataAkhbar = dataAkhbarRender.slice((window.akhbarCurrentPage - 1) * itemsPerPage, window.akhbarCurrentPage * itemsPerPage);
+      let htmlAkhbar = '';
+      if (pagedDataAkhbar.length > 0) {
+          pagedDataAkhbar.forEach(item => { htmlAkhbar += buildRow(item, true); });
+      }
+      if (htmlAkhbar === '') { tbodyAkhbar.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod majalah dijumpai.</td></tr>`; } else { tbodyAkhbar.innerHTML = htmlAkhbar; }
+  }
 
-        <!-- Tengah: Info Peminjam & Statistik Mini Dalaman -->
-        <div style="flex:1; min-width: 250px; background:#f0f9ff; border:1px solid #e0f2fe; border-radius:10px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
-            
-            <div style="flex:1; min-width:180px;">
-                <div style="font-size:1.05rem; font-weight:900; color:#0f172a; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;" onclick="window.openPointsModal('${safeKey}')" title="Lihat Perincian Mata">${s.nama}</div>
-                <div style="font-size:0.7rem; color:#475569; margin-bottom:6px;">
-                    Kategori: Staf <span style="color:#cbd5e1; margin:0 4px;">|</span> ID Peminjam: <strong style="color:#334155;">${s.noPekerja || '-'}</strong>
-                </div>
-                <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:#64748b;">
-                    <span style="color:#94a3b8;">🏢</span> <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.bahagian || '-'}</span>
-                </div>
-            </div>
-            
-            <!-- Kotak Statistik Baru (Berada tepat dalam zon Maklumat) -->
-            <div style="background:rgba(255,255,255,0.7); border:1px solid #bae6fd; border-radius:8px; padding:8px 12px; display:flex; flex-direction:column; gap:6px; min-width:150px; flex-shrink:0;">
-                <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.65rem;">
-                    <span style="color:#64748b; font-weight:700;">BUKU DIPINJAM</span>
-                    <strong style="color:#0f172a;">${s.bukuCount} Naskhah</strong>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.65rem;">
-                    <span style="color:#64748b; font-weight:700;">ULASAN DIBUAT</span>
-                    <strong style="color:#0f172a;">${s.ulasanCount} Ulasan</strong>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Kanan: Points Box (Kini jauh lebih padat) -->
-        <div style="min-width: 130px; border:1px solid ${statsBorderColor}; border-radius:10px; padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
-            <div style="font-size:0.6rem; font-weight:900; color:${statsTitleColor}; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:4px;">${statsTitle}</div>
-            <div style="border-bottom:1px dashed ${statsBorderColor}; width:100%; margin-bottom:4px; opacity:0.5;"></div>
-            <div style="font-size:1.4rem; font-weight:900; color:${scoreColor}; line-height:1;">${paparanMata} <span style="font-size:0.75rem;">pt</span></div>
-        </div>
-    </div>
-    `;
-  });
-  tbody.innerHTML = html;
+  if (!isAdmin && document.getElementById('wrapBukuBaru')) {
+      document.getElementById('wrapBukuBaru').style.maxHeight = '65vh';
+  }
 };
+
 
 window.printScoreboard = function() {
   const scoreArr = window.currentScoreboardData || [];
@@ -6218,6 +6533,24 @@ window.exportAllChartData = function(format) {
 
 window.ulasanCurrentPage = 1;
 
+window.filterUlasanByTajuk = function(tajuk) {
+    const searchInput = document.getElementById('searchUlasanName');
+    if (searchInput) {
+        searchInput.value = tajuk;
+        window.ulasanCurrentPage = 1; // Kembali ke muka surat 1
+        window.renderUlasanTable();
+    }
+};
+
+window.filterUlasanByNama = function(nama) {
+    const searchInput = document.getElementById('searchUlasanName');
+    if (searchInput) {
+        searchInput.value = nama;
+        window.ulasanCurrentPage = 1; // Kembali ke muka surat 1
+        window.renderUlasanTable();
+    }
+};
+
 window.renderUlasanTable = function() {
     const grid = document.getElementById('ulasanGrid');
     if (!grid) return;
@@ -6270,7 +6603,6 @@ window.renderUlasanTable = function() {
         let rHeart = u.reactions && u.reactions.heart ? u.reactions.heart.length : 0;
         let rInsight = u.reactions && u.reactions.insight ? u.reactions.insight.length : 0;
         
-        // Peningkatan Saiz Kulit Buku (+30% lagi menjadi 100x150)
         let coverHtml = '';
         let bookCover = '';
         if (u.tajuk) {
@@ -6278,13 +6610,17 @@ window.renderUlasanTable = function() {
             let foundBook = window.dbBuku.find(b => b.tajuk && b.tajuk.toLowerCase().trim() === titleKey && b.cover);
             if (foundBook) bookCover = foundBook.cover;
         }
+        let safeTajukForFilter = String(u.tajuk || '').replace(/'/g, "\\'");
+        let hoverEffect = `cursor:pointer; transition:transform 0.2s;`;
+        let hoverEvents = `onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="window.filterUlasanByTajuk('${safeTajukForFilter}')" title="Klik untuk lihat semua ulasan buku ini"`;
+
         if (bookCover) {
-            coverHtml = `<img src="${bookCover}" style="width: 100px; height: 150px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); flex-shrink:0; border: 1px solid rgba(0,0,0,0.1);">`;
+            coverHtml = `<img src="${bookCover}" style="width: 100px; height: 150px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); flex-shrink:0; border: 1px solid rgba(0,0,0,0.1); ${hoverEffect}" ${hoverEvents}>`;
         } else {
             let mockupTitleRaw = u.tajuk || 'BUKU';
             let mockupTitle = mockupTitleRaw.substring(0, 20).toUpperCase();
             let bgGradient = window.getMockupGradient(mockupTitleRaw);
-            coverHtml = `<div style="width: 100px; height: 150px; background: ${bgGradient}; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; box-shadow: inset 2px 0 4px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.2); flex-shrink:0;"><div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px; font-size: 0.65rem; font-weight: 800; color: #fff; text-align: center; line-height: 1.2; word-break: break-word;">${mockupTitle}</div></div>`;
+            coverHtml = `<div style="width: 100px; height: 150px; background: ${bgGradient}; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; box-shadow: inset 2px 0 4px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.2); flex-shrink:0; ${hoverEffect}" ${hoverEvents}><div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px; font-size: 0.65rem; font-weight: 800; color: #fff; text-align: center; line-height: 1.2; word-break: break-word;">${mockupTitle}</div></div>`;
         }
 
         let adminActionBtn = '';
@@ -6304,16 +6640,22 @@ window.renderUlasanTable = function() {
 
         let dispAvatar = u.avatar || '👤';
 
-        // Teks dan Maklumat di sebelah kanan Kulit Buku
+        // Butang Pinda Tajuk untuk Admin
+        let tajukEditBtn = '';
+        if (window.userRole === 'admin') {
+            let safeTajukForEdit = String(u.tajuk || '').replace(/'/g, "\\'");
+            tajukEditBtn = ` <span style="cursor:pointer; font-size:0.8rem; filter:drop-shadow(0 1px 1px rgba(0,0,0,0.1)); display:inline-block; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" onclick="window.editUlasanTajuk('${u.id}', '${safeTajukForEdit}')" title="Pinda Tajuk Ulasan">✏️</span>`;
+        }
+
         html += `
         <div class="ulasan-card" style="background-color: var(--note-${noteIdx}); border-color: var(--note-${noteIdx}-border);">
             <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:8px;">
                 ${coverHtml}
                 <div style="flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center;">
-                    <div class="uc-book" style="line-height:1.3; margin-bottom:6px; font-size:0.9rem; color:#5C4033;">${u.tajuk}</div>
+                    <div class="uc-book" style="line-height:1.3; margin-bottom:6px; font-size:0.9rem; color:#5C4033;">${u.tajuk}${tajukEditBtn}</div>
                     <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
-                        <div style="font-size:1.2rem; background:rgba(255,255,255,0.5); width:24px; height:24px; display:flex; align-items:center; justify-content:center; border-radius:50%; border:1px solid rgba(0,0,0,0.05);">${dispAvatar}</div>
-                        <div class="uc-nama" style="font-size:0.75rem; margin-top:0;">${window.toTitleCase(u.nama)}</div>
+                        <div style="font-size:1.2rem; background:rgba(255,255,255,0.5); width:24px; height:24px; display:flex; align-items:center; justify-content:center; border-radius:50%; border:1px solid rgba(0,0,0,0.05); cursor:pointer; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" onclick="window.filterUlasanByNama('${String(u.nama || '').replace(/'/g, "\\'")}')" title="Klik untuk lihat semua ulasan oleh ${String(u.nama || '').replace(/"/g, '&quot;')}">${dispAvatar}</div>
+                        <div class="uc-nama" style="font-size:0.75rem; margin-top:0; cursor:pointer; transition:0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'" onclick="window.filterUlasanByNama('${String(u.nama || '').replace(/'/g, "\\'")}')" title="Klik untuk lihat semua ulasan oleh ${String(u.nama || '').replace(/"/g, '&quot;')}">${window.toTitleCase(u.nama)}</div>
                     </div>
                     <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
                         <div style="font-size:0.7rem; color:rgba(92, 64, 51, 0.8); font-weight:600;">🗓️ ${dateStr}</div>
@@ -6340,6 +6682,94 @@ window.renderUlasanTable = function() {
     grid.innerHTML = html;
 };
 
+window.editUlasanTajuk = function(id, currentTajuk) {
+    if (window.userRole !== 'admin') return;
+    document.getElementById('eu_ulasan_id').value = id;
+    document.getElementById('eu_current_tajuk').value = currentTajuk;
+    document.getElementById('eu_tajuk').value = currentTajuk;
+    document.getElementById('eu_tajuk_suggestions').style.display = 'none';
+    
+    const m = document.getElementById('editUlasanTajukModal');
+    if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
+};
+
+window.searchTajukUlasanEdit = function() {
+    const input = document.getElementById('eu_tajuk').value.trim().toLowerCase();
+    const suggDiv = document.getElementById('eu_tajuk_suggestions');
+    if (input.length < 2) {
+        suggDiv.style.display = 'none';
+        return;
+    }
+    let matches = [];
+    let seenTitles = new Set();
+
+    // Cari dari Senarai Buku yang didaftarkan
+    window.dbBuku.forEach(b => {
+        if ((b.tajuk && b.tajuk.toLowerCase().includes(input)) || (b.accession && String(b.accession).toLowerCase().includes(input))) {
+            let tLow = b.tajuk.trim().toLowerCase();
+            if (!seenTitles.has(tLow)) {
+                seenTitles.add(tLow);
+                matches.push({ tajuk: b.tajuk, accession: b.accession || '' });
+            }
+        }
+    });
+    
+    // Cari juga dari Sejarah Data Pinjaman jika ia belum didaftarkan di buku baru
+    window.dbData.forEach(d => {
+        if ((d.tajuk && d.tajuk.toLowerCase().includes(input)) || (d.accession && String(d.accession).toLowerCase().includes(input))) {
+            let tLow = d.tajuk.trim().toLowerCase();
+            if (!seenTitles.has(tLow)) {
+                seenTitles.add(tLow);
+                matches.push({ tajuk: d.tajuk, accession: d.accession || '' });
+            }
+        }
+    });
+
+    if (matches.length === 0) {
+        suggDiv.innerHTML = '<div style="padding:10px 12px; color:var(--text-muted); font-size:0.8rem; text-align:center;">Tiada padanan dijumpai...</div>';
+    } else {
+        let html = '';
+        matches.slice(0, 10).forEach(m => {
+            let safeTajuk = m.tajuk.replace(/'/g, "\\'");
+            let accText = m.accession ? `<span style="font-family:monospace; color:var(--primary); font-size:0.75rem; margin-left:6px; background:var(--primary-light); padding:2px 4px; border-radius:4px; border:1px solid rgba(0,102,204,0.2);">ACC: ${m.accession}</span>` : '';
+            html += `<div style="padding:10px 12px; cursor:pointer; border-bottom:1px solid var(--border); font-size:0.85rem;" onclick="window.selectTajukUlasanEdit('${safeTajuk}')" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'"><strong>${m.tajuk}</strong> ${accText}</div>`;
+        });
+        suggDiv.innerHTML = html;
+    }
+    suggDiv.style.display = 'block';
+};
+
+window.selectTajukUlasanEdit = function(tajuk) {
+    document.getElementById('eu_tajuk').value = tajuk;
+    document.getElementById('eu_tajuk_suggestions').style.display = 'none';
+};
+
+window.closeEditUlasanTajukModal = function() {
+    const m = document.getElementById('editUlasanTajukModal');
+    if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); }
+};
+
+window.confirmEditUlasanTajuk = async function() {
+    const id = document.getElementById('eu_ulasan_id').value;
+    const newTajuk = document.getElementById('eu_tajuk').value.trim();
+    const currentTajuk = document.getElementById('eu_current_tajuk').value;
+
+    if (newTajuk && newTajuk !== currentTajuk) {
+        const idx = window.dbUlasan.findIndex(u => String(u.id) === String(id));
+        if (idx > -1) {
+            window.dbUlasan[idx].tajuk = newTajuk;
+            window.renderUlasanTable(); // Kemaskini paparan terus
+            if (typeof window.renderMyReviews === 'function') window.renderMyReviews(); 
+            
+            if (window.dbInstance) {
+                try { await window.dbInstance.collection("ulasan").doc(id).update({ tajuk: newTajuk }); }
+                catch (e) { console.warn("Gagal simpan tajuk ulasan", e); }
+            }
+        }
+    }
+    window.closeEditUlasanTajukModal();
+};
+
 window.changeUlasanPage = function(dir) {
     window.ulasanCurrentPage += dir;
     window.renderUlasanTable();
@@ -6359,6 +6789,9 @@ window.addReaction = async function(reviewId, reactionType) {
         else u.reactions[reactionType].push(userK);
         
         window.renderUlasanTable();
+        
+        if (typeof window.renderMyReviews === 'function') window.renderMyReviews(); 
+        
         if (window.dbInstance) {
             try { await window.dbInstance.collection("ulasan").doc(reviewId).update({ reactions: u.reactions }); }
             catch (e) { console.warn("Firebase save error", e); }
@@ -6722,6 +7155,315 @@ window.startListening = function() {
     const chatModal = document.getElementById('chatModal'); if (chatModal && chatModal.classList.contains('open') && typeof window.renderChatMessages === 'function') window.renderChatMessages();
     const inboxModal = document.getElementById('adminInboxModal'); if (inboxModal && inboxModal.classList.contains('open') && typeof window.openAdminInbox === 'function') window.openAdminInbox();
   }, (error) => { console.error("Gagal baca mesej: ", error); });
+};
+
+window.gotoUserRecords = function(userName, filter) {
+    if (window.userRole !== 'admin' && window.userRole !== 'user') return;
+    window.switchTab('senarai');
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = userName;
+    window.setFilter(filter);
+};
+
+window.renderKelabTable = function() {
+  const tbody = document.getElementById('kelabTableBody'); if (!tbody) return;
+  const searchEl = document.getElementById('searchKelabInput'); const search = searchEl ? searchEl.value.toLowerCase() : '';
+  window.buildKelabData();
+  let kelabArr = Object.values(window.kelabMapData); 
+  
+  // Susun mengikut No. Pekerja (Menurun / A-Z)
+  kelabArr.sort((a, b) => {
+      const idA = (a.noPekerja || 'zzzzz').toLowerCase();
+      const idB = (b.noPekerja || 'zzzzz').toLowerCase();
+      if (idA < idB) return -1;
+      if (idA > idB) return 1;
+      return 0;
+  });
+
+  const filtered = kelabArr.filter(k => { const searchStr = (String(k.nama || '') + String(k.noPekerja || '')).toLowerCase(); return searchStr.includes(search); });
+  if (filtered.length === 0) { 
+      tbody.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted); font-size:0.9rem;">Tiada data profil ahli kelab dijumpai.</div>'; 
+      return; 
+  }
+
+  // Pra-kiraan (Pre-calculate) statistik pinjaman semasa dan lewat untuk setiap ahli
+  let userStats = {};
+  window.dbData.forEach(item => {
+      const isSelesai = item.status && item.status.includes('Selesai');
+      const isHarian = item.status === 'Bacaan Harian';
+      
+      // Jika buku masih belum dipulangkan dan bukan bacaan harian
+      if (!isSelesai && !isHarian) {
+          const uid = window.getSafeKey(window.getItemUserKey(item));
+          if (!userStats[uid]) userStats[uid] = { active: 0, late: 0 };
+          
+          userStats[uid].active++; // Tambah 1 untuk pinjaman semasa
+          
+          const dur = window.calculateDuration(item.tPinjam, null);
+          const limit = window.calculateDuration(item.tPinjam, item.tPulang);
+          if (dur > limit) userStats[uid].late++; // Tambah 1 jika lewat
+      }
+  });
+
+  let html = '';
+  filtered.forEach((k, index) => {
+    const safeKey = window.getSafeKey(k.key);
+    
+    // Ambil data kiraan (atau 0 jika tiada rekod)
+    const activeCount = userStats[safeKey] ? userStats[safeKey].active : 0;
+    const lateCount = userStats[safeKey] ? userStats[safeKey].late : 0;
+    
+    // Kotak A - Merah (Buku Lewat)
+    let boxA = `
+    <div style="border:1px dashed #fca5a5; background:#fef2f2; border-radius:8px; min-width:80px; height: 42px; display:flex; flex-direction:column; align-items:center; justify-content:center; ${lateCount > 0 ? 'cursor:pointer;' : ''} transition:0.2s;" ${lateCount > 0 ? `onclick="window.gotoUserRecords('${k.nama.replace(/'/g, "\\'")}', 'lewat')"` : ''} ${lateCount > 0 ? 'onmouseover="this.style.background=\'#fecaca\'; this.style.borderColor=\'#f87171\';" onmouseout="this.style.background=\'#fef2f2\'; this.style.borderColor=\'#fca5a5\';"' : ''} title="${lateCount > 0 ? 'Klik untuk lihat rekod lewat' : ''}">
+        <div style="font-size:0.55rem; font-weight:900; color:#dc2626; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">Buku Lewat</div>
+        <div style="font-size:1.1rem; font-weight:900; color:#991b1b; line-height:1;">${lateCount}</div>
+    </div>`;
+    
+    // Kotak B - Hijau (Pinjaman Semasa)
+    let boxB = `
+    <div style="border:1px dashed #86efac; background:#f0fdf4; border-radius:8px; min-width:80px; height: 42px; display:flex; flex-direction:column; align-items:center; justify-content:center; ${activeCount > 0 ? 'cursor:pointer;' : ''} transition:0.2s;" ${activeCount > 0 ? `onclick="window.gotoUserRecords('${k.nama.replace(/'/g, "\\'")}', 'sedang')"` : ''} ${activeCount > 0 ? 'onmouseover="this.style.background=\'#dcfce3\'; this.style.borderColor=\'#4ade80\';" onmouseout="this.style.background=\'#f0fdf4\'; this.style.borderColor=\'#86efac\';"' : ''} title="${activeCount > 0 ? 'Klik untuk lihat rekod semasa' : ''}">
+        <div style="font-size:0.55rem; font-weight:900; color:#16a34a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">Semasa</div>
+        <div style="font-size:1.1rem; font-weight:900; color:#15803d; line-height:1;">${activeCount}</div>
+    </div>`;
+    
+    // Kotak C - Biru (Butang Tindakan Pinda/Lihat Profil bersaiz seragam dengan A & B)
+    let boxC = window.userRole === 'admin'
+        ? `<button style="border:1px dashed #7dd3fc; background:#f0f9ff; border-radius:8px; min-width:80px; height:42px; display:flex; align-items:center; justify-content:center; gap:6px; color:#0284c7; font-weight:800; font-size:0.85rem; cursor:pointer; transition:0.2s; padding:0 16px;" onmouseover="this.style.background='#e0f2fe'; this.style.borderColor='#38bdf8';" onmouseout="this.style.background='#f0f9ff'; this.style.borderColor='#7dd3fc';" onclick="window.viewKelabProfile('${safeKey}')">✏️ Pinda</button>`
+        : `<button style="border:1px dashed #7dd3fc; background:#f0f9ff; border-radius:8px; min-width:80px; height:42px; display:flex; align-items:center; justify-content:center; gap:6px; color:#0284c7; font-weight:800; font-size:0.85rem; cursor:pointer; transition:0.2s; padding:0 16px;" onmouseover="this.style.background='#e0f2fe'; this.style.borderColor='#38bdf8';" onmouseout="this.style.background='#f0f9ff'; this.style.borderColor='#7dd3fc';" onclick="window.viewKelabProfile('${safeKey}')">📖 Lihat</button>`;
+
+    let dynamicAvatarUrl = window.getUserAvatar(k.noPekerja || k.key);
+
+    html += `
+    <div style="background:var(--surface-solid); border:1px solid var(--border-input); border-radius:12px; padding:16px 20px; display:flex; align-items:center; gap:16px; box-shadow:0 2px 4px rgba(0,0,0,0.02); margin-bottom:10px; transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';">
+        <div style="font-size:1.3rem; font-weight:900; color:#94a3b8; width:30px; text-align:center;">${index + 1}</div>
+        <img src="${dynamicAvatarUrl}" style="width:40px; height:40px; border-radius:50%; border:1px solid var(--border); object-fit:cover; flex-shrink:0;">
+        <div style="flex:1; min-width:0;">
+            <div style="color:var(--primary); font-size:1.1rem; font-weight:900; cursor:pointer;" onclick="window.viewKelabHistory('${safeKey}')">${k.nama}</div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:6px; display:flex; align-items:center; gap:8px;">
+                <span style="background:var(--bg-body); padding:2px 8px; border-radius:6px; border:1px solid var(--border-input); color:var(--text-main); font-weight:700;">ID: ${k.noPekerja || '-'}</span>
+                <span>🏢 ${k.bahagian || '-'}</span>
+            </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
+            ${boxA}
+            ${boxB}
+            ${boxC}
+        </div>
+    </div>`;
+  });
+  tbody.innerHTML = html;
+};
+window.renderScoreboard = function() {
+  const tbody = document.getElementById('scoreboardTableBody'); if (!tbody) return;
+  const limitValRaw = document.getElementById('scoreLimit').value; const isAll = limitValRaw === 'all'; const limitVal = isAll ? 'Semua' : parseInt(limitValRaw);
+  const searchQ = document.getElementById('searchScoreboardInput').value.toLowerCase();
+  const yearVal = document.getElementById('scoreYear').value; const startM = parseInt(document.getElementById('scoreStartMonth').value); const endM = parseInt(document.getElementById('scoreEndMonth').value);
+  document.getElementById('scoreboardTitleLabel').innerText = isAll ? `🏅 Papan Mata (Semua)` : `🏅 Papan Mata (Top ${limitVal})`;
+
+  let scoreMap = {};
+  const updateScoreMap = (key, data, mataTambah, type) => {
+      if (!scoreMap[key]) {
+          let av = '👤'; let bestName = data.nama || '';
+          if (window.kelabMapData && window.kelabMapData[key]) { if (window.kelabMapData[key].nama && window.kelabMapData[key].nama.length > bestName.length) bestName = window.kelabMapData[key].nama; }
+          if (window.dbUsers && window.dbUsers[key]) { av = window.dbUsers[key].avatar || av; if (window.dbUsers[key].nama && window.dbUsers[key].nama.length > bestName.length) bestName = window.dbUsers[key].nama; }
+          if (!bestName || bestName.trim() === '') bestName = key.toUpperCase();
+          scoreMap[key] = { nama: bestName, noPekerja: data.noPekerja || '', bahagian: data.bahagian || '', mata: 0, avatar: av, bukuCount: 0, ulasanCount: 0, key: key };
+      } else {
+          if (data.nama && data.nama.length > scoreMap[key].nama.length) scoreMap[key].nama = data.nama;
+          if (!scoreMap[key].noPekerja && data.noPekerja) scoreMap[key].noPekerja = data.noPekerja; if (!scoreMap[key].bahagian && data.bahagian) scoreMap[key].bahagian = data.bahagian;
+      }
+      scoreMap[key].mata += mataTambah;
+      if (type === 'buku' && mataTambah > 0) scoreMap[key].bukuCount++;
+      if (type === 'ulasan' && mataTambah > 0) scoreMap[key].ulasanCount++;
+  };
+
+  window.dbData.forEach(item => { const d = new Date(item.tPinjam); let include = false; if (yearVal === 'all') include = true; else if (d.getFullYear() === parseInt(yearVal) && d.getMonth() >= startM && d.getMonth() <= endM) include = true; if (include) updateScoreMap(window.getSafeKey(window.getItemUserKey(item)), item, parseInt(item.mata || 0), 'buku'); });
+  window.dbUlasan.forEach(u => { const d = new Date(u.tarikh); let include = false; if (yearVal === 'all') include = true; else if (d.getFullYear() === parseInt(yearVal) && d.getMonth() >= startM && d.getMonth() <= endM) include = true; if (include) { const safeKey = u.userKey; if (safeKey && safeKey !== 'unknown') updateScoreMap(safeKey, u, 2 + (parseInt(u.bonusMata) || 0), 'ulasan'); } });
+
+  let scoreArr = Object.values(scoreMap); scoreArr.sort((a, b) => b.mata - a.mata); scoreArr = scoreArr.filter(s => s.mata > 0);
+  if (searchQ) scoreArr = scoreArr.filter(s => s.nama.toLowerCase().includes(searchQ) || (s.noPekerja && s.noPekerja.toLowerCase().includes(searchQ)) );
+  if (!isAll) scoreArr = scoreArr.slice(0, limitVal);
+  
+  window.currentScoreboardData = scoreArr;
+
+  if (scoreArr.length === 0) { tbody.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">Tiada rekod mata dijumpai untuk carian/tempoh ini.</div>'; return; }
+  
+  let showPoints = true;
+  if (window.userRole !== 'admin') {
+      const allowedDay = window.appSettings && window.appSettings.showPointsDay ? window.appSettings.showPointsDay : 'all';
+      if (allowedDay === 'none') { showPoints = false; }
+      else if (allowedDay !== 'all') { if (new Date().getDay() !== parseInt(allowedDay)) showPoints = false; }
+  }
+  
+  let html = '';
+  scoreArr.forEach((s, idx) => {
+    const rank = idx + 1;
+    const safeKey = s.key;
+    let paparanMata = (window.userRole === 'admin' || showPoints) ? s.mata : '???';
+    
+    let leftBorderColor = '#cbd5e1';
+    let avatarBorderColor = '#cbd5e1';
+    let statsBorderColor = '#e2e8f0';
+    let statsTitleColor = '#64748b';
+    let scoreColor = '#2563eb';
+    let statsTitle = 'PESERTA';
+    let crownHtml = '';
+
+    if (rank === 1) {
+        leftBorderColor = '#FBBF24'; 
+        avatarBorderColor = '#FBBF24';
+        statsBorderColor = '#86EFAC';
+        statsTitleColor = '#059669';
+        scoreColor = '#059669';
+        statsTitle = '🔥 PENDAHULU KESELURUHAN';
+        crownHtml = '<div style="position:absolute; top:-12px; right:-8px; font-size:1.4rem; transform: rotate(15deg); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));">👑</div>';
+    } else if (rank === 2) {
+        leftBorderColor = '#94a3b8'; 
+        avatarBorderColor = '#94a3b8';
+        statsTitle = '📉 PENGEJAR RAPAT';
+    } else if (rank === 3) {
+        leftBorderColor = '#FDBA74'; 
+        avatarBorderColor = '#FDBA74';
+        statsTitle = 'KONSISTEN';
+    }
+
+    html += `
+    <div style="display:flex; align-items:stretch; flex-wrap:wrap; background:#fff; border-radius:12px; padding:12px; border:1px solid #e2e8f0; border-left: 6px solid ${leftBorderColor}; box-shadow: 0 2px 4px rgba(0,0,0,0.02); gap:12px; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+        
+        <!-- Kiri: Avatar & Rank -->
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:60px; flex-shrink:0; position:relative;">
+            ${crownHtml}
+            <div style="width:42px; height:42px; border-radius:50%; border:2px solid ${avatarBorderColor}; display:flex; align-items:center; justify-content:center; font-size:1.4rem; background:#f8fafc; z-index:2; box-shadow:0 1px 2px rgba(0,0,0,0.05);">${s.avatar}</div>
+            <div style="font-size:1.1rem; font-weight:900; color:#334155; margin-top:4px;">#${rank}</div>
+        </div>
+
+        <!-- Tengah: Info Peminjam & Statistik Mini Dalaman -->
+        <div style="flex:1; min-width: 250px; background:#f0f9ff; border:1px solid #e0f2fe; border-radius:10px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+            
+            <div style="flex:1; min-width:180px;">
+                <div style="font-size:1.05rem; font-weight:900; color:#0f172a; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;" onclick="window.openPointsModal('${safeKey}')" title="Lihat Perincian Mata">${s.nama}</div>
+                <div style="font-size:0.7rem; color:#475569; margin-bottom:6px;">
+                    Kategori: Staf <span style="color:#cbd5e1; margin:0 4px;">|</span> ID Peminjam: <strong style="color:#334155;">${s.noPekerja || '-'}</strong>
+                </div>
+                <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:#64748b;">
+                    <span style="color:#94a3b8;">🏢</span> <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.bahagian || '-'}</span>
+                </div>
+            </div>
+            
+            <!-- Kotak Statistik Baru (Berada tepat dalam zon Maklumat) -->
+            <div style="background:rgba(255,255,255,0.7); border:1px solid #bae6fd; border-radius:8px; padding:8px 12px; display:flex; flex-direction:column; gap:6px; min-width:150px; flex-shrink:0;">
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.65rem;">
+                    <span style="color:#64748b; font-weight:700;">BUKU DIPINJAM</span>
+                    <strong style="color:#0f172a;">${s.bukuCount} Naskhah</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.65rem;">
+                    <span style="color:#64748b; font-weight:700;">ULASAN DIBUAT</span>
+                    <strong style="color:#0f172a;">${s.ulasanCount} Ulasan</strong>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Kanan: Points Box (Kini jauh lebih padat) -->
+        <div style="min-width: 130px; border:1px solid ${statsBorderColor}; border-radius:10px; padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+            <div style="font-size:0.6rem; font-weight:900; color:${statsTitleColor}; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:4px;">${statsTitle}</div>
+            <div style="border-bottom:1px dashed ${statsBorderColor}; width:100%; margin-bottom:4px; opacity:0.5;"></div>
+            <div style="font-size:1.4rem; font-weight:900; color:${scoreColor}; line-height:1;">${paparanMata} <span style="font-size:0.75rem;">pt</span></div>
+        </div>
+    </div>
+    `;
+  });
+  tbody.innerHTML = html;
+};
+
+window.printScoreboard = function() {
+    const tbody = document.getElementById('scoreboardTableBody');
+    if (!tbody || tbody.innerText.includes('Tiada rekod')) {
+        return window.showCustomAlert('Tiada data papan mata untuk dicetak.');
+    }
+
+    const yFilter = document.getElementById('scoreYear').value;
+    const mStart = parseInt(document.getElementById('scoreStartMonth').value);
+    const mEnd = parseInt(document.getElementById('scoreEndMonth').value);
+    const limitVal = document.getElementById('scoreLimit').value;
+    
+    let tapisanTeks = "Keseluruhan Masa";
+    const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+    if (yFilter !== 'all') {
+        if (mStart === 0 && mEnd === 11) tapisanTeks = `Sepanjang Tahun ${yFilter}`;
+        else if (mStart === mEnd) tapisanTeks = `Bulan ${monthNames[mStart]} ${yFilter}`;
+        else tapisanTeks = `Dari ${monthNames[mStart]} hingga ${monthNames[mEnd]} ${yFilter}`;
+    }
+    if (limitVal !== 'all') tapisanTeks += ` (Top ${limitVal})`;
+
+    const today = new Date().toLocaleDateString('ms-MY');
+
+    let userPoints = {};
+    window.dbData.forEach(item => {
+        const m = parseInt(item.mata) || 0;
+        if (m > 0) {
+            const d = new Date(item.tPinjam);
+            let include = true;
+            if (yFilter !== 'all' && d.getFullYear() !== parseInt(yFilter)) include = false;
+            if (yFilter !== 'all' && (d.getMonth() < mStart || d.getMonth() > mEnd)) include = false;
+
+            if (include) {
+                const uid = window.getSafeKey(window.getItemUserKey(item));
+                if (!userPoints[uid]) {
+                    userPoints[uid] = { key: uid, nama: item.nama || uid, noPekerja: item.noPekerja || '-', bahagian: item.bahagian || '-', totalMata: 0 };
+                }
+                userPoints[uid].totalMata += m;
+            }
+        }
+    });
+    window.dbUlasan.forEach(u => {
+        const m = 2 + (parseInt(u.bonusMata) || 0);
+        if (m > 0) {
+            const d = new Date(u.tarikh);
+            let include = true;
+            if (yFilter !== 'all' && d.getFullYear() !== parseInt(yFilter)) include = false;
+            if (yFilter !== 'all' && (d.getMonth() < mStart || d.getMonth() > mEnd)) include = false;
+
+            if (include) {
+                const uid = window.getSafeKey(u.userKey);
+                if (!userPoints[uid]) {
+                    userPoints[uid] = { key: uid, nama: u.nama || uid, noPekerja: '-', bahagian: '-', totalMata: 0 };
+                }
+                userPoints[uid].totalMata += m;
+            }
+        }
+    });
+
+    let sortedUsers = Object.values(userPoints).filter(u => u.totalMata > 0);
+    sortedUsers.sort((a, b) => b.totalMata - a.totalMata || a.nama.localeCompare(b.nama));
+    if (limitVal !== 'all') sortedUsers = sortedUsers.slice(0, parseInt(limitVal));
+
+    let html = `<html><head><title>Papan Mata Ganjaran</title><style>
+        @page { size: A4 portrait; margin: 15mm; }
+        body { font-family: Arial, sans-serif; font-size:12px; color:#333; }
+        h2 { text-align:center; text-transform:uppercase; color:#000; margin-bottom:5px; }
+        p { text-align:center; color:#555; margin-top:0; margin-bottom:20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; text-transform: uppercase; font-weight: bold; }
+        .text-center { text-align:center; }
+        .date-print { position:absolute; top:0; right:0; font-size:10px; color:#999; }
+    </style></head><body>
+    <div class="date-print">Tarikh Cetakan: ${today}</div>
+    <h2>KEDUDUKAN PAPAN MATA (SCOREBOARD)</h2>
+    <p>Sistem Pustakawan Digital | Tapisan: ${tapisanTeks}</p>
+    <table><thead><tr><th width="10%" class="text-center">Kedudukan</th><th width="40%">Nama Ahli</th><th width="15%" class="text-center">No. Pekerja</th><th width="25%">Bahagian/Jabatan</th><th width="10%" class="text-center">Mata</th></tr></thead><tbody>`;
+
+    sortedUsers.forEach((u, idx) => {
+        html += `<tr><td class="text-center">${idx + 1}</td><td><strong>${u.nama}</strong></td><td class="text-center">${u.noPekerja}</td><td>${u.bahagian}</td><td class="text-center" style="font-weight:bold;color:#d97706;">${u.totalMata} pt</td></tr>`;
+    });
+
+    html += `</tbody></table></body></html>`;
+    const win = window.open('', '', 'width=900,height=700');
+    win.document.write(html);
+    win.document.close();
+    win.print();
 };
 </script>
 </body>
