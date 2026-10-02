@@ -12,7 +12,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
         :root {
+            /* Tema Terang: Soft Blue Gradient (Seperti v36.33) */
             --bg-body: #E3F2FD;         
             --bg-body-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
             --surface: rgba(255, 255, 255, 0.85); 
@@ -31,16 +34,16 @@
             --border-input: #d2d2d7;
             --radius-card: 16px;
             --radius-btn: 8px;
-            --shadow-sm: 0 4px 12px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.15);
-            --shadow-md: 0 20px 40px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.15);
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
             --bg-weekend: rgba(0,0,0,0.02); 
             --bg-weekday: transparent; 
             --badge-active-bg: rgba(0, 122, 255, 0.1); --badge-active-text: #007aff;
             --badge-late-bg: rgba(255, 59, 48, 0.1); --badge-late-text: #FF3B30;
             --badge-done-bg: rgba(40, 205, 65, 0.1); --badge-done-text: #28CD41;
-            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
             --widget-border: rgba(0, 0, 0, 0.15);
-            --blur-effect: blur(24px);
+            --blur-effect: blur(12px); /* Kembalikan blur untuk efek glassmorphism */
             
             /* Warna Pastel Sticky Notes */
             --note-1: #FFF9C4; --note-1-border: #FBE9A7;
@@ -85,7 +88,7 @@
         .win7-dot:nth-child(4) { background: #FFBD2E; top: 14px; left: 0; }
 
         #loginView { display: flex; justify-content: center; align-items: center; min-height: 90vh; flex-direction: column; }
-        .login-card { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 28px 24px; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-md); width: 100%; max-width: 340px; text-align: center; position: relative; overflow: hidden; z-index: 1; animation: modalPopIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; transition: all 0.3s; }
+        .login-card { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 28px 24px; border-radius: var(--radius-card); border: 1px solid #9ca3af; box-shadow: 0 4px 16px rgba(0,0,0,0.12); width: 100%; max-width: 340px; text-align: center; position: relative; overflow: hidden; z-index: 1; animation: modalPopIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; transition: all 0.3s; }
         
         .search-input, .form-group input, .form-group select, .form-group textarea, .login-input { width: 100%; padding: 10px 14px; margin-bottom: 8px; border: 1px solid var(--border-input); border-radius: var(--radius-btn); background: #ffffff; color: var(--text-main); box-sizing: border-box; transition: all 0.2s ease; outline: none; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02); font-size: 14px; font-weight: 600; }
         .search-input:focus, .form-group input:focus, .form-group select:focus, .form-group textarea:focus, .login-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-ring); }
@@ -111,12 +114,12 @@
         header, .content-card, .calendar-card, .widget-card, .stat-card, .modal { background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow-md); overflow: hidden; transition: all 0.3s; }
         .calendar-card, .widget-card, .stat-card { border-radius: 12px; box-shadow: var(--shadow-sm); }
         
-        header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; position: relative; z-index: 1; box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+        header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px !important; position: relative; z-index: 2; box-shadow: var(--shadow-md); border-radius: var(--radius-card) !important; border: 1px solid var(--border) !important; }
         
-        /* Efek Latar Belakang Ombak */
-        header::before, header::after, .login-card::before, .login-card::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 100%; background-repeat: repeat-x; z-index: -1; pointer-events: none; opacity: 0.8; }
-        header::before, .login-card::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 C150,80 350,20 500,50 C650,80 850,20 1000,50 L1000,100 L0,100 Z' fill='rgba(0, 95, 184, 0.04)'/%3E%3C/svg%3E"); background-size: 1000px 100%; animation: animasiOmbak 18s linear infinite; }
-        header::after, .login-card::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C200,10 300,90 500,40 C700,-10 800,90 1000,40 L1000,100 L0,100 Z' fill='rgba(0, 95, 184, 0.06)'/%3E%3C/svg%3E"); background-size: 1000px 100%; animation: animasiOmbak 25s linear infinite reverse; }
+        /* Efek Latar Belakang Ombak (Mengikut Tema 36) */
+        body:not([class*="theme"]) header::before, body:not([class*="theme"]) header::after, body:not([class*="theme"]) .login-card::before, body:not([class*="theme"]) .login-card::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 100%; background-repeat: repeat-x; z-index: -1; pointer-events: none; opacity: 0.6; }
+        body:not([class*="theme"]) header::before, body:not([class*="theme"]) .login-card::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 C150,80 350,20 500,50 C650,80 850,20 1000,50 L1000,100 L0,100 Z' fill='rgba(255, 255, 255, 0.3)'/%3E%3C/svg%3E"); background-size: 1000px 100%; animation: animasiOmbak 18s linear infinite; }
+        body:not([class*="theme"]) header::after, body:not([class*="theme"]) .login-card::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C200,10 300,90 500,40 C700,-10 800,90 1000,40 L1000,100 L0,100 Z' fill='rgba(255, 255, 255, 0.5)'/%3E%3C/svg%3E"); background-size: 1000px 100%; animation: animasiOmbak 25s linear infinite reverse; }
 
         @keyframes animasiOmbak { from { background-position: 0 0; } to { background-position: 1000px 0; } }
 
@@ -128,10 +131,15 @@
         .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; position: relative; z-index: 2; }
         #headerDate { color: var(--primary); font-size: 1.1rem; font-weight:800; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; text-align: right; line-height: 1.2; padding-top: 2px;}
 
-        .nav-tabs { display: flex; justify-content: center; gap: 4px; margin-bottom: 12px; background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 6px 8px; border-radius: var(--radius-card); flex-wrap: wrap; border: 1px solid var(--border); box-shadow: var(--shadow-sm); align-items:center;}
+        .nav-tabs { display: flex; justify-content: center; gap: 4px; margin-bottom: 16px !important; background: var(--surface); backdrop-filter: var(--blur-effect); -webkit-backdrop-filter: var(--blur-effect); padding: 8px 10px; border-radius: var(--radius-card) !important; flex-wrap: wrap; border: 1px solid var(--border) !important; box-shadow: var(--shadow-md); align-items:center; position: relative; z-index: 1; }
         
-        .nav-btn { background: transparent; color: var(--text-main); opacity: 0.9; border: none; padding: 8px 16px; font-size: 0.95rem; cursor: pointer; border-radius: 8px; transition: all 0.2s ease; white-space: nowrap; font-weight:700;}
-        .nav-btn:hover { opacity: 1; color: var(--primary); background: rgba(0,0,0,0.05); }
+        /* Kosmetik Butang ❌ Carian (Mengikut Estetik Kanan) */
+        .search-container button:last-child { background: transparent !important; color: var(--text-muted) !important; border: 1.5px solid var(--border-input) !important; box-shadow: none !important; border-radius: var(--radius-btn) !important; padding: 6px 12px !important; }
+        .search-container button:last-child:hover { background: var(--border) !important; color: var(--danger) !important; border-color: var(--danger) !important; transform: none !important; }
+        
+        .nav-btn { background: transparent; color: var(--text-main); opacity: 0.9; border: 1px solid transparent; padding: 7px 15px; font-size: 0.95rem; cursor: pointer; border-radius: 8px; transition: all 0.2s ease; white-space: nowrap; font-weight:700; outline: none; }
+        .nav-btn:hover { opacity: 1; color: var(--primary); background: var(--surface-solid); border-color: rgba(0, 122, 255, 0.4); box-shadow: 0 0 12px rgba(0, 122, 255, 0.25); transform: none !important; }
+        .nav-btn:active { transform: none !important; }
         .nav-btn.active { background: var(--primary-light); color: var(--primary); opacity: 1; box-shadow: none; border: 1px solid var(--primary); }
         .tab-content { display: none; animation: blurFade 0.2s ease-out; }
         .tab-content.active { display: block; }
@@ -381,6 +389,542 @@
             td::before { content: attr(data-label); font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-bottom: 2px; font-weight:700;}
             .hide-mobile { display: none !important; }
         }
+
+     /* --- ZORIN OS UI OVERRIDES UNTUK DASHBOARD --- */
+        .mac-controls { display: none !important; }
+        /* Animasi ombak dikembalikan: baris display:none di bawah telah dibuang/dijadikan komen */
+        /* header::before, header::after, .login-card::before, .login-card::after { display: none !important; } */
+        
+        /* 1. Border Luaran (Kelabu Gelap) & Kesan Bebayang */
+        header { background: var(--surface) !important; border: 1px solid #9ca3af !important; border-bottom: none !important; box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important; border-radius: var(--radius-card) var(--radius-card) 0 0 !important; padding: 20px 24px; position: relative; z-index: 10; }
+        .nav-tabs { background: var(--nav-bg-custom, var(--surface)) !important; border: 1px solid #9ca3af !important; border-top: none !important; box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important; border-radius: 0 0 var(--radius-card) var(--radius-card) !important; padding: 6px 12px !important; gap: 8px; position: relative; z-index: 9; transition: background 0.3s ease; }
+        .stat-card, .calendar-card, .widget-card, .content-card { background: var(--surface) !important; border: 1px solid #9ca3af !important; border-radius: var(--radius-card) !important; box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important; overflow: hidden; }
+        .stat-card:hover { border-color: var(--primary) !important; box-shadow: 0 8px 24px rgba(53, 132, 228, 0.2) !important; transform: translateY(-2px); }
+        
+        /* 2. Border Dalaman (Sub-Header Tema Dinamik) */
+        .cal-header, .widget-card > div:first-child, .toolbar, .filter-chips { background: var(--sub-header-bg-custom, var(--surface)) !important; border-bottom: 1px solid #cbd5e1 !important; transition: background 0.3s ease; }
+        .stat-card > div:first-child { background: var(--primary-light) !important; border: 1px solid #93c5fd !important; }
+        #dailyActivityList > div { border: 1px solid #93c5fd !important; box-shadow: 0 2px 6px rgba(147, 197, 253, 0.2) !important; background: #f0f9ff !important; }
+        
+        /* 3. Border Ketiga (Warna Kelabu-Biru Lembut untuk Jadual & Pemisah) */
+        table th { border-bottom: 2px solid #cbd5e1 !important; color: var(--primary) !important; background: #f8fafc !important; }
+        table td { border-bottom: 1px solid #cbd5e1 !important; }
+        tr:hover td { background-color: #f0f9ff !important; }
+        .cal-day { border: 1px solid transparent !important; }
+        .cal-day.weekend { border: 1px solid #e2e8f0 !important; background: #f8fafc !important; }
+
+        /* Tetapan Teks Dashboard */
+        .header-left h1 { color: var(--text-main); font-weight: 800; font-size: 1.4rem; }
+        .header-subtitle { color: var(--text-muted); font-weight: 500; font-size: 0.85rem; }
+        #headerDate { color: var(--text-muted); font-weight: 600; font-size: 1rem; }
+        .widget-card h3, .cal-header h3 { color: var(--sub-header-text-custom, var(--primary)) !important; font-weight: 800; transition: color 0.3s ease; }
+        .stat-card .stat-info h3, .stat-card [style*="color: #0284c7"], .stat-card [style*="color: #b45309"] { color: var(--text-muted) !important; }
+        .stat-card .value, .stat-card [style*="font-size: 1.6rem"] { color: var(--text-main) !important; }
+        
+        /* Butang Navigasi Utama Tab */
+        .nav-tabs .nav-btn { border-radius: var(--radius-btn) !important; color: var(--nav-text-custom, var(--text-muted)) !important; border: none !important; font-weight: 600; padding: 8px 16px; background: transparent !important; transition: all 0.2s; }
+        .nav-tabs .nav-btn:hover { background: rgba(128,128,128,0.15) !important; color: var(--nav-text-custom-hover, var(--text-main)) !important; box-shadow: none !important; }
+        .nav-tabs .nav-btn.active { background: var(--nav-btn-active-bg, var(--primary-light)) !important; color: var(--nav-btn-active-text, var(--primary)) !important; font-weight: 700; border: 1px solid var(--nav-btn-active-border, #93c5fd) !important; }
+
+        /* ========================================= */
+        /* KOSMETIK: INLINE PUTIH & SOFT SHADOW      */
+        /* ========================================= */
+        
+        /* 1. Header (Bahagian Atas) */
+        header { 
+            border: 1px solid #cbd5e1 !important; 
+            border-bottom: none !important; 
+            box-shadow: inset 0 2px 2px rgba(255, 255, 255, 1), inset 1.5px 0 1px rgba(255, 255, 255, 0.8), inset -1.5px 0 1px rgba(255, 255, 255, 0.8), 0 -4px 16px rgba(0, 0, 0, 0.04) !important; 
+        }
+        
+        /* 2. Tab Navigasi (Bahagian Bawah Header) */
+        .nav-tabs { 
+            border: 1px solid #cbd5e1 !important; 
+            border-top: none !important; 
+            box-shadow: inset 0 -2px 2px rgba(255, 255, 255, 0.8), inset 1.5px 0 1px rgba(255, 255, 255, 0.8), inset -1.5px 0 1px rgba(255, 255, 255, 0.8), 0 8px 24px rgba(0, 0, 0, 0.06) !important; 
+        }
+
+        /* 3. Kotak Widget & Kad Kandungan */
+        .stat-card, .calendar-card, .widget-card, .content-card, .login-card, .modal { 
+            border: 1px solid #cbd5e1 !important; 
+            box-shadow: inset 0 2px 2px rgba(255, 255, 255, 1), inset 0 0 0 1.5px rgba(255, 255, 255, 0.6), 0 8px 24px rgba(0, 0, 0, 0.06) !important; 
+        }
+
+        /* Pengecualian Latar Putih Khusus untuk Tab Senarai (Rekod Bacaan) */
+        #tab-senarai .cal-header, 
+        #tab-senarai .filter-chips { background: #ffffff !important; }
+        #tab-senarai .cal-header h3 { color: var(--primary) !important; }
+        
+        /* Susun filter ke tengah dan pisahkan dengan sempadan */
+        #tab-senarai .filter-chips { 
+            justify-content: center !important; 
+            border-top: 1px solid #cbd5e1 !important; 
+            border-bottom: 2px solid #cbd5e1 !important; 
+            padding: 12px 14px !important; 
+        }
+
+        /* ========================================================================= */
+        /* KOSMETIK: TINDIHAN TEMA TERANG SEPERTI VERSI 36.33 (SOFT BLUE GLASS)      */
+        /* ========================================================================= */
+        
+        body:not([class*="theme"]) header {
+            border: 1px solid rgba(255,255,255,0.5) !important;
+            border-bottom: 1.5px solid rgba(0, 122, 255, 0.2) !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06), inset 0 2px 2px rgba(255,255,255,1) !important;
+            border-radius: var(--radius-card) var(--radius-card) 0 0 !important;
+        }
+
+        body:not([class*="theme"]) .nav-tabs {
+            border: 1px solid rgba(255,255,255,0.5) !important;
+            border-top: none !important;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08), inset 0 -2px 2px rgba(255,255,255,0.8) !important;
+            padding: 8px 10px !important;
+        }
+
+        body:not([class*="theme"]) .stat-card, 
+        body:not([class*="theme"]) .calendar-card, 
+        body:not([class*="theme"]) .widget-card, 
+        body:not([class*="theme"]) .content-card,
+        body:not([class*="theme"]) .login-card {
+            border: 1px solid rgba(255,255,255,0.6) !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06), inset 0 2px 2px rgba(255,255,255,1) !important;
+        }
+
+        /* Membuang border gelap yang diisytihar dalam override Zorin OS sebelumnya */
+        body:not([class*="theme"]) .cal-header, 
+        body:not([class*="theme"]) .widget-card > div:first-child, 
+        body:not([class*="theme"]) .toolbar, 
+        body:not([class*="theme"]) .filter-chips {
+            border-bottom: 1px solid var(--border) !important;
+            background: transparent !important;
+        }
+
+        body:not([class*="theme"]) table th {
+            border-bottom: 2px solid var(--border) !important;
+            background: rgba(0, 122, 255, 0.05) !important;
+        }
+
+        body:not([class*="theme"]) table td {
+            border-bottom: 1px solid var(--border) !important;
+        }
+
+        /* Setkan warna tajuk-tajuk untuk tema terang */
+        body:not([class*="theme"]) .widget-card h3, 
+        body:not([class*="theme"]) .cal-header h3, 
+        body:not([class*="theme"]) .content-card h3, 
+        body:not([class*="theme"]) #tab-senarai .cal-header h3,
+        body:not([class*="theme"]) #headerTitleText, 
+        body:not([class*="theme"]) #dashCalMonthYearText, 
+        body:not([class*="theme"]) #senaraiCalMonthYear,
+        body:not([class*="theme"]) #loginMainTitle,
+        body:not([class*="theme"]) #login_form_user p:first-of-type { 
+            color: #007aff !important; /* Warna biru Apple / iOS lalai */
+            font-weight: 800 !important;
+        }
+
+        body:not([class*="theme"]) .nav-tabs .nav-btn.active {
+            color: #007aff !important;
+        }
+        
+        body:not([class*="theme"]) .header-subtitle {
+            opacity: 1 !important;
+        }
+        /* ========================================================================= */
+        /* KOSMETIK: TIMBULKAN SEMULA ANIMASI OMBAK (TEMA TERANG)                    */
+        /* ========================================================================= */
+        
+        body:not([class*="theme"]) header::before, 
+        body:not([class*="theme"]) header::after, 
+        body:not([class*="theme"]) .login-card::before, 
+        body:not([class*="theme"]) .login-card::after { 
+            z-index: 1 !important; 
+            opacity: 1 !important;
+            pointer-events: none;
+        }
+        
+        body:not([class*="theme"]) header::before, 
+        body:not([class*="theme"]) .login-card::before { 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 C150,80 350,20 500,50 C650,80 850,20 1000,50 L1000,100 L0,100 Z' fill='rgba(0, 122, 255, 0.08)'/%3E%3C/svg%3E") !important; 
+        }
+        
+        body:not([class*="theme"]) header::after, 
+        body:not([class*="theme"]) .login-card::after { 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C200,10 300,90 500,40 C700,-10 800,90 1000,40 L1000,100 L0,100 Z' fill='rgba(0, 122, 255, 0.05)'/%3E%3C/svg%3E") !important; 
+        }
+
+        /* ========================================================================= */
+        /* KOSMETIK: EFEK SHADOW KESELURUHAN & TEKS KELABU GELAP (SEMUA TEMA)        */
+        /* ========================================================================= */
+        
+        :root {
+            --text-muted: #475569 !important; /* Slate 600 - Gelapkan teks kelabu cair ke Dark Grey */
+        }
+        
+        /* Efek shadow pada Pengepala, Modals & Kad Log Masuk */
+        header, .login-card, .modal {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+        }
+        
+        /* Efek shadow pada Navigasi */
+        .nav-tabs {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+        }
+        
+        /* Efek shadow yang lebih timbul pada ruang Widget & Kandungan */
+        .stat-card, .calendar-card, .widget-card, .content-card {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+            transition: all 0.3s ease;
+        }
+        
+        /* Efek shadow hover (apabila disentuh tetikus) */
+        .stat-card:hover, .widget-item:hover {
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06) !important;
+            transform: translateY(-2px);
+        }
+        
+        /* Kurangkan efek lutsinar/pudar pada sub-tajuk */
+        .header-subtitle {
+            opacity: 0.9 !important; 
+        }
+        /* ========================================================================= */
+        /* KOSMETIK: TIMBULKAN SEMULA ANIMASI OMBAK (TEMA TERANG SAHAJA)             */
+        /* ========================================================================= */
+        
+        body:not([class*="theme"]) header::before, 
+        body:not([class*="theme"]) header::after, 
+        body:not([class*="theme"]) .login-card::before, 
+        body:not([class*="theme"]) .login-card::after { 
+            z-index: 1 !important; 
+            opacity: 1 !important;
+            pointer-events: none;
+        }
+        
+        body:not([class*="theme"]) header::before, 
+        body:not([class*="theme"]) .login-card::before { 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,50 C150,80 350,20 500,50 C650,80 850,20 1000,50 L1000,100 L0,100 Z' fill='rgba(0, 122, 255, 0.08)'/%3E%3C/svg%3E") !important; 
+        }
+        
+        body:not([class*="theme"]) header::after, 
+        body:not([class*="theme"]) .login-card::after { 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C200,10 300,90 500,40 C700,-10 800,90 1000,40 L1000,100 L0,100 Z' fill='rgba(0, 122, 255, 0.05)'/%3E%3C/svg%3E") !important; 
+        }
+        /* ========================================= */
+        /* KOSMETIK: TERSAMBUNG + OUTLINE & SHADOW   */
+        /* ========================================= */
+        
+        /* 1. Header (Tersambung di Bawah) */
+        header { 
+            margin-bottom: 0 !important; 
+            border-bottom-left-radius: 0 !important; 
+            border-bottom-right-radius: 0 !important; 
+            border: 1px solid #cbd5e1 !important; 
+            border-bottom: 1.5px solid rgba(0, 122, 255, 0.25) !important; 
+            box-shadow: inset 0 2.5px 3px rgba(255, 255, 255, 1), inset 1.5px 0 2px rgba(255, 255, 255, 0.7), inset -1.5px 0 2px rgba(255, 255, 255, 0.7), 0 -4px 16px rgba(0, 0, 0, 0.04) !important; 
+        }
+        
+        /* 2. Navigasi Tab (Tersambung di Atas) */
+        .nav-tabs { 
+            border-radius: 0 0 var(--radius-card) var(--radius-card) !important; 
+            border: 1px solid #cbd5e1 !important; 
+            border-top: none !important; 
+            box-shadow: inset 0 -2.5px 3px rgba(255, 255, 255, 0.8), inset 1.5px 0 2px rgba(255, 255, 255, 0.7), inset -1.5px 0 2px rgba(255, 255, 255, 0.7), 0 10px 24px rgba(0, 0, 0, 0.08) !important; 
+        }
+
+        /* 3. Efek Kad & Widget Lain */
+        .stat-card, .calendar-card, .widget-card, .content-card, .login-card, .modal { 
+            border: 1px solid #cbd5e1 !important; 
+            box-shadow: inset 0 2.5px 3px rgba(255, 255, 255, 1), inset 0 0 0 1.5px rgba(255, 255, 255, 0.5), 0 8px 24px rgba(0, 0, 0, 0.06) !important; 
+        }
+        /* ========================================================================= */
+        /* KOSMETIK: BUANG EFEK TEKAN (ANIMASI KE BAWAH) PADA SUIS TAB & FILTER      */
+        /* ========================================================================= */
+        
+        .nav-tabs .nav-btn:active,
+        #sub-tabs-buku .nav-btn:active,
+        .filter-chips .chip:active {
+            transform: translateY(0) scale(1) !important;
+            top: 0 !important;
+            margin-top: 0 !important;
+        }
+        /* ========================================================================= */
+        /* KOSMETIK: MATIKAN EFEK TEKAN (ANIMASI MENGECIL/KE BAWAH) SELURUH UI       */
+        /* ========================================================================= */
+        
+        /* 1. Kekalkan posisi butang utama supaya tidak mengecil/tenggelam bila diklik */
+        .btn-3d:active { 
+            transform: translateY(-1px) !important; 
+        }
+        
+        /* 2. Matikan efek pergerakan pada butang lutsinar, tab, avatar dan kalendar */
+        button:active,
+        .btn-clear:active, 
+        .nav-tabs .nav-btn:active, 
+        #sub-tabs-buku .nav-btn:active, 
+        .filter-chips .chip:active,
+        .avatar-opt:active,
+        .cal-day:active,
+        .mac-dot:active {
+            transform: none !important;
+            margin: 0 !important;
+        }
+        /* ========================================================================= */
+        /* KOSMETIK: MATIKAN EFEK BERGERAK, TAMBAH GLOW & BUANG TRAFIK LITE LOGIN    */
+        /* ========================================================================= */
+        
+        /* 1. Sembunyikan Ikon Trafik Mac di Skrin Login sahaja */
+        #loginView .mac-controls,
+        #loginView .mac-dot, 
+        #loginView > div > div:first-child[style*="flex"] {
+            display: none !important;
+        }
+
+        /* 2. Matikan segala jenis pergerakan (transform) pada seluruh elemen interaktif */
+        button, .btn-3d, .btn-clear, .nav-btn, .chip, .stat-card, .widget-item, .ulasan-card, tr, .avatar-opt, [onmouseover], [onmousedown], .cal-day {
+            transform: none !important;
+            margin-top: 0 !important;
+        }
+
+        /* 3. Efek Hover: Tambah Outline Glow yang sekata dan kemas */
+        button:hover, .btn-3d:hover, .btn-clear:hover, .chip:hover, .avatar-opt:hover {
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3), 0 4px 12px rgba(0,0,0,0.1) !important;
+            border-color: #007aff !important;
+            transition: box-shadow 0.2s ease, border-color 0.2s ease !important;
+        }
+
+        /* 4. Efek Active (Klik): Glow lebih menonjol sedikit */
+        button:active, .btn-3d:active, .btn-clear:active, .chip:active, .avatar-opt:active {
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.5), 0 2px 6px rgba(0,0,0,0.1) !important;
+        }
+
+        /* 5. Glow Khas Warna Bahaya / Merah */
+        button.danger:hover, button[style*="--danger"]:hover {
+            box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.3) !important;
+            border-color: var(--danger) !important;
+        }
+        button.danger:active, button[style*="--danger"]:active {
+            box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.5) !important;
+        }
+        
+        /* 6. Glow Khas Warna Berjaya / Hijau */
+        button[style*="--success"]:hover {
+            box-shadow: 0 0 0 3px rgba(40, 205, 65, 0.3) !important;
+            border-color: var(--success) !important;
+        }
+        button[style*="--success"]:active {
+            box-shadow: 0 0 0 4px rgba(40, 205, 65, 0.5) !important;
+        }
+        
+        /* Pastikan Nav-Tabs kekal rata & glow lembut */
+        .nav-tabs .nav-btn:hover {
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2) !important;
+        }
+        /* ========================================================================= */
+        /* KOSMETIK: TEMA 2 GELAP (DARK THEME) - OVERRIDE EKSKLUSIF                  */
+        /* ========================================================================= */
+        
+        body.theme-blue {
+            --bg-body-gradient: linear-gradient(135deg, #0f172a, #1e293b) !important;
+            --surface: rgba(30, 41, 59, 0.95) !important;
+            --text-main: #f8fafc !important; 
+            --text-muted: #94a3b8 !important;
+            background: var(--bg-body-gradient) !important;
+        }
+
+        /* Navigasi Utama, Modal & Kad Asas */
+        body.theme-blue header, body.theme-blue .nav-tabs, body.theme-blue .login-card, body.theme-blue .modal { 
+            background: var(--surface) !important; 
+            border: 1px solid #475569 !important; 
+            color: #f8fafc !important;
+        }
+        body.theme-blue header { border-bottom: none !important; }
+        body.theme-blue .nav-tabs { border-top: none !important; }
+
+        /* Menu Navigasi Tab Aktif (Font Putih) */
+        body.theme-blue .nav-tabs .nav-btn { color: #94a3b8 !important; }
+        body.theme-blue .nav-tabs .nav-btn:hover { color: #f8fafc !important; background: rgba(255,255,255,0.1) !important; }
+        body.theme-blue .nav-tabs .nav-btn.active { 
+            background: rgba(56, 189, 248, 0.15) !important; 
+            color: #ffffff !important; /* Font putih menonjol */
+            border: 1px solid #38bdf8 !important; 
+        }
+
+        /* Latar Belakang Sub-Header / Toolbars */
+        body.theme-blue .cal-header, body.theme-blue .widget-card > div:first-child, body.theme-blue .toolbar, body.theme-blue .filter-chips { 
+            background: rgba(0,0,0,0.2) !important; 
+            border-bottom: 1px solid #475569 !important; 
+            color: #f8fafc !important;
+        }
+
+        /* Warna Font Dominan Cyan/Sky */
+        body.theme-blue .widget-card h3, body.theme-blue .cal-header h3, body.theme-blue .content-card h3, body.theme-blue #tab-senarai .cal-header h3, body.theme-blue #headerTitleText, body.theme-blue #dashCalMonthYearText, body.theme-blue #senaraiCalMonthYear, body.theme-blue #loginMainTitle, body.theme-blue #login_form_user p:first-of-type { 
+            color: #38bdf8 !important; 
+        }
+
+        /* --- OVERRIDES KOTAK STATISTIK (Kotak 2) --- */
+        body.theme-blue .stat-card[style] { 
+            background: var(--surface) !important; 
+            border-color: #475569 !important; 
+        }
+        body.theme-blue .stat-card > div:first-child { 
+            background: rgba(56, 189, 248, 0.1) !important; 
+            border: 1px solid #38bdf8 !important; 
+            color: #38bdf8 !important; 
+        }
+        /* Kontras Teks dalam Kad Statistik */
+        body.theme-blue .stat-card div[style*="color: #0284c7"], 
+        body.theme-blue .stat-card div[style*="color: #b45309"] { 
+            color: #94a3b8 !important; /* Tajuk kecil kelabu cerah */
+        }
+        body.theme-blue .stat-card div[style*="color: #0f172a"], 
+        body.theme-blue .stat-card .value { 
+            color: #f8fafc !important; /* Angka warna putih pekat */
+        }
+
+        /* --- OVERRIDES WIDGET & CALENDAR (Kotak 3) --- */
+        body.theme-blue .calendar-card[style], 
+        body.theme-blue .widget-card[style], 
+        body.theme-blue .content-card[style] { 
+            background: var(--surface) !important; 
+            border-color: #475569 !important; 
+        }
+        body.theme-blue .calendar-card .cal-header[style], 
+        body.theme-blue .widget-card > div:first-child[style] { 
+            background: transparent !important; 
+            border-color: #475569 !important; 
+        }
+        body.theme-blue .calendar-card h3[style] { color: #38bdf8 !important; }
+        
+        /* Butang & Nombor Kalendar */
+        body.theme-blue .calendar-card button[style] { 
+            background: rgba(255,255,255,0.1) !important; 
+            color: #f8fafc !important; 
+            border-color: #475569 !important; 
+        }
+        body.theme-blue .cal-date-num { color: #f8fafc !important; }
+        body.theme-blue .cal-day { color: #cbd5e1 !important; border: 1px solid transparent !important; }
+        body.theme-blue .cal-day.weekend { background: rgba(0,0,0,0.2) !important; border-color: #475569 !important;}
+        body.theme-blue .cal-header-day[style*="color:var(--primary)"] { color: #38bdf8 !important; }
+        body.theme-blue .cal-header-day[style*="color:var(--danger)"] { color: #f87171 !important; }
+        
+        /* Item Aktiviti Terkini */
+        body.theme-blue #dailyActivityList > div { border: 1px solid #475569 !important; background: rgba(0,0,0,0.2) !important; }
+        body.theme-blue #selectedDateLabel[style] { background: #334155 !important; border-color: #475569 !important; color: #f8fafc !important; }
+        
+        /* Elemen Input Biasa & Jadual */
+        body.theme-blue input, body.theme-blue select, body.theme-blue textarea { background: #334155 !important; color: #f8fafc !important; border-color: #475569 !important; }
+        body.theme-blue table th { border-bottom: 2px solid #475569 !important; color: #38bdf8 !important; background: rgba(0,0,0,0.3) !important; }
+        body.theme-blue table td { border-bottom: 1px solid #334155 !important; color: #f8fafc !important; }
+        body.theme-blue tr:hover td { background-color: rgba(56, 189, 248, 0.1) !important; }
+        body.theme-blue .chip { background: #334155; color: #cbd5e1; border: 1px solid #475569;}
+        body.theme-blue .chip.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8;}
+        /* ========================================================================= */
+        /* KOSMETIK: BUANG EFEK TEKAN (ANIMASI KE BAWAH) PADA SUIS TAB & FILTER      */
+        /* ========================================================================= */
+        
+        .nav-tabs .nav-btn:active,
+        #sub-tabs-buku .nav-btn:active,
+        .filter-chips .chip:active {
+            transform: translateY(0) scale(1) !important;
+            top: 0 !important;
+            margin-top: 0 !important;
+        }
+
+        /* ========================================================================= */
+        /* KOSMETIK: MATIKAN EFEK TEKAN (ANIMASI MENGECIL/KE BAWAH) SELURUH UI       */
+        /* ========================================================================= */
+        
+        /* Kekalkan posisi butang utama supaya tidak mengecil/tenggelam bila diklik */
+        .btn-3d:active { 
+            transform: translateY(-1px) !important; 
+        }
+        
+        /* Matikan efek pergerakan pada butang lutsinar, tab, avatar dan kalendar */
+        button:active,
+        .btn-clear:active, 
+        .avatar-opt:active,
+        .cal-day:active,
+        .mac-dot:active {
+            transform: none !important;
+            margin: 0 !important;
+        }
+
+        /* ========================================================================= */
+        /* KOSMETIK: TEMA 1 SAHAJA (TERANG) - OVERRIDE EKSKLUSIF                     */
+        /* ========================================================================= */
+        body {
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%) !important;
+            color: #1D1D1F !important;
+        }
+        .login-card, header, .nav-tabs, .stat-card, .calendar-card, .widget-card, .content-card, .modal {
+            background: rgba(255, 255, 255, 0.85) !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            backdrop-filter: blur(12px) !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06), inset 0 2px 2px rgba(255,255,255,1) !important;
+        }
+        table th { border-bottom: 2px solid var(--border) !important; background: rgba(0, 122, 255, 0.05) !important; color: #007aff !important; }
+        table td { border-bottom: 1px solid var(--border) !important; color: #1D1D1F !important; }
+        .widget-card h3, .cal-header h3, .content-card h3, #tab-senarai .cal-header h3, #headerTitleText, #dashCalMonthYearText, #senaraiCalMonthYear, #loginMainTitle, #login_form_user p:first-of-type, .nav-tabs .nav-btn.active { 
+            color: #007aff !important; font-weight: 800 !important;
+        }
+        .header-subtitle { opacity: 1 !important; color: #475569 !important; }
+        .cal-header, .widget-card > div:first-child, .toolbar, .filter-chips { border-bottom: 1px solid var(--border) !important; background: transparent !important; color: #1D1D1F !important; }
+        /* ========================================================================= */
+        /* KOSMETIK: MATIKAN EFEK BERGERAK, TAMBAH GLOW & BUANG TRAFIK LITE LOGIN    */
+        /* ========================================================================= */
+
+        /* 1. Matikan segala jenis pergerakan (transform) pada seluruh elemen interaktif */
+        button, .btn-3d, .btn-clear, .nav-btn, .chip, .stat-card, .widget-item, .ulasan-card, tr, .avatar-opt, [onmouseover], [onmousedown], .cal-day {
+            transform: none !important;
+            margin-top: 0 !important;
+        }
+
+        /* 2. Efek Hover: Tambah Outline Glow yang sekata dan kemas */
+        button:hover, .btn-3d:hover, .btn-clear:hover, .chip:hover, .avatar-opt:hover {
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3), 0 4px 12px rgba(0,0,0,0.1) !important;
+            border-color: #007aff !important;
+            transition: box-shadow 0.2s ease, border-color 0.2s ease !important;
+        }
+
+        /* 3. Efek Active (Klik): Glow lebih menonjol sedikit */
+        button:active, .btn-3d:active, .btn-clear:active, .chip:active, .avatar-opt:active {
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.5), 0 2px 6px rgba(0,0,0,0.1) !important;
+        }
+
+        /* 4. Glow Khas Warna Bahaya / Merah */
+        button.danger:hover, button[style*="--danger"]:hover {
+            box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.3) !important;
+            border-color: var(--danger) !important;
+        }
+        button.danger:active, button[style*="--danger"]:active {
+            box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.5) !important;
+        }
+        
+        /* 5. Glow Khas Warna Berjaya / Hijau */
+        button[style*="--success"]:hover {
+            box-shadow: 0 0 0 3px rgba(40, 205, 65, 0.3) !important;
+            border-color: var(--success) !important;
+        }
+        button[style*="--success"]:active {
+            box-shadow: 0 0 0 4px rgba(40, 205, 65, 0.5) !important;
+        }
+        
+        /* 6. Pastikan Nav-Tabs kekal rata & glow lembut */
+        .nav-tabs .nav-btn:hover {
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2) !important;
+        }
+
+        /* ========================================================================= */
+        /* KOSMETIK: GAMBAR INFORMASI (MAX-WIDTH & TENGAH)                           */
+        /* ========================================================================= */
+        #i_editor img, #infoPostsContainer img {
+            display: block !important;
+            margin: 16px auto !important;
+            max-width: 100% !important; /* Elak gambar kecil jadi pecah */
+            width: auto !important;
+            height: auto !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+        }
     </style>
 </head>
 <body>
@@ -392,9 +936,9 @@
     <div class="login-card">
         <!-- Mac OS Traffic Lights -->
         <div style="position:absolute; top:18px; left:20px; display:flex; gap:6px; z-index:10;">
-            <div class="mac-dot mac-red"></div>
-            <div class="mac-dot mac-yellow" onclick="window.quickAdminLogin()" style="cursor:pointer; opacity:1; transition:transform 0.2s ease;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Akses Pantas Pentadbir"></div>
-            <div class="mac-dot mac-green"></div>
+            <div class="mac-dot mac-red" style="background-color: #FF5F56; opacity: 1;"></div>
+            <div class="mac-dot mac-yellow" style="background-color: #FFBD2E; opacity: 1;"></div>
+            <div class="mac-dot mac-green" style="background-color: #27C93F; opacity: 1;"></div>
         </div>
 
         <!-- Ruangan Animasi Loading (Overlay Atas) -->
@@ -416,24 +960,25 @@
             <div id="login_form_user" style="border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px;">
                 <p style="color: var(--primary); margin-top: 0; margin-bottom: 10px; font-size: 0.85rem; font-weight: 700; text-align: center;">Log Masuk Ahli</p>
                 <div style="text-align: center;">
-                    <input type="text" id="login_u_id" class="login-input" placeholder="No. Pekerja (Cth: A001)" style="text-align: center;" onkeyup="window.checkUserLogin()">
+                    <input type="text" id="login_u_id" class="login-input" placeholder="No. Pekerja (Cth: A001)" style="text-align: center; border-radius: 6px; box-shadow: none; border-color: #d2d2d7; background-color: #ffffff;" onkeyup="window.checkUserLogin()">
                     <div id="login_u_info" style="min-height: 24px; margin-bottom: 8px; display:flex; flex-direction:column; justify-content:center; align-items:center;"></div>
-                    <input type="password" id="login_u_pwd" class="login-input" placeholder="Kata Laluan (Lalai: 1234)" style="text-align: center;" onkeyup="if(event.key === 'Enter') window.attemptUserLogin()">
+                    <input type="password" id="login_u_pwd" class="login-input" placeholder="Kata Laluan (Lalai: 1234)" style="text-align: center; border-radius: 6px; box-shadow: none; border-color: #d2d2d7; background-color: #ffffff;" onkeyup="if(event.key === 'Enter') window.attemptUserLogin()">
                 </div>
-                <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 12px;" onclick="window.attemptUserLogin()">Masuk Profil Peminjam</button>
-                <button class="btn-3d" type="button" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-bottom: 8px; background: var(--success); border-color: #27C93F;" onclick="window.visitorLogin()">👤 Masuk tanpa login</button>
+                <button type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 12px; background: #0078FF; color: #ffffff; border: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(0, 120, 255, 0.3); font-weight: 700; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='translateY(0)';" onclick="window.attemptUserLogin()">Masuk Profil Peminjam</button>
+                
+                <button type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 8px; background: #28CD41; color: #ffffff; border: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(40, 205, 65, 0.3); font-weight: 700; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='translateY(0)';" onclick="window.visitorLogin()">👤 Masuk tanpa login</button>
             </div>
 
             <div style="margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
                 <div style="display: flex; gap: 10px;">
-                    <button type="button" class="btn-clear" style="border-radius: 50%; width: 44px; height: 44px; padding: 0; border: 2px solid #F59E0B; color: #EF4444; transition: all 0.2s ease; background: var(--surface-solid); box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);" onmouseover="this.style.transform='scale(1.1)'; this.style.background='#FEF3C7';" onmouseout="this.style.transform='scale(1)'; this.style.background='var(--surface-solid)';" onclick="window.openAdminLoginModal()" title="Log Masuk Pentadbir">
+                    <button type="button" class="btn-clear" style="border-radius: 50%; width: 44px; height: 44px; padding: 0; border: 2px solid #FF9500; color: #FF3B30; transition: all 0.2s ease; background: var(--surface-solid); box-shadow: 0 2px 8px rgba(255, 149, 0, 0.2);" onmouseover="this.style.transform='scale(1.1)'; this.style.background='#FFFBEB';" onmouseout="this.style.transform='scale(1)'; this.style.background='var(--surface-solid)';" onclick="window.openAdminLoginModal()" title="Log Masuk Pentadbir">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"></path><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
                     </button>
                 </div>
             </div>
         </div>
         
-        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v36.20 (Stable)</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v37.54 (Zordon)</div>
     </div>
 </div>
 
@@ -486,13 +1031,13 @@
     <div class="modal" style="max-width: 320px; text-align: center;">
         <div class="modal-header" style="border-bottom:none; margin-bottom:0; padding-bottom:0; display:flex; justify-content:space-between; align-items:center;">
             <h3 style="margin:0; font-size:1.1rem; color:var(--primary);">🔐 Akses Pentadbir</h3>
-            <button class="btn-clear" onclick="window.closeAdminLoginModal()" style="padding:4px; margin:0; border:none; background:transparent; color:var(--danger);" title="Tutup">
+            <button class="btn-clear" onclick="window.closeAdminLoginModal()" style="padding:4px; margin:0; border:none; background:transparent; color:var(--danger); box-shadow:none;" title="Tutup">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
         </div>
         <div style="padding-top:16px;">
             <div style="position:relative; margin-bottom:8px;">
-                <input type="password" id="password" class="login-input" placeholder="Kata Laluan Pentadbir" style="margin-bottom:0; padding-right:40px;" onkeyup="if(event.key === 'Enter') window.attemptLogin()">
+                <input type="password" id="password" class="login-input" placeholder="Kata Laluan Pentadbir" style="margin-bottom:0; padding-right:40px; text-align: center;" onkeyup="if(event.key === 'Enter') window.attemptLogin()">
                 <span onclick="window.toggleAdminPassword()" id="adminPwdEye" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--text-muted); display:flex; align-items:center; justify-content:center; padding:4px;" title="Papar/Sembunyi Kata Laluan">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </span>
@@ -713,11 +1258,12 @@
                 <div class="content-card" style="padding:0; min-width: 0; transition: all 0.3s ease;">
                     <div class="toolbar">
                         <div class="search-container">
-                            <button id="btnBukaKalendarSenarai" class="btn-clear" style="display:none; padding:6px 10px; margin-right:6px; border-radius:8px; box-shadow:var(--shadow-sm);" onclick="window.toggleSenaraiSidebar()" title="Papar Semula Kalendar">📅</button>
-                            <input type="text" id="searchInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari peminjam, ID, tajuk..." onkeyup="window.senaraiCurrentPage=1; window.renderTable()"><button class="btn-clear" style="padding:6px 10px;" onclick="window.clearSearch()">❌</button>
+                            <button id="btnBukaKalendarSenarai" class="btn-3d" style="display:none; padding:6px 10px; margin-right:6px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="window.toggleSenaraiSidebar()" title="Papar Semula Kalendar">📅</button>
+                            <input type="text" id="searchInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari peminjam, ID, tajuk..." onkeyup="window.senaraiCurrentPage=1; window.renderTable()"><button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="window.clearSearch()">❌</button>
                         </div>
                         <div class="action-wrapper" id="action-wrapper-senarai">
-                            <button class="btn-3d" onclick="window.openModal()" style="padding:6px 14px; background:var(--success); border-color:#27C93F;">➕ Pinjaman Baru</button>
+                            <button class="btn-3d secondary" onclick="window.openCetakSenaraiModal()" style="padding:6px 14px; border: 1px solid var(--primary); background: #ffffff; box-shadow: var(--shadow-sm); color: var(--primary);">🖨️ Cetak</button>
+                            <button class="btn-3d" onclick="window.openModal()" style="padding:6px 14px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);">➕ Pinjaman Baru</button>
                         </div>
                         <div class="action-wrapper" id="action-wrapper-senarai-user" style="display:none;">
                             <div style="display:flex; align-items:center; gap:4px; background:var(--bg-body); padding:2px 6px; border-radius:var(--radius-btn); border:1px solid var(--border);">
@@ -729,7 +1275,7 @@
                                     <option value="all">Semua Tahun</option>
                                     <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option>
                                 </select>
-                                <button class="btn-clear" style="padding:4px 10px; border-radius:4px; border: 1px solid var(--primary); color:var(--primary); background:var(--primary-light); font-weight:700;" onclick="window.printUserReport()" title="Cetak Rekod Pinjaman Saya">🖨️ Cetak Laporan Saya</button>
+                                <button class="btn-3d secondary" style="padding:4px 10px; font-size:0.8rem; border:1px solid var(--primary); background:#ffffff;" onclick="window.printUserReport()" title="Cetak Rekod Pinjaman Saya">🖨️ Cetak Laporan Saya</button>
                             </div>
                         </div>
                     </div>
@@ -762,8 +1308,8 @@
                 <div class="toolbar">
                     <div class="search-container">
                         <input type="text" id="searchBukuInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari tajuk buku, penerbit..." onkeyup="window.bukuBaruCurrentPage=1; window.bukuLamaCurrentPage=1; window.renderBukuTable()">
-                        <button id="btnFilterBukuAktif" class="btn-clear" style="padding:6px 10px; font-size: 0.8rem; border-color: var(--border); transition: 0.2s; white-space: nowrap;" onclick="window.toggleBukuFilterActive()" title="Tapis: Sedang Dipinjam Sahaja">📌 Dipinjam</button>
-                        <button class="btn-clear" style="padding:6px 10px;" onclick="document.getElementById('searchBukuInput').value=''; window.bukuBaruCurrentPage=1; window.bukuLamaCurrentPage=1; window.renderBukuTable();">❌</button>
+                        <button id="btnFilterBukuAktif" class="btn-3d secondary" style="padding:6px 10px; font-size: 0.8rem; transition: 0.2s; white-space: nowrap;" onclick="window.toggleBukuFilterActive()" title="Tapis: Sedang Dipinjam Sahaja">📌 Dipinjam</button>
+                        <button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="document.getElementById('searchBukuInput').value=''; window.bukuBaruCurrentPage=1; window.bukuLamaCurrentPage=1; window.renderBukuTable();">❌</button>
                     </div>
                     <div class="action-wrapper" id="action-wrapper-buku">
                         <div style="display:flex; align-items:center; gap:6px; background:var(--bg-body); padding:4px 8px; border-radius:var(--radius-btn); border:1px solid var(--border);">
@@ -774,7 +1320,7 @@
                             <input type="number" id="printBukuYear" value="2026" style="width:60px; margin:0; padding:4px 8px; border:1px solid var(--border); border-radius:4px; background:var(--surface-solid);">
                             <button class="btn-3d secondary" style="padding:4px 10px;" onclick="window.printBukuReport()">🖨️ Cetak</button>
                         </div>
-                        <button class="btn-3d" style="padding:6px 14px;" onclick="window.openBukuModal()">➕ Rekod Buku Baru</button>
+                        <button class="btn-3d" style="padding:6px 14px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="window.openBukuModal()">➕ Rekod Buku Baru</button>
                     </div>
                 </div>
                 
@@ -919,10 +1465,10 @@
                             <option value="sambung">Sambung Pinjam</option>
                             <option value="lewat">Rekod Lewat</option>
                         </select>
-                        <button class="btn-clear" style="padding:6px 10px; flex-shrink:0;" onclick="document.getElementById('searchAktifInput').value=''; let sel=document.getElementById('filterAktifStatus'); sel.value='all'; window.syncCustomSelect(sel); window.renderAktifTable();">❌</button>
+                        <button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3); flex-shrink:0;" onclick="document.getElementById('searchAktifInput').value=''; let sel=document.getElementById('filterAktifStatus'); sel.value='all'; window.syncCustomSelect(sel); window.renderAktifTable();">❌</button>
                     </div>
                     <div class="action-wrapper">
-                        <button class="btn-3d secondary" onclick="window.printAktifReport()">🖨️ Cetak Senarai Terkini</button>
+                        <button class="btn-3d secondary" style="padding:6px 14px;" onclick="window.printAktifReport()">🖨️ Cetak Senarai Terkini</button>
                     </div>
                 </div>
                 <div id="aktifContainer" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; background: rgba(0,0,0,0.02); min-height: 50vh;">
@@ -935,8 +1481,13 @@
             <div class="content-card" style="padding:0; background: transparent; border: none; box-shadow: none;">
                 <div class="toolbar" style="background: var(--surface-solid); border-radius: var(--radius-card); margin-bottom: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
                     <div class="search-container">
+                        <button id="btnFilterKelabAktif" class="btn-3d secondary" style="padding:6px 12px; font-size: 0.8rem; transition: 0.2s; white-space: nowrap; margin-right: 4px;" onclick="window.toggleKelabFilterActive()" title="Tapis: Ahli yang sedang meminjam sahaja">📖 Sedang Dipinjam: <span id="lbl_kelab_aktif_count">0</span></button>
                         <input type="text" id="searchKelabInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Cari nama atau ID peminjam..." onkeyup="window.renderKelabTable()">
-                        <button class="btn-clear" style="padding:6px 10px;" onclick="document.getElementById('searchKelabInput').value=''; window.renderKelabTable();">❌</button>
+                        <button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="document.getElementById('searchKelabInput').value=''; window.renderKelabTable();">❌</button>
+                    </div>
+                    <div class="action-wrapper">
+                        <button class="btn-3d" style="padding:6px 14px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="window.openDaftarAhliModal()">➕ Daftar</button>
+                        <button class="btn-3d secondary" style="padding:6px 14px;" onclick="window.printKelabReport()">🖨️ Cetak</button>
                     </div>
                 </div>
                 <!-- Container list baru untuk kad -->
@@ -948,26 +1499,22 @@
 
         <div id="tab-scoreboard" class="tab-content">
             <div class="content-card" style="padding:0;">
-                <div class="toolbar" style="flex-direction: column; align-items: stretch; gap: 12px; background: transparent; border-bottom: none; padding-bottom: 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                            <span id="scoreboardTitleLabel" style="font-weight:700; font-size:1.2rem; color:var(--text-main); white-space:nowrap;">🏅 Papan Mata</span>
-                        </div>
-                        <div class="search-container" style="flex: initial;">
-                            <input type="text" id="searchScoreboardInput" class="search-input" style="margin:0; padding:6px 10px; width: 250px;" placeholder="Cari nama, ID peminjam..." onkeyup="window.renderScoreboard()">
-                            <button class="btn-clear" style="padding:6px 10px;" onclick="document.getElementById('searchScoreboardInput').value=''; window.renderScoreboard();">❌</button>
-                        </div>
-                    </div>
-                    <div class="action-wrapper" style="justify-content: flex-start; background: var(--bg-body); padding: 10px 14px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-bottom: 10px;">
+                <div class="toolbar" style="background: transparent; border-bottom: none; padding-bottom: 0;">
+                    <span id="scoreboardTitleLabel" style="display:none;"></span>
+                    <div class="action-wrapper" style="width: 100%; justify-content: flex-start; background: var(--bg-body); padding: 8px 12px; border-radius: var(--radius-btn); border: 1px solid var(--border); margin-bottom: 10px; align-items: center; flex-wrap: wrap;">
                         <select id="scoreLimit" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="3">Top 3</option><option value="5">Top 5</option><option value="10" selected>Top 10</option><option value="20">Top 20</option><option value="all">Semua</option></select>
-                        <span style="font-size:0.8rem; font-weight:600; margin-left:8px; color:var(--text-muted);">Tahun:</span>
+                        <span style="font-size:0.8rem; font-weight:600; margin-left:4px; color:var(--text-muted);">Tahun:</span>
                         <select id="scoreYear" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="all">Semua Tahun</option><option value="2026" selected>2026</option><option value="2025">2025</option><option value="2024">2024</option></select>
-                        <span style="font-size:0.8rem; font-weight:600; margin-left:8px; color:var(--text-muted);">Bulan:</span>
+                        <span style="font-size:0.8rem; font-weight:600; margin-left:4px; color:var(--text-muted);">Bulan:</span>
                         <select id="scoreStartMonth" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option></select>
                         <span style="font-size:0.8rem; font-weight:600; margin:0 4px; color:var(--text-muted);">Hingga</span>
                         <select id="scoreEndMonth" onchange="window.renderScoreboard()" class="form-group select" style="width:auto; padding:4px 10px; margin:0;"><option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11" selected>Dis</option></select>
-                        <div style="flex:1;"></div>
-                        <button class="btn-3d secondary" onclick="window.printScoreboard()">🖨️ Cetak</button>
+                        <div style="flex:1; min-width: 10px;"></div>
+                        <div class="search-container" style="flex: initial; margin: 0;">
+                            <input type="text" id="searchScoreboardInput" class="search-input" style="margin:0; padding:6px 10px; width: 220px;" placeholder="Cari nama, ID peminjam..." onkeyup="window.renderScoreboard()">
+                            <button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="document.getElementById('searchScoreboardInput').value=''; window.renderScoreboard();">❌</button>
+                        </div>
+                        <button class="btn-3d secondary" style="padding:6px 12px; font-size:0.8rem; border:1px solid var(--primary); background:#ffffff;" onclick="window.printScoreboard()">🖨️ Cetak Laporan</button>
                     </div>
                 </div>
                 <div class="table-wrap" style="max-height:70vh; overflow-y:auto; border-top: 1px solid var(--border); padding: 16px; background: #f8fafc;">
@@ -980,19 +1527,21 @@
 
         <div id="tab-ulasan" class="tab-content">
             <div class="content-card">
-                <div class="toolbar" style="border-bottom:none; background:transparent; padding-bottom:0;">
+                <div class="toolbar">
                     <div class="search-container" style="flex-wrap: wrap;">
-                        <span style="font-weight:700; font-size:1.2rem; color:var(--text-main); margin-right:10px;">⭐ Ulasan & Penilaian Buku</span>
-                        <input type="text" id="searchUlasanName" class="search-input" style="margin:0; padding:4px 10px; max-width: 250px;" placeholder="Cari nama pengulas atau tajuk..." onkeyup="window.ulasanCurrentPage=1; window.renderUlasanTable()">
-                        <select id="filterUlasanMonth" class="form-group select" style="width:auto; padding:4px 10px; margin:0;" onchange="window.ulasanCurrentPage=1; window.renderUlasanTable()">
+                        <input type="text" id="searchUlasanName" class="search-input" style="margin:0; padding:6px 10px; max-width: 250px;" placeholder="Cari nama pengulas atau tajuk..." onkeyup="window.ulasanCurrentPage=1; window.renderUlasanTable()">
+                        <select id="filterUlasanMonth" class="form-group select" style="width:auto; padding:6px 10px; margin:0; border-radius:var(--radius-btn);" onchange="window.ulasanCurrentPage=1; window.renderUlasanTable()">
                             <option value="all">Semua Bulan</option>
                             <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mac</option><option value="3">Apr</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ogo</option><option value="8">Sep</option><option value="9">Okt</option><option value="10">Nov</option><option value="11">Dis</option>
                         </select>
-                        <select id="filterUlasanYear" class="form-group select" style="width:auto; padding:4px 10px; margin:0;" onchange="window.ulasanCurrentPage=1; window.renderUlasanTable()">
+                        <select id="filterUlasanYear" class="form-group select" style="width:auto; padding:6px 10px; margin:0; border-radius:var(--radius-btn);" onchange="window.ulasanCurrentPage=1; window.renderUlasanTable()">
                             <option value="all">Semua Tahun</option>
                             <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option>
                         </select>
-                        <button class="btn-clear" style="padding:4px 10px;" onclick="document.getElementById('searchUlasanName').value=''; document.getElementById('filterUlasanMonth').value='all'; document.getElementById('filterUlasanYear').value='all'; window.ulasanCurrentPage=1; window.renderUlasanTable();">❌</button>
+                        <button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="document.getElementById('searchUlasanName').value=''; document.getElementById('filterUlasanMonth').value='all'; document.getElementById('filterUlasanYear').value='all'; window.ulasanCurrentPage=1; window.renderUlasanTable();">❌</button>
+                    </div>
+                    <div class="action-wrapper" id="action-wrapper-ulasan-user" style="display:none; margin-left: 8px;">
+                        <button class="btn-3d secondary" style="padding:6px 12px; font-size:0.8rem; border:1px solid var(--primary); background:#ffffff;" onclick="window.printUlasanReport()" title="Cetak Rekod Ulasan Saya">🖨️ Cetak Laporan Saya</button>
                     </div>
                 </div>
                 <div id="ulasanGrid" class="ulasan-grid"></div>
@@ -1005,10 +1554,13 @@
         </div>
 
         <div id="tab-informasi" class="tab-content">
-            <div class="content-card" style="padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); box-shadow: var(--shadow-sm); border-radius: 12px; display: flex; flex-direction: column; gap: 12px;">
-                <div style="display:flex; justify-content:center; align-items:center; position:relative; border-bottom: 1px dashed var(--border); padding-bottom: 10px; min-height: 32px;">
-                    <h2 style="margin:0; color:var(--primary); font-size:1.15rem; text-transform:uppercase; text-align:center; font-weight:900; letter-spacing:1px; max-width:75%; line-height:1.2;">PAPAN INFORMASI & PENGUMUMAN</h2>
-                    <button id="btnTambahInfo" class="btn-3d" style="display:none; padding:6px 12px; position:absolute; right:0; font-size:0.85rem;" onclick="window.bukaBorangInfo()">➕<span class="hide-mobile" style="margin-left:4px;">Tambah Pos</span></button>
+            <div class="content-card" style="padding:0; background: transparent; border: none; box-shadow: none;">
+                <div class="toolbar" style="border-radius: var(--radius-card); margin-bottom: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); justify-content: space-between; padding: 8px 14px; display: flex; align-items: center;">
+                    <div class="search-container" style="flex: 1; max-width: 320px; margin: 0;">
+                        <input type="text" id="searchInfoInput" class="search-input" style="margin:0; padding:6px 10px;" placeholder="Carian maklumat / info..." onkeyup="window.filterInformasiDOM()">
+                        <button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="document.getElementById('searchInfoInput').value=''; window.filterInformasiDOM();">❌</button>
+                    </div>
+                    <button id="btnTambahInfo" class="btn-3d" style="display:none; padding:6px 14px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="window.bukaBorangInfo()">➕<span class="hide-mobile" style="margin-left:4px;">Tambah Pos</span></button>
                 </div>
                 
                 <div id="infoPostsContainer" style="display:flex; flex-direction:column; gap:12px;">
@@ -1021,7 +1573,7 @@
             <div class="content-card" style="padding: 20px; margin-bottom: 20px; border: 1.5px solid var(--border); box-shadow: var(--shadow-sm); overflow: visible;">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; flex-wrap:wrap; gap:10px;">
                     <h2 style="margin:0; font-size: 1.1rem; color:var(--primary);">⚙️ Tetapan Sistem Aplikasi</h2>
-                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v36.20 (Stable)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
+                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v37.54 (Zordon)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; align-items: stretch;">
                     
@@ -1051,7 +1603,12 @@
                         </div>
                         <div class="form-group" style="margin-bottom: 0;">
                             <label style="font-weight:600; font-size:0.75rem; display:block; margin-bottom:6px; color:var(--danger);">🔑 Kata Laluan Akses Pentadbir (Admin)</label>
-                            <input type="text" id="set_admin_pwd" class="login-input" placeholder="Tetapkan kata laluan rahsia..." style="margin-bottom:0; border-color:var(--danger-light); background:var(--danger-light);">
+                            <div style="position:relative;">
+                                <input type="password" id="set_admin_pwd" class="login-input" placeholder="Tetapkan kata laluan rahsia..." style="margin-bottom:0; border-color:var(--danger-light); background:var(--danger-light); padding-right:40px;">
+                                <span onclick="window.toggleSetAdminPassword(this)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--text-muted); display:flex; align-items:center; justify-content:center; padding:4px;" title="Papar/Sembunyi Kata Laluan">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                </span>
+                            </div>
                         </div>
                     </div>
 
@@ -1258,11 +1815,13 @@
                 <span id="chatTitleName" style="font-size:0.65rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block;">BANTUAN & PERTANYAAN</span>
                 <span id="chatTitleDept" style="font-size:0.65rem; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: none;"></span>
             </div>
-            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0; display:flex; align-items:center; gap:8px;">
-                <button class="btn-clear" style="padding:6px; color:var(--danger); border-color:var(--danger-light); background:var(--danger-light); border-radius:6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display:flex; align-items:center; justify-content:center; transition:0.2s;" onclick="window.clearChatHistory()" title="Padam Mesej & Sejarah Sembang" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='var(--danger-light)'">
+            <div style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0; display:flex; align-items:center; gap:4px;">
+                <button class="btn-clear" style="padding:6px; color:var(--danger); border-color:var(--danger-light); background:var(--danger-light); border-radius:6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display:flex; align-items:center; justify-content:center; transition:0.2s; margin-right:4px;" onclick="window.clearChatHistory()" title="Padam Mesej & Sejarah Sembang" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='var(--danger-light)'">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                 </button>
-                <span class="mac-dot mac-red" onclick="window.closeChatModal()" style="cursor:pointer;" title="Tutup Tetingkap"></span>
+                <button class="btn-clear" onclick="window.closeChatModal()" style="padding: 6px; border: none; background: transparent; color: #64748b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; margin: 0; box-shadow: none; cursor: pointer;" onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444';" onmouseout="this.style.background='transparent'; this.style.color='#64748b';" title="Tutup">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
         </div>
         <div id="chatMessagesArea" class="chat-container" style="flex:1; border:none; border-radius:0; background:transparent;"></div>
@@ -1310,7 +1869,9 @@
     <div class="modal modal-faded" style="max-width: 800px; width: 90%; background: #f1f5f9; padding:0; overflow:hidden; display:flex; flex-direction:column; max-height: 85vh;">
         <div class="modal-header" style="background: #ffffff; margin:0; padding: 16px; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box; flex-shrink: 0;">
             <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">PUSAT MESEJ & NOTIFIKASI</h3>
-            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeAdminInbox()" style="cursor:pointer;"></span></div>
+            <button class="btn-clear" onclick="window.closeAdminInbox()" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); padding: 6px; border: none; background: transparent; color: #64748b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; margin: 0; box-shadow: none; cursor: pointer;" onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444';" onmouseout="this.style.background='transparent'; this.style.color='#64748b';" title="Tutup">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
         <div style="display:flex; background:#ffffff; padding:0 16px; gap:8px; border-bottom:1px solid #cbd5e1; flex-shrink: 0;">
             <button id="tab-inbox-btn" class="nav-btn active" style="padding:10px 12px; font-size:0.85rem; border-radius:0; border-bottom:2px solid var(--primary); color:var(--primary); font-weight:800;" onclick="window.renderAdminInboxTab('inbox')">Peti Masuk</button>
@@ -1325,7 +1886,9 @@
     <div class="modal modal-faded" style="width: 95%; max-width: 900px; background: #f1f5f9; padding-bottom: 24px;">
         <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
             <h3 id="sm_title" style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">REKOD PINJAMAN BARU</h3>
-            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeModal()" style="cursor:pointer;"></span></div>
+            <button class="btn-clear" onclick="window.closeModal()" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); padding: 6px; border: none; background: transparent; color: #64748b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; margin: 0; box-shadow: none; cursor: pointer;" onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444';" onmouseout="this.style.background='transparent'; this.style.color='#64748b';" title="Tutup">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
         <input type="hidden" id="docId">
         
@@ -1347,7 +1910,7 @@
         
         <div style="display: grid; grid-template-columns: 160px 1fr 100px; gap: 12px; margin-bottom: 16px; border-bottom:1px dashed var(--border); padding-bottom:16px;">
             <div class="form-group" style="margin-bottom: 0; position: relative;">
-                <label style="color:var(--primary);">No. Accession</label>
+                <label style="color:var(--primary); cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:0.2s;" onclick="window.copyAccession(this)" title="Klik untuk salin ke clipboard" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">No. Accession <span style="font-size:0.75rem;">📋</span></label>
                 <span id="acc_warning_tooltip" style="display:none; position:absolute; top:0; right:0; font-size:0.85rem; padding:1px; line-height:1; cursor:help; text-shadow:0 1px 2px rgba(0,0,0,0.1);" title="Mesti tepat 10 aksara/digit">⚠️</span>
                 <input type="text" id="f_accession" onkeyup="window.autofillBuku()" placeholder="10 Digit" style="border-color: var(--primary); background: var(--primary-light); margin-bottom:0;" autocomplete="off">
             </div>
@@ -1429,7 +1992,6 @@
         <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px dashed #cbd5e1; padding-top: 16px; align-items:center;">
             <button onclick="window.deleteRecord()" id="btnDelete" class="btn-3d danger" type="button" style="display:none; margin-right:auto;">🗑️ Hapus</button>
             <div style="flex:1;"></div>
-            <button onclick="window.closeModal()" class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff; border: 1px solid #cbd5e1; color: #475569; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">❌ Tutup</button>
             <button onclick="window.saveData()" class="btn-3d" type="button" style="padding-left: 24px; padding-right: 24px;">💾 Simpan</button>
         </div>
     </div>
@@ -1462,11 +2024,19 @@
             <div class="form-group" style="margin-bottom:0;"><label style="color:var(--primary); font-weight:700;">No Pekerja (ID)</label><input type="text" id="k_noPekerja" style="border-color:var(--primary); background:var(--primary-light); margin-bottom:0;"></div>
             <div class="form-group" style="margin-bottom:0;"><label>Bahagian / Jabatan</label><select id="k_bahagian" class="dept-select" style="margin-bottom:0; width: 100%; box-sizing: border-box;"></select></div>
             <div class="form-group" style="margin-bottom:0;"><label>No. Telefon (WhatsApp)</label><input type="text" id="k_whatsapp" placeholder="Cth: 0123456789" style="margin-bottom:0;"></div>
-            <div class="form-group" id="div_admin_password" style="display:none; margin-bottom:0;"><label style="color:var(--danger); font-weight:700;">Kata Laluan Log Masuk</label><input type="text" id="k_password" style="border-color:var(--danger); background:var(--danger-light); margin-bottom:0;"></div>
+            <div class="form-group" id="div_admin_password" style="display:none; margin-bottom:0;">
+                <label style="color:var(--danger); font-weight:700;">Kata Laluan Log Masuk</label>
+                <div style="position:relative;">
+                    <input type="password" id="k_password" class="login-input" style="border-color:var(--danger); background:var(--danger-light); margin-bottom:0; padding-right:40px;">
+                    <span onclick="window.toggleKelabPassword(this)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--text-muted); display:flex; align-items:center; justify-content:center; padding:4px;" title="Papar/Sembunyi Kata Laluan">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </div>
+            </div>
         </div>
         
         <div style="display:flex; gap:10px; margin-top: 16px; border-top: 1px dashed #cbd5e1; padding-top: 16px; align-items:center; flex-wrap:wrap;">
-            <button class="btn-3d secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="window.closeKelabModal(); setTimeout(() => window.viewKelabHistory(document.getElementById('k_key').value), 250);">📚 Sejarah Bacaan</button>
+            <button class="btn-3d secondary" id="btn-sejarah-kelab" style="padding: 8px 16px; font-size: 0.85rem;" onclick="window.closeKelabModal(); setTimeout(() => window.viewKelabHistory(document.getElementById('k_key').value), 250);">📚 Sejarah Bacaan</button>
             <button class="btn-3d danger" id="btn-delete-kelab" style="display:none; margin-right:auto; padding: 8px 16px; font-size: 0.85rem;" type="button" onclick="window.deleteKelabProfile()">🗑️ Hapus</button>
             <div style="flex:1;"></div>
             <button onclick="window.closeKelabModal()" class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff; border: 1px solid #cbd5e1; color: #475569; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" type="button">❌ Tutup</button>
@@ -1509,7 +2079,9 @@
     <div class="modal modal-faded" style="width: 95%; max-width: 900px; background: #f1f5f9; padding-bottom: 24px;">
         <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
             <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">SENARAI REKOD LEWAT</h3>
-            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeFineModal()" style="cursor:pointer;"></span></div>
+            <button class="btn-clear" onclick="window.closeFineModal()" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); padding: 6px; border: none; background: transparent; color: #64748b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; margin: 0; box-shadow: none; cursor: pointer;" onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444';" onmouseout="this.style.background='transparent'; this.style.color='#64748b';" title="Tutup">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
         <div class="table-wrap" style="max-height: 60vh; overflow-y: auto; background: transparent; padding: 0 16px;">
             <table style="border-collapse: separate; border-spacing: 0 12px; width: 100%; margin-top: -10px;">
@@ -1569,7 +2141,9 @@
     <div class="modal modal-faded" style="max-width: 800px; width: 95%; background: #f1f5f9; padding-bottom: 24px;">
         <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
             <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">PERINCIAN MATA GANJARAN</h3>
-            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closePointsModal()" style="cursor:pointer;"></span></div>
+            <button class="btn-clear" onclick="window.closePointsModal()" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); padding: 6px; border: none; background: transparent; color: #64748b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; margin: 0; box-shadow: none; cursor: pointer;" onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444';" onmouseout="this.style.background='transparent'; this.style.color='#64748b';" title="Tutup">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
         
         <div style="background:var(--surface-solid); padding:16px 20px; border-radius:var(--radius-btn); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border:1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
@@ -1615,7 +2189,39 @@
                 <tbody id="pointsModalBody"><tr><td colspan="4" style="text-align:center; padding:20px;">Memuatkan...</td></tr></tbody>
             </table>
         </div>
-        <div style="display:flex; justify-content:flex-end; margin-top:16px; border-top: 1px dashed #cbd5e1; padding-top: 16px;"><button class="btn-clear" style="padding-left: 16px; padding-right: 16px; background:#fff; border: 1px solid #cbd5e1; color: #475569; font-weight:800; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onclick="window.closePointsModal()">❌ Tutup</button></div>
+        <!-- Butang Tutup Bawah Dibuang -->
+    </div>
+</div>
+
+<div class="modal-overlay" id="cetakSenaraiModal" style="z-index: 10009;">
+    <div class="modal" style="max-width: 400px;">
+        <div class="modal-header">
+            <h3 style="margin:0; color:var(--primary);">🖨️ Cetak Rekod Bacaan</h3>
+            <div class="mac-controls" style="margin:0;"><span class="mac-dot mac-red" onclick="window.closeCetakSenaraiModal()" style="cursor:pointer;"></span></div>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px; margin-top:8px;">Pilih tempoh untuk cetakan laporan keseluruhan rekod bacaan peminjam.</p>
+        <div class="grid-compact" style="margin-top: 16px;">
+            <div class="form-group col-span-2" style="margin-bottom: 12px;">
+                <label>Tahun Rekod</label>
+                <select id="cs_tahun" class="login-input" style="border-color:var(--primary); background:var(--primary-light);">
+                    <option value="all">Semua Tahun</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                </select>
+            </div>
+            <div class="form-group col-span-2" style="margin-bottom: 12px;">
+                <label>Bulan</label>
+                <select id="cs_bulan" class="login-input" style="border-color:var(--primary); background:var(--primary-light);">
+                    <option value="all" selected>Semua Bulan</option>
+                    <option value="0">Januari</option><option value="1">Februari</option><option value="2">Mac</option><option value="3">April</option><option value="4">Mei</option><option value="5">Jun</option><option value="6">Julai</option><option value="7">Ogos</option><option value="8">September</option><option value="9">Oktober</option><option value="10">November</option><option value="11">Disember</option>
+                </select>
+            </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+            <button class="btn-clear" onclick="window.closeCetakSenaraiModal()">Batal</button>
+            <button class="btn-3d" onclick="window.printSenaraiAdmin()">🖨️ Jana Laporan</button>
+        </div>
     </div>
 </div>
 
@@ -1758,7 +2364,9 @@
     <div class="modal modal-faded" style="width: 95%; max-width: 900px; background: #f1f5f9; padding-bottom: 24px;">
         <div class="modal-header" style="background: #ffffff; margin: -16px -16px 16px -16px; padding: 16px; border-radius: 15px 15px 0 0; position: relative; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e2e8f0; min-height: 58px; box-sizing: border-box;">
             <h3 style="margin:0; text-align:center; font-size:1.15rem; color:#0f172a; font-weight:900; text-transform:uppercase; letter-spacing:1px;">DAFTAR BUKU/BAHAN BARU</h3>
-            <div class="mac-controls" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); margin:0;"><span class="mac-dot mac-red" onclick="window.closeBukuModal()" style="cursor:pointer;"></span></div>
+            <button class="btn-clear" onclick="window.closeBukuModal()" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); padding: 6px; border: none; background: transparent; color: #64748b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; margin: 0; box-shadow: none; cursor: pointer;" onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444';" onmouseout="this.style.background='transparent'; this.style.color='#64748b';" title="Tutup">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
         <input type="hidden" id="bukuId">
         <input type="hidden" id="b_tarikh_asal">
@@ -1811,7 +2419,7 @@
                     <input type="text" id="b_tajuk" class="login-input" style="margin-bottom:0;" oninput="window.updateMockupCover()">
                 </div>
                 <div class="form-group" style="margin-bottom: 0; position: relative;">
-                    <label class="form-label" style="color:var(--primary);">No. Accession</label>
+                    <label class="form-label" style="color:var(--primary); cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:0.2s;" onclick="window.copyAccessionBuku(this)" title="Klik untuk salin ke clipboard" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">No. Accession <span style="font-size:0.75rem;">📋</span></label>
                     <span id="acc_buku_warning_tooltip" style="display:none; position:absolute; top:0; right:0; font-size:0.85rem; padding:1px; line-height:1; cursor:help; text-shadow:0 1px 2px rgba(0,0,0,0.1);" title="Mesti tepat 10 aksara/digit">⚠️</span>
                     <input type="text" id="b_accession" onkeyup="window.autofillBukuDaftar()" class="login-input" placeholder="10 Digit" style="border-color: var(--primary); background: var(--primary-light); margin-bottom:0;" autocomplete="off">
                 </div>
@@ -1847,7 +2455,6 @@
             <div style="flex:1;"></div>
             <button type="button" class="btn-3d secondary" style="color:#D97706; border-color:#FDE68A; background:#FFFBEB; font-weight:700;" onclick="window.saveBuku('KIV')">⏳ Simpan KIV</button>
             <button type="button" class="btn-3d" style="padding-left: 20px; padding-right: 20px;" onclick="window.saveBuku('Aktif')">💾 Simpan</button>
-            <button type="button" class="btn-clear" onclick="window.closeBukuModal()">❌ Tutup</button>
         </div>
     </div>
 </div>
@@ -2336,6 +2943,32 @@ window.resetRenewCheckboxes = function() {
     const infoText = document.getElementById('renew_info_text'); if (infoText) infoText.innerText = '';
 };
 
+window.copyAccession = function(lblEl) {
+    const accInput = document.getElementById('f_accession');
+    if (accInput && accInput.value.trim() !== '') {
+        navigator.clipboard.writeText(accInput.value.trim()).then(() => {
+            const originalHtml = lblEl.innerHTML;
+            lblEl.innerHTML = `Tersalin! <span style="font-size:0.75rem;">✅</span>`;
+            setTimeout(() => { lblEl.innerHTML = originalHtml; }, 1500);
+        }).catch(err => {
+            console.error('Gagal menyalin: ', err);
+        });
+    }
+};
+
+window.copyAccessionBuku = function(lblEl) {
+    const accInput = document.getElementById('b_accession');
+    if (accInput && accInput.value.trim() !== '') {
+        navigator.clipboard.writeText(accInput.value.trim()).then(() => {
+            const originalHtml = lblEl.innerHTML;
+            lblEl.innerHTML = `Tersalin! <span style="font-size:0.75rem;">✅</span>`;
+            setTimeout(() => { lblEl.innerHTML = originalHtml; }, 1500);
+        }).catch(err => {
+            console.error('Gagal menyalin: ', err);
+        });
+    }
+};
+
 window.autofillBuku = function() {
   const accInputEl = document.getElementById('f_accession'); if (!accInputEl) return;
   const accInput = accInputEl.value.trim().toLowerCase(); 
@@ -2673,10 +3306,12 @@ window.renderTable = function() {
             `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); border-radius:20px; padding:6px 12px; white-space:nowrap; background:#fff; font-weight:700; transition:0.2s; box-shadow:0 2px 4px rgba(0,102,204,0.1); flex-shrink:0; box-sizing:border-box;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='#fff'" onclick="window.openReviewModal('${safeId}', '${safeTajuk}')">⭐ Beri Ulasan</button>`;
     }
     
-    let dynamicAvatarUrl = window.getUserAvatar(item.noPekerja);
+    let safeUid = window.getSafeKey(window.getItemUserKey(item));
+    let dynamicAvatarEmoji = window.getUserAvatar(safeUid);
+    let safeFilterName = (item.nama || '').replace(/'/g, "&#39;");
     let borrowerInfoHtml = `
-    <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
-        <img src="${dynamicAvatarUrl}" style="width:32px; height:32px; border-radius:50%; border:1px solid var(--border-input); background:var(--surface-solid); object-fit:cover;" alt="Avatar">
+    <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0; cursor:pointer; padding:4px 6px; margin-left:-6px; border-radius:8px; transition:0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'" onclick="document.getElementById('searchInput').value='${safeFilterName}'; window.senaraiCurrentPage=1; window.renderTable();" title="Klik untuk tapis semua rekod peminjam ini">
+        <div style="width:32px; height:32px; border-radius:50%; border:1px solid var(--border-input); background:var(--surface-solid); display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; box-shadow:0 1px 2px rgba(0,0,0,0.05);">${dynamicAvatarEmoji}</div>
         <div style="flex:1; min-width:0; overflow:hidden;">
             <strong style="color:var(--text-main); font-size:0.9rem; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.nama}</strong>
             <div style="font-size:0.75rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.noPekerja || '-'} | ${item.bahagian || '-'}</div>
@@ -2725,7 +3360,7 @@ window.renderTable = function() {
            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
                <div style="flex:1; min-width:0;">
                    <div style="font-weight:800; font-size:1.05rem; color:var(--text-main); line-height:1.4; margin-bottom:8px; padding-left:4px;">${item.tajuk}</div>
-                   <div style="font-size:0.85rem; color:var(--text-muted); padding-left:4px;">Kategori: <strong style="color:var(--text-main);">${item.jenis === 'Majalah' ? 'Akhbar' : (item.jenis === 'Akhbar' ? 'Majalah' : (item.jenis || '-'))}</strong> ${item.accession ? '| ACC: <span style="font-family:monospace;">'+item.accession+'</span>' : ''}</div>
+                   <div style="font-size:0.85rem; color:var(--text-muted); padding-left:4px;">Kategori: <strong style="color:var(--text-main);">${item.jenis === 'Majalah' ? 'Akhbar' : (item.jenis === 'Akhbar' ? 'Majalah' : (item.jenis || '-'))}</strong> ${item.accession ? `| ACC: <span style="font-family:monospace; color:var(--primary); font-weight:800; cursor:pointer;" onclick="navigator.clipboard.writeText('${item.accession}'); const o=this.innerText; this.innerText='Tersalin!'; setTimeout(()=>this.innerText=o,1500);" title="Salin ke Clipboard" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${item.accession}</span>` : ''}</div>
                </div>
                ${ilmuHtml ? `<div style="flex-shrink:0;">${ilmuHtml}</div>` : ''}
            </div>
@@ -2751,32 +3386,37 @@ window.renderTable = function() {
 };
 
 window.getUserAvatar = function(userId) {
-    const avatarMap = {
-        'avatar1': 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png', 
-        'avatar2': 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png', 
-        'avatar3': 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png', 
-        'avatar4': 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png', 
-        'avatar5': 'https://cdn-icons-png.flaticon.com/512/1999/1999625.png', 
-        'avatar6': 'https://cdn-icons-png.flaticon.com/512/706/706830.png',   
-        'default': 'https://cdn-icons-png.flaticon.com/512/847/847969.png'  
+    // Peta migrasi untuk data lama yang menggunakan 'avatar1', 'avatar2', dll
+    const legacyMap = {
+        'avatar1': '👨‍💼', 'avatar2': '👩‍💼', 'avatar3': '👨‍🎓', 
+        'avatar4': '👩‍🎓', 'avatar5': '👨‍🏫', 'avatar6': '👩‍🏫', 'default': '👤'
     };
-    let selectedAvatarUrl = avatarMap['default'];
-    if (!userId) return selectedAvatarUrl;
+    let defaultAv = '👤';
+    if (!userId) return defaultAv;
 
-    const userInfo = window.kelabMapData && window.kelabMapData[userId] ? window.kelabMapData[userId] : (window.dbUsers && window.dbUsers[userId] ? window.dbUsers[userId] : null);
-    if (userInfo && userInfo.avatar && avatarMap[userInfo.avatar]) {
-        return avatarMap[userInfo.avatar];
+    const getAv = (av) => {
+        if (!av) return null;
+        if (legacyMap[av]) return legacyMap[av];
+        // Jika ia masih menyimpan URL luaran, paksa guna avatar lalai
+        if (av.includes('http')) return defaultAv;
+        return av; // Jika ia adalah emoji standard, pulangkan terus
+    };
+
+    // PRIORITY 1: Semak dbUsers (pangkalan data utama profil) terlebih dahulu
+    if (window.dbUsers && window.dbUsers[userId] && window.dbUsers[userId].avatar) {
+        return getAv(window.dbUsers[userId].avatar) || defaultAv;
     }
+
+    // PRIORITY 2: Semak localStorage sebagai fallback (jika internet terputus)
     const storedUserData = localStorage.getItem('user_' + userId);
     if (storedUserData) {
         try {
             const userData = JSON.parse(storedUserData);
-            if (userData && userData.avatar && avatarMap[userData.avatar]) {
-                selectedAvatarUrl = avatarMap[userData.avatar];
-            }
+            if (userData && userData.avatar) return getAv(userData.avatar) || defaultAv;
         } catch (e) { }
     }
-    return selectedAvatarUrl;
+    
+    return defaultAv;
 };
 
 window.updateSistemIlmu = async function(id, newState) {
@@ -3338,15 +3978,77 @@ window.updateCountUI = function() {
   
   const elActive = document.getElementById('statActive'); if (elActive) elActive.innerText = active;
   const elOverdue = document.getElementById('statOverdue'); if (elOverdue) elOverdue.innerText = lateItemsCount;
-  const elFine = document.getElementById('statFine'); if (elFine) elFine.innerText = lateBorrowers.size;
-  
-  const elPinjam = document.getElementById('statActPinjam'); if (elPinjam) elPinjam.innerText = dailyPinjam;
-  const elPulang = document.getElementById('statActPulang'); if (elPulang) elPulang.innerText = dailyPulang;
-  
-  const elBooks = document.getElementById('statMonthlyBooksVal'); if (elBooks) elBooks.innerText = monthlyBooks;
-  
-  if (typeof window.updateDailyWidget === 'function') window.updateDailyWidget(window.dashSelectedDate);
-};
+  const elFine = document.getElementById('statFine'); if (elFine) elFine.innerText = lateBorrowers.size;      const elPinjam = document.getElementById('statActPinjam'); if (elPinjam) elPinjam.innerText = dailyPinjam;
+      const elPulang = document.getElementById('statActPulang'); if (elPulang) elPulang.innerText = dailyPulang;
+      
+      const elBooks = document.getElementById('statMonthlyBooksVal'); if (elBooks) elBooks.innerText = monthlyBooks;
+      
+      // Kemas kini jumlah buku sedang dipinjam pada butang tab Senarai Ahli
+      const lblKelabAktif = document.getElementById('lbl_kelab_aktif_count');
+      if (lblKelabAktif) lblKelabAktif.innerText = active; 
+      
+      if (typeof window.updateDailyWidget === 'function') window.updateDailyWidget(window.dashSelectedDate);
+    };
+
+    window.isKelabFilterActive = false;
+    window.toggleKelabFilterActive = function() {
+        window.isKelabFilterActive = !window.isKelabFilterActive;
+        const btn = document.getElementById('btnFilterKelabAktif');
+        if (btn) {
+            if (window.isKelabFilterActive) {
+                btn.classList.remove('secondary');
+            } else {
+                btn.classList.add('secondary');
+            }
+        }
+        
+        // Pintasan logik DOM (monkey-patch) untuk menyembunyikan ahli "SEMASA 0" 
+        // tanpa merosakkan fungsi renderKelabTable asal
+        if (!window.originalRenderKelabTable && typeof window.renderKelabTable === 'function') {
+            window.originalRenderKelabTable = window.renderKelabTable;
+            window.renderKelabTable = function() {
+                window.originalRenderKelabTable(); // Render semua ahli seperti biasa dahulu
+                
+                if (window.isKelabFilterActive) {
+                    // Beri masa 50ms untuk DOM HTML siap dimuatkan sepenuhnya sebelum tapisan
+                    setTimeout(() => {
+                        const container = document.getElementById('kelabTableBody');
+                        if (container) {
+                            const cards = container.children;
+                            for (let i = 0; i < cards.length; i++) {
+                                const card = cards[i];
+                                const text = card.innerText || "";
+                                
+                                // Cari corak perkataan "SEMASA" diikuti angka 0 di dalam DOM kad (Rujukan Gambar)
+                                const matchSemasa = text.match(/SEMASA\s+(\d+)/i);
+                                if (matchSemasa && parseInt(matchSemasa[1]) === 0) {
+                                    card.style.display = 'none'; // Sembunyikan jika kosong
+                                    continue;
+                                }
+                                
+                                // Fallback Keselamatan: Jika format tulisan "SEMASA" tiada, semak ID ahli
+                                const matchID = text.match(/ID:\s*([A-Za-z0-9_-]+)/i);
+                                if (matchID) {
+                                    const cardKey = window.getSafeKey(matchID[1].toLowerCase());
+                                    let hasActive = false;
+                                    window.dbData.forEach(item => {
+                                        const isSelesai = item.status && item.status.includes('Selesai');
+                                        const isHarian = item.status === 'Bacaan Harian';
+                                        if (!isSelesai && !isHarian && window.getSafeKey(window.getItemUserKey(item)) === cardKey) {
+                                            hasActive = true;
+                                        }
+                                    });
+                                    if (!hasActive) card.style.display = 'none';
+                                }
+                            }
+                        }
+                    }, 50);
+                }
+            };
+        }
+        
+        if (typeof window.renderKelabTable === 'function') window.renderKelabTable();
+    };
 
 window.updateDailyWidget = function(dateStr) {
   const container = document.getElementById('dailyActivityList');
@@ -3673,6 +4375,36 @@ window.toggleAdminPassword = function() {
     }
 };
 
+window.toggleKelabPassword = function(eyeIcon) {
+    const pwdInput = document.getElementById('k_password');
+    if (pwdInput && eyeIcon) {
+        if (pwdInput.type === 'password') {
+            pwdInput.type = 'text';
+            eyeIcon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+            eyeIcon.style.color = 'var(--primary)';
+        } else {
+            pwdInput.type = 'password';
+            eyeIcon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+            eyeIcon.style.color = 'var(--text-muted)';
+        }
+    }
+};
+
+window.toggleSetAdminPassword = function(eyeIcon) {
+    const pwdInput = document.getElementById('set_admin_pwd');
+    if (pwdInput && eyeIcon) {
+        if (pwdInput.type === 'password') {
+            pwdInput.type = 'text';
+            eyeIcon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+            eyeIcon.style.color = 'var(--danger)';
+        } else {
+            pwdInput.type = 'password';
+            eyeIcon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+            eyeIcon.style.color = 'var(--text-muted)';
+        }
+    }
+};
+
 window.quickAdminLogin = function() {
   window.userRole = 'admin';
   const lView = document.getElementById('loginView'); if (lView) lView.style.display = 'none';
@@ -3692,23 +4424,28 @@ window.setupTabsForRole = function() {
   safeSetDisplay('btn-kelab', isAdmin ? 'inline-block' : 'none');
   safeSetDisplay('btn-scoreboard', (isAdmin || isVisitor || isUser) ? 'inline-block' : 'none');
   safeSetDisplay('btn-ulasan', (isAdmin || isVisitor || isUser) ? 'inline-block' : 'none');
-  safeSetDisplay('btn-informasi', 'inline-block');
-  safeSetDisplay('btn-tetapan-header', isAdmin ? 'inline-flex' : 'none');
-  safeSetDisplay('action-wrapper-buku', isAdmin ? 'flex' : 'none');
-  safeSetDisplay('action-wrapper-senarai', isAdmin ? 'flex' : 'none');
-  safeSetDisplay('action-wrapper-senarai-user', isUser ? 'flex' : 'none');
-  safeSetDisplay('buku-th-tindakan', 'table-cell');
+  safeSetDisplay('btn-informasi', 'inline-block');      safeSetDisplay('btn-tetapan-header', isAdmin ? 'inline-flex' : 'none');
+      safeSetDisplay('action-wrapper-buku', isAdmin ? 'flex' : 'none');
+      safeSetDisplay('action-wrapper-senarai', isAdmin ? 'flex' : 'none');
+      safeSetDisplay('action-wrapper-senarai-user', isUser ? 'flex' : 'none');
+      safeSetDisplay('action-wrapper-ulasan-user', isUser ? 'flex' : 'none');
+      safeSetDisplay('buku-th-tindakan', 'table-cell');
   
   safeSetDisplay('tab-buku-lama-btn', isAdmin ? 'inline-block' : 'none');
   safeSetDisplay('tab-majalah-btn', isAdmin ? 'inline-block' : 'none');
-  safeSetDisplay('tab-akhbar-btn', isAdmin ? 'inline-block' : 'none');
-  
-  const filterChips = document.querySelector('.filter-chips'); if (filterChips) filterChips.style.display = isAdmin ? 'flex' : 'none';
-  const thTindakanSenarai = document.getElementById('senarai-th-tindakan'); 
-  if (thTindakanSenarai) { 
-      thTindakanSenarai.style.display = 'table-cell'; 
-      thTindakanSenarai.innerText = isAdmin ? 'Status & Tindakan' : 'Status & Ulasan'; 
-  }
+  safeSetDisplay('tab-akhbar-btn', isAdmin ? 'inline-block' : 'none');      const filterChips = document.querySelector('.filter-chips'); 
+      if (filterChips) filterChips.style.display = (isAdmin || isUser) ? 'flex' : 'none';
+      
+      const chipIlmu = document.getElementById('chip-ilmu');
+      if (chipIlmu) chipIlmu.style.display = isAdmin ? 'inline-block' : 'none';
+      const chipIlmuCaj = document.getElementById('chip-ilmu-caj');
+      if (chipIlmuCaj) chipIlmuCaj.style.display = isAdmin ? 'inline-block' : 'none';
+
+      const thTindakanSenarai = document.getElementById('senarai-th-tindakan'); 
+      if (thTindakanSenarai) { 
+          thTindakanSenarai.style.display = 'table-cell'; 
+          thTindakanSenarai.innerText = isAdmin ? 'Status & Tindakan' : 'Status & Ulasan'; 
+      }
   window.refreshAllViews();
   if (typeof window.checkInformasiNotification === 'function') window.checkInformasiNotification();
 };
@@ -3772,7 +4509,7 @@ window.renderAktifTable = function() {
                 nama: uInfo.nama || item.nama || uid,
                 noPekerja: uInfo.noPekerja || item.noPekerja || '-',
                 bahagian: uInfo.bahagian || item.bahagian || '-',
-                avatar: window.getUserAvatar(item.noPekerja),
+                avatar: window.getUserAvatar(uid),
                 items: []
             };
         }
@@ -3866,7 +4603,7 @@ window.renderAktifTable = function() {
         <div style="background:rgba(0, 122, 255, 0.04); padding:16px; border-radius:16px; border:1px solid rgba(0, 122, 255, 0.15); margin-bottom:12px;">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0, 122, 255, 0.1); padding-bottom:10px; margin-bottom:10px;">
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <img src="${g.avatar}" style="width:36px; height:32px; border-radius:50%; border:1px solid var(--border-input); background:var(--surface-solid); object-fit:cover;" alt="Avatar">
+                    <div style="width:36px; height:36px; border-radius:50%; border:1px solid var(--border-input); background:var(--surface-solid); display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; box-shadow:0 1px 2px rgba(0,0,0,0.05);">${g.avatar}</div>
                     <div>
                         <div style="font-weight:800; color:var(--primary); font-size:1.05rem;">${g.nama}</div>
                         <div style="font-size:0.75rem; color:#475569; font-weight:700; margin-top:2px;">
@@ -3884,6 +4621,237 @@ window.renderAktifTable = function() {
     container.innerHTML = html;
 };
 
+window.openPrintPreview = function(title, subtitle, tableHtml) {
+    const today = new Date().toLocaleDateString('ms-MY');
+    const html = `<html><head><title>${title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @page { size: A4 portrait; margin: 15mm; }
+        body { font-family: 'Inter', sans-serif; font-size:12px; color:#333; }
+        h2 { text-align:center; text-transform:uppercase; color:#0f172a; margin-bottom:5px; font-weight:800; font-size:16px;}
+        p { text-align:center; color:#475569; margin-top:0; margin-bottom:20px; font-weight:600; font-size:12px;}
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size:11px; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; vertical-align: middle; }
+        th { background-color: #f8fafc; text-transform: uppercase; font-weight: 800; color: #007aff; }
+        tr:nth-child(even) { background-color: #f8fafc; }
+        .date-print { position:absolute; top:0; right:0; font-size:10px; color:#94a3b8; font-weight:600;}
+    </style></head><body>
+    <div class="date-print">Tarikh Cetakan: ${today}</div>
+    <h2>${title}</h2>
+    <p>${subtitle}</p>
+    ${tableHtml}
+    </body></html>`;
+
+    const win = window.open('', '', 'width=900,height=700');
+    win.document.write(html);
+    win.document.close();
+    setTimeout(() => { win.print(); }, 500);
+};
+
+window.printUserReport = function() {
+    if (!window.currentUserKey) return window.showCustomAlert('Sila log masuk dahulu.');
+    const month = document.getElementById('userReportMonth').value;
+    const year = document.getElementById('userReportYear').value;
+    
+    const myLoans = window.dbData.filter(item => {
+        if(window.getSafeKey(window.getItemUserKey(item)) !== window.currentUserKey) return false;
+        const d = new Date(item.tPinjam);
+        if (year !== 'all' && d.getFullYear() !== parseInt(year)) return false;
+        if (month !== 'all' && d.getMonth() !== parseInt(month)) return false;
+        return true;
+    });
+
+    if(myLoans.length === 0) return window.showCustomAlert('Tiada rekod bacaan ditemui untuk tapisan ini.');
+    myLoans.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
+
+    let tHtml = `<table><thead><tr><th style="width:5%;text-align:center;">Bil</th><th style="width:15%;">Tarikh Pinjam</th><th style="width:40%;">Tajuk Bahan</th><th style="width:20%;">Kategori</th><th style="width:20%;text-align:center;">Status</th></tr></thead><tbody>`;
+    myLoans.forEach((item, i) => {
+        const isSelesai = item.status && item.status.includes('Selesai');
+        const isHarian = item.status === 'Bacaan Harian';
+        let statusText = isSelesai ? 'Telah Dipulangkan' : (isHarian ? 'Bacaan Harian' : 'Sedang Dipinjam');
+        tHtml += `<tr><td style="text-align:center;">${i+1}</td><td>${window.formatDate(item.tPinjam)}</td><td><strong>${item.tajuk}</strong><br><span style="font-size:9px;color:#64748b;">ACC: ${item.accession||'-'}</span></td><td>${item.jenis === 'Majalah' ? 'Akhbar' : (item.jenis === 'Akhbar' ? 'Majalah' : (item.jenis || '-'))}</td><td style="text-align:center; font-weight:700;">${statusText}</td></tr>`;
+    });
+    tHtml += `</tbody></table>`;
+    
+    const userInfo = window.kelabMapData[window.currentUserKey] || window.dbUsers[window.currentUserKey] || {};
+    const nama = userInfo.nama || window.currentUserKey;
+    const monthNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+    const filterStr = `Bulan ${month === 'all' ? 'Semua' : monthNames[parseInt(month)]} | Tahun ${year === 'all' ? 'Semua' : year}`;
+    
+    window.openPrintPreview('Laporan Rekod Bacaan Individu', `Peminjam: ${nama} | Tapisan: ${filterStr}`, tHtml);
+};
+
+window.printUlasanReport = function() {
+    if (!window.currentUserKey) return window.showCustomAlert('Sila log masuk dahulu.');
+    const month = document.getElementById('filterUlasanMonth').value;
+    const year = document.getElementById('filterUlasanYear').value;
+    
+    const myUlasan = window.dbUlasan.filter(u => {
+        if(u.userKey !== window.currentUserKey) return false;
+        const d = new Date(u.tarikh);
+        if (year !== 'all' && d.getFullYear() !== parseInt(year)) return false;
+        if (month !== 'all' && d.getMonth() !== parseInt(month)) return false;
+        return true;
+    });
+
+    if(myUlasan.length === 0) return window.showCustomAlert('Tiada rekod ulasan ditemui untuk tapisan ini.');
+    myUlasan.sort((a,b) => new Date(b.tarikh) - new Date(a.tarikh));
+
+    let tHtml = `<table><thead><tr><th style="width:5%;text-align:center;">Bil</th><th style="width:15%;">Tarikh Ulasan</th><th style="width:30%;">Tajuk Bahan</th><th style="width:40%;">Ulasan & Pendapat</th><th style="width:10%;text-align:center;">Rating</th></tr></thead><tbody>`;
+    myUlasan.forEach((u, i) => {
+        tHtml += `<tr><td style="text-align:center;">${i+1}</td><td>${window.formatDate(u.tarikh.split('T')[0])}</td><td><strong>${u.tajuk}</strong></td><td style="font-style:italic;">"${u.teks}"</td><td style="text-align:center; font-weight:700; color:#d97706;">${u.stars} Bintang</td></tr>`;
+    });
+    tHtml += `</tbody></table>`;
+    
+    const userInfo = window.kelabMapData[window.currentUserKey] || window.dbUsers[window.currentUserKey] || {};
+    const nama = userInfo.nama || window.currentUserKey;
+    const monthNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+    const filterStr = `Bulan ${month === 'all' ? 'Semua' : monthNames[parseInt(month)]} | Tahun ${year === 'all' ? 'Semua' : year}`;
+    
+    window.openPrintPreview('Laporan Ulasan Bahan Bacaan', `Pengulas: ${nama} | Tapisan: ${filterStr}`, tHtml);
+};
+
+window.printScoreboard = function() {
+    const year = document.getElementById('scoreYear').value;
+    const startM = parseInt(document.getElementById('scoreStartMonth').value);
+    const endM = parseInt(document.getElementById('scoreEndMonth').value);
+    const limitStr = document.getElementById('scoreLimit').value;
+    
+    let usersScores = [];
+    Object.keys(window.kelabMapData).forEach(k => {
+        const u = window.kelabMapData[k];
+        let pts = 0; let books = 0;
+        window.dbData.forEach(item => {
+            if(window.getSafeKey(window.getItemUserKey(item)) === k) {
+                const d = new Date(item.tPinjam);
+                if(year === 'all' || d.getFullYear() === parseInt(year)) {
+                    if(year === 'all' || (d.getMonth() >= startM && d.getMonth() <= endM)) {
+                        pts += (parseInt(item.mata) || 0);
+                        books += 1;
+                    }
+                }
+            }
+        });
+        window.dbUlasan.forEach(ul => {
+            if(window.getSafeKey(ul.userKey) === k) {
+                const d = new Date(ul.tarikh);
+                if(year === 'all' || d.getFullYear() === parseInt(year)) {
+                    if(year === 'all' || (d.getMonth() >= startM && d.getMonth() <= endM)) {
+                        pts += 2 + (parseInt(ul.bonusMata) || 0);
+                    }
+                }
+            }
+        });
+        if(pts > 0) usersScores.push({nama: u.nama, id: u.noPekerja || '-', bhg: u.bahagian || '-', pts: pts, books: books});
+    });
+
+    if(usersScores.length === 0) return window.showCustomAlert('Tiada data papan mata untuk dicetak pada masa ini.');
+
+    usersScores.sort((a,b) => b.pts - a.pts);
+    if(limitStr !== 'all') usersScores = usersScores.slice(0, parseInt(limitStr));
+
+    let tHtml = `<table><thead><tr><th style="width:10%;text-align:center;">Kedudukan</th><th style="width:40%;">Nama Peminjam</th><th style="width:30%;">Bahagian</th><th style="width:10%;text-align:center;">Jumlah Buku</th><th style="width:10%;text-align:center;">Jumlah Mata</th></tr></thead><tbody>`;
+    usersScores.forEach((u, i) => {
+        tHtml += `<tr><td style="text-align:center; font-weight:800; font-size:14px;">#${i+1}</td><td><strong>${u.nama}</strong><br><span style="font-size:9px;color:#64748b;">ID: ${u.id}</span></td><td>${u.bhg}</td><td style="text-align:center;">${u.books}</td><td style="text-align:center; font-weight:800; color:#d97706;">${u.pts} pt</td></tr>`;
+    });
+    tHtml += `</tbody></table>`;
+    
+    const monthNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+    let periodStr = year === 'all' ? 'Keseluruhan Masa' : `Dari ${monthNames[startM]} hingga ${monthNames[endM]} ${year}`;
+    
+    window.openPrintPreview('Laporan Papan Mata (Scoreboard)', `Tempoh: ${periodStr} | ${limitStr === 'all' ? 'Semua Ahli' : 'Senarai Teratas (' + limitStr + ')'}`, tHtml);
+};
+
+window.openCetakSenaraiModal = function() {
+    const m = document.getElementById('cetakSenaraiModal');
+    if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
+};
+
+window.closeCetakSenaraiModal = function() {
+    const m = document.getElementById('cetakSenaraiModal');
+    if (m) { m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); }
+};
+
+window.printSenaraiAdmin = function() {
+    const year = document.getElementById('cs_tahun').value;
+    const month = document.getElementById('cs_bulan').value;
+    
+    let filteredData = window.dbData.filter(item => {
+        if (!item.tPinjam) return false;
+        const d = new Date(item.tPinjam);
+        if (year !== 'all' && d.getFullYear() !== parseInt(year)) return false;
+        if (month !== 'all' && d.getMonth() !== parseInt(month)) return false;
+        return true;
+    });
+
+    if(filteredData.length === 0) {
+        return window.showCustomAlert('Tiada rekod bacaan ditemui untuk tapisan ini.');
+    }
+
+    // Susun mengikut tarikh pinjaman terkini
+    filteredData.sort((a,b) => new Date(b.tPinjam) - new Date(a.tPinjam));
+
+    const monthNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+    const filterStr = `Bulan ${month === 'all' ? 'Semua' : monthNames[parseInt(month)]} | Tahun ${year === 'all' ? 'Semua' : year}`;
+    const today = new Date().toLocaleDateString('ms-MY');
+
+    let html = `<html><head><title>Laporan Keseluruhan Rekod Bacaan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @page { size: A4 landscape; margin: 15mm; }
+        body { font-family: 'Inter', Arial, sans-serif; font-size:11px; color:#333; }
+        h2 { text-align:center; text-transform:uppercase; color:#0f172a; margin-bottom:5px; font-weight:800; font-size:16px;}
+        p { text-align:center; color:#475569; margin-top:0; margin-bottom:20px; font-weight:600;}
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; vertical-align: middle; }
+        th { background-color: #f8fafc; text-transform: uppercase; font-weight: bold; font-size: 10px; color:#007aff;}
+        tr:nth-child(even) { background-color: #f8fafc; }
+        .date-print { position:absolute; top:0; right:0; font-size:10px; color:#94a3b8; font-weight:600;}
+    </style></head><body>
+    <div class="date-print">Tarikh Cetakan: ${today}</div>
+    <h2>LAPORAN KESELURUHAN REKOD BACAAN</h2>
+    <p>Sistem Pustakawan Digital | Tapisan: ${filterStr}</p>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:5%;text-align:center;">Bil</th>
+                <th style="width:20%;">Peminjam</th>
+                <th style="width:30%;">Tajuk Bahan</th>
+                <th style="width:15%;text-align:center;">Tarikh Pinjam</th>
+                <th style="width:15%;text-align:center;">Tarikh Pulang</th>
+                <th style="width:15%;text-align:center;">Status</th>
+            </tr>
+        </thead>
+        <tbody>`;
+
+    filteredData.forEach((item, i) => {
+        const isSelesai = item.status && item.status.includes('Selesai');
+        const isHarian = item.status === 'Bacaan Harian';
+        let statusText = isSelesai ? 'Selesai' : (isHarian ? 'Bacaan Harian' : 'Sedang Dipinjam');
+        
+        const tPinjam = item.tPinjam ? window.formatDate(item.tPinjam) : '-';
+        const tPulang = isSelesai && item.tDipulangkan ? window.formatDate(item.tDipulangkan) : (item.tPulang ? window.formatDate(item.tPulang) : '-');
+
+        html += `<tr>
+            <td style="text-align:center;">${i+1}</td>
+            <td><strong>${item.nama}</strong><br><span style="font-size:9px;color:#64748b;">${item.noPekerja||'-'} | ${item.bahagian||'-'}</span></td>
+            <td><strong>${item.tajuk}</strong><br><span style="font-size:9px;color:#64748b;">ACC: ${item.accession||'-'} | ${item.jenis||'-'}</span></td>
+            <td style="text-align:center;">${tPinjam}</td>
+            <td style="text-align:center;">${tPulang}</td>
+            <td style="text-align:center; font-weight:700;">${statusText}</td>
+        </tr>`;
+    });
+
+    html += `</tbody></table></body></html>`;
+
+    const win = window.open('', '', 'width=1000,height=700');
+    win.document.write(html);
+    win.document.close();
+    
+    setTimeout(() => { win.print(); }, 500);
+    window.closeCetakSenaraiModal();
+};
+
 window.printAktifReport = function() {
     const container = document.getElementById('aktifContainer');
     if (!container || container.innerText.includes('Tiada rekod')) {
@@ -3896,9 +4864,11 @@ window.printAktifReport = function() {
     if(filterStatus === 'lewat') filterLabel = "Rekod Lewat Sahaja";
 
     const today = new Date().toLocaleDateString('ms-MY');
-    let html = `<html><head><title>Senarai Peminjam Aktif</title><style>
+    let html = `<html><head><title>Senarai Peminjam Aktif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
         @page { size: A4 portrait; margin: 15mm; }
-        body { font-family: Arial, sans-serif; font-size:11px; color:#333; }
+        body { font-family: 'Inter', Arial, sans-serif; font-size:11px; color:#333; }
         h2 { text-align:center; text-transform:uppercase; color:#000; margin-bottom:5px; }
         p { text-align:center; color:#555; margin-top:0; margin-bottom:20px; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
@@ -3961,7 +4931,10 @@ window.printAktifReport = function() {
     const win = window.open('', '', 'width=900,height=700');
     win.document.write(html);
     win.document.close();
-    win.print();
+    
+    // Timeout membenarkan font dan CSS dimuatkan sebelum cetak dipanggil, 
+    // mengelakkan pratonton (preview) PDF daripada menjadi kosong/terganggu.
+    setTimeout(() => { win.print(); }, 500);
 };
 
 window.renderMyProfile = function() {
@@ -4633,7 +5606,9 @@ window.printPointsReport = function() {
 
     const today = new Date().toLocaleDateString('ms-MY');
 
-    let html = `<html><head><title>Laporan Mata Ganjaran - ${dispNama}</title><style>@page{size:A4 portrait;margin:20mm;}body{font-family:Arial,sans-serif;padding:20px;font-size:12px;color:#333;}h2{text-align:center;margin-bottom:5px;text-transform:uppercase;color:#000;}p{text-align:center;color:#555;margin-top:0;margin-bottom:20px;}.profile-box{background:#f9f9f9;border:1px solid #ddd;padding:15px;margin-bottom:20px;border-radius:8px;display:flex;justify-content:space-between;}.profile-box h3{margin:0 0 5px 0;font-size:16px;color:#000;}.profile-box .info{font-size:13px;color:#555;}.point-box{text-align:right;}.point-value{font-size:24px;font-weight:bold;color:#d97706;}table{width:100%;border-collapse:collapse;margin-top:10px;}th,td{border:1px solid #000;padding:10px 8px;text-align:left;font-size:12px;}th{background-color:#f2f2f2;text-transform:uppercase;font-weight:bold;}.text-center{text-align:center;}.date-print{position:absolute;top:0px;right:0px;font-size:10px;color:#999;}</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>LAPORAN PEMEROLEHAN MATA GANJARAN</h2><p>Sistem Pustakawan Digital</p><div class="profile-box"><div><h3>${dispNama}</h3><div class="info">ID / No. Pekerja: <strong>${dispId}</strong></div><div class="info">Jabatan/Bahagian: <strong>${dispBhg}</strong></div><div class="info" style="margin-top:8px;color:#1A73E8;font-weight:bold;">Tapisan Paparan: ${tapisanTeks}</div></div><div class="point-box"><div style="font-size:12px;color:#666;font-weight:bold;margin-bottom:4px;">MATA TERKUMPUL (TAPISAN)</div><div class="point-value">${filteredTotal} pt</div></div></div><table><thead><tr><th width="5%" class="text-center">Bil</th><th width="15%" class="text-center">Tarikh</th><th width="45%">Tajuk Bahan / Buku</th><th width="25%" class="text-center">Aktiviti / Kategori</th><th width="10%" class="text-center">Mata</th></tr></thead><tbody>`;
+    let html = `<html><head><title>Laporan Mata Ganjaran - ${dispNama}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>@page{size:A4 portrait;margin:20mm;}body{font-family:'Inter',Arial,sans-serif;padding:20px;font-size:12px;color:#333;}h2{text-align:center;margin-bottom:5px;text-transform:uppercase;color:#000;}p{text-align:center;color:#555;margin-top:0;margin-bottom:20px;}.profile-box{background:#f9f9f9;border:1px solid #ddd;padding:15px;margin-bottom:20px;border-radius:8px;display:flex;justify-content:space-between;}.profile-box h3{margin:0 0 5px 0;font-size:16px;color:#000;}.profile-box .info{font-size:13px;color:#555;}.point-box{text-align:right;}.point-value{font-size:24px;font-weight:bold;color:#d97706;}table{width:100%;border-collapse:collapse;margin-top:10px;}th,td{border:1px solid #000;padding:10px 8px;text-align:left;font-size:12px;}th{background-color:#f2f2f2;text-transform:uppercase;font-weight:bold;}.text-center{text-align:center;}.date-print{position:absolute;top:0px;right:0px;font-size:10px;color:#999;}</style></head><body><div class="date-print">Tarikh Cetakan: ${today}</div><h2>LAPORAN PEMEROLEHAN MATA GANJARAN</h2><p>Sistem Pustakawan Digital</p><div class="profile-box"><div><h3>${dispNama}</h3><div class="info">ID / No. Pekerja: <strong>${dispId}</strong></div><div class="info">Jabatan/Bahagian: <strong>${dispBhg}</strong></div><div class="info" style="margin-top:8px;color:#1A73E8;font-weight:bold;">Tapisan Paparan: ${tapisanTeks}</div></div><div class="point-box"><div style="font-size:12px;color:#666;font-weight:bold;margin-bottom:4px;">MATA TERKUMPUL (TAPISAN)</div><div class="point-value">${filteredTotal} pt</div></div></div><table><thead><tr><th width="5%" class="text-center">Bil</th><th width="15%" class="text-center">Tarikh</th><th width="45%">Tajuk Bahan / Buku</th><th width="25%" class="text-center">Aktiviti / Kategori</th><th width="10%" class="text-center">Mata</th></tr></thead><tbody>`;
 
     if (records.length === 0) {
         html += `<tr><td colspan="5" class="text-center" style="padding:20px;">Tiada rekod pemerolehan mata untuk tempoh ini.</td></tr>`;
@@ -4647,7 +5622,10 @@ window.printPointsReport = function() {
     const win = window.open('', '', 'width=900,height=700');
     win.document.write(html);
     win.document.close();
-    win.print();
+    
+    // Timeout membenarkan font dan CSS dimuatkan sebelum cetak dipanggil, 
+    // mengelakkan pratonton (preview) PDF daripada menjadi kosong/terganggu.
+    setTimeout(() => { win.print(); }, 500);
 };
 
 window.closePointsModal = function() { const m = document.getElementById('pointsModal'); if(m){ m.classList.remove('open'); setTimeout(() => m.style.display = 'none', 200); } };
@@ -4696,7 +5674,7 @@ window.insertImageInfo = function() {
         if (url && url.trim() !== "" && url !== "https://") {
             document.getElementById('i_editor').focus();
             window.restoreInfoSelection();
-            const imgHtml = `<img src="${url}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 8px 0; display: block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">`;
+            const imgHtml = `<img src="${url}" style="max-width: 100%; width: auto; height: auto; border-radius: 8px; margin: 16px auto; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">`;
             document.execCommand('insertHTML', false, imgHtml);
             window.saveInfoSelection();
         }
@@ -4919,9 +5897,252 @@ window.togglePostExpand = function(id) {
     if (contentDiv.style.display === 'none') {
         contentDiv.style.display = 'block';
         if(iconBtn) iconBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+        
+        // Auto-scroll ke bawah komen bila di-expand
+        const listDiv = document.getElementById('comments-list-' + id);
+        if (listDiv) listDiv.scrollTop = listDiv.scrollHeight;
     } else {
         contentDiv.style.display = 'none';
         if(iconBtn) iconBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    }
+};
+
+window.renderPostCommentsHtml = function(postId, comments) {
+    if (!comments || comments.length === 0) {
+        return `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.8rem; font-style:italic;">Jadilah yang pertama untuk memberi komen!</div>`;
+    }
+    let html = '';
+    comments.forEach(c => {
+        const isMe = c.userId === window.currentUserKey || (c.userId === 'admin' && window.userRole === 'admin');
+        const isAdmin = window.userRole === 'admin';
+        const align = isMe ? 'flex-end' : 'flex-start';
+        const bg = isMe ? 'var(--primary-light)' : '#ffffff';
+        const border = isMe ? 'var(--primary)' : 'rgba(0,0,0,0.1)';
+        const nameColor = isMe ? 'var(--primary)' : 'var(--text-main)';
+        
+        const d = new Date(c.date);
+        const timeStr = `${d.getDate()}/${d.getMonth()+1} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+        
+        let actionBtns = '';
+        if (isMe || isAdmin) {
+            let editBtn = isMe ? `<span style="cursor:pointer; margin-right:8px; opacity:0.5;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" onclick="window.editPostComment('${postId}', '${c.id}')" title="Pinda Komen">✏️</span>` : '';
+            let delBtn = `<span style="cursor:pointer; opacity:0.5;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" onclick="window.deletePostComment('${postId}', '${c.id}')" title="Padam Komen">🗑️</span>`;
+            actionBtns = `<div style="display:flex; align-items:center; margin-left:8px;">${editBtn}${delBtn}</div>`;
+        }
+        
+        // Dapatkan Persona Avatar Terkini Secara Dinamik
+        let displayAvatar = '👤';
+        if (c.userId === 'admin') {
+            displayAvatar = '👨‍💻';
+        } else if (c.userId && window.getUserAvatar) {
+            displayAvatar = window.getUserAvatar(c.userId);
+        } else if (c.avatar) {
+            const legacyMap = { 'avatar1':'👨‍💼', 'avatar2':'👩‍💼', 'avatar3':'👨‍🎓', 'avatar4':'👩‍🎓', 'avatar5':'👨‍🏫', 'avatar6':'👩‍🏫', 'default':'👤' };
+            if (legacyMap[c.avatar]) displayAvatar = legacyMap[c.avatar];
+            else if (!c.avatar.includes('http')) displayAvatar = c.avatar;
+        }
+
+        html += `
+        <div style="display:flex; flex-direction:column; align-items:${align}; margin-bottom:8px;">
+            <div style="display:flex; gap:10px; max-width:95%; flex-direction:${isMe ? 'row-reverse' : 'row'};">
+                <div style="font-size:2.4rem; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15)); display:flex; align-items:flex-start; margin-top:4px;">${displayAvatar}</div>
+                <div style="display:flex; flex-direction:column; align-items:${align};">
+                    <div style="font-size:0.65rem; font-weight:bold; color:${nameColor}; margin-bottom:2px; padding:0 4px;">${c.nama}</div>
+                    <div style="background:${bg}; border:1px solid ${border}; padding:6px 12px; border-radius:12px; border-${isMe?'bottom-right':'bottom-left'}-radius:2px; font-size:0.85rem; color:var(--text-main); box-shadow:0 1px 2px rgba(0,0,0,0.05); line-height:1.4; word-break:break-word;">${c.text}</div>
+                    <div style="display:flex; justify-content:${isMe ? 'flex-end' : 'flex-start'}; align-items:center; width:100%; margin-top:2px; padding:0 4px;">
+                        <div style="font-size:0.6rem; color:var(--text-muted);">${timeStr}</div>
+                        ${actionBtns}
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    });
+    return html;
+};
+
+window.editPostComment = function(postId, commentId) {
+    let postIdx = window.appSettings.infoPosts.findIndex(p => p.id === postId);
+    if (postIdx === -1) return;
+    let cIdx = window.appSettings.infoPosts[postIdx].comments.findIndex(c => c.id === commentId);
+    if (cIdx === -1) return;
+
+    let currentText = window.appSettings.infoPosts[postIdx].comments[cIdx].text;
+    window.showCustomPrompt("Sila pinda komen anda:", async function(newText) {
+        if (newText && newText.trim() !== "" && newText.trim() !== currentText) {
+            window.appSettings.infoPosts[postIdx].comments[cIdx].text = newText.trim();
+            
+            const listDiv = document.getElementById('comments-list-' + postId);
+            if (listDiv) {
+                listDiv.innerHTML = window.renderPostCommentsHtml(postId, window.appSettings.infoPosts[postIdx].comments);
+            }
+
+            if (window.dbInstance) {
+                try { await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true }); } 
+                catch (e) { console.warn(e); }
+            }
+        }
+    }, "✏️ Pinda Komen", currentText);
+};
+
+window.deletePostComment = function(postId, commentId) {
+    window.showCustomConfirm("Adakah anda pasti mahu memadam komen ini?", async () => {
+        let postIdx = window.appSettings.infoPosts.findIndex(p => p.id === postId);
+        if (postIdx === -1) return;
+        
+        window.appSettings.infoPosts[postIdx].comments = window.appSettings.infoPosts[postIdx].comments.filter(c => c.id !== commentId);
+        
+        const listDiv = document.getElementById('comments-list-' + postId);
+        if (listDiv) {
+            listDiv.innerHTML = window.renderPostCommentsHtml(postId, window.appSettings.infoPosts[postIdx].comments);
+        }
+        const countSpan = document.getElementById('comment-count-' + postId);
+        if (countSpan) countSpan.innerText = window.appSettings.infoPosts[postIdx].comments.length + ' Komen';
+
+        if (window.dbInstance) {
+            try { await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true }); } 
+            catch (e) { console.warn(e); }
+        }
+    });
+};
+
+window.renderEmojiGrid = function(postId) {
+    const emojis = ['👍','❤️','😂','👏','💡','🔥','✨','💯','✅','❌','😊','😁','🤩','🙌','🎉','🤔','👀','🙏','💪','🏆','🤝','📝','📌','📢','📣','📚','💻','☕','🍩','🎁','🎈','🌟','⭐','⚡','💬','🗯️','💭','🙋','🙋‍♂️','🙋‍♀️'];
+    let html = '';
+    emojis.forEach(em => {
+        html += `<span style="cursor:pointer; font-size:1.1rem; text-align:center; padding:4px; border-radius:4px; transition:0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'" onclick="window.insertPostEmoji('${postId}', '${em}')">${em}</span>`;
+    });
+    return html;
+};
+
+window.togglePostEmojiPicker = function(postId, e) {
+    if(e) e.stopPropagation();
+    // Tutup semua picker yang lain dulu
+    document.querySelectorAll('[id^="emoji-picker-"]').forEach(el => {
+        if(el.id !== 'emoji-picker-' + postId) el.style.display = 'none';
+    });
+    const picker = document.getElementById('emoji-picker-' + postId);
+    if (picker) {
+        picker.style.display = picker.style.display === 'none' ? 'grid' : 'none';
+    }
+};
+
+window.insertPostEmoji = function(postId, emoji) {
+    const input = document.getElementById('comment-input-' + postId);
+    if (input) {
+        input.value += emoji;
+        input.focus();
+    }
+    const picker = document.getElementById('emoji-picker-' + postId);
+    if (picker) picker.style.display = 'none';
+};
+
+window.sendPostComment = async function(postId) {
+    if (window.userRole === 'visitor' || !window.userRole) return window.showCustomAlert("Sila log masuk profil peminjam atau pentadbir untuk memberi komen.");
+    
+    let postIdx = window.appSettings.infoPosts.findIndex(p => p.id === postId);
+    if (postIdx === -1) return;
+
+    if (window.appSettings.infoPosts[postIdx].commentsLocked && window.userRole !== 'admin') {
+        return window.showCustomAlert("Maaf, ruangan komen untuk pos ini telah ditutup.");
+    }
+    
+    const input = document.getElementById('comment-input-' + postId);
+    if (!input) return;
+    const text = input.value.trim();
+    if (!text) return;
+    
+    let userId = window.currentUserKey || 'admin';
+    let nama = 'Pengguna';
+    let avatar = '👤';
+    
+    if (window.userRole === 'admin' && !window.currentUserKey) {
+        nama = 'Pustakawan MTIB';
+        avatar = '👨‍💻';
+    } else {
+        const userInfo = window.kelabMapData[userId] || (window.dbUsers ? window.dbUsers[userId] : null);
+        if (userInfo) {
+            nama = userInfo.nama || userId;
+            avatar = window.getUserAvatar ? window.getUserAvatar(userId) : (window.dbUsers[userId]?.avatar || '👤');
+        }
+    }
+    
+    const newComment = {
+        id: 'c_' + Date.now(),
+        userId: userId,
+        nama: nama,
+        avatar: avatar,
+        text: text,
+        date: new Date().toISOString()
+    };
+    
+    if (!window.appSettings.infoPosts[postIdx].comments) {
+        window.appSettings.infoPosts[postIdx].comments = [];
+    }
+    window.appSettings.infoPosts[postIdx].comments.push(newComment);
+    
+    input.value = '';
+    const listDiv = document.getElementById('comments-list-' + postId);
+    if (listDiv) {
+        listDiv.innerHTML = window.renderPostCommentsHtml(postId, window.appSettings.infoPosts[postIdx].comments);
+        setTimeout(() => listDiv.scrollTop = listDiv.scrollHeight, 50);
+    }
+    
+    const countSpan = document.getElementById('comment-count-' + postId);
+    if (countSpan) countSpan.innerText = window.appSettings.infoPosts[postIdx].comments.length + ' Komen';
+
+    const picker = document.getElementById('emoji-picker-' + postId);
+    if (picker) picker.style.display = 'none';
+    
+    if (window.dbInstance) {
+        try { await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true }); } 
+        catch (e) { console.warn(e); }
+    }
+};
+
+// ==================================================
+// FUNGSI PERTUKARAN TEMA (UI THEME TOGGLE)
+// ==================================================
+window.currentThemeIndex = parseInt(localStorage.getItem('userThemeIndex')) || 0;
+window.applyTheme = function() {
+    if (window.currentThemeIndex === 1) {
+        document.body.classList.add('theme-blue');
+    } else {
+        document.body.classList.remove('theme-blue');
+    }
+};
+window.toggleBackgroundTheme = function() {
+    window.currentThemeIndex = (window.currentThemeIndex === 0) ? 1 : 0;
+    window.applyTheme();
+    localStorage.setItem('userThemeIndex', window.currentThemeIndex);
+    let themeName = window.currentThemeIndex === 0 ? "Soft Blue Glass (Terang)" : "Zordon Dark (Gelap)";
+    window.showCustomAlert(`Tema aplikasi telah ditukar kepada <b>${themeName}</b>.`, '🎨 Tema UI');
+};
+window.applyTheme(); // Terapkan tema sejurus dimuatkan
+
+// Tutup picker emoji jika klik di luar kawasan
+document.addEventListener('click', function(e) {
+    document.querySelectorAll('[id^="emoji-picker-"]').forEach(picker => {
+        if (picker.style.display === 'grid') {
+            const btnId = picker.id.replace('emoji-picker-', 'btn-emoji-');
+            if (!picker.contains(e.target) && (!e.target.id || e.target.id !== btnId)) {
+                picker.style.display = 'none';
+            }
+        }
+    });
+});
+
+window.toggleLockComments = async function(postId) {
+    if (window.userRole !== 'admin') return;
+    let postIdx = window.appSettings.infoPosts.findIndex(p => p.id === postId);
+    if (postIdx === -1) return;
+
+    window.appSettings.infoPosts[postIdx].commentsLocked = !window.appSettings.infoPosts[postIdx].commentsLocked;
+    
+    window.renderInformasiTab();
+
+    if (window.dbInstance) {
+        try { await window.dbInstance.collection("tetapan").doc("utama").set(window.appSettings, { merge: true }); }
+        catch (e) { console.warn(e); }
     }
 };
 
@@ -4936,7 +6157,6 @@ window.renderInformasiTab = function() {
 
     let posts = JSON.parse(JSON.stringify(window.appSettings.infoPosts || []));
     
-    // Asingkan Pinned dan Unpinned, Susun mengikut TARIKH TERKINI DI ATAS
     let pinned = posts.filter(p => p.isPinned).sort((a,b) => new Date(b.date) - new Date(a.date));
     let unpinned = posts.filter(p => !p.isPinned).sort((a,b) => new Date(b.date) - new Date(a.date));
     
@@ -4949,60 +6169,101 @@ window.renderInformasiTab = function() {
     let baseShadow = "box-shadow: 0 6px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03); transition: transform 0.2s ease, box-shadow 0.2s ease;";
     let hoverEffect = "onmouseover=\"this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.05)';\" onmouseout=\"this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03)';\"";
 
-    // Render Pinned Posts (Tutup secara lalai)
-    pinned.forEach(post => {
+    const generatePostHtml = (post, isPinned, isBaru, displayState, iconState) => {
         let dateStr = window.formatDate(post.date.split('T')[0]);
-        let adminControls = window.userRole === 'admin' ? `<div style="padding:10px 16px; border-top:1px dashed #e2b99a; text-align:right;"><span style="cursor:pointer; color:#b45309; font-weight:700; margin-right:12px; font-size:0.85rem;" onclick="event.stopPropagation(); window.bukaBorangInfo('${post.id}')">✏️ Pinda</span> <span style="cursor:pointer; color:var(--danger); font-weight:700; font-size:0.85rem;" onclick="event.stopPropagation(); window.padamInfoPost('${post.id}')">🗑️ Padam</span></div>` : '';
         
-        html += `
-        <div style="background:#fffbeb; border:2px solid #fcd34d; border-radius:12px; overflow:hidden; position:relative; ${baseShadow}" ${hoverEffect}>
-            <div style="text-align:center; padding:6px; font-size:0.75rem; font-weight:800; color:#b45309; border-bottom:1px solid #fde68a; background:rgba(253, 230, 138, 0.4); text-transform:uppercase;">${dateStr}</div>
-            <div style="position:absolute; top:6px; right:12px; color:#b45309;" title="Pin Post">${pinIcon}</div>
-            
-            <div style="padding:16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="window.togglePostExpand('${post.id}')">
-                <strong style="font-size:1.1rem; color:#92400e; text-transform:uppercase;">${post.title}</strong>
-                <span id="post-icon-${post.id}" style="color:#b45309; display:flex; align-items:center; justify-content:center;">${arrowDown}</span>
-            </div>
-            
-            <div id="post-content-${post.id}" style="display:none; padding:0 16px 16px 16px;">
-                <div style="background:#fff; border:1px solid #fde68a; border-radius:8px; padding:16px; color:var(--text-main); font-size:0.95rem; line-height:1.6; box-shadow:inset 0 1px 3px rgba(0,0,0,0.02);">
-                    ${post.content}
+        let lockIconStr = post.commentsLocked ? '🔓 Buka Komen' : '🔒 Tutup Komen';
+        let lockColor = post.commentsLocked ? 'var(--primary)' : 'var(--danger)';
+        
+        let adminControls = window.userRole === 'admin' ? `<div style="padding:10px 16px; border-top:1px dashed ${isPinned ? '#e2b99a' : (isBaru ? '#bae6fd' : '#e2e8f0')}; text-align:right;">
+            <span style="cursor:pointer; color:${lockColor}; font-weight:700; margin-right:12px; font-size:0.85rem;" onclick="event.stopPropagation(); window.toggleLockComments('${post.id}')">${lockIconStr}</span>
+            <span style="cursor:pointer; color:${isPinned ? '#b45309' : 'var(--primary)'}; font-weight:700; margin-right:12px; font-size:0.85rem;" onclick="event.stopPropagation(); window.bukaBorangInfo('${post.id}')">✏️ Pinda Pos</span> 
+            <span style="cursor:pointer; color:var(--danger); font-weight:700; font-size:0.85rem;" onclick="event.stopPropagation(); window.padamInfoPost('${post.id}')">🗑️ Padam</span></div>` : '';
+        
+        let bgStyle, headerBg, titleColor, headerBorder, borderColor, pinHtml, headerColor, chatHeaderBg, chatHeaderBorder;
+        
+        if (isPinned) {
+            bgStyle = 'background:#fffbeb;'; borderColor = '#fcd34d';
+            headerBg = 'background:rgba(253, 230, 138, 0.4);'; headerBorder = '#fde68a'; headerColor = '#b45309'; titleColor = 'color:#92400e;';
+            chatHeaderBg = '#fffbeb'; chatHeaderBorder = '#fde68a';
+            pinHtml = `<div style="position:absolute; top:6px; right:12px; color:#b45309;" title="Pin Post">${pinIcon}</div>`;
+        } else if (isBaru) {
+            bgStyle = 'background:#f0f9ff;'; borderColor = '#bae6fd';
+            headerBg = 'background:#e0f2fe;'; headerBorder = '#bae6fd'; headerColor = '#0369a1'; titleColor = 'color:#0c4a6e;';
+            chatHeaderBg = '#f0f9ff'; chatHeaderBorder = '#bae6fd';
+            pinHtml = '';
+        } else {
+            bgStyle = 'background:#f8fafc;'; borderColor = '#e2e8f0';
+            headerBg = 'background:#f1f5f9;'; headerBorder = '#e2e8f0'; headerColor = '#64748b'; titleColor = 'color:#475569;';
+            chatHeaderBg = '#f8fafc'; chatHeaderBorder = 'var(--border)';
+            pinHtml = '';
+        }
+
+        let commentsCount = post.comments ? post.comments.length : 0;
+        let commentsHtml = window.renderPostCommentsHtml(post.id, post.comments);
+        let emojiGrid = window.renderEmojiGrid(post.id);
+
+        let commentInputArea = '';
+        if (post.commentsLocked && window.userRole !== 'admin') {
+            commentInputArea = `<div style="padding:16px; border-top:1px solid rgba(0,0,0,0.05); background:#f8fafc; text-align:center; color:var(--text-muted); font-size:0.85rem; font-style:italic;">🔒 Ruangan komen telah ditutup oleh pentadbir.</div>`;
+        } else {
+            let lockWarning = post.commentsLocked ? `<div style="font-size:0.7rem; color:var(--danger); text-align:center; padding-bottom:4px; font-weight:bold;">(Komen dikunci untuk pengguna biasa)</div>` : '';
+            commentInputArea = `
+            <div style="padding:10px; border-top:1px solid rgba(0,0,0,0.05); background:#fff; position:relative;">
+                ${lockWarning}
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <input type="text" id="comment-input-${post.id}" class="login-input" placeholder="Tulis komen..." style="margin:0; flex:1; font-size:0.85rem; padding:6px 10px;" onkeyup="if(event.key==='Enter') window.sendPostComment('${post.id}')">
+                    <button id="btn-emoji-${post.id}" class="btn-clear" style="padding:4px 6px; border:none; background:transparent;" onclick="window.togglePostEmojiPicker('${post.id}', event)">😀</button>
+                    <button class="btn-3d" style="padding:6px 12px; font-size:0.8rem; background:${isPinned ? '#d97706' : 'var(--primary)'}; border-color:${isPinned ? '#b45309' : 'var(--primary)'};" onclick="window.sendPostComment('${post.id}')">Hantar</button>
                 </div>
-            </div>
-            ${adminControls}
-        </div>`;
-    });
+                
+                <!-- Emoji Picker -->
+                <div id="emoji-picker-${post.id}" style="display:none; position:absolute; bottom:calc(100% + 5px); right:0; background:var(--surface-solid); border:1px solid var(--border); border-radius:8px; padding:8px; box-shadow:var(--shadow-md); z-index:100; width:260px; grid-template-columns:repeat(8, 1fr); gap:4px; max-height:150px; overflow-y:auto;">
+                    ${emojiGrid}
+                </div>
+            </div>`;
+        }
 
-    // Render Unpinned Posts
-    unpinned.forEach((post, index) => {
-        let isBaru = (index === 0); // Post pertama dikira 'Baru'
-        let dateStr = window.formatDate(post.date.split('T')[0]);
-        
-        // Tema Warna
-        let bgStyle = isBaru ? 'background:#f0f9ff; border:2px solid #bae6fd;' : 'background:#f8fafc; border:2px solid #e2e8f0;';
-        let headerBg = isBaru ? 'background:#e0f2fe; color:#0369a1; border-bottom:1px solid #bae6fd;' : 'background:#f1f5f9; color:#64748b; border-bottom:1px solid #e2e8f0;';
-        let titleColor = isBaru ? 'color:#0c4a6e;' : 'color:#475569;';
-        let displayState = isBaru ? 'block' : 'none';
-        let iconState = isBaru ? arrowUp : arrowDown;
-        
-        let adminControls = window.userRole === 'admin' ? `<div style="padding:10px 16px; border-top:1px dashed ${isBaru ? '#bae6fd' : '#e2e8f0'}; text-align:right;"><span style="cursor:pointer; color:var(--primary); font-weight:700; margin-right:12px; font-size:0.85rem;" onclick="event.stopPropagation(); window.bukaBorangInfo('${post.id}')">✏️ Pinda</span> <span style="cursor:pointer; color:var(--danger); font-weight:700; font-size:0.85rem;" onclick="event.stopPropagation(); window.padamInfoPost('${post.id}')">🗑️ Padam</span></div>` : '';
-
-        html += `
-        <div style="${bgStyle} border-radius:12px; overflow:hidden; position:relative; ${baseShadow}" ${hoverEffect}>
-            <div style="${headerBg} text-align:center; padding:6px; font-size:0.75rem; font-weight:800; text-transform:uppercase;">${dateStr}</div>
+        return `
+        <div style="${bgStyle} border:2px solid ${borderColor}; border-radius:12px; overflow:hidden; position:relative; ${baseShadow}" ${hoverEffect}>
+            <div style="text-align:center; padding:6px; font-size:0.75rem; font-weight:800; color:${headerColor}; border-bottom:1px solid ${headerBorder}; ${headerBg} text-transform:uppercase;">${dateStr}</div>
+            ${pinHtml}
             
             <div style="padding:16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="window.togglePostExpand('${post.id}')">
-                <strong style="${titleColor} font-size:1.1rem; text-transform:uppercase;">${post.title}</strong>
-                <span id="post-icon-${post.id}" style="color:var(--text-muted); display:flex; align-items:center; justify-content:center;">${iconState}</span>
+                <strong style="font-size:1.1rem; ${titleColor} text-transform:uppercase;">${post.title}</strong>
+                <span id="post-icon-${post.id}" style="color:${isPinned ? '#b45309' : 'var(--text-muted)'}; display:flex; align-items:center; justify-content:center;">${iconState}</span>
             </div>
             
             <div id="post-content-${post.id}" style="display:${displayState}; padding:0 16px 16px 16px;">
-                <div style="background:#fff; border:1px solid rgba(0,0,0,0.05); border-radius:8px; padding:16px; color:var(--text-main); font-size:0.95rem; line-height:1.6; box-shadow:inset 0 1px 3px rgba(0,0,0,0.02);">
-                    ${post.content}
+                <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:stretch;">
+                    <!-- Kandungan Pos -->
+                    <div style="flex: 1 1 55%; min-width: 280px; background:#fff; border:1px solid ${isPinned ? '#fde68a' : (isBaru ? '#bae6fd' : 'rgba(0,0,0,0.05)')}; border-radius:8px; padding:16px; color:var(--text-main); font-size:0.95rem; line-height:1.6; box-shadow:inset 0 1px 3px rgba(0,0,0,0.02); overflow-x:auto;">
+                        ${post.content}
+                    </div>
+                    
+                    <!-- Chatbox Ruangan Komen -->
+                    <div style="flex: 1 1 35%; min-width: 280px; background:#fff; border:1px solid ${isPinned ? '#fde68a' : (isBaru ? '#bae6fd' : 'rgba(0,0,0,0.05)')}; border-radius:8px; display:flex; flex-direction:column; box-shadow:inset 0 1px 3px rgba(0,0,0,0.02); overflow:hidden; min-height: 250px; max-height: 450px;">
+                        <div style="background:${chatHeaderBg}; padding:8px 12px; font-size:0.8rem; font-weight:bold; color:var(--primary); border-bottom:1px solid ${chatHeaderBorder}; display:flex; justify-content:space-between; align-items:center;">
+                            <span style="color:${isPinned ? '#b45309' : (isBaru ? '#0369a1' : '#475569')}">💬 Ruangan Komen</span> 
+                            <span id="comment-count-${post.id}" style="color:var(--text-muted); font-size:0.7rem; background:rgba(255,255,255,0.5); padding:2px 8px; border-radius:10px; font-weight:700;">${commentsCount} Komen</span>
+                        </div>
+                        
+                        <div id="comments-list-${post.id}" style="flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:10px; background:rgba(0,0,0,0.01);">
+                            ${commentsHtml}
+                        </div>
+                        
+                        ${commentInputArea}
+                    </div>
                 </div>
             </div>
             ${adminControls}
         </div>`;
+    };
+
+    pinned.forEach(post => { html += generatePostHtml(post, true, false, 'none', arrowDown); });
+    unpinned.forEach((post, index) => { 
+        let isBaru = (index === 0);
+        html += generatePostHtml(post, false, isBaru, isBaru ? 'block' : 'none', isBaru ? arrowUp : arrowDown); 
     });
     
     if (posts.length === 0) {
@@ -7464,6 +8725,588 @@ window.printScoreboard = function() {
     win.document.write(html);
     win.document.close();
     win.print();
+};
+// --- PEMBAIKAN AVATAR EMOJI GLOBAL ---
+// Skrip ini akan menukar mana-mana tag <img src="emoji"> yang rosak kepada <div>emoji</div>
+window.perbaikiAvatarEmoji = function() {
+    const senaraiImej = document.querySelectorAll('img');
+    senaraiImej.forEach(img => {
+        const src = img.getAttribute('src');
+        // Kenal pasti jika 'src' tersebut adalah emoji (bukan pautan URL atau imej Base64)
+        if (src && !src.includes('http') && !src.includes('data:image') && !src.includes('/')) {
+            const div = document.createElement('div');
+            
+            // Salin class/style dari img asal (jika ada) untuk kekalkan struktur asal
+            div.className = img.className; 
+            
+            // Kunci saiz (fixed size) & halang dari membesar (flex-shrink: 0, flex-grow: 0)
+            div.style.cssText = img.style.cssText + " font-size: 1.8rem; display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; flex-shrink: 0; flex-grow: 0; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05)); border-radius: 50%; background: var(--surface-solid); border: 1px solid var(--border-input); margin: 0;";
+            div.innerText = src;
+            img.parentNode.replaceChild(div, img);
+        }
+    });
+};
+
+// --- SISTEM TEMA LATAR BELAKANG (KOMPREHENSIF) ---
+window.bgThemes = [
+    { // 0: Putih/Kelabu (Zorin Asal)
+        body: '#f4f5f5',
+        navBg: 'var(--surface)',
+        navText: 'var(--text-muted)',
+        navTextHover: 'var(--text-main)',
+        navBtnActiveBg: 'var(--primary-light)',
+        navBtnActiveText: 'var(--primary)',
+        navBtnActiveBorder: '#93c5fd',
+        subHeaderBg: 'var(--surface)',
+        subHeaderText: 'var(--primary)'
+    },
+    { // 1: Biru (Berdasarkan Gambar Rujukan)
+        body: '#cde4f7', // Biru pastel lembut
+        navBg: '#1e293b', // Biru gelap navy
+        navText: '#94a3b8',
+        navTextHover: '#ffffff',
+        navBtnActiveBg: '#334155',
+        navBtnActiveText: '#ffffff',
+        navBtnActiveBorder: '#475569',
+        subHeaderBg: '#4a8ddc', // Biru sederhana
+        subHeaderText: '#ffffff'
+    },
+    { // 2: Hijau
+        body: '#dcfce7', // Hijau pastel
+        navBg: '#14532d', // Hijau rimba gelap
+        navText: '#86efac',
+        navTextHover: '#ffffff',
+        navBtnActiveBg: '#166534',
+        navBtnActiveText: '#ffffff',
+        navBtnActiveBorder: '#22c55e',
+        subHeaderBg: '#22c55e', // Hijau sederhana
+        subHeaderText: '#ffffff'
+    },
+    { // 3: Kuning/Emas
+        body: '#fef9c3', // Kuning pastel
+        navBg: '#713f12', // Coklat gelap
+        navText: '#fde047',
+        navTextHover: '#ffffff',
+        navBtnActiveBg: '#854d0e',
+        navBtnActiveText: '#ffffff',
+        navBtnActiveBorder: '#eab308',
+        subHeaderBg: '#eab308', // Amber/Kuning Emas
+        subHeaderText: '#ffffff'
+    }
+];
+window.currentThemeIdx = 0;
+
+window.applyBackgroundTheme = function(idx) {
+    const theme = window.bgThemes[idx];
+    const root = document.documentElement;
+    
+    document.body.style.background = theme.body;
+    document.body.style.color = 'var(--text-main)';
+    
+    // Set pembolehubah CSS dinamik
+    root.style.setProperty('--nav-bg-custom', theme.navBg);
+    root.style.setProperty('--nav-text-custom', theme.navText);
+    root.style.setProperty('--nav-text-custom-hover', theme.navTextHover);
+    root.style.setProperty('--nav-btn-active-bg', theme.navBtnActiveBg);
+    root.style.setProperty('--nav-btn-active-text', theme.navBtnActiveText);
+    root.style.setProperty('--nav-btn-active-border', theme.navBtnActiveBorder);
+    root.style.setProperty('--sub-header-bg-custom', theme.subHeaderBg);
+    root.style.setProperty('--sub-header-text-custom', theme.subHeaderText);
+};
+
+window.toggleBackgroundTheme = function() {
+    window.currentThemeIdx++;
+    if (window.currentThemeIdx >= window.bgThemeColors.length) {
+        window.currentThemeIdx = 0;
+    }
+    // Simpan pilihan warna secara "local" pada PC / Pelayar
+    localStorage.setItem('appBgThemeIdx', window.currentThemeIdx);
+    window.applyBackgroundTheme(window.currentThemeIdx);
+};
+
+// Pasang tema secara automatik sewaktu sistem dimuatkan
+const savedThemeIdx = localStorage.getItem('appBgThemeIdx');
+if (savedThemeIdx !== null) {
+    window.currentThemeIdx = parseInt(savedThemeIdx);
+    window.applyBackgroundTheme(window.currentThemeIdx);
+}
+// --- TAMAT SISTEM TEMA ---
+
+// Sambungkan kod pembaikan ini kepada fungsi render jadual sedia ada
+const senaraiFungsiRender = ['renderKelabTable', 'renderScoreboard', 'renderAktifTable'];
+senaraiFungsiRender.forEach(namaFungsi => {
+    if (typeof window[namaFungsi] === 'function') {
+        const fungsiAsal = window[namaFungsi];
+        window[namaFungsi] = function() {
+            fungsiAsal.apply(this, arguments);
+            // Lepas jadual dilukis, jalankan pembaikan avatar
+            setTimeout(window.perbaikiAvatarEmoji, 50);
+        };
+    }
+});
+// --- SISTEM TEMA LATAR BELAKANG (KOMPREHENSIF & FAIL-SAFE) ---
+window.bgThemes = [
+    { body: '#f4f5f5', navBg: 'var(--surface)', navText: 'var(--text-muted)', navTextHover: 'var(--text-main)', navBtnActiveBg: 'var(--primary-light)', navBtnActiveText: 'var(--primary)', navBtnActiveBorder: '#93c5fd', subHeaderBg: 'var(--surface)', subHeaderText: 'var(--primary)' },
+    { body: '#cde4f7', navBg: '#1e293b', navText: '#94a3b8', navTextHover: '#ffffff', navBtnActiveBg: '#334155', navBtnActiveText: '#ffffff', navBtnActiveBorder: '#475569', subHeaderBg: '#4a8ddc', subHeaderText: '#ffffff' }
+];
+window.currentThemeIdx = 0;
+
+window.applyBackgroundTheme = function(idx) {
+    try {
+        const theme = window.bgThemes[idx];
+        const root = document.documentElement;
+        document.body.style.background = theme.body;
+        document.body.style.color = 'var(--text-main)';
+        root.style.setProperty('--nav-bg-custom', theme.navBg);
+        root.style.setProperty('--nav-text-custom', theme.navText);
+        root.style.setProperty('--nav-text-custom-hover', theme.navTextHover);
+        root.style.setProperty('--nav-btn-active-bg', theme.navBtnActiveBg);
+        root.style.setProperty('--nav-btn-active-text', theme.navBtnActiveText);
+        root.style.setProperty('--nav-btn-active-border', theme.navBtnActiveBorder);
+        root.style.setProperty('--sub-header-bg-custom', theme.subHeaderBg);
+        root.style.setProperty('--sub-header-text-custom', theme.subHeaderText);
+    } catch(e) { console.error("Ralat Tema:", e); }
+};
+
+window.toggleBackgroundTheme = function() {
+    window.currentThemeIdx++;
+    if (window.currentThemeIdx >= window.bgThemes.length) window.currentThemeIdx = 0;
+    try { localStorage.setItem('appBgThemeIdx', window.currentThemeIdx); } catch(e) {}
+    window.applyBackgroundTheme(window.currentThemeIdx);
+};
+
+// Semakan selamat tanpa menggunakan const/let untuk elak pertindihan memori ralat JavaScript
+try {
+    if (localStorage.getItem('appBgThemeIdx') !== null) {
+        window.currentThemeIdx = parseInt(localStorage.getItem('appBgThemeIdx'));
+        // Failsafe: Reset ke lalai jika pengguna mempunyai tema > 1 tersimpan
+        if (window.currentThemeIdx >= window.bgThemes.length || isNaN(window.currentThemeIdx)) {
+            window.currentThemeIdx = 0;
+            localStorage.setItem('appBgThemeIdx', 0);
+        }
+        window.applyBackgroundTheme(window.currentThemeIdx);
+    }
+} catch(e) {}
+// --- TAMAT SISTEM TEMA ---
+
+// --- PEMBAIKAN GLOBAL CETAKAN PDF & FONT INTER ---
+// Memintas fungsi cetak supaya semua laporan PDF menggunakan font Inter dan tidak tersangkut
+const originalWindowOpen = window.open;
+window.open = function(url, target, features) {
+    const newWin = originalWindowOpen.call(window, url, target, features);
+    // Jika ia membuka tetingkap kosong (untuk laporan PDF)
+    if (newWin && (url === '' || !url)) {
+        const originalWrite = newWin.document.write;
+        newWin.document.write = function(content) {
+            // Suntik pautan Font Inter dan CSS ke dalam <head>
+            if (content.includes('<head>') && !content.includes('fonts.googleapis.com')) {
+                content = content.replace('<head>', '<head><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><style>body, table, th, td, p, h2, h3, div, span { font-family: "Inter", Arial, sans-serif !important; }</style>');
+            }
+            originalWrite.call(newWin.document, content);
+        };
+        
+        const originalPrint = newWin.print;
+        newWin.print = function() {
+            // Tangguh cetakan selama 500ms supaya pelayar sempat memuat turun font
+            setTimeout(() => {
+                if(originalPrint) originalPrint.call(newWin);
+            }, 500);
+        };
+    }
+    return newWin;
+};
+// --- TAMAT PEMBAIKAN GLOBAL ---
+// --- FUNGSI CETAKAN LAPORAN BUKU (PDF PREVIEW) ---
+window.printBukuReport = function() {
+    const monthFilter = document.getElementById('printBukuMonth').value; 
+    const yearFilter = document.getElementById('printBukuYear').value; 
+    
+    let filteredBuku = window.dbBuku.filter(b => {
+        if (!b.tarikh) return false;
+        let d = new Date(b.tarikh);
+        if (isNaN(d.getTime())) return false;
+        
+        let matchYear = (yearFilter === 'all' || d.getFullYear().toString() === yearFilter);
+        let matchMonth = (monthFilter === 'all' || d.getMonth().toString() === monthFilter);
+        
+        return matchYear && matchMonth;
+    });
+
+    if (filteredBuku.length === 0) {
+        return window.showCustomAlert('Tiada pendaftaran buku/bahan baharu ditemui untuk tapisan masa ini.');
+    }
+
+    // Susun dari yang terkini
+    filteredBuku.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh));
+
+    const today = new Date().toLocaleDateString('ms-MY');
+    let filterText = "Semua Rekod";
+    if (monthFilter !== 'all' || yearFilter !== 'all') {
+        const monthNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+        let mStr = monthFilter !== 'all' ? monthNames[parseInt(monthFilter)] : "Semua Bulan";
+        let yStr = yearFilter !== 'all' ? yearFilter : "Semua Tahun";
+        filterText = `${mStr} ${yStr}`;
+    }
+
+    let html = `<html><head><title>Laporan Senarai Buku</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @page { size: A4 landscape; margin: 15mm; }
+        body { font-family: 'Inter', Arial, sans-serif; font-size:11px; color:#333; }
+        h2 { text-align:center; text-transform:uppercase; color:#000; margin-bottom:5px; }
+        p { text-align:center; color:#555; margin-top:0; margin-bottom:20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #000; padding: 6px 8px; text-align: left; vertical-align: middle; }
+        th { background-color: #f2f2f2; text-transform: uppercase; font-weight: bold; font-size: 10px; }
+        .date-print { position:absolute; top:0; right:0; font-size:10px; color:#999; }
+    </style></head><body>
+    <div class="date-print">Tarikh Cetakan: ${today}</div>
+    <h2>LAPORAN PENDAFTARAN BAHAN BACAAN</h2>
+    <p>Pustaka MTIB | Tapisan: <strong>${filterText}</strong> | Jumlah: <strong>${filteredBuku.length} Bahan</strong></p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th style="width:5%; text-align:center;">Bil</th>
+                <th style="width:12%; text-align:center;">Tarikh</th>
+                <th style="width:35%;">Tajuk & Edisi</th>
+                <th style="width:18%;">Kategori & Jenis</th>
+                <th style="width:15%;">Penerima</th>
+                <th style="width:15%; text-align:center;">No. Accession</th>
+            </tr>
+        </thead>
+        <tbody>`;
+        
+    filteredBuku.forEach((b, idx) => {
+        html += `<tr>
+            <td style="text-align:center;">${idx+1}</td>
+            <td style="text-align:center;">${window.formatDate(b.tarikh)}</td>
+            <td><strong>${b.tajuk || '-'}</strong><br><span style="font-size:9px; color:#666;">ISBN/ISSN: ${b.isbn || '-'} | Edisi: ${b.edisi || '-'}</span></td>
+            <td>Kategori: ${b.kategori || '-'}<br>Jenis: ${b.jenis || '-'}</td>
+            <td>${b.penerima || '-'}</td>
+            <td style="text-align:center; font-family:monospace; font-weight:bold; color:#0284c7;">${b.accession || '-'}</td>
+        </tr>`;
+    });
+    
+    html += `</tbody></table></body></html>`;
+    
+    // Buka pratonton PDF
+    const win = window.open('', '', 'width=900,height=700');
+    win.document.write(html);
+    win.document.close();
+    
+    // Beri masa 500ms supaya font di-render sebelum paparan cetak dibuka
+    setTimeout(() => { win.print(); }, 500);
+};
+// --- FUNGSI CETAKAN LAPORAN BUKU (PDF PREVIEW & DATA PENUH) ---
+window.printBukuReport = function() {
+    const monthFilter = document.getElementById('printBukuMonth') ? document.getElementById('printBukuMonth').value : 'all'; 
+    const yearFilter = document.getElementById('printBukuYear') ? document.getElementById('printBukuYear').value : 'all'; 
+    
+    let filteredBuku = window.dbBuku.filter(b => {
+        if (!b.tarikh) return false;
+        let d = new Date(b.tarikh);
+        if (isNaN(d.getTime())) return false;
+        
+        // Tapisan khusus: Hanya ambil kategori terimaan baru, tolak Buku Lama/Rekod Lama
+        let isBaru = b.kategori !== 'Buku Lama' && !b.tarikh_asal;
+        
+        let matchYear = (yearFilter === 'all' || d.getFullYear().toString() === yearFilter);
+        let matchMonth = (monthFilter === 'all' || d.getMonth().toString() === monthFilter);
+        
+        return matchYear && matchMonth && isBaru;
+    });
+
+    if (filteredBuku.length === 0) {
+        return window.showCustomAlert('Tiada pendaftaran buku/bahan baharu ditemui untuk tapisan masa ini.');
+    }
+
+    // Susun dari yang terkini
+    filteredBuku.sort((a, b) => new Date(b.tarikh) - new Date(a.tarikh));
+
+    const today = new Date().toLocaleDateString('ms-MY');
+    let filterText = "Semua Rekod Terimaan Baru";
+    if (monthFilter !== 'all' || yearFilter !== 'all') {
+        const monthNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+        let mStr = monthFilter !== 'all' ? monthNames[parseInt(monthFilter)] : "Semua Bulan";
+        let yStr = yearFilter !== 'all' ? yearFilter : "Semua Tahun";
+        filterText = `${mStr} ${yStr}`;
+    }
+
+    let html = `<html><head><title>Laporan Pendaftaran Bahan Bacaan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @page { size: A4 landscape; margin: 15mm; }
+        body { font-family: 'Inter', Arial, sans-serif; font-size:12px; color:#333; }
+        h2 { text-align:center; text-transform:uppercase; color:#000; margin-bottom:5px; font-weight:800; }
+        p { text-align:center; color:#555; margin-top:0; margin-bottom:20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; }
+        th, td { border: 1px solid #000; padding: 4px 6px; text-align: left; vertical-align: top; word-wrap: break-word; }
+        th { background-color: #f2f2f2; text-transform: uppercase; font-weight: 800; font-size: 11px; padding: 6px; }
+        .date-print { position:absolute; top:0; right:0; font-size:10px; color:#999; }
+        .lbl { font-size: 10px; color: #666; font-weight: 700; display: inline-block; width: 65px; }
+        .val { font-size: 11px; color: #111; font-weight: 600; }
+    </style></head><body>
+    <div class="date-print">Tarikh Cetakan: ${today}</div>
+    <h2>LAPORAN PENDAFTARAN BAHAN BACAAN (TERIMAAN BARU)</h2>
+    <p>Pustaka MTIB | Tapisan: <strong>${filterText}</strong> | Jumlah: <strong>${filteredBuku.length} Bahan</strong></p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th style="width:4%; text-align:center;">BIL</th>
+                <th style="width:10%; text-align:center;">TARIKH</th>
+                <th style="width:31%;">MAKLUMAT BACAAN</th>
+                <th style="width:21%;">KLASIFIKASI BAHAN</th>
+                <th style="width:18%;">SUMBER & PENERIMA</th>
+                <th style="width:16%; text-align:center;">NO. ACCESSION</th>
+            </tr>
+        </thead>
+        <tbody>`;
+        
+    filteredBuku.forEach((b, idx) => {
+        html += `<tr>
+            <td style="text-align:center;">${idx+1}</td>
+            <td style="text-align:center; font-weight:700; font-size:11px;">${window.formatDate(b.tarikh)}</td>
+            <td>
+                <strong style="font-size:14px; color:#000; display:block; margin-bottom:2px; line-height:1.1;">${b.tajuk || '-'}</strong>
+                <div style="line-height:1.15;">
+                    <span class="lbl">Edisi/Isu:</span> <span class="val">${b.edisi || '-'}</span><br>
+                    <span class="lbl">ISSN/ISBN:</span> <span class="val">${b.isbn || '-'}</span><br>
+                    <span class="lbl">Bilangan:</span> <span class="val">${b.bilangan || '1'} unit</span>
+                </div>
+            </td>
+            <td style="line-height:1.15;">
+                <span class="lbl">Kategori:</span> <span class="val">${b.kategori || '-'}</span><br>
+                <span class="lbl">Jenis:</span> <span class="val">${b.jenis || '-'}</span><br>
+                <span class="lbl">Bidang:</span> <span class="val">${b.bidang || '-'}</span><br>
+                <span class="lbl">Penerbitan:</span> <span class="val">${b.penerbitan || '-'}</span>
+            </td>
+            <td style="line-height:1.15;">
+                <span class="lbl">Sumber:</span> <span class="val">${b.sumber || '-'}</span><br>
+                <span class="lbl">Penerima:</span> <span class="val">${b.penerima || '-'}</span>
+            </td>
+            <td style="text-align:center; font-family:monospace; font-size:14px; font-weight:bold; color:#0284c7; vertical-align: middle;">${b.accession || '-'}</td>
+        </tr>`;
+    });
+    
+    html += `</tbody></table></body></html>`;
+    
+    // Buka pratonton PDF
+    const win = window.open('', '', 'width=900,height=700');
+    win.document.write(html);
+    win.document.close();
+    
+    // Beri masa 500ms supaya font di-render sebelum paparan cetak dibuka
+    setTimeout(() => { win.print(); }, 500);
+};
+// --- FUNGSI CETAKAN SENARAI AHLI (PDF PREVIEW) ---
+window.printKelabReport = function() {
+    const searchQ = document.getElementById('searchKelabInput') ? document.getElementById('searchKelabInput').value.toLowerCase().trim() : '';
+    
+    let members = Object.values(window.kelabMapData);
+    
+    if (searchQ) {
+        members = members.filter(g => 
+            (g.nama && g.nama.toLowerCase().includes(searchQ)) ||
+            (g.noPekerja && g.noPekerja.toLowerCase().includes(searchQ)) ||
+            (g.bahagian && g.bahagian.toLowerCase().includes(searchQ))
+        );
+    }
+
+    if (members.length === 0) {
+        return window.showCustomAlert('Tiada rekod ahli untuk dicetak.');
+    }
+
+    // Susun ikut nama Abjad
+    members.sort((a, b) => a.nama.localeCompare(b.nama));
+
+    const today = new Date().toLocaleDateString('ms-MY');
+    let filterText = searchQ ? `Carian: "${searchQ}"` : "Semua Ahli Berdaftar";
+
+    let html = `<html><head><title>Senarai Ahli Peminjam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @page { size: A4 portrait; margin: 15mm; }
+        body { font-family: 'Inter', Arial, sans-serif; font-size:11px; color:#333; }
+        h2 { text-align:center; text-transform:uppercase; color:#000; margin-bottom:5px; font-weight:800; }
+        p { text-align:center; color:#555; margin-top:0; margin-bottom:20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #000; padding: 6px 8px; text-align: left; vertical-align: middle; }
+        th { background-color: #f2f2f2; text-transform: uppercase; font-weight: 800; font-size: 10px; }
+        .date-print { position:absolute; top:0; right:0; font-size:10px; color:#999; }
+    </style></head><body>
+    <div class="date-print">Tarikh Cetakan: ${today}</div>
+    <h2>LAPORAN SENARAI AHLI / PEMINJAM</h2>
+    <p>Pustaka MTIB | Tapisan: <strong>${filterText}</strong> | Jumlah: <strong>${members.length} Ahli</strong></p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th style="width:5%; text-align:center;">BIL</th>
+                <th style="width:35%;">NAMA PENUH</th>
+                <th style="width:15%; text-align:center;">NO. PEKERJA</th>
+                <th style="width:30%;">BAHAGIAN / JABATAN</th>
+                <th style="width:15%; text-align:center;">MATA TERKUMPUL</th>
+            </tr>
+        </thead>
+        <tbody>`;
+        
+    members.forEach((m, idx) => {
+        html += `<tr>
+            <td style="text-align:center;">${idx+1}</td>
+            <td><strong>${m.nama || '-'}</strong></td>
+            <td style="text-align:center;">${m.noPekerja || '-'}</td>
+            <td>${m.bahagian || '-'}</td>
+            <td style="text-align:center; font-weight:bold; color:#d97706;">${m.totalMata || 0} pt</td>
+        </tr>`;
+    });
+    
+    html += `</tbody></table></body></html>`;
+    
+    const win = window.open('', '', 'width=900,height=700');
+    win.document.write(html);
+    win.document.close();
+    
+    setTimeout(() => { win.print(); }, 500);
+};
+window.filterInformasiDOM = function() {
+    const input = document.getElementById('searchInfoInput');
+    if (!input) return;
+    
+    const searchQ = input.value.toLowerCase().trim();
+    const container = document.getElementById('infoPostsContainer');
+    if (!container) return;
+    
+    // Tapis setiap elemen post yang ada di dalam kontena
+    const postElements = container.children;
+    for (let i = 0; i < postElements.length; i++) {
+        const el = postElements[i];
+        const text = el.innerText.toLowerCase();
+        
+        if (text.includes(searchQ)) {
+            el.style.display = '';
+        } else {
+            el.style.display = 'none';
+        }
+    }
+};
+window.openDaftarAhliModal = function() {
+    const titleEl = document.getElementById('kelabModalTitleText');
+    if (titleEl) titleEl.innerText = 'DAFTAR PROFIL AHLI BARU';
+    
+    document.getElementById('k_key').value = '';
+    document.getElementById('k_nama').value = '';
+    document.getElementById('k_noPekerja').value = '';
+    document.getElementById('k_bahagian').value = '';
+    document.getElementById('k_whatsapp').value = '';
+    document.getElementById('k_password').value = '1234'; // Default kata laluan
+    
+    const divPwd = document.getElementById('div_admin_password');
+    if (divPwd) divPwd.style.display = 'block';
+    
+    const btnDel = document.getElementById('btn-delete-kelab');
+    if (btnDel) btnDel.style.display = 'none';
+    
+    const btnSej = document.getElementById('btn-sejarah-kelab');
+    if (btnSej) btnSej.style.display = 'none';
+    
+    const m = document.getElementById('kelabModal');
+    if (m) { m.style.display = 'flex'; setTimeout(() => m.classList.add('open'), 10); }
+};
+
+window.updateKelabProfile = async function() {
+    let key = document.getElementById('k_key').value;
+    const nama = document.getElementById('k_nama').value.trim();
+    const noPek = document.getElementById('k_noPekerja').value.trim();
+    const bhg = document.getElementById('k_bahagian').value;
+    const wa = document.getElementById('k_whatsapp').value.trim();
+    const pwd = document.getElementById('k_password').value.trim();
+
+    if (!nama) return window.showCustomAlert('Sila masukkan sekurang-kurangnya nama penuh ahli.');
+    
+    const isNew = !key;
+    if (isNew) {
+        key = window.getSafeKey(noPek) || window.getSafeKey(nama);
+        if (!key) return window.showCustomAlert('Ralat penjanaan ID. Sila masukkan No. Pekerja.');
+        if (window.dbUsers && window.dbUsers[key]) {
+            return window.showCustomAlert('Rekod profil ahli dengan ID ini sudah wujud di dalam sistem.');
+        }
+    }
+
+    if (!window.dbUsers) window.dbUsers = {};
+    let userData = window.dbUsers[key] || { avatar: '👤' };
+    userData.nama = nama;
+    userData.noPekerja = noPek;
+    userData.bahagian = bhg;
+    userData.whatsapp = wa;
+    if (pwd) userData.password = pwd;
+
+    await window.saveUserDB(key, userData);
+    
+    window.buildKelabData();
+    if (typeof window.renderKelabTable === 'function') window.renderKelabTable();
+    window.closeKelabModal();
+    window.showCustomAlert(isNew ? 'Pendaftaran profil ahli baru berjaya disimpan!' : 'Profil ahli berjaya dikemaskini!');
+};
+window.deleteKelabProfile = function() {
+    const key = document.getElementById('k_key').value;
+    if (!key) return;
+    
+    const userInfo = window.kelabMapData[key] || (window.dbUsers && window.dbUsers[key]) || {};
+    const nama = userInfo.nama || key;
+
+    // Tukarkan kotak input dialog menjadi jenis kata laluan
+    const inputEl = document.getElementById('customDialogInput');
+    if (inputEl) { inputEl.type = 'password'; inputEl.value = ''; }
+    
+    const promptMsg = `Adakah anda pasti mahu memadam profil ahli <b>${nama}</b> secara kekal?<br><br><small style='color:var(--danger); font-weight:bold;'>AMARAN: Tindakan ini tidak boleh dikembalikan.</small><br><br>Sila masukkan kata laluan Pentadbir (Admin) untuk pengesahan:`;
+
+    window.showCustomPrompt(promptMsg, async function(pwd) {
+        if (inputEl) inputEl.type = 'text'; // Kembalikan ke teks biasa selepas dihantar
+        
+        const currentAdminPwd = (window.appSettings && window.appSettings.adminPassword) ? window.appSettings.adminPassword : null;
+        
+        if (!currentAdminPwd || pwd !== currentAdminPwd) {
+            return window.showCustomAlert("❌ PENGESAHAN GAGAL: Kata laluan tidak tepat. Proses pemadaman dibatalkan.");
+        }
+
+        // Jika kata laluan betul, teruskan pemadaman
+        if (window.dbUsers && window.dbUsers[key]) delete window.dbUsers[key];
+        if (window.kelabMapData && window.kelabMapData[key]) delete window.kelabMapData[key];
+        
+        window.buildKelabData();
+        if (typeof window.renderKelabTable === 'function') window.renderKelabTable();
+        window.closeKelabModal();
+        
+        const loader = document.getElementById('loadingBar');
+        if (loader) loader.style.display = 'block';
+        
+        if (window.dbInstance) {
+            try {
+                await window.dbInstance.collection("pengguna").doc(key).delete();
+                window.showCustomAlert(`Profil ${nama} telah berjaya dipadam dari pangkalan data.`);
+            } catch (e) {
+                console.warn(e);
+                window.showCustomAlert(`Luar Talian: Profil ${nama} dipadam secara tempatan.`);
+            }
+        } else {
+            window.showCustomAlert(`Mod Luar Talian: Profil ${nama} dipadam.`);
+        }
+        
+        if (loader) loader.style.display = 'none';
+        
+    }, "🗑️ Pengesahan Keselamatan", "");
+    
+    // Langkah berjaga-jaga: Kembalikan input kepada 'text' jika pengguna tekan Batal
+    const btnCancel = document.getElementById('btnDialogCancel');
+    if (btnCancel) {
+        const oldCancel = btnCancel.onclick;
+        btnCancel.onclick = function() {
+            if (inputEl) inputEl.type = 'text';
+            if (oldCancel) oldCancel();
+        };
+    }
 };
 </script>
 </body>
