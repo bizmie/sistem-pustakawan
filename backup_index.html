@@ -665,7 +665,7 @@
         .cal-day:active,
         .mac-dot:active {
             transform: none !important;
-            margin: 0 !important;
+            margin-top: 0 !important;
         }
         /* ========================================================================= */
         /* KOSMETIK: MATIKAN EFEK BERGERAK, TAMBAH GLOW & BUANG TRAFIK LITE LOGIN    */
@@ -978,7 +978,7 @@
             </div>
         </div>
         
-        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v37.54 (Zordon)</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v37.68 (Zordon)</div>
     </div>
 </div>
 
@@ -1065,22 +1065,22 @@
                 <div id="headerDate"></div>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center;">
                     <small id="statusText" style="color:var(--success); display: inline-flex; align-items: center; background: var(--badge-done-bg); padding: 4px 10px; border-radius: 12px; border: none; font-size: 0.75rem; font-weight:700;">🌐 Dalam Talian</small>
-                    <button class="btn-clear" id="btn-tetapan-header" type="button" onclick="window.switchTab('tetapan')" style="padding:4px 10px; font-size:0.75rem; border-color:var(--border);">⚙️ Tetapan</button>
-                    <button class="btn-clear" style="color:var(--danger); border-color:var(--danger-light); padding:4px 10px; font-size:0.75rem; background:var(--danger-light);" id="btn-logout-header" type="button" onclick="location.reload()">Keluar</button>
+                    <button class="btn-clear" id="btn-tetapan-header" type="button" onclick="window.switchTab('tetapan')" style="padding:4px 10px; font-size:0.75rem; border-color:var(--border);" title="Buka Tetapan Sistem (Admin)">⚙️ Tetapan</button>
+                    <button class="btn-clear" style="color:var(--danger); border-color:var(--danger-light); padding:4px 10px; font-size:0.75rem; background:var(--danger-light);" id="btn-logout-header" type="button" onclick="location.reload()" title="Log Keluar dari Sistem">Keluar</button>
                 </div>
             </div>
         </header>
 
         <div class="nav-tabs" id="main_nav_tabs">
-            <button class="nav-btn active" id="btn-dashboard" onclick="window.switchTab('dashboard')" style="display:none;">📊 Dashboard</button>
-            <button class="nav-btn" id="btn-myprofile" onclick="window.switchTab('myprofile')" style="display:none;">👤 Dashboard Saya</button>
-            <button class="nav-btn" id="btn-buku" onclick="window.switchTab('buku')">📚 Senarai Buku</button>
-            <button class="nav-btn" id="btn-aktif" onclick="window.switchTab('aktif')" style="display:none;">📑 Peminjam Aktif</button>
-            <button class="nav-btn" id="btn-senarai" onclick="window.switchTab('senarai')">📖 Rekod Bacaan</button>
-            <button class="nav-btn" id="btn-kelab" onclick="window.switchTab('kelab')">🏆 Senarai Ahli</button>
-            <button class="nav-btn" id="btn-scoreboard" onclick="window.switchTab('scoreboard')">🏅 Papan Mata</button>
-            <button class="nav-btn" id="btn-ulasan" onclick="window.switchTab('ulasan')">⭐ Ulasan</button>
-            <button class="nav-btn" id="btn-informasi" onclick="window.switchTab('informasi')" style="display:none; position:relative;">
+            <button class="nav-btn active" id="btn-dashboard" onclick="window.switchTab('dashboard')" style="display:none;" title="Papar ringkasan dan statistik utama sistem">📊 Dashboard</button>
+            <button class="nav-btn" id="btn-myprofile" onclick="window.switchTab('myprofile')" style="display:none;" title="Papar profil, status pinjaman dan ringkasan aktiviti anda">👤 Dashboard Saya</button>
+            <button class="nav-btn" id="btn-buku" onclick="window.switchTab('buku')" title="Cari, lihat dan urus senarai bahan bacaan perpustakaan">📚 Senarai Buku</button>
+            <button class="nav-btn" id="btn-aktif" onclick="window.switchTab('aktif')" style="display:none;" title="Pantau senarai peminjam yang sedang meminjam atau lewat pulang">📑 Peminjam Aktif</button>
+            <button class="nav-btn" id="btn-senarai" onclick="window.switchTab('senarai')" title="Papar sejarah penuh rekod pinjaman dan pemulangan">📖 Rekod Bacaan</button>
+            <button class="nav-btn" id="btn-kelab" onclick="window.switchTab('kelab')" title="Urus senarai profil ahli dan pengguna berdaftar">🏆 Senarai Ahli</button>
+            <button class="nav-btn" id="btn-scoreboard" onclick="window.switchTab('scoreboard')" title="Lihat kedudukan carta pembaca aktif (Top Readers)">🏅 Papan Mata</button>
+            <button class="nav-btn" id="btn-ulasan" onclick="window.switchTab('ulasan')" title="Baca ulasan dan reviu buku daripada pengguna">⭐ Ulasan</button>
+            <button class="nav-btn" id="btn-informasi" onclick="window.switchTab('informasi')" style="display:none; position:relative;" title="Baca pengumuman dan maklumat terkini dari Pustakawan">
                 📌 Informasi
                 <span id="badge-informasi-nav" style="display:none; position:absolute; top:-6px; right:-6px; z-index:10;" title="Informasi Baru Dikemaskini">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--danger)" stroke="none" style="filter:drop-shadow(0 1px 2px rgba(0,0,0,0.15));"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
@@ -1091,7 +1091,7 @@
         <div id="tab-dashboard" class="tab-content">
             <div class="admin-stats-grid">
                 <!-- WIDGET 1: Sedang Dipinjam -->
-                <div class="stat-card clickable" onclick="if(window.userRole === 'admin') window.switchTab('aktif')" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px;">
+                <div class="stat-card clickable" onclick="if(window.userRole === 'admin') window.switchTab('aktif')" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px;" title="Klik untuk memaparkan senarai peminjam aktif">
                     <div style="width: 42px; height: 42px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;">📖</div>
                     <div style="display: flex; flex-direction: column; justify-content: center;">
                         <div style="font-size: 0.7rem; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Sedang Dipinjam</div>
@@ -1100,7 +1100,7 @@
                 </div>
 
                 <!-- WIDGET 2: Senarai Lewat -->
-                <div class="stat-card clickable" onclick="window.openFineModal()" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px;">
+                <div class="stat-card clickable" onclick="window.openFineModal()" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px;" title="Klik untuk mengurus senarai peminjam lewat">
                     <div style="width: 42px; height: 42px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;">⏳</div>
                     <div style="display: flex; flex-direction: column; justify-content: center;">
                         <div style="font-size: 0.7rem; font-weight: 800; color: #b45309; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Senarai Lewat</div>
@@ -1109,7 +1109,7 @@
                 </div>
                 
                 <!-- WIDGET 5: Pusat Mesej -->
-                <div class="stat-card clickable" onclick="window.openAdminInbox()" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px; position: relative;">
+                <div class="stat-card clickable" onclick="window.openAdminInbox()" style="border: 1px solid #bae6fd; background: #fff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-radius: 12px; position: relative;" title="Buka pusat mesej dan notifikasi Pustakawan">
                     <div style="width: 42px; height: 42px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; position: relative;">
                         💬
                         <span id="adminInboxBadgeDot" style="display:none; position:absolute; top:-4px; right:-4px; width:10px; height:10px; background:var(--danger); border-radius:50%; border:2px solid #fff;"></span>
@@ -1169,15 +1169,16 @@
         <div id="tab-myprofile" class="tab-content">
             <div class="dashboard-layout" style="grid-template-columns: 300px 1fr; align-items: stretch;">
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <div class="content-card clickable" style="padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; background: var(--primary-light); border: 1.5px solid var(--primary); transition:all 0.2s ease;" onclick="window.openChatUser()">
+                    <div class="content-card clickable" style="padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; background: var(--primary-light); border: 1.5px solid var(--primary); transition:all 0.2s ease;" onclick="window.openChatUser()" title="Klik untuk menghantar mesej dan bertanya Pustakawan">
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <span style="font-size: 1.8rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">💬</span>
                             <div>
-                                <h4 style="margin: 0; color: var(--primary); font-size: 1rem; font-weight:800;">Tanya Pustakawan</h4>
+                                <h4 id="userChatTitleText" style="margin: 0; color: var(--primary); font-size: 1rem; font-weight:800; transition: color 0.3s ease;">Tanya Pustakawan</h4>
                                 <p style="margin: 0; font-size: 0.75rem; color: var(--text-main); opacity:0.8;">Bantuan & Pertanyaan</p>
                             </div>
                         </div>
-                        <span class="badge-btn" id="userUnreadBadge" style="display:none; background:var(--danger); color:white; border-color:var(--danger); box-shadow:0 2px 4px rgba(255,0,0,0.3);">Baru</span>
+                        <style>@keyframes softPulseDanger { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }</style>
+                        <span class="badge-btn" id="userUnreadBadge" style="display:none; background:var(--danger); color:white; border-color:var(--danger); animation: softPulseDanger 2s infinite;">Baru</span>
                     </div>
 
                     <div class="content-card" style="padding: 12px 16px; text-align:center;">
@@ -1195,7 +1196,7 @@
                                 <div style="color: var(--warning); font-weight:700; font-size:1.2rem;" id="my_total_points">0 pt</div>
                             </div>
                         </div>
-                        <button class="btn-3d secondary" style="width:100%; margin-top:10px; padding:6px; font-size:0.85rem;" onclick="window.openMyProfileModal()">✏️ Kemaskini Profil</button>
+                        <button class="btn-3d secondary" style="width:100%; margin-top:10px; padding:6px; font-size:0.85rem;" onclick="window.openMyProfileModal()" title="Klik untuk mengemaskini maklumat peribadi & avatar anda">✏️ Kemaskini Profil</button>
                     </div>
 
                     <!-- WIDGET ULASAN DIPINDAH KE KIRI -->
@@ -1209,6 +1210,15 @@
                 </div>
                 
                 <div style="display: flex; flex-direction: column; gap: 10px; height: 100%;">
+                    <!-- WIDGET RINGKASAN AKTIVITI -->
+                    <div class="content-card" style="padding: 16px; border: 1px solid var(--border); background: #ffffff;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <h3 style="margin:0; font-size:0.95rem; color:var(--primary);">Ringkasan Aktiviti</h3>
+                            <button class="btn-clear" style="padding:4px 12px; font-size:0.75rem; color:var(--primary); border:1px solid rgba(0,122,255,0.2); background:rgba(0,122,255,0.05); border-radius:20px; font-weight:700; transition:all 0.2s;" onmouseover="this.style.background='var(--primary-light)'; this.style.borderColor='var(--primary)';" onmouseout="this.style.background='rgba(0,122,255,0.05)'; this.style.borderColor='rgba(0,122,255,0.2)';" onclick="window.switchTab('senarai')" title="Klik untuk lihat senarai penuh rekod bacaan anda">&raquo; semua rekod bacaan</button>
+                        </div>
+                        <div id="myActivitySummaryList" style="display:flex; flex-direction:column; gap:12px; font-size:0.85rem; color:var(--text-main); border: 1px solid #7dd3fc; border-radius: 12px; padding: 16px;"></div>
+                    </div>
+                    
                     <!-- WIDGET SEDANG DIPINJAM (DIPANJANGKAN) -->
                     <div class="content-card" style="padding: 16px; display: flex; flex-direction: column; flex: 1; height: 100%;">
                         <h3 style="margin:0; font-size:1rem; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:10px; color:var(--primary); flex-shrink:0;">📖 Sedang Dipinjam</h3>
@@ -1329,7 +1339,7 @@
                     <button id="tab-buku-lama-btn" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,0,0,0.05); color:var(--text-muted); margin-bottom:-2px; position:relative; z-index:1; font-weight:700; display:none;" onclick="window.switchSubTabBuku('lama')">🕰️ Rekod Buku Lama</button>
                     <button id="tab-majalah-btn" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,0,0,0.05); color:var(--text-muted); margin-bottom:-2px; position:relative; z-index:1; font-weight:700; display:none;" onclick="window.switchSubTabBuku('majalah')">🗞️ Akhbar</button>
                     <button id="tab-akhbar-btn" class="nav-btn" style="padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,0,0,0.05); color:var(--text-muted); margin-bottom:-2px; position:relative; z-index:1; font-weight:700; display:none;" onclick="window.switchSubTabBuku('akhbar')">📰 Majalah</button>
-                    <a id="btn_webopac_link" href="#" target="_blank" class="nav-btn" style="margin-left:auto; padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,191,255,0.1); color:#007aff; margin-bottom:-2px; position:relative; z-index:10; font-weight:700; text-decoration:none; display:none; align-items:center; gap:6px; cursor:pointer;">🔗 <span id="text_webopac_link">Carian buku WEBOPAC MTIB</span></a>
+                    <a id="btn_webopac_link" href="#" target="_blank" class="nav-btn" style="margin-left:auto !important; padding:10px 20px; font-size:0.9rem; border-radius:8px 8px 0 0; border:2px solid transparent; border-bottom:2px solid transparent; background:rgba(0,191,255,0.1); color:#007aff; margin-bottom:-2px !important; position:relative; z-index:10; font-weight:700; text-decoration:none; display:none; align-items:center; gap:6px; cursor:pointer;">🔗 <span id="text_webopac_link">Carian buku WEBOPAC MTIB</span></a>
                 </div>
 
                 <div id="view-buku-baru" style="background:#f8fafc; padding-bottom: 20px;">
@@ -1514,7 +1524,7 @@
                             <input type="text" id="searchScoreboardInput" class="search-input" style="margin:0; padding:6px 10px; width: 220px;" placeholder="Cari nama, ID peminjam..." onkeyup="window.renderScoreboard()">
                             <button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="document.getElementById('searchScoreboardInput').value=''; window.renderScoreboard();">❌</button>
                         </div>
-                        <button class="btn-3d secondary" style="padding:6px 12px; font-size:0.8rem; border:1px solid var(--primary); background:#ffffff;" onclick="window.printScoreboard()">🖨️ Cetak Laporan</button>
+                        <button id="btn-cetak-scoreboard" class="btn-3d secondary" style="padding:6px 12px; font-size:0.8rem; border:1px solid var(--primary); background:#ffffff; display:none;" onclick="window.printScoreboard()" title="Cetak Laporan Papan Mata (Admin)">🖨️ Cetak Laporan</button>
                     </div>
                 </div>
                 <div class="table-wrap" style="max-height:70vh; overflow-y:auto; border-top: 1px solid var(--border); padding: 16px; background: #f8fafc;">
@@ -1573,7 +1583,7 @@
             <div class="content-card" style="padding: 20px; margin-bottom: 20px; border: 1.5px solid var(--border); box-shadow: var(--shadow-sm); overflow: visible;">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; flex-wrap:wrap; gap:10px;">
                     <h2 style="margin:0; font-size: 1.1rem; color:var(--primary);">⚙️ Tetapan Sistem Aplikasi</h2>
-                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v37.54 (Zordon)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
+                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v37.68 (Zordon)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; align-items: stretch;">
                     
@@ -2005,7 +2015,15 @@
             <div class="form-group"><label>Nama Penuh (Boleh Dipinda)</label><input type="text" id="f_my_nama" style="border-color:var(--primary); background:var(--surface-solid);"></div>
             <div class="form-group"><label>Bahagian / Jabatan</label><select id="f_my_bahagian" class="dept-select" style="border-color:var(--primary); background:var(--surface-solid);"></select></div>
             <div class="form-group"><label>No. Telefon (WhatsApp)</label><input type="text" id="f_my_whatsapp" placeholder="Cth: 601..." style="border-color:var(--primary); background:var(--surface-solid);"></div>
-            <div class="form-group"><label style="color:var(--danger);">Kunci Kata Laluan Baru</label><input type="text" id="f_my_password" placeholder="Taip kata laluan baru" style="border-color:var(--danger); background:var(--danger-light);"></div>
+            <div class="form-group" style="margin-bottom:0;">
+                <label style="color:var(--danger);">Kunci Kata Laluan Baru</label>
+                <div style="position:relative;">
+                    <input type="password" id="f_my_password" class="login-input" placeholder="Taip kata laluan baru" style="border-color:var(--danger); background:var(--danger-light); padding-right:40px; margin-bottom:0;">
+                    <span onclick="window.toggleMyPassword(this)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--text-muted); display:flex; align-items:center; justify-content:center; padding:4px;" title="Papar/Sembunyi Kata Laluan">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </div>
+            </div>
         </div>
         <div style="display:flex; gap:10px; margin-top:16px; justify-content:flex-end;"><button class="btn-3d" style="padding:8px 20px;" onclick="window.saveMyProfile(false)">💾 Simpan Profil</button><button class="btn-clear" onclick="window.closeMyProfileModal()">Tutup</button></div>
     </div>
@@ -4429,6 +4447,7 @@ window.setupTabsForRole = function() {
       safeSetDisplay('action-wrapper-senarai', isAdmin ? 'flex' : 'none');
       safeSetDisplay('action-wrapper-senarai-user', isUser ? 'flex' : 'none');
       safeSetDisplay('action-wrapper-ulasan-user', isUser ? 'flex' : 'none');
+      safeSetDisplay('btn-cetak-scoreboard', isAdmin ? 'inline-flex' : 'none');
       safeSetDisplay('buku-th-tindakan', 'table-cell');
   
   safeSetDisplay('tab-buku-lama-btn', isAdmin ? 'inline-block' : 'none');
@@ -4966,6 +4985,7 @@ window.renderMyProfile = function() {
   const passInput = document.getElementById('f_my_password'); if(passInput) passInput.value = userRec.password || '1234';
   const avDisplay = document.getElementById('my_avatar_display'); if(avDisplay) avDisplay.innerText = userRec.avatar || '👤';
   document.querySelectorAll('.avatar-opt').forEach(el => { el.classList.remove('selected'); if(el.innerText === (userRec.avatar || '👤')) el.classList.add('selected'); });
+  if(typeof window.renderMyActivitySummary === 'function') window.renderMyActivitySummary();
   if(typeof window.renderMyCurrentLoans === 'function') window.renderMyCurrentLoans();
   if(typeof window.renderMyReviews === 'function') window.renderMyReviews();
   if(typeof window.updateUnreadBadges === 'function') window.updateUnreadBadges();
@@ -5057,6 +5077,79 @@ window.requestAutoRenew = async function(bookId, tajuk) {
         
         window.openChatUser();
     });
+};
+
+window.toggleMyPassword = function(eyeIcon) {
+    const pwdInput = document.getElementById('f_my_password');
+    if (pwdInput && eyeIcon) {
+        if (pwdInput.type === 'password') {
+            pwdInput.type = 'text';
+            eyeIcon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+            eyeIcon.style.color = 'var(--primary)';
+        } else {
+            pwdInput.type = 'password';
+            eyeIcon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+            eyeIcon.style.color = 'var(--text-muted)';
+        }
+    }
+};
+
+window.renderMyActivitySummary = function() {
+    const container = document.getElementById('myActivitySummaryList');
+    if(!container) return;
+    
+    const myHistory = window.dbData.filter(item => window.getSafeKey(window.getItemUserKey(item)) === window.currentUserKey);
+    
+    if(myHistory.length === 0) {
+        container.innerHTML = '<div style="color:var(--text-muted); font-style:italic;">Tiada aktiviti direkodkan setakat ini.</div>';
+        return;
+    }
+
+    let activities = [];
+    myHistory.forEach(item => {
+        const isSelesai = item.status && item.status.includes('Selesai');
+        const isHarian = item.status === 'Bacaan Harian';
+        
+        // Hanya paparkan rekod jika ia sudah dipulangkan (Selesai) atau Bacaan Harian
+        if (isSelesai || isHarian) {
+            let actDate = (isSelesai && item.tDipulangkan) ? item.tDipulangkan : item.tPinjam;
+            if (actDate) {
+                activities.push({ date: actDate, text: `${item.tajuk}`, type: 'pulang' });
+            }
+        }
+    });
+
+    activities.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    let grouped = {};
+    activities.forEach(act => {
+        if(!grouped[act.date]) grouped[act.date] = [];
+        if(!grouped[act.date].some(x => x.text === act.text)) { grouped[act.date].push(act); }
+    });
+
+    const sortedDates = Object.keys(grouped).sort((a,b) => new Date(b) - new Date(a));
+    const datesToShow = sortedDates.slice(0, 2); 
+
+    let html = '';
+    const mNames = ["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+    
+    datesToShow.forEach(dateStr => {
+        const d = new Date(dateStr);
+        const fDate = `${d.getDate()} ${mNames[d.getMonth()]} ${d.getFullYear()}`;
+        
+        html += `<div style="margin-bottom:4px;">
+            <div style="font-weight:800; color:var(--primary); font-size:0.8rem; margin-bottom:4px;">${fDate}</div>`;
+        
+        let counter = 1;
+        grouped[dateStr].forEach(act => {
+            let roman = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x'][counter-1] || counter;
+            html += `<div style="padding-left:12px; margin-bottom:2px; display:flex; gap:6px;"><span>${roman} )</span> <span>${act.text}</span></div>`;
+            counter++;
+        });
+        html += `</div>`;
+    });
+
+    container.innerHTML = html;
 };
 
 window.renderMyCurrentLoans = function() {
@@ -5355,7 +5448,7 @@ window.renderMyReviews = function() {
       </div>`;
   }
 
-  let viewAllBtn = `<div style="text-align:center; margin-top:6px;"><span style="cursor:pointer; font-size:0.8rem; color:var(--primary); font-style:italic;" onclick="window.viewAllMyReviews()" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">( semua ulasan saya )</span></div>`;
+  let viewAllBtn = `<div style="text-align:center; margin-top:12px;"><button class="btn-clear" style="padding:6px 16px; font-size:0.8rem; color:var(--primary); border:1px solid rgba(0,122,255,0.2); background:rgba(0,122,255,0.05); border-radius:20px; font-weight:800; transition:all 0.2s;" onmouseover="this.style.background='var(--primary-light)'; this.style.borderColor='var(--primary)';" onmouseout="this.style.background='rgba(0,122,255,0.05)'; this.style.borderColor='rgba(0,122,255,0.2)';" onclick="window.viewAllMyReviews()" title="Klik untuk lihat senarai penuh ulasan anda">&raquo; semua ulasan saya</button></div>`;
 
   container.innerHTML = navHtml + html + viewAllBtn;
 };
@@ -6160,10 +6253,14 @@ window.renderInformasiTab = function() {
     let pinned = posts.filter(p => p.isPinned).sort((a,b) => new Date(b.date) - new Date(a.date));
     let unpinned = posts.filter(p => !p.isPinned).sort((a,b) => new Date(b.date) - new Date(a.date));
     
-    let html = '';
+    let html = `
+    <style>
+        @keyframes softPulseInfoNormal { 0% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.5); } 70% { box-shadow: 0 0 0 8px rgba(0, 122, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); } }
+        @keyframes softPulseInfoPinned { 0% { box-shadow: 0 0 0 0 rgba(180, 83, 9, 0.5); } 70% { box-shadow: 0 0 0 8px rgba(180, 83, 9, 0); } 100% { box-shadow: 0 0 0 0 rgba(180, 83, 9, 0); } }
+    </style>`;
     
-    const arrowDown = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
-    const arrowUp = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+    const arrowDown = '';
+    const arrowUp = '';
     const pinIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/></svg>';
 
     let baseShadow = "box-shadow: 0 6px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03); transition: transform 0.2s ease, box-shadow 0.2s ease;";
@@ -6175,10 +6272,11 @@ window.renderInformasiTab = function() {
         let lockIconStr = post.commentsLocked ? '🔓 Buka Komen' : '🔒 Tutup Komen';
         let lockColor = post.commentsLocked ? 'var(--primary)' : 'var(--danger)';
         
-        let adminControls = window.userRole === 'admin' ? `<div style="padding:10px 16px; border-top:1px dashed ${isPinned ? '#e2b99a' : (isBaru ? '#bae6fd' : '#e2e8f0')}; text-align:right;">
-            <span style="cursor:pointer; color:${lockColor}; font-weight:700; margin-right:12px; font-size:0.85rem;" onclick="event.stopPropagation(); window.toggleLockComments('${post.id}')">${lockIconStr}</span>
-            <span style="cursor:pointer; color:${isPinned ? '#b45309' : 'var(--primary)'}; font-weight:700; margin-right:12px; font-size:0.85rem;" onclick="event.stopPropagation(); window.bukaBorangInfo('${post.id}')">✏️ Pinda Pos</span> 
-            <span style="cursor:pointer; color:var(--danger); font-weight:700; font-size:0.85rem;" onclick="event.stopPropagation(); window.padamInfoPost('${post.id}')">🗑️ Padam</span></div>` : '';
+        let lockTitle = post.commentsLocked ? 'Buka Komen' : 'Tutup Komen';
+        let adminControls = window.userRole === 'admin' ? `<div style="padding:10px 16px; border-top:1px dashed ${isPinned ? '#e2b99a' : (isBaru ? '#bae6fd' : '#e2e8f0')}; display:flex; justify-content:flex-end; gap:12px;">
+            <span style="cursor:pointer; color:${lockColor}; font-size:1.15rem; transition:transform 0.2s;" onclick="event.stopPropagation(); window.toggleLockComments('${post.id}')" title="${lockTitle}" onmouseover="this.style.transform='scale(1.2)';" onmouseout="this.style.transform='scale(1)';">${post.commentsLocked ? '🔒' : '🔓'}</span>
+            <span style="cursor:pointer; color:${isPinned ? '#b45309' : 'var(--primary)'}; font-size:1.15rem; transition:transform 0.2s;" onclick="event.stopPropagation(); window.bukaBorangInfo('${post.id}')" title="Pinda Pos" onmouseover="this.style.transform='scale(1.2)';" onmouseout="this.style.transform='scale(1)';">✏️</span> 
+        </div>` : '';
         
         let bgStyle, headerBg, titleColor, headerBorder, borderColor, pinHtml, headerColor, chatHeaderBg, chatHeaderBorder;
         
@@ -6229,9 +6327,11 @@ window.renderInformasiTab = function() {
             <div style="text-align:center; padding:6px; font-size:0.75rem; font-weight:800; color:${headerColor}; border-bottom:1px solid ${headerBorder}; ${headerBg} text-transform:uppercase;">${dateStr}</div>
             ${pinHtml}
             
-            <div style="padding:16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="window.togglePostExpand('${post.id}')">
-                <strong style="font-size:1.1rem; ${titleColor} text-transform:uppercase;">${post.title}</strong>
-                <span id="post-icon-${post.id}" style="color:${isPinned ? '#b45309' : 'var(--text-muted)'}; display:flex; align-items:center; justify-content:center;">${iconState}</span>
+            <div style="padding:16px; cursor:pointer; display:flex; align-items:center; transition: all 0.2s;" onclick="window.togglePostExpand('${post.id}')" onmouseover="this.style.background='rgba(0,0,0,0.02)';" onmouseout="this.style.background='transparent';" title="Sila klik untuk melihat maklumat lanjut">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: #ffffff; border: 1.5px solid ${isPinned ? '#b45309' : 'var(--primary)'}; display: flex; align-items: center; justify-content: center; color: ${isPinned ? '#b45309' : 'var(--primary)'}; font-size: 1.1rem; font-weight: 900; margin-right: 14px; flex-shrink: 0; animation: ${isPinned ? 'softPulseInfoPinned' : 'softPulseInfoNormal'} 2s infinite;">
+                    <span id="post-icon-${post.id}" style="transition: transform 0.3s; line-height: 1; padding-left: 2px;">&raquo;</span>
+                </div>
+                <strong style="font-size:1.1rem; ${titleColor} text-transform:uppercase; flex: 1;">${post.title}</strong>
             </div>
             
             <div id="post-content-${post.id}" style="display:${displayState}; padding:0 16px 16px 16px;">
@@ -6271,6 +6371,20 @@ window.renderInformasiTab = function() {
     }
 
     container.innerHTML = html;
+};
+
+// Gantikan fungsi lama dengan logik putaran animasi ini
+window.togglePostExpand = function(id) {
+    const content = document.getElementById('post-content-' + id);
+    const iconSpan = document.getElementById('post-icon-' + id);
+    if (!content) return;
+    if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        if (iconSpan) iconSpan.style.transform = 'rotate(90deg)';
+    } else {
+        content.style.display = 'none';
+        if (iconSpan) iconSpan.style.transform = 'rotate(0deg)';
+    }
 };
 
 window.removePoints = async function(jenis, id, userKey) {
@@ -8092,16 +8206,34 @@ window.closeBonusModal = function() { const modal = document.getElementById('bon
 window.saveBonusReview = async function() { const id = document.getElementById('b_reviewId').value; const bonusMata = parseInt(document.getElementById('b_bonusMata').value) || 0; const idx = window.dbUlasan.findIndex(u => String(u.id) === String(id)); if (idx > -1) { window.dbUlasan[idx].bonusMata = bonusMata; window.refreshAllViews(); if (window.dbInstance) { try { await window.dbInstance.collection("ulasan").doc(id).update({ bonusMata: bonusMata }); } catch (e) { console.warn("Gagal simpan bonus", e); } } } window.closeBonusModal(); };
 
 window.updateUnreadBadges = function() {
-  if (window.userRole === 'user' && window.currentUserKey) { const unread = window.dbMesej.filter(m => m.userId === window.currentUserKey && m.sender === 'admin' && !m.isRead).length; const uBadge = document.getElementById('userUnreadBadge'); if (uBadge) { uBadge.style.display = unread > 0 ? 'inline-block' : 'none'; uBadge.innerText = `${unread} Baru`; } }
-  if (window.userRole === 'admin') { 
-      const unread = window.dbMesej.filter(m => m.sender === 'user' && !m.isRead).length; 
-      const aBadge = document.getElementById('adminUnreadBadge'); 
-      const aDot = document.getElementById('adminInboxBadgeDot'); 
-      const aCount = document.getElementById('adminInboxCountVal'); 
-      if (aBadge) { aBadge.style.display = unread > 0 ? 'inline-block' : 'none'; aBadge.innerText = `${unread} Baru`; } 
-      if (aDot) { aDot.style.display = unread > 0 ? 'block' : 'none'; } 
-      if (aCount) { aCount.innerText = unread; aCount.style.color = unread > 0 ? 'var(--danger)' : '#0f172a'; } 
-  }
+    if (window.userRole === 'admin') {
+        let unread = window.dbMesej.filter(m => !m.isRead && m.sender === 'user').length;
+        let badge = document.getElementById('adminInboxBadgeDot');
+        let countVal = document.getElementById('adminInboxCountVal');
+        if (badge) badge.style.display = unread > 0 ? 'block' : 'none';
+        if (countVal) countVal.innerText = unread;
+    } else if (window.userRole === 'user') {
+        let unread = window.dbMesej.filter(m => !m.isRead && m.sender === 'admin' && m.userId === window.currentUserKey).length;
+        let badge = document.getElementById('userUnreadBadge');
+        let titleText = document.getElementById('userChatTitleText');
+        
+        if (badge) {
+            if (unread > 0) { 
+                badge.style.display = 'inline-block'; 
+                badge.innerText = unread + ' Baru'; 
+                if (titleText) { 
+                    titleText.innerText = 'Mesej Baharu!'; 
+                    titleText.style.color = 'var(--danger)'; 
+                }
+            } else { 
+                badge.style.display = 'none'; 
+                if (titleText) { 
+                    titleText.innerText = 'Tanya Pustakawan'; 
+                    titleText.style.color = 'var(--primary)'; 
+                }
+            }
+        }
+    }
 };
 
 window.openChatUser = function() {
