@@ -978,7 +978,7 @@
             </div>
         </div>
         
-        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v37.76 (Zordon)</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v37.77 (Zordon)</div>
     </div>
 </div>
 
@@ -1584,7 +1584,7 @@
             <div class="content-card" style="padding: 20px; margin-bottom: 20px; border: 1.5px solid var(--border); box-shadow: var(--shadow-sm); overflow: visible;">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; flex-wrap:wrap; gap:10px;">
                     <h2 style="margin:0; font-size: 1.1rem; color:var(--primary);">⚙️ Tetapan Sistem Aplikasi</h2>
-                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v37.76 (Zordon)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
+                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v37.77 (Zordon)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; align-items: stretch;">
                     
@@ -4625,7 +4625,7 @@ window.renderAktifTable = function() {
                 <div style="display:flex; align-items:center; gap:10px;">
                     <div style="width:36px; height:36px; border-radius:50%; border:1px solid var(--border-input); background:var(--surface-solid); display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; box-shadow:0 1px 2px rgba(0,0,0,0.05);">${g.avatar}</div>
                     <div>
-                        <div style="font-weight:800; color:var(--primary); font-size:1.05rem;">${g.nama}</div>
+                        <div style="font-weight:800; color:var(--primary); font-size:1.05rem; cursor:pointer; text-decoration:underline; text-underline-offset:4px; transition:0.2s;" onmouseover="this.style.color='var(--primary-hover)';" onmouseout="this.style.color='var(--primary)';" onclick="document.getElementById('searchKelabInput').value='${g.nama.replace(/'/g, "\\'")}'; window.switchTab('kelab'); window.renderKelabTable();" title="Papar profil penuh di Senarai Ahli">${g.nama}</div>
                         <div style="font-size:0.75rem; color:#475569; font-weight:700; margin-top:2px;">
                             <span style="color:var(--primary); font-weight:800;">${g.noPekerja}</span> <span style="color:#cbd5e1; margin:0 4px;">|</span> ${g.bahagian}
                         </div>
