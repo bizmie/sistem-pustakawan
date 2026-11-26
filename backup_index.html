@@ -964,9 +964,9 @@
                     <div id="login_u_info" style="min-height: 24px; margin-bottom: 8px; display:flex; flex-direction:column; justify-content:center; align-items:center;"></div>
                     <input type="password" id="login_u_pwd" class="login-input" placeholder="Kata Laluan (Lalai: 1234)" style="text-align: center; border-radius: 6px; box-shadow: none; border-color: #d2d2d7; background-color: #ffffff;" onkeyup="if(event.key === 'Enter') window.attemptUserLogin()">
                 </div>
-                <button type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 12px; background: #0078FF; color: #ffffff; border: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(0, 120, 255, 0.3); font-weight: 700; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='translateY(0)';" onclick="window.attemptUserLogin()">Masuk Profil Peminjam</button>
+                <button type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 12px; background: #0078FF; color: #ffffff; border: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(0, 120, 255, 0.3); font-weight: 700; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='translateY(0)';" onclick="window.attemptUserLogin()">Login Ahli</button>
                 
-                <button type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 8px; background: #28CD41; color: #ffffff; border: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(40, 205, 65, 0.3); font-weight: 700; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='translateY(0)';" onclick="window.visitorLogin()">👤 Masuk tanpa login</button>
+                <button type="button" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-bottom: 8px; background: #28CD41; color: #ffffff; border: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(40, 205, 65, 0.3); font-weight: 700; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='translateY(0)';" onclick="window.visitorLogin()">Mod Tetamu</button>
             </div>
 
             <div style="margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
@@ -978,7 +978,7 @@
             </div>
         </div>
         
-        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v37.68 (Zordon)</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace; letter-spacing: 0.5px; position:absolute; bottom:12px; left:0; right:0; text-align:center;">v37.76 (Zordon)</div>
     </div>
 </div>
 
@@ -1550,8 +1550,9 @@
                         </select>
                         <button class="btn-3d" style="padding:6px 10px; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0, 102, 204, 0.3);" onclick="document.getElementById('searchUlasanName').value=''; document.getElementById('filterUlasanMonth').value='all'; document.getElementById('filterUlasanYear').value='all'; window.ulasanCurrentPage=1; window.renderUlasanTable();">❌</button>
                     </div>
-                    <div class="action-wrapper" id="action-wrapper-ulasan-user" style="display:none; margin-left: 8px;">
-                        <button class="btn-3d secondary" style="padding:6px 12px; font-size:0.8rem; border:1px solid var(--primary); background:#ffffff;" onclick="window.printUlasanReport()" title="Cetak Rekod Ulasan Saya">🖨️ Cetak Laporan Saya</button>
+                    <div class="action-wrapper" id="action-wrapper-ulasan-user" style="display:none; margin-left: 8px; align-items: center; gap: 8px;">
+                        <button class="btn-clear" style="padding:4px 12px; font-size:0.75rem; color:var(--primary); border:1px solid rgba(0,122,255,0.2); background:rgba(0,122,255,0.05); border-radius:20px; font-weight:700; transition:all 0.2s;" onmouseover="this.style.background='var(--primary-light)'; this.style.borderColor='var(--primary)';" onmouseout="this.style.background='rgba(0,122,255,0.05)'; this.style.borderColor='rgba(0,122,255,0.2)';" onclick="document.getElementById('searchUlasanName').value = document.getElementById('my_display_nama').innerText; document.getElementById('filterUlasanMonth').value='all'; document.getElementById('filterUlasanYear').value='all'; window.ulasanCurrentPage=1; window.renderUlasanTable();" title="Papar semua ulasan anda">» semua ulasan saya</button>
+                        <button class="btn-3d secondary" style="padding:6px 12px; font-size:0.8rem; border:1px solid var(--primary); background:#ffffff;" onclick="window.printUlasanReport()" title="Cetak Rekod Ulasan Saya">🖨️ Cetak</button>
                     </div>
                 </div>
                 <div id="ulasanGrid" class="ulasan-grid"></div>
@@ -1583,7 +1584,7 @@
             <div class="content-card" style="padding: 20px; margin-bottom: 20px; border: 1.5px solid var(--border); box-shadow: var(--shadow-sm); overflow: visible;">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; flex-wrap:wrap; gap:10px;">
                     <h2 style="margin:0; font-size: 1.1rem; color:var(--primary);">⚙️ Tetapan Sistem Aplikasi</h2>
-                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v37.68 (Zordon)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
+                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size: 0.75rem; color: var(--text-muted); background:var(--bg-body); padding:4px 8px; border-radius:6px; font-family: monospace; font-weight: bold;">v37.76 (Zordon)</span><button class="btn-3d" style="padding: 6px 16px; font-size: 0.85rem;" onclick="window.saveSettings()">💾 Simpan Tetapan</button></div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; align-items: stretch;">
                     
@@ -3085,7 +3086,7 @@ window.renderTable = function() {
     if (window.currentFilter === 'aktif' && (isSelesai || isHarian)) return false;
     if (window.currentFilter === 'selesai' && !isSelesai) return false;
     if (window.currentFilter === 'lewat' && (isSelesai || isHarian || !isLate)) return false;
-    if (window.currentFilter === 'sambung' && renew === 0) return false;
+    if (window.currentFilter === 'sambung' && (renew === 0 || isSelesai || isHarian)) return false;
     if (window.currentFilter === 'sedang' && (isSelesai || isHarian)) return false;
     if (window.currentFilter === 'ilmu') {
         let ilmuStatus = item.sistemIlmuStatus || (item.isMarked ? 'caj' : 'belum');
@@ -3315,13 +3316,13 @@ window.renderTable = function() {
     let middleBoxActionBtn = '';
     if (isAdmin) {
          middleBoxActionBtn = `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); border-radius:20px; padding:6px 12px; white-space:nowrap; background:#fff; font-weight:700; transition:0.2s; box-shadow:0 2px 4px rgba(0,102,204,0.1); flex-shrink:0; box-sizing:border-box;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='#fff'" onclick="window.prepareEdit('${item.id}')">✏️ Pinda Maklumat</button>`;
-    } else if (isUser) {
-         const safeId = String(item.id).replace(/'/g, "\\'");
-         const safeTajuk = String(item.tajuk).replace(/'/g, "\\'");
-         const isReviewed = window.dbUlasan.find(u => u.bookId === item.id);
-         middleBoxActionBtn = isReviewed ?
-            `<div style="font-size:0.75rem; color:var(--success); border:1px solid var(--success); border-radius:20px; padding:6px 12px; text-align:center; background:rgba(40,205,65,0.05); font-weight:700; white-space:nowrap; box-sizing:border-box;">✓ Diulas</div>` :
-            `<button class="btn-clear" style="font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); border-radius:20px; padding:6px 12px; white-space:nowrap; background:#fff; font-weight:700; transition:0.2s; box-shadow:0 2px 4px rgba(0,102,204,0.1); flex-shrink:0; box-sizing:border-box;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='#fff'" onclick="window.openReviewModal('${safeId}', '${safeTajuk}')">⭐ Beri Ulasan</button>`;
+    } else if (isUser) {             const safeId = String(item.id).replace(/'/g, "\\'");
+             const safeTajuk = String(item.tajuk).replace(/'/g, "\\'");
+             const isReviewed = window.dbUlasan.find(u => u.bookId === item.id);
+             middleBoxActionBtn = isReviewed ?
+                `<div style="font-size:0.75rem; color:var(--success); border:1px solid var(--success); border-radius:20px; padding:6px 12px; text-align:center; background:rgba(40,205,65,0.05); font-weight:700; white-space:nowrap; box-sizing:border-box;">✓ Diulas</div>` :
+                `<style>@keyframes pulseBeriUlasan { 0% { box-shadow: 0 0 0 0 rgba(0,122,255,0.5); } 70% { box-shadow: 0 0 0 8px rgba(0,122,255,0); } 100% { box-shadow: 0 0 0 0 rgba(0,122,255,0); } }</style>
+                <button class="btn-clear" style="font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); border-radius:20px; padding:6px 12px; white-space:nowrap; background:#fff; font-weight:700; transition:all 0.2s; flex-shrink:0; box-sizing:border-box; animation: pulseBeriUlasan 2s infinite;" onmouseover="this.style.background='var(--primary-light)'; this.style.animation='none';" onmouseout="this.style.background='#fff'; this.style.animation='pulseBeriUlasan 2s infinite';" onclick="window.openReviewModal('${safeId}', '${safeTajuk}')">⭐ Beri Ulasan</button>`;
     }
     
     let safeUid = window.getSafeKey(window.getItemUserKey(item));
@@ -4984,6 +4985,7 @@ window.renderMyProfile = function() {
   const wpInput = document.getElementById('f_my_whatsapp'); if(wpInput) wpInput.value = dispWhatsapp;
   const passInput = document.getElementById('f_my_password'); if(passInput) passInput.value = userRec.password || '1234';
   const avDisplay = document.getElementById('my_avatar_display'); if(avDisplay) avDisplay.innerText = userRec.avatar || '👤';
+  const btnProfileTab = document.getElementById('btn-myprofile'); if(btnProfileTab) btnProfileTab.innerHTML = `${userRec.avatar || '👤'} Dashboard Saya`;
   document.querySelectorAll('.avatar-opt').forEach(el => { el.classList.remove('selected'); if(el.innerText === (userRec.avatar || '👤')) el.classList.add('selected'); });
   if(typeof window.renderMyActivitySummary === 'function') window.renderMyActivitySummary();
   if(typeof window.renderMyCurrentLoans === 'function') window.renderMyCurrentLoans();
@@ -5136,17 +5138,25 @@ window.renderMyActivitySummary = function() {
     datesToShow.forEach(dateStr => {
         const d = new Date(dateStr);
         const fDate = `${d.getDate()} ${mNames[d.getMonth()]} ${d.getFullYear()}`;
+        const count = grouped[dateStr].length;
         
-        html += `<div style="margin-bottom:4px;">
-            <div style="font-weight:800; color:var(--primary); font-size:0.8rem; margin-bottom:4px;">${fDate}</div>`;
+        html += `<div style="margin-bottom:12px; background:rgba(0, 122, 255, 0.04); border:1px solid rgba(0, 122, 255, 0.15); border-radius:12px; padding:12px 14px; box-shadow:inset 0 1px 3px rgba(255,255,255,0.5);">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0, 122, 255, 0.1); padding-bottom:8px; margin-bottom:10px;">
+                <div style="font-weight:800; color:var(--primary); font-size:0.9rem;">${fDate}</div>
+                <div style="font-size:0.7rem; font-weight:800; color:white; background:var(--primary); padding:4px 12px; border-radius:20px; box-shadow:0 2px 4px rgba(0,102,204,0.3);">${count} Aktiviti</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">`;
         
         let counter = 1;
         grouped[dateStr].forEach(act => {
-            let roman = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x'][counter-1] || counter;
-            html += `<div style="padding-left:12px; margin-bottom:2px; display:flex; gap:6px;"><span>${roman} )</span> <span>${act.text}</span></div>`;
+            let safeTajuk = act.text.replace(/'/g, "\\'");
+            html += `<div style="display:flex; gap:10px; cursor:pointer; transition:all 0.2s; border-radius:6px; padding:6px 8px; background:var(--surface-solid); border:1px solid var(--border-input);" onmouseover="this.style.borderColor='var(--primary-ring)'; this.style.transform='translateX(4px)';" onmouseout="this.style.borderColor='var(--border-input)'; this.style.transform='translateX(0)';" onclick="document.getElementById('searchInput').value='${safeTajuk}'; window.switchTab('senarai'); window.senaraiCurrentPage=1; window.renderTable();" title="Klik untuk papar butiran di Rekod Bacaan">
+                <span style="color:var(--text-muted); font-size:0.75rem; font-weight:700;">${counter})</span> 
+                <span style="color:var(--text-main); font-weight:600;">${act.text}</span>
+            </div>`;
             counter++;
         });
-        html += `</div>`;
+        html += `</div></div>`;
     });
 
     container.innerHTML = html;
@@ -7732,7 +7742,7 @@ window.renderCharts = function() {
         }
     });
 
-    let wLabels = ['Minggu 4', 'Minggu 3', 'Minggu 2', 'Terkini'];
+    let wLabels =    ['Minggu 1 (Awal)', 'Minggu 2', 'Minggu 3', 'Minggu 4 (Terkini)'];
     let prev = null; let wColors = [];
     let formattedLabels = wLabels.map((lbl, i) => {
         let v = weekData[i]; let pctStr = ''; let col = 'rgba(0, 122, 255, 0.7)'; // Lalai: Biru
@@ -7861,10 +7871,10 @@ window.exportAllChartData = function(format) {
     
     let prev = null; 
     const wLabels = [
-        `Minggu 4 (Paling Awal)<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(27, 21)})</span>`, 
-        `Minggu 3<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(20, 14)})</span>`, 
-        `Minggu 2<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(13, 7)})</span>`, 
-        `Minggu 1 (Terkini/Semasa)<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(6, 0)})</span>`
+        `Minggu 1 (Paling Awal)<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(27, 21)})</span>`, 
+        `Minggu 2<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(20, 14)})</span>`, 
+        `Minggu 3<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(13, 7)})</span>`, 
+        `Minggu 4 (Terkini/Semasa)<br><span style="font-size:10px; color:#666; font-weight:normal;">(${getWkStr(6, 0)})</span>`
     ];
 
     weekData.forEach((val, i) => {
